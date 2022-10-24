@@ -1,0 +1,21 @@
+.card {
+  &__format {
+    background: #240773;
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 35px;
+
+    &--light {
+      background-color: #4609c3;
+    }
+    h6 {
+      margin: 10px 0;
+      text-transform: uppercase;
+    }
+    p {
+      color: #00fadf;
+      font-weight: 500;
+    }
+  }
+}

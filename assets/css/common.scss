@@ -1,0 +1,39 @@
+.section-container {
+    position: relative;
+	padding-top: 247px;
+	background-color: #280B70;
+    background-image: url('@/assets/images/banner-bg.png');
+	background-size: 117%;
+	background-repeat: no-repeat;
+	z-index: 0;
+    .section-content {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.link {
+    &--table {
+        color: #382FFA;
+
+        &:hover {
+            color: #2E94F0
+        }
+    }
+}
+
+.main {
+    flex: 1 0 auto;
+}
+
+#app {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

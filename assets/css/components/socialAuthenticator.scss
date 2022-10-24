@@ -1,0 +1,25 @@
+.social-auth {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+
+  a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    background: #083fbf;
+    margin: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  a.twitch {
+    background: #9146ff;
+  }
+  a.google {
+    background: #120f78;
+  }
+}
+.sign-with {
+  margin: 10px 0 15px;
+}

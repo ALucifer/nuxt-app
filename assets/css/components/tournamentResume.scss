@@ -1,0 +1,130 @@
+.tournament-record {
+  background-image: url("@/assets/images/about-bg-overlay.png"),
+    url("@/assets/images/about-bg.png");
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100%, 100% 100%;
+  padding: 30px 0;
+  background-position-y: bottom;
+  z-index: 0;
+  position: relative;
+  background-color: #280b70;
+
+  &--resume-area {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      content: "";
+      background-color: #130757;
+      width: 110%;
+      height: 100%;
+      z-index: -1;
+      left: -5%;
+    }
+
+    .resume-wrapper {
+      padding: 43px 0;
+      padding-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  h3 {
+    text-transform: uppercase;
+  }
+}
+
+.tournament-nav {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: none;
+  padding-top: 40px;
+  margin-top: 40px;
+  li {
+    position: relative;
+    margin-right: 40px;
+
+    a {
+      &:hover {
+        border-color: transparent;
+        color: #00fadf;
+      }
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: uppercase;
+      font-weight: bold;
+      padding: 0 0 30px 0;
+      margin-right: 40px;
+    }
+
+    a.active {
+      color: #00fadf;
+      border-color: transparent;
+      background-color: transparent;
+    }
+  }
+}
+
+.tournament-schedule {
+  display: flex;
+
+  &__container {
+    margin-top: 20px;
+    background: #21156e;
+    border-radius: 5px;
+    margin-right: 30px;
+    padding: 10px 15px;
+  }
+
+  .time {
+    color: #00fadf;
+    margin-left: 5px;
+  }
+}
+@media (max-width: 991px) {
+  .tournament-schedule {
+    li {
+      margin-right: 20px;
+      &::after {
+        height: 25px;
+        top: 0;
+      }
+      a {
+        padding: 0 0 20px 0;
+        margin-right: 20px;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .tournament-nav {
+    margin-top: 25px;
+    padding-top: 25px;
+  }
+  .tournament-schedule {
+    margin-bottom: 35px;
+  }
+}
+@media (max-width: 575px) {
+  .tournament-record {
+    h3 {
+      text-align: center;
+    }
+  }
+  .tournament-schedule {
+    justify-content: center;
+    margin-bottom: 25px;
+  }
+  .tournament-nav {
+    margin-top: 15px;
+  }
+}
+@media (max-width: 480px) {
+  .tournament-nav {
+    li {
+      margin-bottom: 10px;
+      a {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

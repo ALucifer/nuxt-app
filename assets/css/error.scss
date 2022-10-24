@@ -1,0 +1,20 @@
+#error-section {
+	background-image: url('@/assets/images/404.png');
+	background-repeat: no-repeat;
+	background-size: 55%;
+	background-position: center;
+    padding-top: 15px;
+	.overlay {
+		margin-bottom: -20px;
+	}
+	.main-content {
+		margin-bottom: 15px;
+		h5 {
+			text-transform: uppercase;
+			margin: 20px 0 40px;
+		}
+		h3 {
+			text-transform: uppercase;
+		}
+	}
+}

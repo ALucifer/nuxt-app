@@ -1,0 +1,63 @@
+.single-input input {
+  padding: 15px 20px;
+  background: transparent;
+  color: var(--body-color);
+}
+.single-input li,
+.single-input span {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+}
+.single-input .nice-select {
+  padding: 8px 15px;
+  height: inherit;
+  font-weight: 400;
+}
+.single-input .nice-select .list {
+  width: 100%;
+  background-color: #0d0d59;
+  padding-top: 15px;
+}
+.single-input .nice-select,
+.single-input input {
+  width: 100%;
+  display: block;
+  border: 1px solid #7363d3;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+#tournaments-section .single-input {
+  margin-top: 20px;
+}
+.nice-select:after {
+  position: absolute;
+  content: "";
+  background-image: url("@/assets/images/down-arrow.png");
+  background-repeat: no-repeat;
+  height: 7px;
+  width: 15px;
+  right: 6px;
+  transition: all ease 0.3s;
+  border: none;
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.nice-select.open:after {
+  -webkit-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+  right: 15px;
+  margin-top: -5px;
+}
+.nice-select.open .list {
+  background-color: #0d0d59;
+}
+.nice-select .option:hover,
+.nice-select .option.focus,
+.nice-select .option.selected.focus {
+  background-color: transparent;
+  color: #00fedf;
+}

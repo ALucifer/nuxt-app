@@ -1,0 +1,46 @@
+.banner {
+  background-image: url("@/assets/images/about-bg-overlay.png"),
+    url("@/assets/images/about-bg.png");
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100%, 100% 100%;
+  padding: 200px 0 0;
+  background-position-y: bottom;
+
+  &--default {
+    height: 350px;
+  }
+}
+
+.image-banner {
+  &__container {
+    position: relative;
+  }
+
+  &__img {
+    position: absolute;
+
+    &--1 {
+      left: -2%;
+      bottom: 0;
+      -webkit-animation: spin 15s linear infinite;
+      -moz-animation: spin 15s linear infinite;
+      animation: spin 15s linear infinite;
+    }
+
+    &--2 {
+      left: 10%;
+      -webkit-animation: spin 20s linear infinite;
+      -moz-animation: spin 20s linear infinite;
+      animation: spin 20s linear infinite;
+      width: 10%;
+    }
+
+    &--3 {
+      right: 10%;
+      -webkit-animation: spin 20s linear infinite;
+      -moz-animation: spin 20s linear infinite;
+      animation: spin 20s linear infinite;
+      width: 10%;
+    }
+  }
+}

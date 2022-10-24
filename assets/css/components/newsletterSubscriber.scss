@@ -1,0 +1,52 @@
+.newsletter {
+  background-image: url('@/assets/images/footer-top-bg.png');
+  background-repeat: no-repeat;
+  background-color: #0B1766;
+  border-radius: 20px;
+  padding: 70px 0;
+  margin-top: -180px;
+
+  &__top-area {
+    text-align: center;
+
+    p {
+      margin: 15px 0 35px;
+    }
+    h3 {
+      text-transform: uppercase;
+      margin-top: -10px;
+    }
+  }
+
+  &__subscribe {
+    background: #142A8D;
+    border: 1px solid #9383F7;
+    border-radius: 30px;
+    padding: 5px;
+    display: flex;
+
+    input {
+      background: #142A8D;
+      border-radius: 30px;
+      border: none;
+      color: var(--body-color);
+    }
+    button {
+      color: var(--body-color);
+      overflow: initial;
+    }
+    .cmn-btn {
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .newsletter {
+    &__subscribe {
+      margin: 0 40px;
+    }
+  }
+}

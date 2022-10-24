@@ -1,0 +1,14 @@
+form {
+  input,
+  textarea {
+    background: #370898;
+    border-radius: 10px;
+    padding: 15px 25px;
+    border: none;
+    color: var(--body-color);
+  }
+  label {
+    display: flex;
+    color: var(--body-color);
+  }
+}

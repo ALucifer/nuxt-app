@@ -1,0 +1,36 @@
+.tournament-counter {
+  display: flex;
+  text-align: center;
+
+  &__left {
+    background: #4609C3;
+    border-radius: 5px;
+    padding: 8px 10px;
+  }
+
+  &__date-area {
+    h6 {
+      padding: 10px;
+      background: rgba(70, 9, 195, 0.2);
+      border-radius: 3px;
+      margin: 0 10px;
+    }
+  }
+}
+
+.time-parameter{
+
+  &.left {
+    background: #4609C3;
+    border-radius: 5px;
+    padding: 8px 10px;
+  }
+
+  span {
+    font-size: 13px;
+    text-align: center;
+    line-height: 18px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 15px;
+  }
+}

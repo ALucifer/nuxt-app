@@ -1,0 +1,23 @@
+.overview-card {
+  background: #240773;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 35px;
+  h6 {
+    margin: 20px 0 10px;
+    text-transform: uppercase;
+  }
+  p {
+    color: #00fadf;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 991px) {
+  .overview-card {
+    h6 {
+      margin: 10px 0 5px;
+    }
+  }
+}

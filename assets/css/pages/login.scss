@@ -1,0 +1,90 @@
+.authentication {
+  background: url("@/assets/images/login-reg-cover.png"), rgba(8, 4, 73, 0.5);
+  background-repeat: no-repeat;
+  background-position: bottom;
+
+  &-container {
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    padding-top: 120px;
+  }
+
+  &-main {
+    background: #4609c3;
+    box-shadow: 0px 15px 76px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 40px 30px;
+    text-align: center;
+
+    h4 {
+      margin-bottom: 30px;
+    }
+    form {
+      input {
+        background: #370898;
+        border-radius: 10px;
+        padding: 15px 25px;
+        border: none;
+        color: var(--body-color);
+      }
+      label {
+        display: flex;
+        color: var(--body-color);
+      }
+    }
+    .recover {
+      margin: 20px 0 30px;
+      p {
+        a {
+          color: #75d115;
+        }
+        text-align: left;
+      }
+    }
+    .cmn-btn {
+      border-radius: 10px;
+      width: 100%;
+      color: var(--body-color);
+    }
+    .or {
+      p {
+        position: relative;
+        margin: 30px 0;
+        &::after {
+          position: absolute;
+          content: "";
+          width: 44%;
+          height: 1px;
+          background-color: rgba(255, 255, 255, 0.5);
+          top: 50%;
+          right: 0;
+        }
+        &::before {
+          position: absolute;
+          content: "";
+          width: 44%;
+          height: 1px;
+          background-color: rgba(255, 255, 255, 0.5);
+          top: 50%;
+          left: 0;
+        }
+      }
+    }
+
+    .account {
+      a {
+        color: #00fadf;
+      }
+    }
+  }
+}
+@media (max-width: 576px) {
+  #login-reg {
+    .login-reg-main {
+      padding: 30px 15px;
+    }
+  }
+}

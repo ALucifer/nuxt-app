@@ -1,0 +1,48 @@
+.notifications {
+  position: fixed;
+  bottom: 20px;
+  right: 0;
+  z-index: 1;
+}
+.notification {
+  background: #4609c3;
+  display: flex;
+  justify-content: space-between;
+  width: 350px;
+  box-shadow: 2px 2px 2px 2px rbga(0, 0, 0.5);
+  padding: 10px 20px;
+  margin-bottom: 5px;
+  border-left: 5px solid #370898;
+}
+button {
+  background: inherit;
+  color: white;
+}
+.success {
+  background: green;
+}
+.error {
+  background: #ff443d;
+}
+.warning {
+  background: #C7B52C;
+}
+
+.fade-move,
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* 2. declare enter from and leave to state */
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: scaleY(0.01) translate(30px, 0);
+}
+
+/* 3. ensure leaving items are taken out of layout flow so that moving
+      animations can be calculated correctly. */
+.fade-leave-active {
+  position: absolute;
+}

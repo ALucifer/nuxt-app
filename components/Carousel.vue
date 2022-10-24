@@ -1,0 +1,72 @@
+<template>
+  <Carousel>
+    <template #slides>
+      <Slide v-for="item in items" :key="item.id">
+        <div class="slide">
+          <div class="row">
+            <div class="col-lg-5">
+              <div class="slide__left">
+                <p class="text-sm" :class="getClass(item.isRegisterOpen)">
+                  Registration {{ item.isRegisterOpen ? "opened" : "close" }}
+                </p>
+                <h4>{{ item.libelle }}</h4>
+                <CounterTournament :beginAt="item.begin_at" />
+                <div class="btn-area">
+                  <nuxt-link
+                    :to="{ name: 'tournois-id-register', params: { id: 1 } }"
+                    class="cmn-btn"
+                    >S'inscrire</nuxt-link
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="d-none d-lg-block col-lg-7 col-md-5">
+              <div class="slide__right">
+                <img
+                  class="slide__right-img"
+                  src="images/character.png"
+                  alt="image"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Slide>
+    </template>
+    <template #addons>
+      <Navigation />
+    </template>
+  </Carousel>
+</template>
+
+<script>
+// If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
+import { Carousel, Slide, Navigation } from "vue3-carousel";
+import CounterTournament from "@/components/CounterTournament";
+import "vue3-carousel/dist/carousel.css";
+
+export default {
+  name: "App",
+  components: {
+    Carousel,
+    Slide,
+    Navigation,
+    CounterTournament,
+  },
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
+  },
+  methods: {
+    getClass(isRegisterOpen) {
+      return isRegisterOpen ? "" : "text-danger";
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+@import "@/assets/css/components/carousel.scss";
+</style>
