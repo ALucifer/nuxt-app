@@ -1,16 +1,8 @@
-- virer toutes les parties useless dans le gros fichier css
 - Utiliser la façon de nuxt pour loader les requete de recuperation des data
-
 - utiliser le asyncData pour les page suivante:
-
   - profile/messages
   - profile/tournoi
 
-- regrouper tout les store dans l'index pour une meilleure utilisation dans le code et ne pas avoir plusieurs import
-- finir la card de matchs
-
-  - le component MatchCard aura un slot qui permettra de choisir l'affichage des actions
-  - prendre en compte le nom de chaque équipe
   - prendre en compte l'avatar de chaque équipe
 
 - mes matches
@@ -20,4 +12,18 @@
   - Afficher le bouton si aucun justificatif est inséré
 
 - tab suivi
-  - affiche tout les matchs du tournoi seulement pour l'organisateur
+
+  - Dans la partie action, ajouter un bouton qui ouvre la modale de selection du vainqueur.
+  - On devra afficher les justificatifs de chaque equipe pour pouvoir selectionner le vainqueur
+
+- profile
+  - changer la vue principale
+  - trouver un moyen d'avoir un sous menu pour le profile
+
+API:
+
+- mettre en event les envoie d'email
+- voir pour mettre un event sur les notifications aussi
+
+info:
+que se passe-t-il si il n'y a pas de challongeID sur tournament et que le user s'inscrit ??

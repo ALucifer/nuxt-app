@@ -54,6 +54,7 @@ export default defineNuxtComponent({
   },
   async asyncData({ $pinia }) {
     const tournamentStore = useTournamentStore($pinia);
+
     await tournamentStore.fetchItems();
     await tournamentStore.fetchHightlighted();
 

@@ -24,6 +24,13 @@ export function user() {
           return response.data;
         });
     },
+    async getTeam(tournament_id) {
+      return await client
+        .get("http://127.0.0.1:3333/users/tournaments/" + tournament_id, {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        })
+        .then((response) => response.data);
+    },
   };
 }
 
@@ -78,7 +85,7 @@ export function auth() {
 export const conversations = {
   async fetchAuthConversationsList(authId) {
     return await client
-      .get("users/" + authId + "/conversations", {
+      .get("users/conversations", {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((response) => {
@@ -88,7 +95,7 @@ export const conversations = {
 
   async fetchConversationMessages(authId, conversationId) {
     return await client
-      .get("users/" + authId + "/conversations/" + conversationId, {
+      .get("users/conversations/" + conversationId, {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((response) => {

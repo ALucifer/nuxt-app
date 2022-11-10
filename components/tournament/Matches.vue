@@ -1,26 +1,67 @@
 <template>
   <AppTabPane name="matches" tabName="tournament-view">
     <template v-slot:content>
-      <template v-for="i in 10">
-        <MatchCard>
+      <template v-for="i in matches">
+        <MatchCard
+          :firstTeam="getTeam(i.adversaire_a, tournament.value.teams)"
+          :secondTeam="getTeam(i.adversaire_b, tournament.value.teams)"
+        >
           <template #action>
-            <button class="btn btn-success">Score</button>
-            <button class="btn btn-success">Valider</button>
+            <button
+              class="btn btn-success"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+              @click.prevent="setMatch(i)"
+            >
+              Score
+            </button>
           </template>
           <template #information>
             <p class="match--information">
-              Un justificatif est necessaire pour passer à la manche suivante
+              Veuillez renseigner le score du match
             </p></template
           >
         </MatchCard>
       </template>
+      <MatchModal />
     </template>
   </AppTabPane>
 </template>
 
 <script>
 import MatchCard from "@/components/MatchCard.vue";
-export default { components: { MatchCard } };
+import { mapState } from "pinia";
+import { useAuthStore } from "~~/store/auth";
+import { filter } from "lodash";
+import MatchModal from "@/components/MatchModal.vue";
+import useMatchModal from "~~/composables/useMatchModal";
+
+export default {
+  components: { MatchCard, MatchModal },
+  inject: ["tournament"],
+  setup() {
+    const { setMatch } = useMatchModal();
+    return { setMatch };
+  },
+  computed: {
+    ...mapState(useAuthStore, {
+      user: "getUser",
+    }),
+    matches() {
+      return filter(
+        this.tournament.value.matches,
+        (m) =>
+          m.adversaire_a === this.user.id || m.adversaire_b === this.user.id
+      );
+    },
+  },
+  methods: {
+    getTeam(user_id, teams) {
+      return teams.find((team) => team.user_id == user_id);
+    },
+  },
+};
 </script>
 
 <style lang="scss">

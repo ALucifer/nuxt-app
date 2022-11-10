@@ -1,20 +1,40 @@
 <template>
   <div class="col-10 match--container">
-    <AppAvatar class="match--avatar" />
-    <span>Equipe A</span>
+    <AppAvatar class="match--avatar" :src="getAvatar(firstTeam.avatar)" />
+    <span>{{ firstTeam.libelle }}</span>
     <span>
       <div class="match--action">
         <slot name="action"></slot>
       </div>
       <slot name="information" />
     </span>
-    <span>Equipe B</span>
-    <AppAvatar class="match--avatar" />
+    <span>{{ secondTeam.libelle }}</span>
+    <AppAvatar class="match--avatar" :src="getAvatar(secondTeam.avatar)" />
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    firstTeam: {
+      type: Object,
+      required: true,
+    },
+    secondTeam: {
+      type: Object,
+      required: true,
+    },
+  },
+  methods: {
+    getAvatar(avatar) {
+      if (avatar) {
+        return "data:image/svg+xml;base64," + avatar;
+      }
+
+      return avatar;
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .match {

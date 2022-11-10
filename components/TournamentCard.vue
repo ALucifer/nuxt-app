@@ -28,7 +28,7 @@
             </div>
             <div class="box-item">
               <span class="head">Enrôlé</span>
-              <span class="sub">{{ item.enroll }}</span>
+              <span class="sub"></span>
             </div>
             <div class="box-item">
               <span class="head">Niveau de jeu</span>

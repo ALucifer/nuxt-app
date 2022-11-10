@@ -68,8 +68,8 @@ export const useTournamentStore = defineStore({
     async fetchHightlighted() {
       this.hightlighted = await tournaments().hightlighted();
     },
-    async generateTournamentTree(tournament) {
-      await tournaments().generateTournamentTree(tournament);
+    async start(tournament) {
+      await tournaments().start(tournament);
       await this.fetchItem(tournament.id);
     },
     async unsubscribe(tournament_id, user_id) {

@@ -3,12 +3,9 @@
     <template v-slot:content>
       <div class="col-lg-12">
         <div class="pb-120">
-          <div
-            class="participant-item"
-            v-for="team in tournament.teams"
-          >
+          <div class="participant-item" v-for="team in tournament.teams">
             <div class="left-area d-flex align-items-center">
-              <AppAvatar :src="'data:image/svg+xml;base64,' + team.avatar" />
+              <AppAvatar :src="getAvatar(team.avatar)" />
               <div class="right-side">
                 <h6>{{ team.libelle }}</h6>
               </div>
@@ -27,6 +24,15 @@ export default {
   setup() {
     const tournament = inject("tournament");
     return { tournament: tournament.value };
+  },
+  methods: {
+    getAvatar(avatar) {
+      if (avatar) {
+        return "data:image/svg+xml;base64," + avatar;
+      }
+
+      return avatar;
+    },
   },
 };
 </script>

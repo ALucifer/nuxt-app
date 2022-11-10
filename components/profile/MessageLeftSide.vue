@@ -9,7 +9,7 @@
           "
           class="user-list__item"
           @click.prevent="
-            this.$emit('changeConversation', {
+            $emit('changeConversation', {
               conversation_id: conversation.id,
             })
           "
@@ -25,11 +25,11 @@
           </p>
           <span
             v-if="
-              this.getUnreadMessagesByConversationId(conversation.id).length > 0
+              getUnreadMessagesByConversationId(conversation.id).length > 0
             "
             class="badge rounded-pill bg-warning text-dark"
             >{{
-              this.getUnreadMessagesByConversationId(conversation.id).length
+              getUnreadMessagesByConversationId(conversation.id).length
             }}</span
           >
         </li>

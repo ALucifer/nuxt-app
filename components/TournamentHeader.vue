@@ -11,10 +11,13 @@
               </div>
               <div
                 class="start-area bg--action"
-                v-if="halfParticipants()"
+                v-if="isHalf()"
                 @click="generate()"
               >
-                <span>Générer l'arbre</span>
+                <span
+                  :class="{ 'spinner-border text-warning': bracketLoading }"
+                  >{{ bracketLoading ? "" : "Générer l'arbre" }}</span
+                >
               </div>
             </div>
           </div>
@@ -22,11 +25,11 @@
             <NuxtLink
               :to="{ name: 'tournois-id-register' }"
               class="cmn-btn register-btn"
-              v-if="this.isOpen()"
+              v-if="isOpen()"
               >S'inscrire</NuxtLink
             >
             <span
-              v-else-if="alreadyRegister()"
+              v-else-if="isRegister()"
               class="cmn-btn"
               @click="unsubscribe(tournament.id, user.id)"
               >Se desinscrire</span
@@ -37,13 +40,13 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <AppNavItem name="overview" />
           <AppNavItem name="bracket" v-if="tournament.image_bracket" />
-          <AppNavItem name="participants" v-if="authUserTournament()" />
+          <AppNavItem name="participants" v-if="isOwner()" />
           <AppNavItem
             name="matches"
             libelle="Mes matchs"
-            v-if="isAuthenticated()"
+            v-if="userHasMatches()"
           />
-          <AppNavItem name="suivi" />
+          <AppNavItem name="suivi" v-if="isOwner()" />
         </ul>
       </div>
     </div>
@@ -56,8 +59,8 @@ import { useAuthStore } from "@/store/auth";
 import { mapState, mapActions } from "pinia";
 import { useTournamentStore } from "../store/tournament";
 import lodash from "lodash";
-import { inject } from "vue";
-import useAuth from "@/composables/useAuth";
+import useFlashMessages from "@/composables/useFlashMessages";
+import useTournamentHeader from "~~/composables/useTournamentHeader";
 
 export default {
   data() {
@@ -66,20 +69,32 @@ export default {
         "D MMMM, YYYY h:mm A"
       ),
       closeMessage: "Inscriptions terminées",
+      bracketLoading: false,
     };
   },
   setup() {
+    const { addMessage } = useFlashMessages();
     const tournament = inject("tournament");
-    const { isAuthenticated } = useAuth();
-    return { tournament: tournament.value, isAuthenticated };
+
+    const { isOwner, isHalf, isRegister, userHasMatches } =
+      useTournamentHeader(tournament);
+
+    return {
+      addMessage,
+      tournament,
+      isOwner,
+      isHalf,
+      isRegister,
+      userHasMatches,
+    };
   },
   computed: {
-    ...mapState(useAuthStore, ["user"]),
+    ...mapState(useAuthStore, ["user", "isAuthenticated"]),
   },
   methods: {
     isOpen: function () {
       let result = undefined;
-      if (this.user !== null) {
+      if (this.isAuthenticated) {
         result = lodash.find(
           this.tournament.teams,
           (i) => i.user_id === this.user.id
@@ -90,29 +105,23 @@ export default {
         }
       }
 
-      return this.tournament.state === "OPEN" && result === undefined;
-    },
-    authUserTournament: function () {
-      return this.tournament.owner === this.user?.id;
-    },
-    halfParticipants: function () {
       return (
-        this.tournament.teams.length >= this.tournament.max_teams / 2 &&
         this.tournament.state === "OPEN" &&
-        this.tournament.image_bracket === null &&
-        this.authUserTournament()
+        result === undefined &&
+        this.tournament.challonge_id !== null
       );
     },
     generate: async function () {
-      await this.generateTournamentTree(this.tournament);
+      this.bracketLoading = true;
+      await this.start(this.tournament);
+      this.addMessage({
+        class: "success",
+        message: "Génération de l'arbre réussi.",
+      });
+      this.bracketLoading = false;
     },
-    alreadyRegister: function () {
-      return find(this.user?.tournaments, (i) => i.id === this.tournament.id);
-    },
-    ...mapActions(useTournamentStore, [
-      "generateTournamentTree",
-      "unsubscribe",
-    ]),
+    ...mapActions(useTournamentStore, ["start", "unsubscribe"]),
+    ...mapActions(useAuthStore, ["loadUserMatchs"]),
   },
 };
 </script>

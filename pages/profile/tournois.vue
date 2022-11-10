@@ -5,7 +5,7 @@
       <TournamentTable :params="myTournaments" />
     </template>
     <div v-else class="px-4">
-      <h5>Aucun tournoi</h5>
+      <h5>Aucun tournoi pour le moment</h5>
     </div>
   </div>
 </template>

@@ -46,10 +46,10 @@ export function tournaments() {
         .get("tournaments/highlights")
         .then((response) => response.data);
     },
-    async generateTournamentTree(tournament) {
-      return await client.get(
-        "tournaments/" + tournament.id + "/randomize-challonge"
-      );
+    async start(tournament) {
+      return await client.get("tournaments/" + tournament.id + "/start", {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      });
     },
     async unsubscribe(tournament_id, user_id) {
       return await client.post(

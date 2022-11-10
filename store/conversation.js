@@ -32,13 +32,20 @@ export const useConversationStore = defineStore({
     getUnreadMessagesByConversationId: (state) => {
       const authStore = useAuthStore();
 
-      return (conversationId) =>
-        state.messages.filter(
+      return (conversationId) => {
+        if (!conversationId) {
+          return state.messages.filter(
+            (message) =>
+              message.state === "UNREAD" && message.to === authStore.user.id
+          );
+        }
+        return state.messages.filter(
           (message) =>
             message.conversation === conversationId &&
             message.state === "UNREAD" &&
             message.to === authStore.user.id
         );
+      };
     },
   },
 

@@ -1,5 +1,5 @@
 <template>
-  <Carousel>
+  <Carousel :transition="1000" :wrapAround="true" :pauseAutoplayOnHover="true">
     <template #slides>
       <Slide v-for="item in items" :key="item.id">
         <div class="slide">

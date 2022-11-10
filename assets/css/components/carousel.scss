@@ -4,6 +4,7 @@
   text-transform: uppercase;
 }
 .slide {
+  height: 100%;
   background: #130757;
   border-radius: 10px;
   width: 100%;
@@ -45,6 +46,10 @@
         left: 20px;
       }
     }
+  }
+
+  .row {
+    height: inherit;
   }
 
   .cmn-btn {

@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/fontawesome.min.css',
     '@/assets/css/slick.css',
-    '@/assets/css/bootstrap.min.css',
+     "~/node_modules/bootstrap/dist/css/bootstrap.min.css",
     '@/assets/css/magnific-popup.css',
     '@/assets/css/nice-select.css',
     '@/assets/css/animate.css',
@@ -30,18 +30,14 @@ export default defineNuxtConfig({
   ],
   meta: {
     script: [
-      {
-        type: 'text/javascript',
-        src: '/js/jquery-3.5.1.min.js',
-      },
-      {
-        type: 'text/javascript',
-        src: '/js/bootstrap.min.js',
-      },
-      //  {
+      // {
       //   type: 'text/javascript',
-      //   src: '/js/main.js',
+      //   src: '/js/jquery-3.5.1.min.js',
       // },
+      {
+        type: 'text/javascript',
+        src: '/js/bootstrap.js',
+      },
     ]
   },
   router: {
@@ -52,5 +48,5 @@ export default defineNuxtConfig({
     config: {
       unwrapInjectedRef: true
     }
-  }
+  },
 })

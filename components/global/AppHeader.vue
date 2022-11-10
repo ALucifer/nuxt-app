@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="container">
-      <div class="row header-container nav-menu">
+      <div class="header-container nav-menu">
         <div class="nav-menu__logo">
           <NuxtLink :to="{ name: 'index' }" class="site-logo">
             <img src="/images/logo.png" alt="site-logo" />
@@ -105,17 +105,14 @@
                 </li>
                 <li class="user-dropdown__item">
                   <NuxtLink :to="{ name: 'profile-messages' }"
-                    >Messages</NuxtLink
-                  >
-                </li>
-                <li class="user-dropdown__item">
-                  <NuxtLink :to="{ name: 'profile-tournois' }"
-                    >Mes tournois</NuxtLink
-                  >
-                </li>
-                <li class="user-dropdown__item">
-                  <NuxtLink :to="{ name: 'index' }"
-                    >Notifications (todo)</NuxtLink
+                    >Messages
+                    <span
+                      v-if="getUnreadMessagesByConversationId(null).length > 0"
+                      class="badge rounded-pill bg-warning text-dark"
+                      >{{
+                        getUnreadMessagesByConversationId(null).length
+                      }}</span
+                    ></NuxtLink
                   >
                 </li>
               </ul>
@@ -135,6 +132,7 @@
 import SearchGlobal from "@/components/SearchGlobal";
 import { NotificationRegister } from "@/services/sse";
 import { useAuthStore } from "@/store/auth";
+import { useConversationStore } from "~~/store/conversation";
 import { mapState, mapActions } from "pinia";
 
 export default {
@@ -150,6 +148,7 @@ export default {
       user: "getUser",
       isAuthenticated: "isAuthenticated",
     }),
+    ...mapState(useConversationStore, ["getUnreadMessagesByConversationId"]),
   },
   methods: {
     ...mapActions(useAuthStore, ["logout"]),

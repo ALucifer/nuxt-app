@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 export const useTabStore = defineStore({
-  id: " tabs",
+  id: "tabs",
   state: () => {
     return {
       items: {

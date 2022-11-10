@@ -3,11 +3,11 @@ import { transformToLink } from "@/services/notification_transformer";
 const messages = reactive([]);
 
 const addMessage = (message) => {
-  message = transformToLink(message.message);
+  const messageFormatted = transformToLink(message.message);
   messages.push({
     id: Math.random() + Date.now(),
     ...message,
-    message: message,
+    message: messageFormatted,
   });
 };
 

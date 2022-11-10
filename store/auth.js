@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { auth } from "../client/user";
+import dayjs from "dayjs";
+import { auth, user } from "../client/user";
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -7,11 +8,12 @@ export const useAuthStore = defineStore({
     return {
       user: null,
       token: null,
+      team: null,
     };
   },
   getters: {
-    getUser() {
-      const user = this.user;
+    getUser(state) {
+      const user = state.user;
       if (!user) return {};
       return {
         ...user,
@@ -20,8 +22,8 @@ export const useAuthStore = defineStore({
         },
       };
     },
-    isAuthenticated() {
-      return this.user ? true : false;
+    isAuthenticated(state) {
+      return state.user ? true : false;
     },
   },
   actions: {
@@ -51,5 +53,17 @@ export const useAuthStore = defineStore({
           this.user.avatar = response;
         });
     },
+    // async loadUserMatchs(tournament_id) {
+    //   if (
+    //     this.matches &&
+    //     dayjs().diff(this.matches.lastUpdate, "m") < 3 &&
+    //     this.team.tournament_id === tournament_id
+    //   ) {
+    //     return;
+    //   } else {
+    //     const team = await user().getTeam(tournament_id);
+    //     this.team = { lastUpdate: dayjs(), ...team };
+    //   }
+    // },
   },
 });
