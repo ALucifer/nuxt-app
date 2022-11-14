@@ -74,6 +74,7 @@ export const useTournamentStore = defineStore({
     },
     async unsubscribe(tournament_id, user_id) {
       await tournaments().unsubscribe(tournament_id, user_id);
+      await this.fetchItem(tournament_id);
     },
   },
 });

@@ -31,7 +31,7 @@
             <span
               v-else-if="isRegister()"
               class="cmn-btn"
-              @click="unsubscribe(tournament.id, user.id)"
+              @click="unsubscribeHandler(tournament.id, user.id)"
               >Se desinscrire</span
             >
             <span v-else class="cmn-btn">{{ closeMessage }}</span>
@@ -119,6 +119,13 @@ export default {
         message: "Génération de l'arbre réussi.",
       });
       this.bracketLoading = false;
+    },
+    unsubscribeHandler: async function (tournament_id, user_id) {
+      await this.unsubscribe(tournament_id, user_id);
+      this.addMessage({
+        class: "success",
+        message: "Vous avez bien été déinscrit du tournoi",
+      });
     },
     ...mapActions(useTournamentStore, ["start", "unsubscribe"]),
     ...mapActions(useAuthStore, ["loadUserMatchs"]),

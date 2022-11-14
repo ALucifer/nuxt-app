@@ -37,11 +37,18 @@ export default defineNuxtComponent({
     return {};
   },
   mounted() {
+    console.log("mounted");
     if (!this.currentTournament) {
       return this.$router.push({ name: "index" });
     }
 
     this.loaded = true;
+  },
+  beforeUpdate() {
+    console.log("before update");
+  },
+  updated() {
+    console.log("updated");
   },
 });
 </script>

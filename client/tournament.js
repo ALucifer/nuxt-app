@@ -53,7 +53,13 @@ export function tournaments() {
     },
     async unsubscribe(tournament_id, user_id) {
       return await client.post(
-        "tournaments/" + tournament_id + "/unsubscrire/" + user_id
+        "tournaments/" + tournament_id + "/unsubscribe/" + user_id,
+        null,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
       );
     },
   };

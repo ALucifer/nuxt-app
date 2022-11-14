@@ -105,9 +105,9 @@ export default {
         classCss = "success";
       }
       this.addMessage({ message: message, class: classCss });
-      this.$router.push({
-        name: "tournament-id",
-        params: { id: this.id },
+      return this.$router.push({
+        name: "tournois-id",
+        params: { id: this.$route.params.id },
       });
     },
     ...mapActions(useTournamentStore, ["register"]),
