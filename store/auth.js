@@ -50,7 +50,7 @@ export const useAuthStore = defineStore({
       auth()
         .uploadAvatar(formData)
         .then((response) => {
-          this.user.avatar = response;
+          this.user.avatar = response.avatar;
         });
     },
     // async loadUserMatchs(tournament_id) {
