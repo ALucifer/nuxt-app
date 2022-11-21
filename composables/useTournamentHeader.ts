@@ -28,5 +28,9 @@ export default function useTournamentHeader(useTournament) {
         return find(tournament.value.matches, (m) => m.adversaire_a === user.value.id || m.adversaire_b === user.value.id)
     }
 
-    return {isHalf, isOwner, isRegister, userHasMatches}
+    function hasMatches() {
+        return tournament.value.matches.length > 0
+    }
+
+    return {isHalf, isOwner, isRegister, userHasMatches, hasMatches}
 }

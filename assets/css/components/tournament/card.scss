@@ -18,4 +18,10 @@
       font-weight: 500;
     }
   }
+
+  &__avatar {
+    border-radius: 200px;
+    background: whitesmoke;
+    cursor: pointer;
+  }
 }

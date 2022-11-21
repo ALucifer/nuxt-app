@@ -7,7 +7,7 @@
             <AppAvatar
               :src="'data:image/svg+xml;base64,' + avatar"
               @click.prevent="generate()"
-              style="border-radius: 200px; background: whitesmoke"
+              class="card__avatar"
             />
             <div class="form-group my-5">
               <AppField

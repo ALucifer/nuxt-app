@@ -21,11 +21,11 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-4 text-center">
+          <div class="col-lg-3 col-md-4 text-center" v-if="isOpen()">
             <NuxtLink
               :to="{ name: 'tournois-id-register' }"
               class="cmn-btn register-btn"
-              v-if="isOpen()"
+              v-if="isOpen() && !isRegister()"
               >S'inscrire</NuxtLink
             >
             <span
@@ -34,7 +34,7 @@
               @click="unsubscribe(tournament.id, user.id)"
               >Se desinscrire</span
             >
-            <span v-else class="cmn-btn">{{ closeMessage }}</span>
+            <span v-else class="cmn-btn">Vous êtes déjà inscrit</span>
           </div>
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -46,7 +46,7 @@
             libelle="Mes matchs"
             v-if="userHasMatches()"
           />
-          <AppNavItem name="suivi" v-if="isOwner()" />
+          <AppNavItem name="suivi" v-if="isOwner() && hasMatches()" />
         </ul>
       </div>
     </div>
@@ -68,7 +68,6 @@ export default {
       formattedAt: dayjs(this.tournament.begin_at).format(
         "D MMMM, YYYY h:mm A"
       ),
-      closeMessage: "Inscriptions terminées",
       bracketLoading: false,
     };
   },
@@ -76,7 +75,7 @@ export default {
     const { addMessage } = useFlashMessages();
     const tournament = inject("tournament");
 
-    const { isOwner, isHalf, isRegister, userHasMatches } =
+    const { isOwner, isHalf, isRegister, userHasMatches, hasMatches } =
       useTournamentHeader(tournament);
 
     return {
@@ -86,6 +85,7 @@ export default {
       isHalf,
       isRegister,
       userHasMatches,
+      hasMatches,
     };
   },
   computed: {
@@ -93,21 +93,8 @@ export default {
   },
   methods: {
     isOpen: function () {
-      let result = undefined;
-      if (this.isAuthenticated) {
-        result = lodash.find(
-          this.tournament.teams,
-          (i) => i.user_id === this.user.id
-        );
-
-        if (result !== undefined) {
-          this.closeMessage = "Vous êtes déjà inscrit";
-        }
-      }
-
       return (
         this.tournament.state === "OPEN" &&
-        result === undefined &&
         this.tournament.challonge_id !== null
       );
     },
