@@ -1,7 +1,12 @@
 <template>
   <AppHeader />
   <div class="main">
-    <NuxtPage :key="`${$route.path}`" />
+    <NuxtLayout>
+      <div>
+        <NuxtPage :key="`${$route.path}`" />
+        <AppSidebar />
+      </div>
+    </NuxtLayout>
   </div>
   <AppNotifications />
   <AppFooter />
