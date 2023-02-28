@@ -1,5 +1,5 @@
 <template>
-  <AppBanner :isDefault="true">
+  <AppBanner>
     <template v-slot:content>
       <div class="profile-banner">
         <div class="row justify-content-between">

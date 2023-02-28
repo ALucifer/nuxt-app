@@ -32,11 +32,13 @@
             'message-item__avatar-right': !isOwnMessage(message),
           }"
         >
-          <img
-            :src="message.fromUser.avatar"
-            :alt="`${message.fromUser.pseudo} avatar`"
-            class="message-item__avatar"
+          <NuxtImg
+            provider="cloudinary"
+            src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg"
+            width="300"
+            height="200"
           />
+
           <div class="message-item__pseudo">{{ message.fromUser.pseudo }}</div>
         </div>
         <div
