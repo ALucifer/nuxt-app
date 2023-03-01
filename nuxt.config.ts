@@ -1,4 +1,3 @@
-import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -7,14 +6,13 @@ export default defineNuxtConfig({
     dirs: ['~/components/global']
   },
   modules: [
+    '@nuxt/image-edge',
     [
       '@pinia/nuxt',
       {
         autoImports: [
-          // automatically imports `defineStore`
-          'defineStore', // import { defineStore } from 'pinia'
-          // automatically imports `defineStore` as `definePiniaStore`
-          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+          'defineStore',
+          ['defineStore', 'definePiniaStore'],
         ],
       },
     ],
@@ -49,4 +47,9 @@ export default defineNuxtConfig({
       unwrapInjectedRef: true
     }
   },
+  image: {
+    cloudinary: {
+      baseURL: 'https://res.cloudinary.com/davxuwzzl/image/upload/'
+    }
+  }
 })

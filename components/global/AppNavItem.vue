@@ -2,7 +2,7 @@
   <li class="nav-item">
     <a
       class="nav-link"
-      id="{{ name }}-tab"
+      :id="name + '-tab'"
       data-toggle="tab"
       @click="setActiveTabByKeyName('tournament-view', name)"
       :class="{

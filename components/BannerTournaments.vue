@@ -1,7 +1,7 @@
 <template>
   <AppBanner>
     <template v-slot:content>
-      <carousel :items="items" />
+      <carousel v-show="items.length > 0" :items="items" />
     </template>
   </AppBanner>
 </template>

@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import dayjs from "dayjs";
 import { auth, user } from "../client/user";
 
 export const useAuthStore = defineStore({

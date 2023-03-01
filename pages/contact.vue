@@ -53,7 +53,7 @@ export default {
   },
   head() {
     return {
-      title: "Contact",
+      title: "Spots : Contact",
       description: "Page de contact.",
     };
   },

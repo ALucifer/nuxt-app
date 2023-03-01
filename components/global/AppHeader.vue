@@ -59,13 +59,13 @@
           </div>
         </nav>
         <div class="d-none d-lg-flex right-area nav-menu__actions">
-          <div class="search-icon">
-            <a
-              style="padding: 40px 15px"
+          <div class="search-icon" v-if="isAuthenticated">
+            <button
+              class="button--action"
               @click.stop="searchGlobalActive = true"
             >
-              <img src="/images/search_btn.png" alt="icon" />
-            </a>
+              <search-icon class="search--button" />
+            </button>
           </div>
 
           <NuxtLink
@@ -81,41 +81,16 @@
             >Inscription</NuxtLink
           >
           <a v-if="isAuthenticated" href="#" class="user-link">
-            <div
-              class="user-link__heading"
-              @click.prevent="userDropdownActive = !userDropdownActive"
-              v-click-outside="() => (userDropdownActive = false)"
-            >
+            <div class="user-link__heading" @click.prevent="toggle()">
               <span class="">
                 {{ user.pseudo }}
               </span>
-              <img :src="user.avatar" alt="" class="user-link__picture" />
-            </div>
-            <div
-              class="user-link__actions"
-              :class="{ 'active-drop': userDropdownActive }"
-            >
-              <div class="triangle-drop"></div>
-              <ul class="user-dropdown dropdown-menu">
-                <li class="user-dropdown__item">
-                  <NuxtLink :to="{ name: 'profile' }">Profile</NuxtLink>
-                </li>
-                <li class="user-dropdown__item">
-                  <a @click.prevent="logout()">Deconnexion</a>
-                </li>
-                <li class="user-dropdown__item">
-                  <NuxtLink :to="{ name: 'profile-messages' }"
-                    >Messages
-                    <span
-                      v-if="getUnreadMessagesByConversationId(null).length > 0"
-                      class="badge rounded-pill bg-warning text-dark"
-                      >{{
-                        getUnreadMessagesByConversationId(null).length
-                      }}</span
-                    ></NuxtLink
-                  >
-                </li>
-              </ul>
+              <nuxt-img
+                :src="user.avatar"
+                placeholder="/user-placeholder.png"
+                alt=""
+                class="user-link__picture"
+              />
             </div>
           </a>
         </div>
@@ -134,6 +109,7 @@ import { NotificationRegister } from "@/services/sse";
 import { useAuthStore } from "@/store/auth";
 import { useConversationStore } from "~~/store/conversation";
 import { mapState, mapActions } from "pinia";
+import useSidebar from "@/composables/useSidebar";
 
 export default {
   components: { SearchGlobal },
@@ -142,6 +118,10 @@ export default {
       userDropdownActive: false,
       searchGlobalActive: false,
     };
+  },
+  setup() {
+    const { toggle } = useSidebar();
+    return { toggle };
   },
   computed: {
     ...mapState(useAuthStore, {

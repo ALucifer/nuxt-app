@@ -31,7 +31,12 @@
               class="search-link"
               @click="this.$emit('close')"
             >
-              <img :src="user.avatar" class="search-avatar" alt="" />
+              <nuxt-img
+                :src="user.avatar"
+                placeholder="/user-placeholder.png"
+                class="search-avatar"
+                alt=""
+              />
               {{ user.pseudo }}
             </NuxtLink>
           </li>
