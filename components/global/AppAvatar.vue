@@ -20,8 +20,7 @@
   </p>
   <img
     :src="src || '/user-placeholder.png'"
-    v-bind="$attrs"
-    class="avatar-img"
+    :class="[$attrs.class ? $attrs.class : 'avatar-img']"
     v-else
   />
 </template>

@@ -5,7 +5,7 @@
       <Bracket v-if="tournament.image_bracket" />
       <Players v-if="isOwner()" />
       <Matches v-if="userHasMatches()" />
-      <Suivi v-if="isOwner()" />
+      <Suivi v-if="isOwner() && hasMatches()" />
     </div>
   </section>
 </template>
@@ -23,9 +23,10 @@ export default {
   setup() {
     const tournament = inject("tournament");
 
-    const { isOwner, userHasMatches } = useTournamentHeader(tournament);
+    const { isOwner, userHasMatches, hasMatches } =
+      useTournamentHeader(tournament);
 
-    return { tournament, isOwner, userHasMatches };
+    return { tournament, isOwner, userHasMatches, hasMatches };
   },
 };
 </script>
