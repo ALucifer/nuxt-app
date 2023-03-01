@@ -106,8 +106,8 @@ export default {
       }
       this.addMessage({ message: message, class: classCss });
       this.$router.push({
-        name: "tournament-id",
-        params: { id: this.id },
+        name: "tournois-id",
+        params: { id: this.tournament_id },
       });
     },
     ...mapActions(useTournamentStore, ["register"]),

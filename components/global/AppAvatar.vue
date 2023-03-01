@@ -1,8 +1,9 @@
 <template>
   <p v-if="editable">
     <label class="avatar-edit" for="avatar">
-      <img
-        :src="src || '/user-placeholder.png'"
+      <nuxt-img
+        :src="src"
+        placeholder="/user-placeholder.png"
         v-bind="$attrs"
         class="avatar-img"
       />
@@ -18,8 +19,9 @@
       />
     </label>
   </p>
-  <img
-    :src="src || '/user-placeholder.png'"
+  <nuxt-img
+    :src="src"
+    placeholder="/user-placeholder.png"
     :class="[$attrs.class ? $attrs.class : 'avatar-img']"
     v-else
   />

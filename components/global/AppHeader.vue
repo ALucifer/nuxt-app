@@ -59,7 +59,7 @@
           </div>
         </nav>
         <div class="d-none d-lg-flex right-area nav-menu__actions">
-          <div class="search-icon">
+          <div class="search-icon" v-if="isAuthenticated">
             <button
               class="button--action"
               @click.stop="searchGlobalActive = true"
@@ -85,7 +85,12 @@
               <span class="">
                 {{ user.pseudo }}
               </span>
-              <img :src="user.avatar" alt="" class="user-link__picture" />
+              <nuxt-img
+                :src="user.avatar"
+                placeholder="/user-placeholder.png"
+                alt=""
+                class="user-link__picture"
+              />
             </div>
           </a>
         </div>
