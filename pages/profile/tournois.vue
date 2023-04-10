@@ -14,7 +14,9 @@
 import { mapState } from "pinia";
 import { useAuthStore } from "@/store/auth";
 import TournamentTable from "@/components/TournamentTable";
-import { tournaments } from "../../client/tournament";
+import TournamentClient from "~/app/client/TournamentClient";
+
+const tournamentClient = new TournamentClient()
 
 export default {
   components: {
@@ -54,13 +56,13 @@ export default {
   },
   methods: {
     fetchTournament() {
-      tournaments()
-        .all({
+      tournamentClient.all(
+          {
           user: this.user.id,
           pagination: this.myTournaments.pagination.range,
           page: this.queryParamValue,
-        })
-        .then((result) => {
+        }
+      ).then((result) => {
           this.myTournaments.items = result.data;
           this.myTournaments.pagination.pages = Math.ceil(
             result.total / this.myTournaments.pagination.range

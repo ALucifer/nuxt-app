@@ -9,7 +9,11 @@
             <div class="or">
               <p>OU</p>
             </div>
-            <SocialAuthenticator message="Inscrivez-vous avec" />
+              <SocialAuthenticator
+                v-if="loaded"
+                message="Inscrivez-vous avec"
+                :googleClick="googleClick"
+              />
             <div class="account">
               <p>
                 Vous n'avez pas de compte?
@@ -26,14 +30,41 @@
 <script>
 import LoginForm from "@/components/LoginForm";
 import SocialAuthenticator from "@/components/SocialAuthenticator";
+import SocialProvider from "~/app/client/oauth/SocialProvider";
+import ProviderDTO from "~/app/client/oauth/DTO/ProviderDTO";
+
 export default {
   name: "Login",
-  head() {
-    return {
+  components: { LoginForm, SocialAuthenticator },
+  setup() {
+    useHead({
       title: "Connexion",
+      script: [
+        {
+          hid: "google",
+          src: "https://accounts.google.com/gsi/client",
+          async: true,
+          defer: true,
+        },
+      ],
+    });
+  },
+  data() {
+    return {
+      googleClick: null,
+      googleLoaded: false,
+      loaded: false,
     };
   },
-  components: { LoginForm, SocialAuthenticator },
+  mounted() {
+    this.loaded = true
+  },
+  methods: {
+    loadGoogle () {
+      this.googleClick = (new SocialProvider()).init(ProviderDTO.google())
+      this.loaded = true
+    }
+  }
 };
 </script>
 

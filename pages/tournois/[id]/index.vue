@@ -11,7 +11,7 @@
 
 <script>
 import TournamentResume from "@/components/TournamentResume";
-import { useTournamentStore } from "@/store/tournament";
+import { useTournamentStore } from "~/store/tournament";
 import { mapState } from "pinia";
 
 export default defineNuxtComponent({

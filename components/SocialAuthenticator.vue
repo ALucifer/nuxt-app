@@ -9,7 +9,11 @@
     <a class="twitch" href="javascript:void(0)"
       ><img src="images/social-icon-2.png" alt="image"
     /></a>
-    <a class="google" href="javascript:void(0)"
+    <a
+        v-if="googleClick"
+      class="google"
+      href="javascript:void(0)"
+      @click="googleClick.requestAccessToken()"
       ><img src="images/social-icon-3.png" alt="image"
     /></a>
   </div>
@@ -21,6 +25,9 @@ export default {
     message: {
       type: String,
       required: true,
+    },
+    googleClick: {
+      type: Object,
     },
   },
 };

@@ -91,15 +91,12 @@
 
 <script>
 import * as yup from "yup";
-import { tournaments } from "../../client/tournament";
-import {
-  TournamentLevels,
-  BestOf,
-  TournamentFormat,
-  TournamentParticipants,
-} from "../../Models/Models";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/store/auth";
+import TournamentClient from "~/app/client/TournamentClient";
+import { tournament } from '~/app/models/tournament'
+
+const tournamentClient = new TournamentClient()
 
 export default {
   data() {
@@ -132,10 +129,10 @@ export default {
         .typeError("Veuillez renseigner ce champs."),
     });
     return {
-      participants: TournamentParticipants.selectValues,
-      formatItems: TournamentFormat.selectValues,
-      boItems: BestOf.selectValues,
-      tournamentLevel: TournamentLevels.selectValues,
+      participants: tournament.participants(),
+      formatItems: tournament.formats(),
+      boItems: tournament.bestOf(),
+      tournamentLevel: tournament.levels(),
       schema,
       error: false,
     };
@@ -147,18 +144,15 @@ export default {
   },
   methods: {
     async submit(values) {
-      const result = await tournaments().create({
+      const status = await tournamentClient.create({
         ...values,
         owner: this.user.id,
       });
-      if (result.status !== 200) {
+
+      if (status !== 200) {
         this.error = true;
       } else {
         this.error = false;
-        // this.$router.push({
-        //   name: "ViewTournament",
-        //   params: { id: result.data.id },
-        // });
       }
     },
   },

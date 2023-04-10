@@ -28,7 +28,7 @@
 <script>
 import { identicon } from "minidenticons";
 import { mapActions } from "pinia";
-import { useTournamentStore } from "@/store/tournament";
+import { useTournamentStore } from "~/store/tournament";
 import useFlashMessages from "@/composables/useFlashMessages";
 import * as yup from "yup";
 

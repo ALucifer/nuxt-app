@@ -37,9 +37,11 @@
 </template>
 
 <script>
-import { contact } from "@/client/contact";
 import useFlashMessages from "@/composables/useFlashMessages";
 import * as yup from "yup";
+import ContactClient from "~/app/client/ContactClient";
+
+const contactClient = new ContactClient()
 
 export default {
   data() {
@@ -64,7 +66,7 @@ export default {
   },
   methods: {
     async submit(values, { resetForm }) {
-      const result = await contact().post(values);
+      const result = await contactClient.post(values);
       if (200 === result) {
         this.addMessage({
           message: "Votre demande à bien été envoyé",

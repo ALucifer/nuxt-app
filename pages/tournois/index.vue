@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BannerTournaments :items="hightlighted" />
+    <BannerTournaments />
     <section class="tournaments-card">
       <div class="overlay pt-120 pb-120">
         <div class="container wow fadeInUp">
@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import BannerTournaments from "@/components/BannerTournaments";
 import TournamentCard from "@/components/TournamentCard";
 import SearchFormTournament from "@/components/SearchFormTournament";
-import { useTournamentStore } from "@/store/tournament";
+import { useTournamentStore } from "~/store/tournament";
 import { mapState, mapActions } from "pinia";
+import BannerTournaments from "~/components/BannerTournaments.vue";
 
 export default defineNuxtComponent({
   head() {
@@ -63,7 +63,6 @@ export default defineNuxtComponent({
   computed: {
     ...mapState(useTournamentStore, {
       tournaments: "items",
-      hightlighted: "hightlighted",
       itemsShow: "itemsShow",
       filteredItems: "filteredItems",
       isFullyLoaded: "isFullyLoaded",

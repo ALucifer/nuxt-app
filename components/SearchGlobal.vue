@@ -47,7 +47,9 @@
 </template>
 
 <script>
-import { search } from "~~/client/user";
+import SearchClient from "~/app/client/SearchClient";
+
+const searchClient = new SearchClient()
 
 export default {
   data() {
@@ -63,7 +65,7 @@ export default {
       this.searching = false;
       if (this.isValidSearch()) {
         this.searching = true;
-        this.users = await search.user(this.text);
+        this.users = await searchClient.user(this.text);
         this.searching = false;
       }
     },

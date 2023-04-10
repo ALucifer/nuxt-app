@@ -86,7 +86,7 @@
                 {{ user.pseudo }}
               </span>
               <nuxt-img
-                :src="user.avatar"
+                :src="avatar"
                 placeholder="/user-placeholder.png"
                 alt=""
                 class="user-link__picture"
@@ -129,6 +129,12 @@ export default {
       isAuthenticated: "isAuthenticated",
     }),
     ...mapState(useConversationStore, ["getUnreadMessagesByConversationId"]),
+    avatar() {
+      if (this.user.avatar) {
+        return this.user.avatar
+      }
+      return '/'
+    }
   },
   methods: {
     ...mapActions(useAuthStore, ["logout"]),

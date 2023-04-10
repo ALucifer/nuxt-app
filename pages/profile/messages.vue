@@ -28,6 +28,7 @@ import MessageRightSide from "@/components/profile/MessageRightSide.vue";
 import { useConversationStore } from "@/store/conversation";
 import { useAuthStore } from "@/store/auth";
 import { mapState, mapActions } from "pinia";
+import ClientSSE from "~/app/client/sse/ClientSSE";
 
 export default {
   components: { MessageLeftSide, MessageRightSide },
@@ -77,10 +78,10 @@ export default {
 
   mounted() {
     const conversationStore = useConversationStore();
-    const mercureUrl = new URL("http://localhost:1338/.well-known/mercure");
-    mercureUrl.searchParams.append("topic", `user/${this.user.id}/newmessage`);
-    const eventSource = new EventSource(mercureUrl);
-    eventSource.onmessage = ({ data }) => {
+    const clientSSE = new ClientSSE(this.user)
+    clientSSE.connect()
+
+    clientSSE.eventSource.onmessage = ({ data }) => {
       conversationStore.addMessage(JSON.parse(data)).then(() => {
         this.scrollToNewMessage();
       });

@@ -1,7 +1,7 @@
 <template>
   <div>
     <ProfileBanner :isOwnProfile="true" :user="user" v-if="user" />
-    <NuxtPage :key="key" :user="user" v-if="user" />
+    <NuxtPage :key="key" :user="user" v-if="user"/>
   </div>
 </template>
 

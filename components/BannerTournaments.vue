@@ -1,29 +1,23 @@
 <template>
   <AppBanner>
     <template v-slot:content>
-      <carousel v-show="items.length > 0" :items="items" />
+      <Carousel v-show="highlighted.length > 0" :items="highlighted" />
     </template>
   </AppBanner>
 </template>
 
-<script>
-import Carousel from "@/components/Carousel";
+<script lang="ts">
+import { mapState } from "pinia";
+import { useTournamentStore } from "~/store/tournament";
+import Carousel from "~/components/Carousel.vue";
 
 export default {
   components: {
     Carousel,
   },
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    getClass(isRegisterOpen) {
-      return isRegisterOpen ? "" : "text-danger";
-    },
-  },
+  computed: {
+    ...mapState(useTournamentStore, ["highlighted"])
+  }
 };
 </script>
 

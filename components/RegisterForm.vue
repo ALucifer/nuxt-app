@@ -33,9 +33,11 @@
 </template>
 
 <script>
-import { user } from "@/client/user";
 import * as yup from "yup";
 import useFlashMessages from "@/composables/useFlashMessages";
+import UserClient from "~/app/client/UserClient";
+
+const userClient = new UserClient()
 
 export default {
   data() {
@@ -77,7 +79,7 @@ export default {
   },
   methods: {
     async submit(values, actions) {
-      const result = await user().register(values);
+      const result = await userClient.register(values);
       if (409 === result) {
         actions.setFieldError("email", "Cet email est déjà utilisé");
       }

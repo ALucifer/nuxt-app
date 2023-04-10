@@ -1,10 +1,9 @@
 <template>
-  <section id="all-trophies" class="pb-120">
+  <section v-if="tournaments.length > 0" id="all-trophies" class="pb-120">
     <div class="container">
-      <h3 v-if="user.tournaments.length > 0">Mes tournois</h3>
-      <h3 v-else>Vous n'avez actuellement aucun tournois</h3>
+      <h3>Mes tournois</h3>
       <TournamentCard
-        v-for="item in user.tournaments"
+        v-for="item in tournaments"
         :item="item"
         :key="item.id"
       />
@@ -17,12 +16,14 @@ import TournamentCard from "@/components/TournamentCard";
 
 export default {
   components: { TournamentCard },
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
+  data() {
+    return {
+      tournaments: []
+    }
   },
+  async mounted() {
+
+  }
 };
 </script>
 

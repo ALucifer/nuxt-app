@@ -16,14 +16,14 @@
         id="avatar"
         accept="image/*"
         @change="handleAvatarUpload"
-      />
+      >
     </label>
   </p>
   <nuxt-img
-    :src="src"
-    placeholder="/user-placeholder.png"
-    :class="[$attrs.class ? $attrs.class : 'avatar-img']"
-    v-else
+      :src="src"
+      placeholder="/user-placeholder.png"
+      :class="[$attrs.class ? $attrs.class : 'avatar-img']"
+      v-else
   />
 </template>
 
