@@ -5,7 +5,7 @@
         <li
           v-if="
             conversation.total_messages > 0 ||
-            conversation.id == this.currentConversation.id
+            conversation.id == currentConversation.id
           "
           class="user-list__item"
           @click.prevent="
@@ -38,21 +38,12 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { useConversationStore } from "@/store/conversation";
-import { mapState } from "pinia";
 
-export default {
-  props: {
-    conversations: { type: Array, default: [] },
-  },
-  computed: {
-    ...mapState(useConversationStore, [
-      "getUnreadMessagesByConversationId",
-      "currentConversation",
-    ]),
-  },
-};
+defineProps({ conversations: { type: Array, default: [] }})
+
+const { getUnreadMessagesByConversationId, currentConversation } = useConversationStore()
 </script>
 
 <style lang="scss">

@@ -45,49 +45,40 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import lodash from "lodash";
 
-export default {
-  data() {
-    return {
-      form: {
-        libelle: null,
-        format: null,
-        best_of: null,
-      },
-      boItems: [
-        { id: 1, libelle: "1" },
-        { id: 3, libelle: "3" },
-        { id: 5, libelle: "5" },
-      ],
-      formatItems: [
-        { id: 1, libelle: "1 vs 1" },
-        { id: 2, libelle: "2 vs 2" },
-        { id: 3, libelle: "3 vs 3" },
-        { id: 4, libelle: "4 vs 4" },
-      ],
-    };
-  },
-  emits: ["search"],
-  methods: {
-    search() {
-      // Tips to remove empty string while no solution found
-      if (this.form.libelle === "") {
-        this.form.libelle = null;
-      }
-      this.$emit("search", { form: this.form });
-    },
-    changeFormat(id) {
-      this.form.format = id
-        ? lodash.find(this.formatItems, ["id", id]).libelle
+const form = ref({ libelle: null, format: null, best_of: null })
+const boItems = ref([
+    { id: 1, libelle: "1" },
+    { id: 3, libelle: "3" },
+    { id: 5, libelle: "5" },
+])
+const formatItems = ref([
+    { id: 1, libelle: "1 vs 1" },
+    { id: 2, libelle: "2 vs 2" },
+    { id: 3, libelle: "3 vs 3" },
+    { id: 4, libelle: "4 vs 4" },
+])
+
+const emit = defineEmits(['search'])
+
+function search() {
+    if (form.libelle === "") {
+        form.libelle = null;
+    }
+    emit('search', { form: form })
+}
+
+function changeFormat(id) {
+    form.value.format = id
+        ? lodash.find(formatItems.value, ["id", id]).libelle
         : null;
-    },
-    changeBO(id) {
-      this.form.best_of = id;
-    },
-  },
-};
+}
+
+function changeBO(id) {
+    form.value.best_of = id;
+}
 </script>
 
 <style lang="scss">

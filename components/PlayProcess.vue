@@ -61,10 +61,6 @@
   </section>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style style lang="scss" scoped>
 @import "@/assets/css/components/playProcess.scss";
 </style>

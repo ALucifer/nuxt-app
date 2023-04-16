@@ -10,66 +10,48 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "pinia";
+<script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
 import TournamentTable from "@/components/TournamentTable";
 import TournamentClient from "~/app/client/TournamentClient";
 
 const tournamentClient = new TournamentClient()
 
-export default {
-  components: {
-    TournamentTable,
-  },
-  head() {
-    return {
-      title: `Liste de mes tournois`,
-    };
-  },
-  data() {
-    return {
-      myTournaments: {
-        loaded: false,
-        items: [],
-        query: "mytournament",
-        pagination: {
-          pages: 0,
-          range: 10,
-        },
-      },
-    };
-  },
-  computed: {
-    ...mapState(useAuthStore, ["user"]),
-    queryParamValue() {
-      return this.$route.query.mytournament || 1;
-    },
-  },
-  watch: {
-    queryParamValue(newValue) {
-      this.fetchTournament();
-    },
-  },
-  async created() {
-    await this.fetchTournament();
-  },
-  methods: {
-    fetchTournament() {
-      tournamentClient.all(
-          {
-          user: this.user.id,
-          pagination: this.myTournaments.pagination.range,
-          page: this.queryParamValue,
-        }
-      ).then((result) => {
-          this.myTournaments.items = result.data;
-          this.myTournaments.pagination.pages = Math.ceil(
-            result.total / this.myTournaments.pagination.range
-          );
-          this.myTournaments.loaded = true;
-        });
-    },
-  },
-};
+useHead({
+    title: 'Liste de mes tournois'
+})
+
+const route = useRoute()
+const myTournaments = ref({
+    loaded: false,
+    items: [],
+    query: 'mytournament',
+    pagination: {
+        page: 0,
+        range: 10,
+    }
+})
+
+const { user } = useAuthStore()
+
+function fetchTournament() {
+  tournamentClient.all(
+    {
+      user: user.id,
+      pagination: myTournaments.value.pagination.range,
+      page: queryParamValue.value,
+    }
+  ).then((result) => {
+    myTournaments.value.items = result.data;
+    myTournaments.value.pagination.pages = Math.ceil(
+        result.total / myTournaments.value.pagination.range
+    );
+    myTournaments.value.loaded = true;
+  });
+}
+
+const queryParamValue = computed(() => route.query[myTournaments.value.query] || 1)
+watch(queryParamValue, () => fetchTournament())
+fetchTournament()
+
 </script>

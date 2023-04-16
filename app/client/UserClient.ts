@@ -2,11 +2,16 @@ import AbstractClient from "~/app/client/DefaultClient";
 
 export default class UserClient extends AbstractClient {
     async register(form: { email: string, pseudo: string, password: string, password_confirmation: string}) {
-        const { status } = await this.axiosInstance.post(
-            "http://127.0.0.1:3333/users/register",
-            form,
-        )
-        return status
+        console.log('ok')
+        try {
+            const { status } = await this.axiosInstance.post(
+                "http://127.0.0.1:3333/users/register",
+                form,
+            )
+            return status
+        } catch (e) {
+            return e.response.status
+        }
     }
 
     async get(id: number) {

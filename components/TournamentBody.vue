@@ -10,7 +10,7 @@
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import Overview from "@/components/tournament/Overview";
 import Bracket from "@/components/tournament/Bracket";
 import Players from "@/components/tournament/Players";
@@ -18,17 +18,10 @@ import Matches from "@/components/tournament/Matches";
 import Suivi from "@/components/tournament/Suivi";
 import useTournamentHeader from "~~/composables/useTournamentHeader";
 
-export default {
-  components: { Overview, Bracket, Players, Matches, Suivi },
-  setup() {
-    const tournament = inject("tournament");
+const tournament = inject("tournament");
 
-    const { isOwner, userHasMatches, hasMatches } =
-      useTournamentHeader(tournament);
-
-    return { tournament, isOwner, userHasMatches, hasMatches };
-  },
-};
+const { isOwner, userHasMatches, hasMatches } =
+    useTournamentHeader(tournament)
 </script>
 
 <style lang="scss">

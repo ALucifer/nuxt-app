@@ -4,9 +4,9 @@
       <div class="card__format card__format--light">
         <div class="rows m-5">
           <AppForm @submit="submit" :validation-schema="schema">
-            <AppAvatar
+            <img
               :src="'data:image/svg+xml;base64,' + avatar"
-              @click.prevent="generate()"
+              @click.prevent="generateAvatar()"
               class="card__avatar"
             />
             <div class="form-group my-5">
@@ -25,94 +25,83 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { identicon } from "minidenticons";
-import { mapActions } from "pinia";
-import { useTournamentStore } from "~/store/tournament";
 import useFlashMessages from "@/composables/useFlashMessages";
 import * as yup from "yup";
+import {useTournamentStore} from "~/store/tournament";
 
 definePageMeta({
   middleware: "auth",
 });
 
-export default {
-  name: "tournamentRegister",
-  head() {
-    return {
-      title: "Inscription au tournoi",
-      description: "Page d'inscription à un tournoi.",
-    };
-  },
-  setup() {
-    const { addMessage } = useFlashMessages();
-    return { addMessage };
-  },
-  data() {
-    const schema = yup.object({
-      libelle: yup.string().required("Le nom de votre équipe est obligatoire."),
-    });
-    return {
-      schema,
-      avatar: "",
-      tournament_id: this.$route.params.id,
-    };
-  },
-  created() {
-    this.generate();
-  },
-  methods: {
-    generate() {
-      let result = "";
-      let characters =
+useHead({
+    title: "Inscription au tournoi",
+    description: "Page d'inscription à un tournoi.",
+})
+
+const { addMessage } = useFlashMessages();
+const { register } = useTournamentStore()
+const route = useRoute()
+const router = useRouter()
+const schema = yup.object({
+    libelle: yup.string().required("Le nom de votre équipe est obligatoire."),
+})
+
+const avatar = ref()
+
+function generateAvatar() {
+    let result = "";
+    let characters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      let charactersLength = characters.length;
-      for (var i = 0; i < 15; i++) {
+    let charactersLength = characters.length;
+    for (var i = 0; i < 15; i++) {
         result += characters.charAt(
-          Math.floor(Math.random() * charactersLength)
+            Math.floor(Math.random() * charactersLength)
         );
-      }
-      const svg = identicon(result);
-      const encoded = btoa(svg);
-      this.avatar = encoded;
-    },
-    async submit(values) {
-      values.avatar = this.avatar;
-      values.tournament_id = this.tournament_id;
-      const result = await this.register(values);
-      let message = "";
-      let classCss = "";
-      if (result === 406) {
-        message = "Le nombre maximal d'inscrit a déjà été atteint.";
-        classCss = "error";
-      } else if (result === 409) {
-        message = "Vous êtes déjà inscrit à ce tournoi.";
-        classCss = "warning";
-      } else if (result === 422) {
-        this.addMessage({
-          message:
-            "Le nom d'équipe <b>" + values.libelle + "</b> est déjà utilisé.",
-          class: "error",
-        });
-        return;
-      } else if (result === 403) {
-        message =
-          "Le tournoi est fermé, il vous est impossible de vous enregistré.";
-        classCss = "error";
-      } else {
-        message =
-          "Vous êtes bien inscrit sous l'équipe <b>" + values.libelle + "</b>";
-        classCss = "success";
-      }
-      this.addMessage({ message: message, class: classCss });
-      this.$router.push({
-        name: "tournois-id",
-        params: { id: this.tournament_id },
+    }
+    const svg = identicon(result);
+    const a = btoa(svg)
+    avatar.value = a;
+}
+
+async function submit(values) {
+    values.avatar = avatar.value;
+    values.tournament_id = route.params.id;
+    const result = await register(values);
+
+    let message = "";
+    let classCss = "";
+    if (result === 406) {
+      message = "Le nombre maximal d'inscrit a déjà été atteint.";
+      classCss = "error";
+    } else if (result === 409) {
+      message = "Vous êtes déjà inscrit à ce tournoi.";
+      classCss = "warning";
+    } else if (result === 422) {
+      addMessage({
+        message:
+          "Le nom d'équipe <b>" + values.libelle + "</b> est déjà utilisé.",
+        class: "error",
       });
-    },
-    ...mapActions(useTournamentStore, ["register"]),
-  },
-};
+      return;
+    } else if (result === 403) {
+      message =
+        "Le tournoi est fermé, il vous est impossible de vous enregistré.";
+      classCss = "error";
+    } else {
+      message =
+        "Vous êtes bien inscrit sous l'équipe <b>" + values.libelle + "</b>";
+      classCss = "success";
+    }
+    addMessage({ message: message, class: classCss });
+    return router.push({
+      name: "tournois-id",
+      params: { id: route.params.id },
+    });
+}
+
+onMounted(() => generateAvatar())
 </script>
 
 <style lang="scss">

@@ -4,17 +4,8 @@
   </div>
 </template>
 
-<script>
-import Trophy from "@/components/profile/Trophy";
-import { defineAsyncComponent } from 'vue'
-
-export default {
-  components: {
-    UserStatistiques: defineAsyncComponent(() => {
-      import('@/components/UserStatistiques.vue')
-    }),
-    Trophy },
-};
+<script setup lang="ts">
+import UserStatistiques from "~/components/UserStatistiques.vue";
 </script>
 
 <style></style>

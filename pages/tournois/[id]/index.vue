@@ -1,48 +1,42 @@
 <template>
-  <div>
-    <TournamentResume v-if="loaded" />
-    <div class="container my-4" v-else>
-      <div class="col-10 mx-auto">
-        <AppLoader />
-      </div>
+    <div>
+        <ClientOnly>
+            <TournamentResume v-if="loaded" />
+            <div class="container my-4" v-else >
+                <div class="col-10 mx-auto">
+                    <AppLoader />
+                </div>
+            </div>
+        </ClientOnly>
     </div>
-  </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import TournamentResume from "@/components/TournamentResume";
 import { useTournamentStore } from "~/store/tournament";
-import { mapState } from "pinia";
 
-export default defineNuxtComponent({
-  components: { TournamentResume },
-  data() {
-    return {
-      loaded: false,
-    };
-  },
-  provide() {
-    return {
-      tournament: computed(() => this.currentTournament),
-    };
-  },
-  computed: {
-    ...mapState(useTournamentStore, ["currentTournament"]),
-  },
-  async asyncData({ $pinia }) {
-    const route = useRoute();
-    const tournamentStore = useTournamentStore($pinia);
-    await tournamentStore.fetchItem(route.params.id);
+const loaded = ref(false)
+const tournamentStore = useTournamentStore()
+const route = useRoute()
+const router = useRouter()
 
-    return {};
-  },
-  mounted() {
-    if (!this.currentTournament) {
-      return this.$router.push({ name: "index" });
+await useAsyncData(async() => {
+  await tournamentStore.fetchItem(route.params.id)
+
+  loaded.value = true
+})
+
+onMounted(() => {
+    if (!tournamentStore.currentTournament) {
+        router.push({ name: 'index' })
     }
+})
 
-    this.loaded = true;
-  },
-});
+const tournament = ref(tournamentStore.currentTournament)
+useSeoMeta({
+    titleTemplate: 'Tournoi: %s',
+    title: tournament.value.libelle,
+    description: 'test'
+})
+provide('tournament', tournament)
 </script>
-<style scoped></style>

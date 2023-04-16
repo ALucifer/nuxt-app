@@ -42,25 +42,12 @@
   </AppBanner>
 </template>
 
-<script>
+<script setup lang="ts">
 import { useAuthStore } from "../store/auth";
-import { mapActions } from "pinia";
 
-export default {
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-    isOwnProfile: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  methods: {
-    ...mapActions(useAuthStore, ["changeAvatar"]),
-  },
-};
+defineProps({ user: { type: Object, required: true }, isOwnProfile: { type: Boolean, default: false }})
+
+const { changeAvatar } = useAuthStore()
 </script>
 
 <style lang="scss">

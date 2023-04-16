@@ -39,32 +39,16 @@
   </Carousel>
 </template>
 
-<script>
+<script setup lang="ts">
 // If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
 import { Carousel, Slide, Navigation } from "vue3-carousel";
 import CounterTournament from "@/components/CounterTournament";
 import "vue3-carousel/dist/carousel.css";
 
-export default {
-  name: "App",
-  components: {
-    Carousel,
-    Slide,
-    Navigation,
-    CounterTournament,
-  },
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    getClass(isRegisterOpen) {
-      return isRegisterOpen ? "" : "text-danger";
-    },
-  },
-};
+defineProps({ items: { type: Array, required: true }})
+function getClass(isRegisterOpen) {
+   return isRegisterOpen ? "" : "text-danger";
+}
 </script>
 
 <style lang="scss">

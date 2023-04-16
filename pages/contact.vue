@@ -43,21 +43,11 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import ContactForm from "@/components/ContactForm";
 
-export default {
-  name: "Contact",
-  components: {
-    ContactForm,
-  },
-  head() {
-    return {
-      title: "Spots : Contact",
-      description: "Page de contact.",
-    };
-  },
-};
+useHead({
+  title: "Spots : Contact",
+  description: "Page de contact."
+})
 </script>
-
-<style></style>

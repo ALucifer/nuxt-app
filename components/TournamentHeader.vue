@@ -53,64 +53,36 @@
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import dayjs from "dayjs";
 import { useAuthStore } from "@/store/auth";
-import { mapState, mapActions } from "pinia";
-import { useTournamentStore } from "../store/tournament";
-import lodash from "lodash";
 import useFlashMessages from "@/composables/useFlashMessages";
 import useTournamentHeader from "~~/composables/useTournamentHeader";
+import {useTournamentStore} from "~/store/tournament";
 
-export default {
-  data() {
-    return {
-      formattedAt: dayjs(this.tournament.begin_at).format(
-        "D MMMM, YYYY h:mm A"
-      ),
-      bracketLoading: false,
-    };
-  },
-  setup() {
-    const { addMessage } = useFlashMessages();
-    const tournament = inject("tournament");
+const tournament = inject('tournament')
+const { isOwner, isHalf, isRegister, userHasMatches, hasMatches } =
+    useTournamentHeader(tournament.value)
+const { addMessage } = useFlashMessages()
+const authStore = useAuthStore()
+const { start, unsubscribe } = useTournamentStore()
 
-    const { isOwner, isHalf, isRegister, userHasMatches, hasMatches } =
-      useTournamentHeader(tournament);
+const bracketLoading = ref(false)
+const formattedAt = computed(() => dayjs(tournament.value.begin_at).format("D MMMM, YYYY h:mm A"))
+const user = computed(() => authStore.user)
+function isOpen() {
+    return (tournament.value.state === "OPEN" && tournament.value.challonge_id !== null)
+}
 
-    return {
-      addMessage,
-      tournament,
-      isOwner,
-      isHalf,
-      isRegister,
-      userHasMatches,
-      hasMatches,
-    };
-  },
-  computed: {
-    ...mapState(useAuthStore, ["user", "isAuthenticated"]),
-  },
-  methods: {
-    isOpen: function () {
-      return (
-        this.tournament.state === "OPEN" &&
-        this.tournament.challonge_id !== null
-      );
-    },
-    generate: async function () {
-      this.bracketLoading = true;
-      await this.start(this.tournament);
-      this.addMessage({
+async function generate() {
+    bracketLoading.value = true;
+    await start(tournament.value);
+    addMessage({
         class: "success",
         message: "Génération de l'arbre réussi.",
-      });
-      this.bracketLoading = false;
-    },
-    ...mapActions(useTournamentStore, ["start", "unsubscribe"]),
-    ...mapActions(useAuthStore, ["loadUserMatchs"]),
-  },
-};
+    });
+    bracketLoading.value = false;
+}
 </script>
 
 <style lang="scss">

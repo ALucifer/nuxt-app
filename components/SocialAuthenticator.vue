@@ -19,18 +19,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    message: {
-      type: String,
-      required: true,
-    },
-    googleClick: {
-      type: Object,
-    },
-  },
-};
+<script setup lang="ts">
+defineProps({
+    message: {type: String, required: true},
+    googleClick: {type: Object}
+})
 </script>
 
 <style lang="scss" scoped>

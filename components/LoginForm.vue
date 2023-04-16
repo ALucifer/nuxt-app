@@ -41,41 +41,29 @@
   </AppForm>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions, mapState } from "pinia";
 import { useAuthStore } from "@/store/auth";
 import * as yup from "yup";
 
-export default {
-  data() {
-    const schema = yup.object({
-      email: yup.string().required("Email requis."),
-      password: yup.string().required("Mot de passe requis."),
-    });
-    return {
-      schema,
-      error: false,
-      isSubmitting: false,
-    };
-  },
-  computed: {
-    ...mapState(useAuthStore, ["isAuthenticated"]),
-  },
-  methods: {
-    async submit(values) {
-      this.isSubmitting = true;
-      const result = await this.login({ form: values });
-      if (result) {
-        const redirectTo = this.$route.query.redirectTo || { name: "profile" };
-        this.isSubmitting = false;
-        this.$router.push(redirectTo);
-      }
-      this.isSubmitting = false;
-      this.error = true;
-    },
-    ...mapActions(useAuthStore, ["login"]),
-  },
-};
+const schema = yup.object({
+    email: yup.string().required("Email requis."),
+    password: yup.string().required("Mot de passe requis."),
+})
+const error = ref(false)
+const isSubmitting = ref(false)
+const { login }  = useAuthStore()
+const router = useRouter()
+
+async function submit(values) {
+    isSubmitting.value = true;
+    const result = await login({ form: values })
+    if (result) {
+        isSubmitting.value = false;
+        router.push(router.currentRoute.value.query.redirectTo || { name: 'profile' })
+    }
+    isSubmitting.value = false
+}
 </script>
 
 <style>

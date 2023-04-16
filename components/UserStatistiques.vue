@@ -11,20 +11,10 @@
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import TournamentCard from "@/components/TournamentCard";
 
-export default {
-  components: { TournamentCard },
-  data() {
-    return {
-      tournaments: []
-    }
-  },
-  async mounted() {
-
-  }
-};
+const tournaments = ref([])
 </script>
 
 <style></style>

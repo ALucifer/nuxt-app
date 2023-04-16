@@ -46,37 +46,31 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import SearchClient from "~/app/client/SearchClient";
 
 const searchClient = new SearchClient()
 
-export default {
-  data() {
-    return {
-      text: "",
-      searching: false,
-      users: [],
-      searchCount: 0,
-    };
-  },
-  methods: {
-    async suggestUsers() {
-      this.searching = false;
-      if (this.isValidSearch()) {
-        this.searching = true;
-        this.users = await searchClient.user(this.text);
-        this.searching = false;
-      }
-    },
-    isValidSearch() {
-      return this.text.length >= 4;
-    },
-    userNotFound() {
-      return this.users.length <= 0 && this.isValidSearch();
-    },
-  },
-};
+const text = ref('')
+const searching = ref(false)
+const users = ref([])
+
+function isValidSearch() {
+    return text.value.length >= 4
+}
+
+function userNotFound() {
+    return users.value.length <= 0 && isValidSearch()
+}
+
+async function suggestUsers() {
+    searching.value = false;
+    if (isValidSearch()) {
+        searching.value = true;
+        users.value = await searchClient.user(text.value);
+        searching.value = false;
+    }
+}
 </script>
 
 <style>

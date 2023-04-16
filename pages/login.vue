@@ -27,45 +27,29 @@
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import LoginForm from "@/components/LoginForm";
 import SocialAuthenticator from "@/components/SocialAuthenticator";
 import SocialProvider from "~/app/client/oauth/SocialProvider";
 import ProviderDTO from "~/app/client/oauth/DTO/ProviderDTO";
 
-export default {
-  name: "Login",
-  components: { LoginForm, SocialAuthenticator },
-  setup() {
-    useHead({
-      title: "Connexion",
-      script: [
-        {
-          hid: "google",
-          src: "https://accounts.google.com/gsi/client",
-          async: true,
-          defer: true,
-        },
-      ],
-    });
-  },
-  data() {
-    return {
-      googleClick: null,
-      googleLoaded: false,
-      loaded: false,
-    };
-  },
-  mounted() {
-    this.loaded = true
-  },
-  methods: {
-    loadGoogle () {
-      this.googleClick = (new SocialProvider()).init(ProviderDTO.google())
-      this.loaded = true
-    }
-  }
-};
+useHead({
+  title: "Connexion",
+  script: [
+    {
+      hid: "google",
+      src: "https://accounts.google.com/gsi/client",
+      async: true,
+      defer: true,
+    },
+  ]
+})
+const googleClick = ref()
+const loaded = ref(false)
+function loadGoogle() {
+    googleClick.value = (new SocialProvider()).init(ProviderDTO.google())
+    loaded.value = true
+}
 </script>
 
 <style lang="scss">

@@ -23,18 +23,13 @@
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import RegisterForm from "@/components/RegisterForm";
 import SocialAuthenticator from "@/components/SocialAuthenticator";
-export default {
-  name: "Register",
-  head() {
-    return {
-      title: "Inscription",
-    };
-  },
-  components: { RegisterForm, SocialAuthenticator },
-};
+
+useHead({
+    title: 'Inscription'
+})
 </script>
 
 <style lang="scss" scoped>
