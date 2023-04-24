@@ -17,24 +17,16 @@
   </AppTabPane>
 </template>
 
-<script>
-import { inject } from "vue";
+<script setup lang="ts">
+const tournament = inject('tournament')
 
-export default {
-  setup() {
-    const tournament = inject("tournament");
-    return { tournament: tournament.value };
-  },
-  methods: {
-    getAvatar(avatar) {
-      if (avatar) {
-        return "data:image/svg+xml;base64," + avatar;
-      }
+function getAvatar(avatar) {
+  if (avatar) {
+    return "data:image/svg+xml;base64," + avatar;
+  }
 
-      return avatar;
-    },
-  },
-};
+  return avatar;
+}
 </script>
 
 <style lang="scss">

@@ -37,18 +37,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Trophy",
-  props: {
-    user: {
-      type: Object,
-      required: false,
-    },
-  },
-}
+<script setup lang="ts">
+defineProps({ user: { type: Object, required: false}})
 </script>
-
-<style scoped>
-
-</style>

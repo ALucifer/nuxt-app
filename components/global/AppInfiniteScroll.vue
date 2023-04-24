@@ -1,7 +1,37 @@
 <template>
   <div class="inersection-observer"></div>
 </template>
-<script>
+<script setup lang="ts">
+const props = defineProps({ done: { type: Boolean, default: false}})
+const emit = defineEmits(['load'])
+const root = ref(null)
+
+let observer = reactive({})
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            emit("load");
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "10px",
+        threshold: 0.8,
+    })
+
+  observer.observe(ref)
+})
+/*
+onUnmounted(() => observer.unobserve(ref))
+watch(
+    () => props.done,
+    () => observer.unobserve(ref)
+)
+/*
 export default {
   props: {
     done: { type: Boolean, default: false },
@@ -37,6 +67,7 @@ export default {
     },
   },
 };
+ */
 </script>
 <style scoped>
 div {

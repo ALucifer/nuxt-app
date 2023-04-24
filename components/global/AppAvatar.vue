@@ -27,19 +27,16 @@
   />
 </template>
 
-<script>
-export default {
-  props: {
-    src: { type: String },
-    editable: { type: Boolean, default: false },
-  },
-  emits: ["change"],
-  methods: {
-    handleAvatarUpload(event) {
-      this.$emit("change", event);
-    },
-  },
-};
+<script setup lang="ts">
+defineProps({
+  src: { type: String },
+  editable: { type: Boolean, default: false },
+})
+
+const emit = defineEmits(['change'])
+function handleAvatarUpload(event) {
+  emit("change", event);
+}
 </script>
 <style>
 img {

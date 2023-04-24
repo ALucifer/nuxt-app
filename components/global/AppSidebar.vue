@@ -17,7 +17,7 @@
           </NuxtLink>
         </li>
         <li class="sidebar--menu-item">
-          <button @click="auth_logout()" class="link-action--full text-start">
+          <button @click="logout()" class="link-action--full text-start">
             <logout-icon class="me-2" />
             <span>Se deconnecter</span>
           </button>
@@ -27,17 +27,21 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import useSidebar from "@/composables/useSidebar";
-import auth from "~~/mixins/auth";
+import {useAuthStore} from "~/store/auth";
 
-export default {
-  setup() {
-    const { isOpen, toggle } = useSidebar();
-    return { isOpen, toggle };
-  },
-  mixins: [auth],
-};
+const { isOpen, toggle } = useSidebar();
+const router = useRouter()
+
+function logout () {
+  const { logout } = useAuthStore()
+  const { close } = useSidebar()
+
+  logout()
+  close()
+  router.push({ name: 'index' })
+}
 </script>
 
 <style lang="scss">

@@ -8,24 +8,13 @@
   <AppErrorMessage class="error" :name="name" />
 </template>
 
-<script>
+<script setup lang="ts">
 import Datepicker from "@vuepic/vue-datepicker";
 
-export default {
-  components: { Datepicker },
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      date: null,
-    };
-  },
-  emits: ["change"],
-};
+defineProps({ name: { type: String, required: true }})
+defineEmits(['change'])
+
+const data = ref(null)
 </script>
 
 <style lang="scss">

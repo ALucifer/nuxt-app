@@ -16,28 +16,13 @@
   </li>
 </template>
 
-<script>
-import { mapActions } from "pinia";
+<script setup lang="ts">
 import { useTabStore } from "@/store/tab";
 
-export default {
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    libelle: {
-      type: String,
-      required: false,
-    },
-  },
-  methods: {
-    ...mapActions(useTabStore, [
-      "isActiveTabByKeyName",
-      "setActiveTabByKeyName",
-    ]),
-  },
-};
-</script>
+defineProps({
+  name: { type: String, required: true},
+  libelle: { type: String, required: false }
+})
 
-<style></style>
+const { isActiveTabByKeyName, setActiveTabByKeyName } = useTabStore()
+</script>

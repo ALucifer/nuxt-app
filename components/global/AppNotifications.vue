@@ -14,15 +14,10 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import useFlashMessages from "@/composables/useFlashMessages";
 
-export default {
-  setup() {
-    const { messages, removeMessage } = useFlashMessages();
-    return { messages, removeMessage };
-  },
-};
+const { messages, removeMessage } = useFlashMessages();
 </script>
 
 <style scoped>

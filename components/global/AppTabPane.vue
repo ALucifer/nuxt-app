@@ -16,19 +16,16 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { useTabStore } from "~~/store/tab";
 import { mapActions } from "pinia";
 
-export default {
-  props: {
-    name: { type: String, required: true },
-    tabName: { type: String, require: true },
-  },
-  methods: {
-    ...mapActions(useTabStore, ["isActiveTabByKeyName"]),
-  },
-};
+defineProps({
+  name: { type: String, required: true },
+  tabName: { type: String, require: true },
+})
+
+const { isActiveTabByKeyName } = useTabStore()
 </script>
 
 <style></style>
