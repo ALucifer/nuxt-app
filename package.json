@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@nuxt/image-edge": "^1.0.0-27954023.4cee565",
+    "cypress": "^12.10.0",
     "nuxt": "^3.2.2",
     "sass": "^1.54.7",
     "sass-loader": "10"
