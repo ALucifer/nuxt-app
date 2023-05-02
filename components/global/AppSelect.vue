@@ -30,39 +30,33 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    libelle: {
-      type: String,
-      required: true,
-    },
-    items: {
-      type: Array,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
+<script setup lang="ts">
+
+const props = defineProps({
+  libelle: {
+    type: String,
+    required: true,
   },
-  emits: ["change"],
-  data() {
-    return {
-      open: false,
-      customLibelle: null,
-    };
+  items: {
+    type: Array,
+    required: true,
   },
-  methods: {
-    change(item) {
-      this.customLibelle = null;
-      if (item.libelle) {
-        this.customLibelle = item.libelle;
-      }
-      this.$emit("change", { value: item.id });
-    },
+  name: {
+    type: String,
+    required: true,
   },
-};
+})
+const emit = defineEmits(['change'])
+
+const open = ref(false)
+const customLibelle = ref(null)
+
+function change(item) {
+  customLibelle.value = null
+  if (item.libelle) {
+    customLibelle.value = item.libelle
+  }
+  emit('change', { value: item.id})
+}
 </script>
 
-<style></style>

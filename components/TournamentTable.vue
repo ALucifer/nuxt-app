@@ -38,15 +38,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    params: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+<script setup lang="ts">
+defineProps({ params: { type: Object, required: true }})
 </script>
 
 <style></style>

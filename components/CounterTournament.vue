@@ -2,7 +2,7 @@
   <div class="tournament-counter">
     <div class="time-parameter left">
       <h5>{{ dayBeginAt }}</h5>
-      <span>{{ mounthBeginAt }}</span>
+      <span>{{ monthBeginAt }}</span>
     </div>
     <div class="tournament-counter__date-area head">
       <div class="d-flex justify-content-center" :data-countdown="formattedAt">
@@ -21,24 +21,14 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import dayjs from "dayjs";
 
-export default {
-  props: {
-    beginAt: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      formattedAt: dayjs(this.beginAt).format("YYYY/MM/DD"),
-      dayBeginAt: dayjs(this.beginAt).format("DD"),
-      mounthBeginAt: dayjs(this.beginAt).format("MMM"),
-    };
-  },
-};
+const props = defineProps({ beginAt: { type: String, required: true }})
+
+const formattedAt = ref(dayjs(props.beginAt).format('YYYY/MM/DD'))
+const dayBeginAt = ref(dayjs(props.beginAt).format('DD'))
+const monthBeginAt = ref(dayjs(props.beginAt).format('MMM'))
 </script>
 
 <style lang="scss">

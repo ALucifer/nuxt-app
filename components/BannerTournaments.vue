@@ -1,30 +1,17 @@
 <template>
   <AppBanner>
     <template v-slot:content>
-      <carousel v-show="items.length > 0" :items="items" />
+      <Carousel :items="highlighted" />
     </template>
   </AppBanner>
 </template>
 
-<script>
-import Carousel from "@/components/Carousel";
+<script setup lang="ts">
+import { useTournamentStore } from "~/store/tournament";
+import Carousel from "~/components/Carousel.vue";
 
-export default {
-  components: {
-    Carousel,
-  },
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    getClass(isRegisterOpen) {
-      return isRegisterOpen ? "" : "text-danger";
-    },
-  },
-};
+const tournamentStore = useTournamentStore()
+const highlighted = computed(() => tournamentStore.highlighted)
 </script>
 
 <style></style>

@@ -29,7 +29,7 @@
   </AppTabPane>
 </template>
 
-<script>
+<script setup lang="ts">
 import MatchCard from "@/components/MatchCard.vue";
 import { mapState } from "pinia";
 import { useAuthStore } from "~~/store/auth";
@@ -37,31 +37,21 @@ import { filter } from "lodash";
 import MatchModal from "@/components/MatchModal.vue";
 import useMatchModal from "~~/composables/useMatchModal";
 
-export default {
-  components: { MatchCard, MatchModal },
-  inject: ["tournament"],
-  setup() {
-    const { setMatch } = useMatchModal();
-    return { setMatch };
-  },
-  computed: {
-    ...mapState(useAuthStore, {
-      user: "getUser",
-    }),
-    matches() {
-      return filter(
-        this.tournament.value.matches,
-        (m) =>
-          m.adversaire_a === this.user.id || m.adversaire_b === this.user.id
-      );
-    },
-  },
-  methods: {
-    getTeam(user_id, teams) {
-      return teams.find((team) => team.user_id == user_id);
-    },
-  },
-};
+const tournament = inject('tournament')
+const { setMatch } = useMatchModal()
+const { user } = useAuthStore()
+
+const matches = computed(() => {
+  return filter(
+      tournament.value.matches,
+      (m) =>
+          m.adversaire_a === user.id || m.adversaire_b === user.id
+  )
+})
+
+function getTeam(user_id, teams) {
+  return teams.find((team) => team.user_id == user_id);
+}
 </script>
 
 <style lang="scss">

@@ -36,50 +36,38 @@
   </AppForm>
 </template>
 
-<script>
-import { contact } from "@/client/contact";
+<script setup lang="ts">
 import useFlashMessages from "@/composables/useFlashMessages";
 import * as yup from "yup";
+import ContactClient from "~/app/client/ContactClient";
 
-export default {
-  data() {
-    const schema = yup.object({
-      email: yup
+const contactClient = new ContactClient()
+const { addMessage } = useFlashMessages();
+const schema = yup.object({
+    email: yup
         .string()
         .required("Email requis.")
         .email("Votre email n'est pas valide (exemple: john@doe.com)"),
-      name: yup.string().required("Pseudo requis."),
-      message: yup
+    name: yup.string().required("Pseudo requis."),
+    message: yup
         .string()
         .required("Veuillez entrer un message pour pouvoir l'envoyer.")
         .min(30, "Votre message doit contenir 30 charactères minimum."),
-    });
-    return {
-      schema,
-    };
-  },
-  setup() {
-    const { addMessage } = useFlashMessages();
-    return { addMessage };
-  },
-  methods: {
-    async submit(values, { resetForm }) {
-      const result = await contact().post(values);
-      if (200 === result) {
-        this.addMessage({
-          message: "Votre demande à bien été envoyé",
-          class: "success",
-        });
-        resetForm();
-      } else {
-        this.addMessage({
-          message: "Une erreur est survenu",
-          class: "error",
-        });
-      }
-    },
-  },
-};
+});
+
+async function submit(values, { resetForm }) {
+  const result = await contactClient.post(values)
+  let message = "Votre demande à bien été envoyé"
+  let cssClass = "success"
+
+  if (200 !== result) {
+      message = "Une erreur est survenu"
+      cssClass = "error"
+  }
+
+  addMessage({message, class: cssClass})
+  resetForm()
+}
 </script>
 
 <style>

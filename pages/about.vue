@@ -32,16 +32,9 @@
   </section>
 </template>
 
-<script>
-export default {
-  name: "About",
-  head() {
-    return {
-      title: "A propos de Spots",
-      description: "Page d'information sur le site Spots.",
-    };
-  },
-};
+<script setup lang="ts">
+useHead({
+  title: "A propos de Spots",
+  description: "Page d'information sur le site Spots."
+})
 </script>
-
-<style></style>

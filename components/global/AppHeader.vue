@@ -43,23 +43,23 @@
                   />
                 </a>
               </li>
-              <li v-if="!isAuthenticated">
+              <li v-if="!authStore.isAuthenticated">
                 <NuxtLink :to="{ name: 'login' }">Login</NuxtLink>
               </li>
-              <li v-if="!isAuthenticated">
+              <li v-if="!authStore.isAuthenticated">
                 <NuxtLink :to="{ name: 'register' }">Inscription</NuxtLink>
               </li>
-              <li v-if="isAuthenticated">
+              <li v-if="authStore.isAuthenticated">
                 <NuxtLink :to="{ name: 'profile' }">Profile</NuxtLink>
               </li>
-              <li v-if="isAuthenticated">
-                <a @click.prevent="logout()">Deconnexion</a>
+              <li v-if="authStore.isAuthenticated">
+                <a @click.prevent="authStore.logout()">Deconnexion</a>
               </li>
             </ul>
           </div>
         </nav>
         <div class="d-none d-lg-flex right-area nav-menu__actions">
-          <div class="search-icon" v-if="isAuthenticated">
+          <div class="search-icon" v-if="authStore.isAuthenticated">
             <button
               class="button--action"
               @click.stop="searchGlobalActive = true"
@@ -69,24 +69,24 @@
           </div>
 
           <NuxtLink
-            v-if="!isAuthenticated"
+            v-if="!authStore.isAuthenticated"
             :to="{ name: 'login' }"
             class="login-btn"
             >Login</NuxtLink
           >
           <NuxtLink
-            v-if="!isAuthenticated"
+            v-if="!authStore.isAuthenticated"
             :to="{ name: 'register' }"
             class="cmn-btn"
             >Inscription</NuxtLink
           >
-          <a v-if="isAuthenticated" href="#" class="user-link">
+          <a v-if="authStore.isAuthenticated" href="#" class="user-link">
             <div class="user-link__heading" @click.prevent="toggle()">
               <span class="">
                 {{ user.pseudo }}
               </span>
               <nuxt-img
-                :src="user.avatar"
+                :src="avatar"
                 placeholder="/user-placeholder.png"
                 alt=""
                 class="user-link__picture"
@@ -103,42 +103,18 @@
   />
 </template>
 
-<script>
+<script setup lang="ts">
 import SearchGlobal from "@/components/SearchGlobal";
-import { NotificationRegister } from "@/services/sse";
 import { useAuthStore } from "@/store/auth";
-import { useConversationStore } from "~~/store/conversation";
-import { mapState, mapActions } from "pinia";
 import useSidebar from "@/composables/useSidebar";
 
-export default {
-  components: { SearchGlobal },
-  data() {
-    return {
-      userDropdownActive: false,
-      searchGlobalActive: false,
-    };
-  },
-  setup() {
-    const { toggle } = useSidebar();
-    return { toggle };
-  },
-  computed: {
-    ...mapState(useAuthStore, {
-      user: "getUser",
-      isAuthenticated: "isAuthenticated",
-    }),
-    ...mapState(useConversationStore, ["getUnreadMessagesByConversationId"]),
-  },
-  methods: {
-    ...mapActions(useAuthStore, ["logout"]),
-  },
-  mounted() {
-    if (this.user.id) {
-      NotificationRegister.registerToNewTeam(this.user);
-    }
-  },
-};
+const { toggle } = useSidebar()
+const authStore = useAuthStore()
+const searchGlobalActive = ref(false)
+
+const user = computed(() => authStore.user)
+
+const avatar = computed(() => user?.value.avatar ?? '/')
 </script>
 <style lang="scss">
 @import "@/assets/css/components/global/AppHeader.scss";

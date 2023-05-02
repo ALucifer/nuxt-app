@@ -10,9 +10,7 @@
   <div class="chat-container chat__container" ref="chat__container">
     <ul class="chat-box chatContainerScroll">
       <li
-        v-for="(message, i) in this.getMessagesByConversationId(
-          currentConversation.id
-        )"
+        v-for="(message, i) in getMessagesByConversationId(currentConversation.id)"
         class="chat__message"
         v-observe="{
           callback: messageRead,
@@ -69,39 +67,27 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { useConversationStore } from "@/store/conversation";
-import { mapState, mapActions } from "pinia";
 
-export default {
-  data() {
-    return {
-      message: "",
-    };
-  },
-  computed: {
-    ...mapState(useConversationStore, ["currentConversation"]),
-  },
-  emits: ["newMessage"],
-  methods: {
-    async send() {
-      if (this.currentConversation.id === 0) {
-        await this.sendMessageToNewConversation({ text: this.message });
-      } else {
-        await this.sendMessage({ text: this.message });
-      }
-      this.message = "";
-      this.$emit("newMessage");
-    },
-    ...mapActions(useConversationStore, [
-      "sendMessage",
-      "sendMessageToNewConversation",
-      "isOwnMessage",
-      "messageRead",
-      "getMessagesByConversationId",
-    ]),
-  },
-};
+const message = ref('')
+const {
+    currentConversation, sendMessage, sendMessageToNewConversation,
+    isOwnMessage, messageRead, getMessagesByConversationId
+} = useConversationStore()
+
+const emit = defineEmits(['newMessage'])
+
+async function send() {
+    if (currentConversation.id === 0) {
+        await sendMessageToNewConversation({ text: message.value })
+    } else {
+        await sendMessage({ text: message.value })
+    }
+
+    message.value = ''
+    emit('newMessage')
+}
 </script>
 
 <style lang="scss">

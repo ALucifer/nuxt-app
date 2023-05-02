@@ -27,7 +27,7 @@
             <div class="col-3 form-group single-input">
               <label for="">Participants</label>
               <AppSelect
-                :items="participants"
+                :items="participantValues"
                 libelle="Nombre de participants"
                 name="maxTeams"
                 @change="setFieldValue('maxTeams', $event.value)"
@@ -36,7 +36,7 @@
             <div class="col-3 form-group single-input">
               <label for="">Format</label>
               <AppSelect
-                :items="formatItems"
+                :items="formatValues"
                 libelle="Format"
                 name="format"
                 @change="setFieldValue('format', $event.value)"
@@ -45,7 +45,7 @@
             <div class="col-3 form-group single-input">
               <label for="">Niveau</label>
               <AppSelect
-                :items="tournamentLevel"
+                :items="levelValues"
                 libelle="Niveau"
                 name="skillLevel"
                 @change="setFieldValue('skillLevel', $event.value)"
@@ -54,7 +54,7 @@
             <div class="col-3 form-group single-input">
               <label for="">Best Of</label>
               <AppSelect
-                :items="boItems"
+                :items="boValues"
                 libelle="Best Of"
                 name="bestOf"
                 @change="setFieldValue('bestOf', $event.value)"
@@ -89,80 +89,63 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import * as yup from "yup";
-import { tournaments } from "../../client/tournament";
-import {
-  TournamentLevels,
-  BestOf,
-  TournamentFormat,
-  TournamentParticipants,
-} from "../../Models/Models";
-import { mapState } from "pinia";
 import { useAuthStore } from "@/store/auth";
+import TournamentClient from "~/app/client/TournamentClient";
+import { tournament } from '~/app/models/tournament'
 
-export default {
-  data() {
-    const schema = yup.object({
-      libelle: yup.string().required("Titre de votre tournoi requis."),
-      speech: yup.string(),
-      owner: yup.number(),
-      beginAt: yup
+const tournamentClient = new TournamentClient()
+
+const schema = yup.object({
+    libelle: yup.string().required("Titre de votre tournoi requis."),
+    speech: yup.string(),
+    owner: yup.number(),
+    beginAt: yup
         .date()
         .min(
-          new Date(),
-          "Entrez une date supérieur ou égale à la date du jour."
+            new Date(),
+            "Entrez une date supérieur ou égale à la date du jour."
         )
         .required("Veuillez renseigner ce champs."),
-      maxTeams: yup
+    maxTeams: yup
         .number()
         .required("Veuillez renseigner ce champs.")
         .typeError("Veuillez renseigner ce champs."),
-      format: yup
+    format: yup
         .string()
         .required("Veuillez renseigner ce champs.")
         .typeError("Veuillez renseigner ce champs."),
-      skillLevel: yup
+    skillLevel: yup
         .string()
         .required("Veuillez renseigner ce champs.")
         .typeError("Veuillez renseigner ce champs."),
-      bestOf: yup
+    bestOf: yup
         .number()
         .required("Veuillez renseigner ce champs.")
         .typeError("Veuillez renseigner ce champs."),
-    });
-    return {
-      participants: TournamentParticipants.selectValues,
-      formatItems: TournamentFormat.selectValues,
-      boItems: BestOf.selectValues,
-      tournamentLevel: TournamentLevels.selectValues,
-      schema,
-      error: false,
-    };
-  },
-  computed: {
-    ...mapState(useAuthStore, {
-      user: "getUser",
-    }),
-  },
-  methods: {
-    async submit(values) {
-      const result = await tournaments().create({
+})
+
+const participantValues = ref(tournament.participants())
+const formatValues = ref(tournament.formats())
+const boValues = ref(tournament.bestOf())
+const levelValues = ref(tournament.levels())
+const error = ref(false)
+
+const user = computed(() => useAuthStore().getUser)
+
+async function submit(values) {
+    const status = await tournamentClient.create({
         ...values,
-        owner: this.user.id,
-      });
-      if (result.status !== 200) {
-        this.error = true;
-      } else {
-        this.error = false;
-        // this.$router.push({
-        //   name: "ViewTournament",
-        //   params: { id: result.data.id },
-        // });
-      }
-    },
-  },
-};
+        owner: user.id,
+    });
+
+    if (status !== 200) {
+        error.value = true;
+    } else {
+        error.value = false;
+    }
+}
 </script>
 
 <style lang="scss">

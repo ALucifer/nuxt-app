@@ -58,14 +58,10 @@
   </section>
 </template>
 
-<script>
-import { mapState } from "pinia";
+<script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
-export default {
-  computed: {
-    ...mapState(useAuthStore, ["isAuthenticated"]),
-  },
-};
+
+const { isAuthenticated } = useAuthStore()
 </script>
 
 <style lang="scss" scoped>

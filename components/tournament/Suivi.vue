@@ -1,7 +1,7 @@
 <template>
   <AppTabPane name="suivi" tabName="tournament-view">
     <template v-slot:content>
-      <template v-for="i in matches">
+      <template v-for="i in tournament.matches">
         <MatchCard
           :firstTeam="getTeam(i.adversaire_a, tournament.value.teams)"
           :secondTeam="getTeam(i.adversaire_b, tournament.value.teams)"
@@ -21,23 +21,14 @@
   </AppTabPane>
 </template>
 
-<script>
+<script setup lang="ts">
 import MatchCard from "@/components/MatchCard.vue";
 
-export default {
-  components: { MatchCard },
-  inject: ["tournament"],
-  computed: {
-    matches() {
-      return this.tournament.value.matches;
-    },
-  },
-  methods: {
-    getTeam(user_id, teams) {
-      return teams.find((team) => team.user_id == user_id);
-    },
-  },
-};
+const tournament = inject('tournament')
+
+function getTeam(user_id, teams) {
+  return teams.find((team) => team.user_id == user_id);
+}
 </script>
 
 <style lang="scss">

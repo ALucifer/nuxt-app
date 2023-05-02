@@ -8,10 +8,8 @@
   </AppTabPane>
 </template>
 
-<script>
-export default {
-  inject: ["tournament"],
-};
+<script setup lang="ts">
+const tournament = inject('tournament')
 </script>
 
 <style></style>

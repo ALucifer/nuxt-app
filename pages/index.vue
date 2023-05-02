@@ -5,17 +5,11 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import Introduction from "@/components/Introduction";
 import PlayProcess from "@/components/PlayProcess";
 
-export default {
-  name: "Home",
-  head() {
-    return {
-      title: "Spots : Une platforme pour les gameurs fait par les gameurs",
-    };
-  },
-  components: { Introduction, PlayProcess },
-};
+useHead({
+  title: "Spots : Une platforme pour les gameurs fait par les gameurs",
+})
 </script>

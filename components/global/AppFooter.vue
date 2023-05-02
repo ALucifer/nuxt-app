@@ -46,13 +46,8 @@
   </footer>
 </template>
 
-<script>
+<script setup lang="ts">
 import NewsletterSubscriber from "@/components/NewsletterSubscriber";
-export default {
-  components: {
-    NewsletterSubscriber,
-  },
-};
 </script>
 
 <style lang="scss" scoped>

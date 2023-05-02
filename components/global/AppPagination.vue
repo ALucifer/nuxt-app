@@ -53,56 +53,106 @@
   </nav>
 </template>
 
-<script>
-export default {
-  props: {
-    pages: {
-      type: Number,
-      required: true,
-    },
-    query: {
-      type: String,
-      required: false,
-    },
-    routeName: {
-      type: String,
-      required: true,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  pages: {
+    type: Number,
+    required: true,
   },
-  computed: {
-    currentPage: function () {
-      const query = this.$route.query[this.query] || this.$route.query.page;
-      return parseInt(query) || 1;
-    },
-    previousLink: function () {
-      const pevious = {};
-      pevious[this.query] = this.currentPage - 1;
-      return pevious;
-    },
-    nextLink: function () {
-      const next = {};
-      next[this.query] = parseInt(this.currentPage) + 1;
-      return next;
-    },
-    firstPageLink: function () {
-      const first = {};
-      first[this.query] = 1;
-      return first;
-    },
-    lastPageLink: function () {
-      const last = {};
-      last[this.query] = this.pages;
-      return last;
-    },
+  query: {
+    type: String,
+    required: true,
   },
-  methods: {
-    nthPageLink: function (i) {
-      const nth = {};
-      nth[this.query] = i;
-      return nth;
-    },
-  },
-};
-</script>
+  routeName: {
+    type: String,
+    required: true,
+  }
+})
 
-<style></style>
+const route = useRoute()
+
+const currentPage = computed(() => {
+  const query = route.query[props.query] || route.query.page;
+  return parseInt(query) || 1;
+})
+
+const previousLink = computed(() => {
+  const previous = {}
+  previous[props.query] = currentPage.value - 1
+  return previous
+})
+
+const nextLink = computed(() => {
+  const next = {};
+  next[props.query] = currentPage.value + 1;
+  return next;
+})
+
+const firstPageLink = computed(() => {
+  const first = {};
+  first[props.query] = 1;
+  return first;
+})
+
+const lastPageLink = computed(() => {
+  const last = {};
+  last[props.query] = props.pages;
+  return last;
+})
+
+function nthPageLink(i: number) {
+  const nth = {};
+  nth[props.query] = i;
+  return nth;
+}
+
+// export default {
+  // props: {
+  //   pages: {
+  //     type: Number,
+  //     required: true,
+  //   },
+  //   query: {
+  //     type: String,
+  //     required: false,
+  //   },
+  //   routeName: {
+  //     type: String,
+  //     required: true,
+  //   },
+  // },
+  // computed: {
+  //   currentPage: function () {
+  //     const query = this.$route.query[this.query] || this.$route.query.page;
+  //     return parseInt(query) || 1;
+  //   },
+  //   previousLink: function () {
+  //     const pevious = {};
+  //     pevious[this.query] = this.currentPage - 1;
+  //     return pevious;
+  //   },
+  //   nextLink: function () {
+  //     const next = {};
+  //     next[this.query] = parseInt(this.currentPage) + 1;
+  //     return next;
+  //   },
+  //   firstPageLink: function () {
+  //     const first = {};
+  //     first[this.query] = 1;
+  //     return first;
+  //   },
+  //   lastPageLink: function () {
+  //     const last = {};
+  //     last[this.query] = this.pages;
+  //     return last;
+  //   },
+  // },
+  // methods: {
+  //   nthPageLink: function (i) {
+  //     const nth = {};
+  //     nth[this.query] = i;
+  //     return nth;
+  //   },
+  // },
+// };
+</script>

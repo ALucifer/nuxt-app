@@ -19,21 +19,12 @@
   </AppTabPane>
 </template>
 
-<script>
-export default {
-  data: () => {
-    return {
-      items: [
-        { title: "Jeu", subtitle: "Call of duty" },
-        {
-          title: "Generation du tournoi",
-          subtitle: "45 minutes avant le début",
-        },
-        { title: "Format", subtitle: "1 vs 1" },
-      ],
-    };
-  },
-};
+<script setup lang="ts">
+const items = ref([
+  { title: "Jeu", subtitle: "Call of duty" },
+  { title: "Generation du tournoi", subtitle: "45 minutes avant le début" },
+  { title: "Format", subtitle: "1 vs 1" },
+])
 </script>
 
 <style lang="scss">

@@ -29,7 +29,7 @@ export default function useTournamentHeader(useTournament) {
     }
 
     function hasMatches() {
-        return tournament.value.matches.length > 0
+        return tournament.value.matches?.length > 0
     }
 
     return {isHalf, isOwner, isRegister, userHasMatches, hasMatches}

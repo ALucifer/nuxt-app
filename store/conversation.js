@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
-import { conversations } from "../client/user";
 import { useAuthStore } from "@/store/auth";
 import { useUserStore } from "@/store/user";
-import { sumBy, map } from "lodash";
+import ConversationClient from "~/app/client/ConversationClient";
+
+const conversationClient = new ConversationClient();
 
 export const useConversationStore = defineStore({
   id: "conversation",
@@ -51,20 +52,11 @@ export const useConversationStore = defineStore({
 
   actions: {
     async fetchConversations() {
-      const authStore = useAuthStore();
-      this.conversations = await conversations.fetchAuthConversationsList(
-        authStore.user.id
-      );
+      this.conversations = await conversationClient.fetchAuthConversationsList()
     },
 
     async fetchMessages() {
-      const authStore = useAuthStore();
-      const messages = await conversations.fetchConversationMessages(
-        authStore.user.id,
-        this.currentConversation.id
-      );
-
-      this.messages = messages;
+      this.messages = await conversationClient.fetchConversationMessages(this.currentConversation.id)
     },
 
     async changeActiveConversation({ id }) {
@@ -73,11 +65,12 @@ export const useConversationStore = defineStore({
     },
 
     async sendMessage({ text }) {
-      const message = await conversations.sendMessage({
+      const message = await conversationClient.sendMessage({
         text: text,
         sendTo: this.currentConversation.interlocutor.id,
         conversation_id: this.active_conversation_id,
       });
+
       this.addMessage(message);
     },
 
@@ -93,7 +86,7 @@ export const useConversationStore = defineStore({
       });
     },
     async messageRead(message) {
-      await conversations.readMessage(message);
+      await conversationClient.readMessage(message);
       const index = this.messages.findIndex((i) => i == message);
       this.messages[index].state = "READ";
     },
@@ -124,14 +117,14 @@ export const useConversationStore = defineStore({
 
     async sendMessageToNewConversation({ text }) {
       const authStore = useAuthStore();
-      const form = {
+
+      const data = await conversationClient.createNewConversation({
         sendFrom: authStore.user.id,
         sendTo: this.currentConversation.interlocutor.id,
         messages: {
           text: text,
         },
-      };
-      const data = await conversations.createNewConversation(form);
+      });
 
       this.messages.push(data.message);
       this.conversation.push(data.conversation);

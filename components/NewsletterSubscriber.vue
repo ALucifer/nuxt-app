@@ -30,16 +30,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      form: {
-        email: "",
-      },
-    };
-  },
-};
+<script setup lang="ts">
+const form = ref({email: ''})
 </script>
 
 <style lang="scss" scoped>

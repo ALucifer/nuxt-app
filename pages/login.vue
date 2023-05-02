@@ -9,7 +9,11 @@
             <div class="or">
               <p>OU</p>
             </div>
-            <SocialAuthenticator message="Inscrivez-vous avec" />
+              <SocialAuthenticator
+                v-if="loaded"
+                message="Inscrivez-vous avec"
+                :googleClick="googleClick"
+              />
             <div class="account">
               <p>
                 Vous n'avez pas de compte?
@@ -23,18 +27,29 @@
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import LoginForm from "@/components/LoginForm";
 import SocialAuthenticator from "@/components/SocialAuthenticator";
-export default {
-  name: "Login",
-  head() {
-    return {
-      title: "Connexion",
-    };
-  },
-  components: { LoginForm, SocialAuthenticator },
-};
+import SocialProvider from "~/app/client/oauth/SocialProvider";
+import ProviderDTO from "~/app/client/oauth/DTO/ProviderDTO";
+
+useHead({
+  title: "Connexion",
+  script: [
+    {
+      hid: "google",
+      src: "https://accounts.google.com/gsi/client",
+      async: true,
+      defer: true,
+    },
+  ]
+})
+const googleClick = ref()
+const loaded = ref(false)
+function loadGoogle() {
+    googleClick.value = (new SocialProvider()).init(ProviderDTO.google())
+    loaded.value = true
+}
 </script>
 
 <style lang="scss">

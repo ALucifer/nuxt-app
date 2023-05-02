@@ -25,14 +25,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    isDefault: {
-      default: false,
-    },
-  },
-};
+<script setup lang="ts">
+defineProps({ isDefault: { default: false } })
 </script>
 
 <style lang="scss">

@@ -1,13 +1,16 @@
 import { defineStore } from "pinia";
-import { tournaments } from "../client/tournament";
 import { useAuthStore } from "@/store/auth";
+import TournamentClient from "~/app/client/TournamentClient";
+import { TournamentModel } from "~/app/models/tournament";
+
+const tournamentClient = new TournamentClient();
 
 export const useTournamentStore = defineStore({
   id: "tournament",
   state: () => {
     return {
-      items: [],
-      hightlighted: [],
+      items: [] as TournamentModel[],
+      highlighted: [] as TournamentModel[],
       search: null,
       total: 0,
       totalLoaded: 0,
@@ -28,7 +31,7 @@ export const useTournamentStore = defineStore({
   },
   actions: {
     async fetchItems() {
-      const result = await tournaments().all({
+      const result = await tournamentClient.all({
         page: this.currentPage,
         ...this.search,
       });
@@ -36,44 +39,43 @@ export const useTournamentStore = defineStore({
       this.setTotal(result.total);
       this.totalLoaded = this.items.length;
     },
-    async fetchItem(id) {
-      const result = await tournaments().get(id);
-      this.currentTournament = result.data;
-      return result.status === 200 ? true : false;
+    async fetchItem(id: number) {
+      this.currentTournament = await tournamentClient.findById(id);
     },
     async fetchNextItems() {
       this.incrementCurrentPage();
       await this.fetchItems();
     },
-    async setSearch({ form }) {
+    async setSearch({ form }: any) {
       this.currentPage = 1;
       this.items = [];
       this.search = form;
       await this.fetchItems();
     },
-    setItems(items) {
+    setItems(items: any) {
       this.items = items;
     },
-    setTotal(total) {
+    setTotal(total: number) {
       this.total = total;
     },
     incrementCurrentPage() {
       this.currentPage++;
     },
-    async register(form) {
+    async register(form: any) {
       const authStore = useAuthStore();
       form.user_id = authStore.user.id;
-      return await tournaments().register(form);
+      return await tournamentClient.register(form);
     },
     async fetchHightlighted() {
-      this.hightlighted = await tournaments().hightlighted();
+      this.highlighted = await tournamentClient.hightlighted();
+
     },
-    async start(tournament) {
-      await tournaments().start(tournament);
+    async start(tournament: any) {
+      await tournamentClient.start(tournament);
       await this.fetchItem(tournament.id);
     },
-    async unsubscribe(tournament_id, user_id) {
-      await tournaments().unsubscribe(tournament_id, user_id);
+    async unsubscribe(tournament_id: number, user_id: number) {
+      await tournamentClient.unsubscribe(tournament_id, user_id);
     },
   },
 });
