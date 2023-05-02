@@ -8,8 +8,8 @@
         <div class="mid-area">
           <h4>{{ item.libelle }}</h4>
           <div class="tournament-card__date">
-            <div class="time-area bg" v-if="checkIfDateIsBefore(item.beginAt)">
-              <img src="images/waitng-icon.png" alt="image" />
+            <div class="time-area bg" v-if="checkIfDateIsBefore(item.begin_at)">
+              <img src="images/waitng-icon.png" alt="image" class="tournament-card__wait" />
               <span>Début</span>
               <span class="time">{{ dateToNow(item.begin_at) }}</span>
             </div>
@@ -58,9 +58,10 @@
 </template>
 
 <script setup lang="ts">
-import { dateFormatted, dateToNow, checkIfDateIsBefore } from "@/helpers/date";
+import useDate from "@/composables/useDate";
 
 const props = defineProps({ item: { type: Object, required: true }})
+const { dateFormatted, dateToNow, checkIfDateIsBefore } = useDate()
 
 const formattedDate = computed(() => dateFormatted({ date: props.item.begin_at, format: "dddd DD MMM YYYY" }))
 </script>
