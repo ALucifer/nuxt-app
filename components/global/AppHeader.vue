@@ -81,7 +81,7 @@
             >Inscription</NuxtLink
           >
           <a v-if="authStore.isAuthenticated" href="#" class="user-link">
-            <div class="user-link__heading" @click.prevent="toggle()">
+            <div class="user-link__heading" @click.stop="toggle()">
               <span class="">
                 {{ user.pseudo }}
               </span>

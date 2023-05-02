@@ -1,5 +1,5 @@
 <template>
-  <div class="offcanvas offcanvas-end" :class="{ show: isOpen() }">
+  <div class="offcanvas offcanvas-end" :class="{ show: isOpen() }"  v-click-outside="() => close()" >
     <div class="offcanvas-header">
       <button
         type="button"
@@ -32,11 +32,11 @@ import useSidebar from "@/composables/useSidebar";
 import {useAuthStore} from "~/store/auth";
 
 const { isOpen, toggle } = useSidebar();
+const { close } = useSidebar()
 const router = useRouter()
 
 function logout () {
   const { logout } = useAuthStore()
-  const { close } = useSidebar()
 
   logout()
   close()
