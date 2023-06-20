@@ -4,7 +4,8 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "test": "npx cypress open"
   },
   "devDependencies": {
     "@nuxt/image-edge": "^1.0.0-27954023.4cee565",
@@ -21,6 +22,7 @@
     "@popperjs/core": "^2.11.6",
     "@tiptap/starter-kit": "^2.0.0-beta.199",
     "@tiptap/vue-3": "^2.0.0-beta.199",
+    "@vee-validate/yup": "^4.8.6",
     "@vuepic/vue-datepicker": "^3.4.6",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.2",

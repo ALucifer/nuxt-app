@@ -20,8 +20,8 @@
 <script setup lang="ts">
 const tournament = inject('tournament')
 
-function getAvatar(avatar) {
-  if (avatar) {
+function getAvatar(avatar: string) {
+  if (avatar === '') {
     return "data:image/svg+xml;base64," + avatar;
   }
 

@@ -15,10 +15,7 @@
                 :googleClick="googleClick"
               />
             <div class="account">
-              <p>
-                Vous n'avez pas de compte?
-                <NuxtLink :to="{ name: 'register' }">Inscription ici</NuxtLink>
-              </p>
+              <p>Vous n'avez pas de compte? <NuxtLink :to="{ name: 'register' }">Inscription ici</NuxtLink></p>
             </div>
           </div>
         </div>

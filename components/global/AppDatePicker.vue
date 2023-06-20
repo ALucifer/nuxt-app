@@ -2,7 +2,7 @@
   <Datepicker
     v-model="date"
     @update:modelValue="$emit('change', $event)"
-    :minDate="new Date()"
+    :minDate="minDate"
   ></Datepicker>
   <AppField type="hidden" :name="name" />
   <AppErrorMessage class="error" :name="name" />
@@ -11,7 +11,12 @@
 <script setup lang="ts">
 import Datepicker from "@vuepic/vue-datepicker";
 
-defineProps({ name: { type: String, required: true }})
+defineProps(
+    {
+      name: { type: String, required: true },
+      minDate: { type: Date, required: false, default: new Date() }
+    }
+)
 defineEmits(['change'])
 
 const data = ref(null)

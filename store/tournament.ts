@@ -68,7 +68,6 @@ export const useTournamentStore = defineStore({
     },
     async fetchHightlighted() {
       this.highlighted = await tournamentClient.hightlighted();
-
     },
     async start(tournament: any) {
       await tournamentClient.start(tournament);

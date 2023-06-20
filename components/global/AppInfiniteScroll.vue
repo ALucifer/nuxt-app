@@ -1,73 +1,33 @@
 <template>
-  <div class="inersection-observer"></div>
+  <div ref="observerTemplate" class="inersection-observer"></div>
 </template>
 <script setup lang="ts">
-const props = defineProps({ done: { type: Boolean, default: false}})
+const props = defineProps({ done: { type: Boolean, default: false }})
 const emit = defineEmits(['load'])
-const root = ref(null)
-
-let observer = reactive({})
+let observer: IntersectionObserver = null
+const observerTemplate = ref({})
 
 onMounted(() => {
   observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            emit("load");
+            emit('load')
           }
-        });
+        })
       },
       {
         root: null,
-        rootMargin: "10px",
-        threshold: 0.8,
-    })
-
-  observer.observe(ref)
-})
-/*
-onUnmounted(() => observer.unobserve(ref))
-watch(
-    () => props.done,
-    () => observer.unobserve(ref)
-)
-/*
-export default {
-  props: {
-    done: { type: Boolean, default: false },
-  },
-  data() {
-    return {
-      observer: null,
-    };
-  },
-  mounted() {
-    this.observer = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.$emit("load");
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: "10px",
+        rootMargin: '10px',
         threshold: 0.8,
       }
-    );
-    this.observer.observe(this.$el);
-  },
-  unmounted() {
-    this.observer.unobserve(this.$el);
-  },
-  watch: {
-    done() {
-      if (this.done) this.observer.unobserve(this.$el);
-    },
-  },
-};
- */
+  )
+  observer.observe(observerTemplate.value)
+})
+
+onBeforeUnmount(() => {
+  observer.unobserve(observerTemplate.value)
+})
 </script>
 <style scoped>
 div {

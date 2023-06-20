@@ -8,14 +8,7 @@
         <div class="mid-area">
           <h4>{{ item.libelle }}</h4>
           <div class="tournament-card__date">
-            <div class="time-area bg" v-if="checkIfDateIsBefore(item.begin_at)">
-              <img src="images/waitng-icon.png" alt="image" class="tournament-card__wait" />
-              <span>Début</span>
-              <span class="time">{{ dateToNow(item.begin_at) }}</span>
-            </div>
-            <div class="date-area bg">
-              <span class="date">{{ formattedDate }}</span>
-            </div>
+            <State :tournament="item" />
           </div>
           <div class="tournament-card__details">
             <div class="box-item">
@@ -27,8 +20,8 @@
               <span class="sub">{{ item.max_teams }}</span>
             </div>
             <div class="box-item">
-              <span class="head">Enrôlé</span>
-              <span class="sub"></span>
+              <span class="sub">{{ item.enroll }}</span>
+              <span class="head">/ {{ item.max_teams }}</span>
             </div>
             <div class="box-item">
               <span class="head">Niveau de jeu</span>
@@ -58,14 +51,11 @@
 </template>
 
 <script setup lang="ts">
-import useDate from "@/composables/useDate";
+import State from '@/components/tournament/State.vue'
 
 const props = defineProps({ item: { type: Object, required: true }})
-const { dateFormatted, dateToNow, checkIfDateIsBefore } = useDate()
-
-const formattedDate = computed(() => dateFormatted({ date: props.item.begin_at, format: "dddd DD MMM YYYY" }))
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/assets/css/components/tournamentCard.scss";
 </style>

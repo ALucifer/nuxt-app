@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="search__container row mb-40 mp-none">
-    <div class="col-lg-6">
+    <div class="col-lg-3">
       <div class="single-input">
         <span>Search</span>
         <input v-model="form.libelle" type="text" placeholder="Search" />
@@ -37,11 +37,20 @@
     </div>
     <div class="col-lg-3">
       <div class="single-input">
+        <span>Date</span>
+        <AppDatePicker
+            name="date"
+        />
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="single-input">
         <button @click="search()" class="cmn-btn" style="margin-top: 15px">
           Rechercher
         </button>
       </div>
     </div>
+
   </div>
 </template>
 

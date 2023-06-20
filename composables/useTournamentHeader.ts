@@ -1,9 +1,11 @@
 import { find } from "lodash"
 import { useAuthStore } from "~~/store/auth";
+import useDate from "~/composables/useDate";
 
-export default function useTournamentHeader(useTournament) {
+export default function useTournamentHeader(useTournament: any) {
     const tournament = ref(useTournament)
     const authStore = useAuthStore();
+    const date = useDate()
 
     const user = computed(() => authStore.getUser);
 
@@ -32,5 +34,9 @@ export default function useTournamentHeader(useTournament) {
         return tournament.value.matches?.length > 0
     }
 
-    return {isHalf, isOwner, isRegister, userHasMatches, hasMatches}
+    function isCompletlyClose () {
+        return (tournament.value.state !== 'OPEN' && tournament.value.challonge_id !== null) || date.isAfter(tournament.value.begin_at)
+    }
+
+    return {isHalf, isOwner, isRegister, userHasMatches, hasMatches, isCompletlyClose }
 }
