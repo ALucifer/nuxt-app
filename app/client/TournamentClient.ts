@@ -46,8 +46,8 @@ export default class TournamentClient extends AbstractClient {
 
     async unsubscribe(tournament_id: number, user_id: number) {
         return await this.axiosInstance.post(
-            "tournaments/" + tournament_id + "/unsubscribe/" + user_id,
-            null,
+            "/tournaments/" + tournament_id + "/unsubscribe/" + user_id,
+            {},
             { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
         )
     }

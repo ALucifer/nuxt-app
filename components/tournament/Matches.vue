@@ -31,19 +31,20 @@
 
 <script setup lang="ts">
 import MatchCard from "@/components/MatchCard.vue";
-import { mapState } from "pinia";
 import { useAuthStore } from "~~/store/auth";
 import { filter } from "lodash";
 import MatchModal from "@/components/MatchModal.vue";
 import useMatchModal from "~~/composables/useMatchModal";
 
-const tournament = inject('tournament')
+import {TournamentModel} from "~/app/models/tournament";
+
+const props = defineProps<{tournament: TournamentModel}>()
 const { setMatch } = useMatchModal()
 const { user } = useAuthStore()
 
 const matches = computed(() => {
   return filter(
-      tournament.value.matches,
+      props.tournament.matches,
       (m) =>
           m.adversaire_a === user.id || m.adversaire_b === user.id
   )

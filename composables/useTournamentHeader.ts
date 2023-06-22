@@ -1,42 +1,47 @@
 import { find } from "lodash"
 import { useAuthStore } from "~~/store/auth";
 import useDate from "~/composables/useDate";
+import {TournamentModel} from "~/app/models/tournament";
 
-export default function useTournamentHeader(useTournament: any) {
-    const tournament = ref(useTournament)
+export default function useTournament() {
     const authStore = useAuthStore();
     const date = useDate()
 
     const user = computed(() => authStore.getUser);
 
-    function isHalf() {
+    function isHalf(tournament: TournamentModel) {
         return (
-            tournament.value.enroll >= tournament.value.max_teams / 2 &&
-            tournament.value.state === "OPEN" &&
-            tournament.value.image_bracket === null &&
-            isOwner()
+            tournament.enroll >= tournament.max_teams / 2 &&
+            tournament.state === "OPEN" &&
+            tournament.image_bracket === null &&
+            isOwner(tournament)
         )
     }
 
-    function isOwner() {
-        return tournament.value.owner === user.value.id
+    function isOpen(tournament: TournamentModel)
+    {
+        return tournament.state === "OPEN" && tournament.challonge_id !== null && date.isAfterNow(tournament.begin_at)
     }
 
-    function isRegister() {
-        return find(tournament.value.teams, (t) => t.user_id === user.value.id)
+    function isOwner(tournament: TournamentModel) {
+        return tournament.owner === user.value.id
     }
 
-    function userHasMatches() {
-        return find(tournament.value.matches, (m) => m.adversaire_a === user.value.id || m.adversaire_b === user.value.id)
+    function isRegister(tournament: TournamentModel) {
+        return find(tournament.teams, (t) => t.user_id === user.value.id)
     }
 
-    function hasMatches() {
-        return tournament.value.matches?.length > 0
+    function userHasMatches(tournament: TournamentModel) {
+        return find(tournament.matches, (m) => m.adversaire_a === user.value.id || m.adversaire_b === user.value.id)
     }
 
-    function isCompletlyClose () {
-        return (tournament.value.state !== 'OPEN' && tournament.value.challonge_id !== null) || date.isAfter(tournament.value.begin_at)
+    function hasMatches(tournament: TournamentModel) {
+        return tournament.matches?.length > 0
     }
 
-    return {isHalf, isOwner, isRegister, userHasMatches, hasMatches, isCompletlyClose }
+    function isCompletlyClose (tournament: TournamentModel) {
+        return tournament.state !== 'OPEN' || tournament.challonge_id === null || date.isBeforeNow(tournament.begin_at)
+    }
+
+    return {isHalf, isOwner, isRegister, userHasMatches, hasMatches, isCompletlyClose, isOpen }
 }

@@ -9,7 +9,7 @@
               <State :tournament="tournament" />
               <div
                 class="start-area bg--action"
-                v-if="isHalf()"
+                v-if="isHalf(tournament)"
                 @click="generate()"
               >
                 <span
@@ -19,15 +19,15 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-4 text-center" v-if="isOpen()">
+          <div class="col-lg-3 col-md-4 text-center" v-if="isOpen(tournament)">
             <NuxtLink
               :to="{ name: 'tournois-id-register' }"
               class="cmn-btn register-btn"
-              v-if="!isCompletlyClose() && !isRegister()"
+              v-if="isOpen(tournament)"
               >S'inscrire</NuxtLink
             >
             <span
-              v-else-if="!isCompletlyClose() && isRegister()"
+              v-else-if="!isCompletlyClose(tournament) && isRegister(tournament)"
               class="cmn-btn"
               @click="unsubscribeClick()"
               >
@@ -36,7 +36,6 @@
                 <div class="spinner-border text-warning" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
-
               </template>
             </span
             >
@@ -45,13 +44,13 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <AppNavItem name="overview" />
           <AppNavItem name="bracket" v-if="tournament.image_bracket" />
-          <AppNavItem name="participants" v-if="isOwner()" />
+          <AppNavItem name="participants" v-if="isOwner(tournament)" />
           <AppNavItem
             name="matches"
             libelle="Mes matchs"
-            v-if="userHasMatches()"
+            v-if="userHasMatches(tournament)"
           />
-          <AppNavItem name="suivi" v-if="isOwner() && hasMatches()" />
+          <AppNavItem name="suivi" v-if="isOwner(tournament) && hasMatches(tournament)" />
         </ul>
       </div>
     </div>
@@ -59,32 +58,34 @@
 </template>
 
 <script setup lang="ts">
-import dayjs from "dayjs";
 import { useAuthStore } from "@/store/auth";
 import useFlashMessages from "@/composables/useFlashMessages";
 import useTournamentHeader from "~~/composables/useTournamentHeader";
 import {useTournamentStore} from "~/store/tournament";
-
-const tournament = inject('tournament')
-const { isOwner, isHalf, isRegister, userHasMatches, hasMatches, isCompletlyClose } =
-    useTournamentHeader(tournament.value)
-const { addMessage } = useFlashMessages()
-const authStore = useAuthStore()
-const { start, unsubscribe } = useTournamentStore()
 import State from '@/components/tournament/State.vue'
+
+const { isOwner, isHalf, isRegister, userHasMatches, hasMatches, isCompletlyClose, isOpen } =
+    useTournamentHeader()
+const { addMessage } = useFlashMessages()
+
+const authStore = useAuthStore()
+const tournamentStore = useTournamentStore()
 
 const bracketLoading = ref(false)
 const unsubscribeLoad = ref(false)
 const user = computed(() => authStore.user)
-function isOpen() {
-    return (tournament.value.state === "OPEN" && tournament.value.challonge_id !== null)
-}
+const tournament = computed(() => tournamentStore.currentTournament)
 
 function unsubscribeClick() {
   unsubscribeLoad.value = true
 
-  unsubscribe(tournament.value.id, user.value.id).then(() => {
+  tournamentStore.unsubscribe(tournamentStore.currentTournament.id, user.value.id).then((data) => {
+    tournamentStore.setCurrentTournament(data.data)
     unsubscribeLoad.value = false
+    addMessage({
+      class: 'success',
+      message: 'Vous n\'etes plus inscrit a ce tournoi.'
+    })
   }).catch(() => {
     addMessage({
       class: 'error',
@@ -95,7 +96,7 @@ function unsubscribeClick() {
 }
 async function generate() {
     bracketLoading.value = true;
-    await start(tournament.value);
+    await tournamentStore.start(tournamentStore.currentTournament);
     addMessage({
         class: "success",
         message: "Génération de l'arbre réussi.",

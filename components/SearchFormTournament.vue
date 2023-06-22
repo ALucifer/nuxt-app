@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import lodash from "lodash";
 
-const form = ref({ libelle: null, format: null, best_of: null })
+const form = ref({ libelle: null, format: null, best_of: null, date: null })
 const boItems = ref([
     { id: 1, libelle: "1" },
     { id: 3, libelle: "3" },
@@ -69,6 +69,7 @@ const formatItems = ref([
     { id: 3, libelle: "3 vs 3" },
     { id: 4, libelle: "4 vs 4" },
 ])
+
 
 const emit = defineEmits(['search'])
 

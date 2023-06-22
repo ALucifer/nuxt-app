@@ -16,17 +16,13 @@ export default function useDate() {
         return dayjs(date).fromNow()
     }
 
-    function checkIfDateIsBefore(tournament)
-    {
-        if (!tournament.begin_at) {
-            return false
-        }
-        return dayjs().isSameOrBefore(dayjs(tournament.begin_at), 'second')
+    function isAfterNow(date) {
+        return dayjs(date).isSameOrAfter(dayjs())
     }
 
-    function isAfter(date) {
-        return dayjs().isSameOrAfter(dayjs(date))
+    function isBeforeNow(date) {
+        return dayjs(date).isSameOrBefore(dayjs(),'seconds')
     }
 
-    return { dateFormatted, dateToNow, checkIfDateIsBefore, isAfter }
+    return { dateFormatted, dateToNow, isAfterNow, isBeforeNow }
 }

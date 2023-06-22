@@ -1,8 +1,7 @@
 <template>
   <div>
-    <BannerTournaments v-if="componentAVisible"/>
-    <pre>{{ data }}</pre>
-    <section class="tournaments-card" v-if="componentBVisible">
+    <BannerTournaments/>
+    <section class="tournaments-card">
           <div class="overlay pt-120 pb-120">
             <div class="container wow fadeInUp">
               <SearchFormTournament @search="searchFilter($event)" />
@@ -15,7 +14,6 @@
                 />
               </transition-group>
               <AppInfiniteScroll
-                  v-if="loaded"
                 @load="tournamentStore.fetchNextItems()"
                 :done="tournamentStore.isFullyLoaded"
                 :key="'infiniteKey' + infiniteKey"
@@ -36,19 +34,8 @@ import { useTournamentStore } from "~/store/tournament";
 import BannerTournaments from "~/components/BannerTournaments.vue";
 
 const tournamentStore = useTournamentStore()
-const loaded = ref(false)
-const componentAVisible = ref(false)
-const componentBVisible = ref(false)
 
-const { data } = await useFetch('/api/hello')
-
-tournamentStore.fetchHightlighted().then(() => {
-  componentAVisible.value = true
-  tournamentStore.fetchItems().then( () => {
-    componentBVisible.value = true
-    loaded.value = true
-  })
-})
+const { data, error } = await useAsyncData('listing', async () => await tournamentStore.fetchItems())
 
 useHead({
     title: "Spots : Les tournois",

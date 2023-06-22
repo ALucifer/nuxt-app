@@ -18,7 +18,9 @@
 </template>
 
 <script setup lang="ts">
-const tournament = inject('tournament')
+import {TournamentModel} from "~/app/models/tournament";
+
+defineProps<{tournament: TournamentModel}>()
 
 function getAvatar(avatar: string) {
   if (avatar === '') {
