@@ -30,6 +30,7 @@ import { identicon } from "minidenticons";
 import useFlashMessages from "@/composables/useFlashMessages";
 import * as yup from "yup";
 import {useTournamentStore} from "~/store/tournament";
+import useTournament from "~/composables/useTournamentHeader";
 
 definePageMeta({
   middleware: "auth",
@@ -46,6 +47,16 @@ const route = useRoute()
 const router = useRouter()
 const schema = yup.object({
     libelle: yup.string().required("Le nom de votre équipe est obligatoire."),
+})
+
+const { isCompletlyClose } = useTournament()
+const tournamentStore = useTournamentStore()
+const { data, pending } = await useAsyncData(async() => {
+    const tournament = await tournamentStore.fetchItem(route.params.id)
+    if (isCompletlyClose(tournament)) {
+        router.push({name: 'tournois-id', params: { id: route.params.id } })
+    }
+    return tournament
 })
 
 const avatar = ref()
