@@ -28,19 +28,25 @@ export const useTournamentStore = defineStore({
     isFullyLoaded(state) {
       return state.total == state.totalLoaded;
     },
+    getCurrentTournament(state) {
+      return state.currentTournament
+    },
   },
   actions: {
-    async fetchItems() {
-      const result = await tournamentClient.all({
+    fetchItems() {
+      return tournamentClient.all({
         page: this.currentPage,
         ...this.search,
-      });
-      this.setItems(this.items.concat(result.data));
-      this.setTotal(result.total);
-      this.totalLoaded = this.items.length;
+      }).then((result) => {
+        this.setItems(this.items.concat(result.data));
+        this.setTotal(result.total);
+        this.totalLoaded = this.items.length;
+      })
     },
     async fetchItem(id: number) {
-      this.currentTournament = await tournamentClient.findById(id);
+      return await tournamentClient
+          .findById(id)
+          .then((data) => this.currentTournament = data);
     },
     async fetchNextItems() {
       this.incrementCurrentPage();
@@ -66,16 +72,18 @@ export const useTournamentStore = defineStore({
       form.user_id = authStore.user.id;
       return await tournamentClient.register(form);
     },
-    async fetchHightlighted() {
-      this.highlighted = await tournamentClient.hightlighted();
-
+    fetchHightlighted() {
+      return tournamentClient.hightlighted().then(data => this.highlighted = data);
     },
     async start(tournament: any) {
       await tournamentClient.start(tournament);
       await this.fetchItem(tournament.id);
     },
     async unsubscribe(tournament_id: number, user_id: number) {
-      await tournamentClient.unsubscribe(tournament_id, user_id);
+      return await tournamentClient.unsubscribe(tournament_id, user_id);
     },
+    setCurrentTournament(tournament: any) {
+      this.currentTournament = tournament
+    }
   },
 });

@@ -42,12 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { mapActions, mapState } from "pinia";
 import { useAuthStore } from "@/store/auth";
 import * as yup from "yup";
 
 const schema = yup.object({
-    email: yup.string().required("Email requis."),
+    email: yup.string().email('Invalid email format (ex: john.dev@gmail.com)').required("Email requis."),
     password: yup.string().required("Mot de passe requis."),
 })
 const error = ref(false)
@@ -56,13 +55,17 @@ const { login }  = useAuthStore()
 const router = useRouter()
 
 async function submit(values) {
-    isSubmitting.value = true;
-    const result = await login({ form: values })
-    if (result) {
-        isSubmitting.value = false;
+  isSubmitting.value = true;
+  const result = await login({ form: values })
+
+  error.value = !result
+
+  if (result) {
+      isSubmitting.value = false;
         router.push(router.currentRoute.value.query.redirectTo || { name: 'profile' })
-    }
-    isSubmitting.value = false
+  }
+
+  isSubmitting.value = false
 }
 </script>
 

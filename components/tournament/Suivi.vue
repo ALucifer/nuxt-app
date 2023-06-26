@@ -24,7 +24,9 @@
 <script setup lang="ts">
 import MatchCard from "@/components/MatchCard.vue";
 
-const tournament = inject('tournament')
+import {TournamentModel} from "~/app/models/tournament";
+
+defineProps<{tournament: TournamentModel}>()
 
 function getTeam(user_id, teams) {
   return teams.find((team) => team.user_id == user_id);

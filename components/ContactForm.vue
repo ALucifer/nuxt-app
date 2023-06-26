@@ -1,5 +1,5 @@
 <template>
-  <AppForm @submit="submit" :validation-schema="schema" class="contact-form">
+  <AppForm @submit="onSubmit" :validation-schema="schema" class="contact-form">
     <h5>Laissez votre message</h5>
     <div class="form-group">
       <label for="name">Pseudo</label>
@@ -38,34 +38,36 @@
 
 <script setup lang="ts">
 import useFlashMessages from "@/composables/useFlashMessages";
-import * as yup from "yup";
+import { object, string } from "yup";
 import ContactClient from "~/app/client/ContactClient";
 
 const contactClient = new ContactClient()
 const { addMessage } = useFlashMessages();
-const schema = yup.object({
-    email: yup
-        .string()
-        .required("Email requis.")
-        .email("Votre email n'est pas valide (exemple: john@doe.com)"),
-    name: yup.string().required("Pseudo requis."),
-    message: yup
-        .string()
-        .required("Veuillez entrer un message pour pouvoir l'envoyer.")
-        .min(30, "Votre message doit contenir 30 charactères minimum."),
-});
 
-async function submit(values, { resetForm }) {
-  const result = await contactClient.post(values)
-  let message = "Votre demande à bien été envoyé"
-  let cssClass = "success"
+const schema = object({
+  email: string()
+      .required("Email requis.")
+      .email("Votre email n'est pas valide (exemple: john@doe.com)"),
+  name: string().required("Pseudo requis."),
+  message: string()
+      .required("Veuillez entrer un message pour pouvoir l'envoyer.")
+      .min(30, "Votre message doit contenir 30 charactères minimum."),
+})
 
-  if (200 !== result) {
-      message = "Une erreur est survenu"
-      cssClass = "error"
+async function onSubmit(values, { resetForm }) {
+  try {
+    await contactClient.post(values)
+    addMessage({
+      message: 'Votre demande à bien été envoyé',
+      class: 'success'
+    })
+  } catch (e) {
+    addMessage({
+      message: 'Une erreur est survenu',
+      class: 'error'
+    })
   }
 
-  addMessage({message, class: cssClass})
   resetForm()
 }
 </script>

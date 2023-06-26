@@ -7,13 +7,13 @@
     </div>
   </div>
   <div class="search__container row mb-40 mp-none">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
       <div class="single-input">
         <span>Search</span>
         <input v-model="form.libelle" type="text" placeholder="Search" />
       </div>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-2">
       <div class="single-input">
         <span>Format</span>
         <AppSelect
@@ -24,7 +24,7 @@
         />
       </div>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-2">
       <div class="single-input">
         <span>Best Of</span>
         <AppSelect
@@ -35,6 +35,26 @@
         />
       </div>
     </div>
+    <div class="col-lg-2">
+      <div class="single-input">
+          <span>Status</span>
+          <AppSelect
+                  libelle="Status"
+                  :items="statusItems"
+                  @change="changeState($event.value)"
+                  name="state"
+          />
+      </div>
+    </div>
+      <div class="col-lg-2">
+          <div class="single-input">
+              <span>Date</span>
+              <AppDatePicker
+                      name="date"
+                      @change="changeDate($event.value)"
+              />
+          </div>
+      </div>
     <div class="col-lg-3">
       <div class="single-input">
         <button @click="search()" class="cmn-btn" style="margin-top: 15px">
@@ -42,13 +62,14 @@
         </button>
       </div>
     </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import lodash from "lodash";
 
-const form = ref({ libelle: null, format: null, best_of: null })
+const form = ref({ libelle: null, format: null, best_of: null, date: null, state: null })
 const boItems = ref([
     { id: 1, libelle: "1" },
     { id: 3, libelle: "3" },
@@ -60,6 +81,12 @@ const formatItems = ref([
     { id: 3, libelle: "3 vs 3" },
     { id: 4, libelle: "4 vs 4" },
 ])
+const statusItems = ref([
+    { id: 'OPEN', libelle: 'Ouvert'},
+    { id: 'CLOSE', libelle: 'Fermé'},
+])
+
+const date = ref(new Date())
 
 const emit = defineEmits(['search'])
 
@@ -78,6 +105,14 @@ function changeFormat(id) {
 
 function changeBO(id) {
     form.value.best_of = id;
+}
+
+function changeState(state) {
+  form.value.state = state
+}
+
+function changeDate(date) {
+    form.value.date = date
 }
 </script>
 

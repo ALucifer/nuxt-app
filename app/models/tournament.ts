@@ -11,7 +11,7 @@ export type TournamentModel = {
     libelle: string,
     max_teams: number,
     enroll: number,
-    is_highkughted: boolean,
+    is_highlighted: boolean,
     state: string,
     skill_level: any,
     speech: string,
@@ -20,7 +20,9 @@ export type TournamentModel = {
     begin_at: Date,
     challonge_id: null|number,
     owner: number,
-    image_bracket: null|string
+    image_bracket: null|string,
+    teams?: any,
+    matches?: any
 }
 
 

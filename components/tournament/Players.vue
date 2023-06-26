@@ -18,10 +18,12 @@
 </template>
 
 <script setup lang="ts">
-const tournament = inject('tournament')
+import {TournamentModel} from "~/app/models/tournament";
 
-function getAvatar(avatar) {
-  if (avatar) {
+defineProps<{tournament: TournamentModel}>()
+
+function getAvatar(avatar: string) {
+  if (avatar === '') {
     return "data:image/svg+xml;base64," + avatar;
   }
 

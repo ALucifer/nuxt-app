@@ -1,8 +1,9 @@
 <template>
   <Datepicker
     v-model="date"
-    @update:modelValue="$emit('change', $event)"
-    :minDate="new Date()"
+    @update:modelValue="change()"
+    :format="format"
+    :minDate="minDate"
   ></Datepicker>
   <AppField type="hidden" :name="name" />
   <AppErrorMessage class="error" :name="name" />
@@ -10,11 +11,28 @@
 
 <script setup lang="ts">
 import Datepicker from "@vuepic/vue-datepicker";
+import dayjs from "dayjs";
 
-defineProps({ name: { type: String, required: true }})
-defineEmits(['change'])
+const props = defineProps(
+    {
+      name: { type: String, required: true },
+      minDate: { type: Date, required: false, default: new Date() },
+      format: { type: String, required: false, default: 'yyyy-MM-dd'}
+    }
+)
+const emit = defineEmits(['change'])
 
-const data = ref(null)
+const date = ref(null)
+
+function change() {
+    let value = null
+
+    if (date.value) {
+        value = dayjs(date.value).format('YYYY-MM-DD')
+    }
+
+    emit('change', { value })
+}
 </script>
 
 <style lang="scss">

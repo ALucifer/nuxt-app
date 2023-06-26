@@ -1,7 +1,7 @@
 <template>
   <div>
-    <BannerTournaments />
-    <section class="tournaments-card" v-if="loaded">
+    <BannerTournaments/>
+    <section class="tournaments-card">
           <div class="overlay pt-120 pb-120">
             <div class="container wow fadeInUp">
               <SearchFormTournament @search="searchFilter($event)" />
@@ -34,13 +34,8 @@ import { useTournamentStore } from "~/store/tournament";
 import BannerTournaments from "~/components/BannerTournaments.vue";
 
 const tournamentStore = useTournamentStore()
-const loaded = ref(false)
 
-await useAsyncData(async () => {
-    await tournamentStore.fetchItems();
-    await tournamentStore.fetchHightlighted();
-    loaded.value = true
-})
+const { data, error } = await useAsyncData('listing', async () => await tournamentStore.fetchItems())
 
 useHead({
     title: "Spots : Les tournois",
@@ -49,9 +44,8 @@ useHead({
 })
 
 const infiniteKey = ref(0)
-const tournaments = computed(() => tournamentStore.items)
 
-function searchFilter(event) {
+function searchFilter(event: any) {
     infiniteKey.value++;
     tournamentStore.setSearch({ form: event.form })
 }

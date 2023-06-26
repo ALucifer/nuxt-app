@@ -1,30 +1,25 @@
 <template>
-    <div>
-        <ClientOnly>
-            <TournamentResume v-if="loaded" />
-            <div class="container my-4" v-else >
-                <div class="col-10 mx-auto">
-                    <AppLoader />
-                </div>
-            </div>
-        </ClientOnly>
+  <div>
+    <TournamentResume v-if="!pending" />
+    <div class="container my-4" v-else >
+      <div class="col-10 mx-auto">
+        <AppLoader />
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import TournamentResume from "@/components/TournamentResume";
 import { useTournamentStore } from "~/store/tournament";
 
-const loaded = ref(false)
 const tournamentStore = useTournamentStore()
 const route = useRoute()
 const router = useRouter()
 
-await useAsyncData(async() => {
-  await tournamentStore.fetchItem(route.params.id)
+const { data, pending } = await useAsyncData(async() => await tournamentStore.fetchItem(route.params.id))
 
-  loaded.value = true
-})
+const tournament = computed(() => tournamentStore.currentTournament)
 
 onMounted(() => {
     if (!tournamentStore.currentTournament) {
@@ -32,11 +27,9 @@ onMounted(() => {
     }
 })
 
-const tournament = ref(tournamentStore.currentTournament)
 useSeoMeta({
     titleTemplate: 'Tournoi: %s',
-    title: tournament.value.libelle,
+    title: tournamentStore.currentTournament.libelle,
     description: 'test'
 })
-provide('tournament', tournament)
 </script>

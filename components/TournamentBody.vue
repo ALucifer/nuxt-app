@@ -2,10 +2,10 @@
   <section class="tournaments-content">
     <div class="tab-content" id="myTabContent">
       <Overview />
-      <Bracket v-if="tournament.image_bracket" />
-      <Players v-if="isOwner()" />
-      <Matches v-if="userHasMatches()" />
-      <Suivi v-if="isOwner() && hasMatches()" />
+      <Bracket v-if="tournament.image_bracket" :tournament="tournament" />
+      <Players v-if="isOwner(tournament)" :tournament="tournament" />
+      <Matches v-if="userHasMatches(tournament)" :tournament="tournament" />
+      <Suivi v-if="isOwner(tournament) && hasMatches(tournament)" :tournament="tournament" />
     </div>
   </section>
 </template>
@@ -17,11 +17,13 @@ import Players from "@/components/tournament/Players";
 import Matches from "@/components/tournament/Matches";
 import Suivi from "@/components/tournament/Suivi";
 import useTournamentHeader from "~~/composables/useTournamentHeader";
+import {useTournamentStore} from "~/store/tournament";
 
-const tournament = inject("tournament");
-
+const { currentTournament } = useTournamentStore()
 const { isOwner, userHasMatches, hasMatches } =
-    useTournamentHeader(tournament)
+    useTournamentHeader()
+
+const tournament = computed(() => currentTournament)
 </script>
 
 <style lang="scss">

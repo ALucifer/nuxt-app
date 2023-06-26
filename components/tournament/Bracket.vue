@@ -2,14 +2,16 @@
   <AppTabPane name="bracket" tabName="tournament-view">
     <template v-slot:content>
       <div class="row">
-        <img :src="tournament.value.image_bracket" alt="" />
+        <img :src="tournament.image_bracket" alt="" />
       </div>
     </template>
   </AppTabPane>
 </template>
 
 <script setup lang="ts">
-const tournament = inject('tournament')
+import {TournamentModel} from "~/app/models/tournament";
+
+defineProps<{tournament: TournamentModel}>()
 </script>
 
 <style></style>

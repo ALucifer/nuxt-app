@@ -1,8 +1,9 @@
 import dayjs from "dayjs";
-import "dayjs/locale/fr.js";
-import * as isSameOrBefore from "dayjs/plugin/isSameOrBefore"
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore"
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
 
 dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrAfter)
 
 export default function useDate() {
 
@@ -15,13 +16,13 @@ export default function useDate() {
         return dayjs(date).fromNow()
     }
 
-    function checkIfDateIsBefore(date) {
-        if (!date) {
-            return false
-        }
-
-        return dayjs().isSameOrBefore(dayjs(date), 'second')
+    function isAfterNow(date) {
+        return dayjs(date).isSameOrAfter(dayjs())
     }
 
-    return { dateFormatted, dateToNow, checkIfDateIsBefore }
+    function isBeforeNow(date) {
+        return dayjs(date).isSameOrBefore(dayjs(),'seconds')
+    }
+
+    return { dateFormatted, dateToNow, isAfterNow, isBeforeNow }
 }

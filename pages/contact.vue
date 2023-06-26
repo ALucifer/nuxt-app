@@ -29,9 +29,7 @@
                   </div>
                   <div class="right-area">
                     <h6>Email</h6>
-                    <p class="text-sm">
-                      oublie-pas-de-creer-une-adresse@gmail.com
-                    </p>
+                    <p class="text-sm">oublie-pas-de-creer-une-adresse@gmail.com</p>
                   </div>
                 </div>
               </div>
