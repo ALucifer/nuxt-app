@@ -26,18 +26,6 @@ export default defineNuxtConfig({
     '@/assets/css/animate.css',
     '@/assets/css/style.css',
   ],
-  meta: {
-    script: [
-      // {
-      //   type: 'text/javascript',
-      //   src: '/js/jquery-3.5.1.min.js',
-      // },
-      {
-        type: 'text/javascript',
-        src: '/js/bootstrap.js',
-      },
-    ]
-  },
   router: {
     // turns off prefetching (since the default is true)
     prefetchLinks: false,

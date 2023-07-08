@@ -13,28 +13,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    firstTeam: {
-      type: Object,
-      required: true,
-    },
-    secondTeam: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    getAvatar(avatar) {
-      if (avatar) {
-        return "data:image/svg+xml;base64," + avatar;
-      }
+<script lang="ts" setup>
 
-      return avatar;
-    },
+defineProps({
+  firstTeam: {
+    type: Object,
+    required: true,
   },
-};
+  secondTeam: {
+    type: Object,
+    required: true,
+  }
+})
+function getAvatar(avatar: string) {
+  if (avatar === '') {
+    return "data:image/svg+xml;base64," + avatar;
+  }
+
+  return avatar;
+}
 </script>
 <style lang="scss" scoped>
 .match {

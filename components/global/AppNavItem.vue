@@ -26,3 +26,12 @@ defineProps({
 
 const { isActiveTabByKeyName, setActiveTabByKeyName } = useTabStore()
 </script>
+
+<style scoped>
+.nav-item:hover {
+  cursor: pointer
+}
+.nav-item > a.active {
+  cursor: auto;
+}
+</style>

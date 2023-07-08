@@ -31,17 +31,17 @@ export default function useTournament() {
         return find(tournament.teams, (t) => t.user_id === user.value.id)
     }
 
-    function userHasMatches(tournament: TournamentModel) {
-        return find(tournament.matches, (m) => m.adversaire_a === user.value.id || m.adversaire_b === user.value.id)
-    }
-
     function hasMatches(tournament: TournamentModel) {
         return tournament.matches?.length > 0
     }
 
     function isCompletlyClose (tournament: TournamentModel) {
-        return tournament.state !== 'OPEN' || tournament.challonge_id === null || date.isBeforeNow(tournament.begin_at)
+        return !['OPEN', 'RUNNING'].includes(tournament.state) || tournament.challonge_id === null || date.isBeforeNow(tournament.begin_at)
     }
 
-    return {isHalf, isOwner, isRegister, userHasMatches, hasMatches, isCompletlyClose, isOpen }
+    function isRunning (tournament: TournamentModel) {
+        return tournament.state === 'RUNNING'
+    }
+
+    return {isHalf, isOwner, isRegister, hasMatches, isCompletlyClose, isOpen, isRunning }
 }

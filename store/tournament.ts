@@ -70,14 +70,13 @@ export const useTournamentStore = defineStore({
     async register(form: any) {
       const authStore = useAuthStore();
       form.user_id = authStore.user.id;
-      return await tournamentClient.register(form);
+      return await tournamentClient.register(form)
     },
     fetchHightlighted() {
       return tournamentClient.hightlighted().then(data => this.highlighted = data);
     },
     async start(tournament: any) {
-      await tournamentClient.start(tournament);
-      await this.fetchItem(tournament.id);
+     return await tournamentClient.start(tournament);
     },
     async unsubscribe(tournament_id: number, user_id: number) {
       return await tournamentClient.unsubscribe(tournament_id, user_id);

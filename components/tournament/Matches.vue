@@ -1,18 +1,16 @@
 <template>
   <AppTabPane name="matches" tabName="tournament-view">
     <template v-slot:content>
-      <template v-for="i in matches">
+      <template v-for="match in matches">
         <MatchCard
-          :firstTeam="getTeam(i.adversaire_a, tournament.value.teams)"
-          :secondTeam="getTeam(i.adversaire_b, tournament.value.teams)"
+          :firstTeam="match.team_a"
+          :secondTeam="match.team_b"
         >
           <template #action>
             <button
               class="btn btn-success"
               type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-              @click.prevent="setMatch(i)"
+              @click.prevent="fetchMatch(match)"
             >
               Score
             </button>
@@ -24,7 +22,7 @@
           >
         </MatchCard>
       </template>
-      <MatchModal />
+      <MatchModal v-if="isOpen()" />
     </template>
   </AppTabPane>
 </template>
@@ -32,26 +30,20 @@
 <script setup lang="ts">
 import MatchCard from "@/components/MatchCard.vue";
 import { useAuthStore } from "~~/store/auth";
-import { filter } from "lodash";
 import MatchModal from "@/components/MatchModal.vue";
-import useMatchModal from "~~/composables/useMatchModal";
+import {useMatchStore} from "~/store/match";
+import useMatchModal from "~/composables/useMatchModal";
+import {MatchModel} from "~/app/models/match";
 
-import {TournamentModel} from "~/app/models/tournament";
-
-const props = defineProps<{tournament: TournamentModel}>()
-const { setMatch } = useMatchModal()
+const props = defineProps<{matches: MatchModel}>()
 const { user } = useAuthStore()
+const matchStore = useMatchStore()
+const { toggle, isOpen } = useMatchModal()
 
-const matches = computed(() => {
-  return filter(
-      props.tournament.matches,
-      (m) =>
-          m.adversaire_a === user.id || m.adversaire_b === user.id
-  )
-})
 
-function getTeam(user_id, teams) {
-  return teams.find((team) => team.user_id == user_id);
+async function fetchMatch(match: any) {
+  await matchStore.fetchMatch(match)
+  toggle()
 }
 </script>
 

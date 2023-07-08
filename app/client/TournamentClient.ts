@@ -23,13 +23,11 @@ export default class TournamentClient extends AbstractClient {
     }
 
     async register(form: { libelle: string, avatar: string, tournament_id: number, user_id: number }) {
-        const { status } = await this.axiosInstance.post(
+        return this.axiosInstance.post(
             "tournaments/register",
             form,
             { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
-        )
-
-        return status
+        ).catch(error => error.response.status)
     }
 
     async hightlighted(): Promise<TournamentModel[]> {
@@ -38,7 +36,7 @@ export default class TournamentClient extends AbstractClient {
     }
 
     async start(tournament: { id: number }) {
-        await this.axiosInstance.get(
+        return await this.axiosInstance.get(
             "tournaments/" + tournament.id + "/start",
             { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
         )
