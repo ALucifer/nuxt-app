@@ -3,8 +3,8 @@
     <template v-slot:content>
       <template v-for="i in tournament.matches">
         <MatchCard
-          :firstTeam="getTeam(i.adversaire_a, tournament.value.teams)"
-          :secondTeam="getTeam(i.adversaire_b, tournament.value.teams)"
+          :firstTeam="getTeam(i.adversaire_a, tournament.teams)"
+          :secondTeam="getTeam(i.adversaire_b, tournament.teams)"
         >
           <template #action>
             <button class="btn btn-success">Score</button>

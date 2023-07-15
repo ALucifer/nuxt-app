@@ -1,30 +1,41 @@
 <template>
   <AppTabPane name="matches" tabName="tournament-view">
     <template v-slot:content>
-      <template v-for="i in matches">
+      <template v-for="match in matches">
         <MatchCard
-          :firstTeam="getTeam(i.adversaire_a, tournament.value.teams)"
-          :secondTeam="getTeam(i.adversaire_b, tournament.value.teams)"
+          :firstTeam="match.team_a"
+          :secondTeam="match.team_b"
         >
           <template #action>
             <button
               class="btn btn-success"
               type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-              @click.prevent="setMatch(i)"
+              @click.prevent="fetchMatch(match)"
+              v-if="!userAlreadyScored(match)"
             >
               Score
             </button>
           </template>
           <template #information>
-            <p class="match--information">
+            <p class="match--information" v-if="!userAlreadyScored(match)">
               Veuillez renseigner le score du match
-            </p></template
+            </p>
+            <p class="match--information" v-if="userAlreadyScored(match)">En attente de validation</p>
+            <span
+              class="badge"
+              v-if="userAlreadyScored(match)"
+              :class="{
+                'text-bg-success': scoreInformation(match).win,
+                'text-bg-danger': !scoreInformation(match).win,
+              }"
+            >
+              {{ scoreInformation(match).score }}
+            </span>
+          </template
           >
         </MatchCard>
       </template>
-      <MatchModal />
+      <MatchModal v-if="isOpen()" />
     </template>
   </AppTabPane>
 </template>
@@ -32,26 +43,44 @@
 <script setup lang="ts">
 import MatchCard from "@/components/MatchCard.vue";
 import { useAuthStore } from "~~/store/auth";
-import { filter } from "lodash";
 import MatchModal from "@/components/MatchModal.vue";
-import useMatchModal from "~~/composables/useMatchModal";
+import {useMatchStore} from "~/store/match";
+import useMatchModal from "~/composables/useMatchModal";
+import {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
+import { find } from 'lodash'
 
-import {TournamentModel} from "~/app/models/tournament";
-
-const props = defineProps<{tournament: TournamentModel}>()
-const { setMatch } = useMatchModal()
+const props = defineProps<{matches: MatchWithTeamsAndScoresModel}>()
 const { user } = useAuthStore()
+const matchStore = useMatchStore()
+const { toggle, isOpen } = useMatchModal()
 
-const matches = computed(() => {
-  return filter(
-      props.tournament.matches,
-      (m) =>
-          m.adversaire_a === user.id || m.adversaire_b === user.id
-  )
-})
+async function fetchMatch(match: any) {
+  await matchStore.fetchMatch(match)
+  toggle()
+}
 
-function getTeam(user_id, teams) {
-  return teams.find((team) => team.user_id == user_id);
+function scoreInformation(match: MatchWithTeamsAndScoresModel) {
+  let team = match.team_a
+
+  if (match.team_b.user_id === user.id) {
+    team = match.team_b
+  }
+  const score = find(match.scores, (i) => {
+    return i.winner_id === team.id || i.looser_id === team.id
+  })
+
+  const win = team.id === score?.winner_id
+
+  let result = score?.winner_score + ' - ' + score?.looser_score
+
+  if (!win) {
+    result = score?.looser_score + ' - ' + score?.winner_score
+  }
+  return { win , score: result }
+}
+
+function userAlreadyScored(match: MatchWithTeamsAndScoresModel) {
+  return find(match.scores, { 'reporter_id': user.id }) !== undefined
 }
 </script>
 

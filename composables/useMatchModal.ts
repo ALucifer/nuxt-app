@@ -1,12 +1,21 @@
-import { reactive } from "vue";
+import { reactive } from 'vue'
 
-let modalValues = reactive({ match: null})
+let state = reactive({ open: false})
 
 export default function useMatchModal() {
-    function setMatch(match) {
-        modalValues.match = match
+
+    function toggle() {
+        state.open = !state.open
     }
 
+    function close() {
+        state.open = false
+    }
 
-    return { modalValues, setMatch }
+    function isOpen()
+    {
+        return state.open
+    }
+
+    return { toggle, isOpen, close }
 }

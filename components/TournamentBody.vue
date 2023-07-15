@@ -4,7 +4,7 @@
       <Overview />
       <Bracket v-if="tournament.image_bracket" :tournament="tournament" />
       <Players v-if="isOwner(tournament)" :tournament="tournament" />
-      <Matches v-if="userHasMatches(tournament)" :tournament="tournament" />
+      <Matches v-if="matchStore.userMatches?.length > 0" :matches="matches" />
       <Suivi v-if="isOwner(tournament) && hasMatches(tournament)" :tournament="tournament" />
     </div>
   </section>
@@ -18,11 +18,15 @@ import Matches from "@/components/tournament/Matches";
 import Suivi from "@/components/tournament/Suivi";
 import useTournamentHeader from "~~/composables/useTournamentHeader";
 import {useTournamentStore} from "~/store/tournament";
+import {useMatchStore} from "~/store/match";
 
 const { currentTournament } = useTournamentStore()
-const { isOwner, userHasMatches, hasMatches } =
+const { isOwner, hasMatches } =
     useTournamentHeader()
 
+const matchStore = useMatchStore()
+
+const matches = computed(() => matchStore.userMatches)
 const tournament = computed(() => currentTournament)
 </script>
 

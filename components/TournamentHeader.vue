@@ -23,7 +23,7 @@
             <NuxtLink
               :to="{ name: 'tournois-id-register' }"
               class="cmn-btn register-btn"
-              v-if="isOpen(tournament)"
+              v-if="!isRegister(tournament) && isOpen(tournament)"
               >S'inscrire</NuxtLink
             >
             <span
@@ -48,7 +48,7 @@
           <AppNavItem
             name="matches"
             libelle="Mes matchs"
-            v-if="userHasMatches(tournament)"
+            v-if="matchStore.userMatches?.length > 0"
           />
           <AppNavItem name="suivi" v-if="isOwner(tournament) && hasMatches(tournament)" />
         </ul>
@@ -63,13 +63,15 @@ import useFlashMessages from "@/composables/useFlashMessages";
 import useTournamentHeader from "~~/composables/useTournamentHeader";
 import {useTournamentStore} from "~/store/tournament";
 import State from '@/components/tournament/State.vue'
+import { useMatchStore } from "~/store/match";
 
-const { isOwner, isHalf, isRegister, userHasMatches, hasMatches, isCompletlyClose, isOpen } =
+const { isOwner, isHalf, isRegister, hasMatches, isCompletlyClose, isOpen } =
     useTournamentHeader()
 const { addMessage } = useFlashMessages()
 
 const authStore = useAuthStore()
 const tournamentStore = useTournamentStore()
+const matchStore = useMatchStore()
 
 const bracketLoading = ref(false)
 const unsubscribeLoad = ref(false)
@@ -96,12 +98,14 @@ function unsubscribeClick() {
 }
 async function generate() {
     bracketLoading.value = true;
-    await tournamentStore.start(tournamentStore.currentTournament);
-    addMessage({
+    await tournamentStore.start(tournamentStore.currentTournament).then((data) => {
+      tournamentStore.setCurrentTournament(data.data)
+      addMessage({
         class: "success",
         message: "Génération de l'arbre réussi.",
-    });
-    bracketLoading.value = false;
+      });
+      bracketLoading.value = false;
+    })
 }
 </script>
 
