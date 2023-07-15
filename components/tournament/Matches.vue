@@ -11,14 +11,27 @@
               class="btn btn-success"
               type="button"
               @click.prevent="fetchMatch(match)"
+              v-if="!userAlreadyScored(match)"
             >
               Score
             </button>
           </template>
           <template #information>
-            <p class="match--information">
+            <p class="match--information" v-if="!userAlreadyScored(match)">
               Veuillez renseigner le score du match
-            </p></template
+            </p>
+            <p class="match--information" v-if="userAlreadyScored(match)">En attente de validation</p>
+            <span
+              class="badge"
+              v-if="userAlreadyScored(match)"
+              :class="{
+                'text-bg-success': scoreInformation(match).win,
+                'text-bg-danger': !scoreInformation(match).win,
+              }"
+            >
+              {{ scoreInformation(match).score }}
+            </span>
+          </template
           >
         </MatchCard>
       </template>
@@ -33,17 +46,41 @@ import { useAuthStore } from "~~/store/auth";
 import MatchModal from "@/components/MatchModal.vue";
 import {useMatchStore} from "~/store/match";
 import useMatchModal from "~/composables/useMatchModal";
-import {MatchModel} from "~/app/models/match";
+import {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
+import { find } from 'lodash'
 
-const props = defineProps<{matches: MatchModel}>()
+const props = defineProps<{matches: MatchWithTeamsAndScoresModel}>()
 const { user } = useAuthStore()
 const matchStore = useMatchStore()
 const { toggle, isOpen } = useMatchModal()
 
-
 async function fetchMatch(match: any) {
   await matchStore.fetchMatch(match)
   toggle()
+}
+
+function scoreInformation(match: MatchWithTeamsAndScoresModel) {
+  let team = match.team_a
+
+  if (match.team_b.user_id === user.id) {
+    team = match.team_b
+  }
+  const score = find(match.scores, (i) => {
+    return i.winner_id === team.id || i.looser_id === team.id
+  })
+
+  const win = team.id === score?.winner_id
+
+  let result = score?.winner_score + ' - ' + score?.looser_score
+
+  if (!win) {
+    result = score?.looser_score + ' - ' + score?.winner_score
+  }
+  return { win , score: result }
+}
+
+function userAlreadyScored(match: MatchWithTeamsAndScoresModel) {
+  return find(match.scores, { 'reporter_id': user.id }) !== undefined
 }
 </script>
 
