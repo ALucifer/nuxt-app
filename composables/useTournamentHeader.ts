@@ -1,13 +1,12 @@
 import { find } from "lodash"
-import { useAuthStore } from "~~/store/auth";
 import useDate from "~/composables/useDate";
 import {TournamentModel} from "~/app/models/tournament";
 
 export default function useTournament() {
-    const authStore = useAuthStore();
     const date = useDate()
+    const { data: auth } = useAuth()
 
-    const user = computed(() => authStore.getUser);
+    const user = computed(() => auth.value.user);
 
     function isHalf(tournament: TournamentModel) {
         return (
@@ -35,8 +34,18 @@ export default function useTournament() {
         return tournament.matches?.length > 0
     }
 
+    function isValid(tournament: TournamentModel) {
+        return ['OPEN', 'RUNNING'].includes(tournament.state) && tournament.challonge_id !== null
+    }
+
     function isCompletlyClose (tournament: TournamentModel) {
-        return !['OPEN', 'RUNNING'].includes(tournament.state) || tournament.challonge_id === null || date.isBeforeNow(tournament.begin_at)
+        const valid = isValid(tournament)
+
+        if (!valid) {
+            return true
+        }
+
+        return !isRunning(tournament) && date.isBeforeNow(tournament.begin_at);
     }
 
     function isRunning (tournament: TournamentModel) {

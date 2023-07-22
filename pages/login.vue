@@ -30,6 +30,13 @@ import SocialAuthenticator from "@/components/SocialAuthenticator";
 import SocialProvider from "~/app/client/oauth/SocialProvider";
 import ProviderDTO from "~/app/client/oauth/DTO/ProviderDTO";
 
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/',
+  }
+})
+
 useHead({
   title: "Connexion",
   script: [

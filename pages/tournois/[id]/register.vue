@@ -33,7 +33,7 @@ import {useTournamentStore} from "~/store/tournament";
 import useTournament from "~/composables/useTournamentHeader";
 
 definePageMeta({
-  middleware: "auth",
+  // middleware: "auth",
 });
 
 useHead({
@@ -49,10 +49,15 @@ const schema = yup.object({
     libelle: yup.string().required("Le nom de votre équipe est obligatoire."),
 })
 
-const { isCompletlyClose } = useTournament()
+const { isCompletlyClose, isRegister } = useTournament()
 const tournamentStore = useTournamentStore()
 const { data, pending } = await useAsyncData(async() => {
     const tournament = await tournamentStore.fetchItem(route.params.id)
+
+    if (isRegister(tournament)) {
+      return router.push({name: 'tournois-id', params: { id: route.params.id } })
+    }
+
     if (isCompletlyClose(tournament)) {
         router.push({name: 'tournois-id', params: { id: route.params.id } })
     }
@@ -106,6 +111,7 @@ async function submit(values) {
       classCss = "success";
     }
     addMessage({ message: message, class: classCss });
+
     return router.push({
       name: "tournois-id",
       params: { id: route.params.id },

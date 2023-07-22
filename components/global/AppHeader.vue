@@ -43,23 +43,23 @@
                   />
                 </a>
               </li>
-              <li v-if="!authStore.isAuthenticated">
+              <li v-if="status !== 'authenticated'">
                 <NuxtLink :to="{ name: 'login' }">Login</NuxtLink>
               </li>
-              <li v-if="!authStore.isAuthenticated">
+              <li v-if="status !== 'authenticated'">
                 <NuxtLink :to="{ name: 'register' }">Inscription</NuxtLink>
               </li>
-              <li v-if="authStore.isAuthenticated">
+              <li v-if="status === 'authenticated'">
                 <NuxtLink :to="{ name: 'profile' }">Profile</NuxtLink>
               </li>
-              <li v-if="authStore.isAuthenticated">
-                <a @click.prevent="authStore.logout()">Deconnexion</a>
+              <li v-if="status === 'authenticated'">
+                <a @click.prevent="signOut()">Deconnexion</a>
               </li>
             </ul>
           </div>
         </nav>
         <div class="d-none d-lg-flex right-area nav-menu__actions">
-          <div class="search-icon" v-if="authStore.isAuthenticated">
+          <div class="search-icon" v-if="status === 'authenticated'">
             <button
               class="button--action"
               @click.stop="searchGlobalActive = true"
@@ -69,21 +69,21 @@
           </div>
 
           <NuxtLink
-            v-if="!authStore.isAuthenticated"
+            v-if="status !== 'authenticated'"
             :to="{ name: 'login' }"
             class="login-btn"
             >Login</NuxtLink
           >
           <NuxtLink
-            v-if="!authStore.isAuthenticated"
+            v-if="status !== 'authenticated'"
             :to="{ name: 'register' }"
             class="cmn-btn"
             >Inscription</NuxtLink
           >
-          <a v-if="authStore.isAuthenticated" href="#" class="user-link">
+          <a v-if="status === 'authenticated'" href="#" class="user-link">
             <div class="user-link__heading" @click.stop="toggle()">
               <span class="">
-                {{ user.pseudo }}
+                {{ data.user.pseudo }}
               </span>
               <nuxt-img
                 :src="avatar"
@@ -105,16 +105,14 @@
 
 <script setup lang="ts">
 import SearchGlobal from "@/components/SearchGlobal";
-import { useAuthStore } from "@/store/auth";
 import useSidebar from "@/composables/useSidebar";
 
 const { toggle } = useSidebar()
-const authStore = useAuthStore()
 const searchGlobalActive = ref(false)
 
-const user = computed(() => authStore.user)
+const { status, data, signOut } = useAuth()
 
-const avatar = computed(() => user?.value.avatar ?? '/')
+const avatar = computed(() => data.value.user.avatar ?? '/')
 </script>
 <style lang="scss">
 @import "@/assets/css/components/global/AppHeader.scss";

@@ -1,22 +1,24 @@
 <template>
   <div>
     <ProfileBanner :isOwnProfile="true" :user="user" v-if="user" />
-    <NuxtPage :key="key" :user="user" v-if="user"/>
+    <NuxtPage :key="key"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import ProfileBanner from "@/components/ProfileBanner";
-import { useAuthStore } from "@/store/auth";
-import { mapState } from "pinia";
 
 definePageMeta({
-  middleware: "auth",
-});
+  auth: {
+    unauthenticatedOnly: false,
+    navigateAuthenticatedTo: '/',
+  }
+})
 
-const authStore = useAuthStore()
+const { data } = useAuth()
 
-const user = computed(() => authStore.user)
+const user = data.value.user
+
 function key() {
     return guid();
 }

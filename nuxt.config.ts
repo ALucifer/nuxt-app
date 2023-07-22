@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     dirs: ['~/components/global']
   },
   modules: [
+    '@sidebase/nuxt-auth',
     '@nuxt/image-edge',
     [
       '@pinia/nuxt',
@@ -17,6 +18,10 @@ export default defineNuxtConfig({
       },
     ],
   ],
+  auth: {
+    origin: '127.0.0.1:3333',
+    enableGlobalAppMiddleware: true
+  },
   css: [
     '@/assets/css/fontawesome.min.css',
     '@/assets/css/slick.css',

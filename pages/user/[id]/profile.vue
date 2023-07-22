@@ -14,7 +14,7 @@
 import { useUserStore } from "~~/store/user";
 
 definePageMeta({
-  middleware: "auth",
+  // middleware: "auth",
 });
 
 export default {

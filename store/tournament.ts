@@ -68,8 +68,9 @@ export const useTournamentStore = defineStore({
       this.currentPage++;
     },
     async register(form: any) {
-      const authStore = useAuthStore();
-      form.user_id = authStore.user.id;
+      const { data } = useAuth()
+      form.user_id = data.value.user.id;
+
       return await tournamentClient.register(form)
     },
     fetchHightlighted() {

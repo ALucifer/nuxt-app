@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { useAuthStore } from "@/store/auth";
 import { useUserStore } from "@/store/user";
 import ConversationClient from "~/app/client/ConversationClient";
 
@@ -31,20 +30,20 @@ export const useConversationStore = defineStore({
         );
     },
     getUnreadMessagesByConversationId: (state) => {
-      const authStore = useAuthStore();
+      const { data: auth } = useAuth();
 
       return (conversationId) => {
         if (!conversationId) {
           return state.messages.filter(
             (message) =>
-              message.state === "UNREAD" && message.to === authStore.user.id
+              message.state === "UNREAD" && message.to === auth.value.user.id
           );
         }
         return state.messages.filter(
           (message) =>
             message.conversation === conversationId &&
             message.state === "UNREAD" &&
-            message.to === authStore.user.id
+            message.to === auth.value.user.id
         );
       };
     },
@@ -75,8 +74,8 @@ export const useConversationStore = defineStore({
     },
 
     isOwnMessage(message) {
-      const authStore = useAuthStore();
-      return message.fromUser.id === authStore.user.id;
+      const { data: auth } = useAuth();
+      return message.fromUser.id === auth.value.user.id;
     },
 
     addMessage(message) {
@@ -116,10 +115,10 @@ export const useConversationStore = defineStore({
     },
 
     async sendMessageToNewConversation({ text }) {
-      const authStore = useAuthStore();
+      const { data: auth } = useAuth();
 
       const data = await conversationClient.createNewConversation({
-        sendFrom: authStore.user.id,
+        sendFrom: auth.value.user.id,
         sendTo: this.currentConversation.interlocutor.id,
         messages: {
           text: text,

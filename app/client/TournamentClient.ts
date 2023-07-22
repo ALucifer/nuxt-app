@@ -23,10 +23,11 @@ export default class TournamentClient extends AbstractClient {
     }
 
     async register(form: { libelle: string, avatar: string, tournament_id: number, user_id: number }) {
+        const { data: auth } = useAuth()
         return this.axiosInstance.post(
             "tournaments/register",
             form,
-            { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
+            { headers: { Authorization: "Bearer " + auth.value.token } }
         ).catch(error => error.response.status)
     }
 
@@ -36,17 +37,19 @@ export default class TournamentClient extends AbstractClient {
     }
 
     async start(tournament: { id: number }) {
+        const { data: auth } = useAuth()
         return await this.axiosInstance.get(
             "tournaments/" + tournament.id + "/start",
-            { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
+            { headers: { Authorization: "Bearer " + auth.value.token } }
         )
     }
 
     async unsubscribe(tournament_id: number, user_id: number) {
+        const { data: auth } = useAuth()
         return await this.axiosInstance.post(
             "/tournaments/" + tournament_id + "/unsubscribe/" + user_id,
             {},
-            { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
+            { headers: { Authorization: "Bearer " + auth.value.token } }
         )
     }
 }

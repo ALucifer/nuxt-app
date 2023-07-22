@@ -36,7 +36,7 @@
           aria-hidden="true"
         ></span>
       </button>
-      <button v-else type="submit" class="cmn-btn submit-btn">Connexion</button>
+      <button v-else type="submit" class="cmn-btn submit-btn" >Connexion</button>
     </div>
   </AppForm>
 </template>
@@ -53,18 +53,12 @@ const error = ref(false)
 const isSubmitting = ref(false)
 const { login }  = useAuthStore()
 const router = useRouter()
+const { signIn } = useAuth()
 
-async function submit(values) {
-  isSubmitting.value = true;
-  const result = await login({ form: values })
 
-  error.value = !result
-
-  if (result) {
-      isSubmitting.value = false;
-        router.push(router.currentRoute.value.query.redirectTo || { name: 'profile' })
-  }
-
+async function submit(values: any) {
+  isSubmitting.value = true
+  await signIn('credentials', { email: values.email, password: values.password })
   isSubmitting.value = false
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div
-      class="row no-gutters"
+      class="row g-0"
       style="background-color: #665494; min-height: 350px"
       v-if="loaded"
     >
@@ -26,7 +26,6 @@
 import MessageLeftSide from "@/components/profile/MessageLeftSide.vue";
 import MessageRightSide from "@/components/profile/MessageRightSide.vue";
 import { useConversationStore } from "@/store/conversation";
-import { useAuthStore } from "@/store/auth";
 import ClientSSE from "~/app/client/sse/ClientSSE";
 
 const loaded = ref(false)
@@ -34,10 +33,35 @@ const loaded = ref(false)
 const {
     changeActiveConversation, createNewConversation, isNewConversation, fetchConversations, fetchMessages, addMessage
 } = useConversationStore()
-const { user } = useAuthStore()
+const { data } = useAuth()
 const route = useRoute()
 
 const conversations = computed(() => useConversationStore().conversations)
+
+useAsyncData(() => {
+  return fetchConversations()
+})
+
+onMounted(async () => {
+  if (conversations.length !== 0) {
+    await fetchMessages()
+  }
+
+  if (route.query.user) {
+    await loadConversation()
+  }
+
+  const clientSSE = new ClientSSE(data.value.user)
+  clientSSE.connect()
+
+  clientSSE.eventSource.onmessage = ({ data }) => {
+    addMessage(JSON.parse(data)).then(() => {
+      scrollToNewMessage();
+    });
+  };
+
+  loaded.value = true
+})
 
 async function loadConversation() {
     const isNew = await isNewConversation({ user_id: route.query.user })
@@ -52,29 +76,6 @@ function scrollToNewMessage() {
     let chat = this.$refs.messages.$refs.chat__container;
     chat.scrollTop = topPos;
 }
-
-await fetchConversations()
-onMounted(async () => {
-    await fetchConversations()
-    if (conversations.length !== 0) {
-        await fetchMessages()
-    }
-
-    if (route.query.user) {
-        await loadConversation()
-    }
-
-    const clientSSE = new ClientSSE(user)
-    clientSSE.connect()
-
-    clientSSE.eventSource.onmessage = ({ data }) => {
-      addMessage(JSON.parse(data)).then(() => {
-        scrollToNewMessage();
-      });
-    };
-
-    loaded.value = true
-})
 </script>
 
 <style lang="scss">

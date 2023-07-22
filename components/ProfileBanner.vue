@@ -8,15 +8,15 @@
               <div class="profile-photo">
                 <AppAvatar
                   :editable="isOwnProfile"
-                  :src="user.avatar"
+                  src="https://imgur.com/oxJYBVT.jpg"
                   @change="changeAvatar"
                 />
               </div>
               <div
                 class="profile-informations"
-                :class="{ 'profile-informations--verified': user.verified }"
+                :class="{ 'profile-informations--verified': true }"
               >
-                <h4>{{ user.pseudo }}</h4>
+                <h4>{{ auth.user.pseudo }}</h4>
               </div>
             </div>
           </div>
@@ -31,7 +31,7 @@
               <NuxtLink
                 v-else
                 class="cmn-btn"
-                :to="{ name: 'profile-messages', query: { user: user.id } }"
+                :to="{ name: 'profile-messages', query: { user: auth.user.id } }"
                 >Message</NuxtLink
               >
             </div>
@@ -43,8 +43,10 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "../store/auth";
 
+import {useAuthStore} from "~/store/auth";
+
+const { data: auth } = useAuth()
 defineProps({ user: { type: Object, required: true }, isOwnProfile: { type: Boolean, default: false }})
 
 const { changeAvatar } = useAuthStore()
