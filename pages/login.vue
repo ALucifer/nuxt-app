@@ -5,17 +5,19 @@
         <div class="col-lg-6">
           <div class="authentication-main">
             <h4>Bienvenue</h4>
-            <LoginForm />
+            <LoginForm/>
             <div class="or">
               <p>OU</p>
             </div>
-              <SocialAuthenticator
+            <SocialAuthenticator
                 v-if="loaded"
                 message="Inscrivez-vous avec"
                 :googleClick="googleClick"
-              />
+            />
             <div class="account">
-              <p>Vous n'avez pas de compte? <NuxtLink :to="{ name: 'register' }">Inscription ici</NuxtLink></p>
+              <p>Vous n'avez pas de compte?
+                <NuxtLink :to="{ name: 'register' }">Inscription ici</NuxtLink>
+              </p>
             </div>
           </div>
         </div>

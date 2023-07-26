@@ -20,6 +20,7 @@ export default NuxtAuthHandler({
             },
             async authorize(credentials: any) {
                 try {
+                    console.log('auth')
                     const client = new AuthClient()
                     const data = await client.login({ email: credentials.email, password: credentials.password})
 
@@ -34,7 +35,7 @@ export default NuxtAuthHandler({
                         token: data.token.token
                     }
                 } catch (e: any) {
-                    return null
+                    return false
                 }
             }
         })
@@ -54,5 +55,5 @@ export default NuxtAuthHandler({
             (session as any).token = token.token;
             return Promise.resolve(session);
         },
-    }
+    },
 })

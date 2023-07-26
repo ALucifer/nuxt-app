@@ -9,7 +9,7 @@
               <State :tournament="tournament" />
               <div
                 class="start-area bg--action"
-                v-if="isHalf(tournament)"
+                v-if="isLogged() && isHalf(tournament)"
                 @click="generate()"
               >
                 <span
@@ -19,7 +19,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-4 text-center" v-if="isOpen(tournament)">
+          <div class="col-lg-3 col-md-4 text-center" v-if="isOpen(tournament) && isLogged()">
             <NuxtLink
               :to="{ name: 'tournois-id-register' }"
               class="cmn-btn register-btn"
@@ -44,13 +44,13 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <AppNavItem name="overview" />
           <AppNavItem name="bracket" v-if="tournament.image_bracket" />
-          <AppNavItem name="participants" v-if="isOwner(tournament)" />
+          <AppNavItem name="participants" v-if="isLogged() && isOwner(tournament)" />
           <AppNavItem
             name="matches"
             libelle="Mes matchs"
             v-if="matchStore.userMatches?.length > 0"
           />
-          <AppNavItem name="suivi" v-if="isOwner(tournament) && hasMatches(tournament)" />
+          <AppNavItem name="suivi" v-if="isLogged() && isOwner(tournament) && hasMatches(tournament)" />
         </ul>
       </div>
     </div>
@@ -58,30 +58,31 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "@/store/auth";
 import useFlashMessages from "@/composables/useFlashMessages";
 import useTournamentHeader from "~~/composables/useTournamentHeader";
 import {useTournamentStore} from "~/store/tournament";
 import State from '@/components/tournament/State.vue'
 import { useMatchStore } from "~/store/match";
+import useSecurity from "~/composables/useSecurity";
 
 const { isOwner, isHalf, isRegister, hasMatches, isCompletlyClose, isOpen } =
     useTournamentHeader()
 const { addMessage } = useFlashMessages()
 
-const authStore = useAuthStore()
+const { isLogged, getUser } = useSecurity()
+
+const { data: auth } = useAuth()
 const tournamentStore = useTournamentStore()
 const matchStore = useMatchStore()
 
 const bracketLoading = ref(false)
 const unsubscribeLoad = ref(false)
-const user = computed(() => authStore.user)
 const tournament = computed(() => tournamentStore.currentTournament)
 
 function unsubscribeClick() {
   unsubscribeLoad.value = true
 
-  tournamentStore.unsubscribe(tournamentStore.currentTournament.id, user.value.id).then((data) => {
+  tournamentStore.unsubscribe(tournamentStore.currentTournament.id, getUser().id).then((data) => {
     tournamentStore.setCurrentTournament(data.data)
     unsubscribeLoad.value = false
     addMessage({

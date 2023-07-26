@@ -33,15 +33,20 @@ import SearchFormTournament from "@/components/SearchFormTournament";
 import { useTournamentStore } from "~/store/tournament";
 import BannerTournaments from "~/components/BannerTournaments.vue";
 
+definePageMeta({
+  auth: false
+})
+
+useHead({
+  title: "Spots : Les tournois",
+  description:
+      "Spots est un site de gaming qui regroupe les utilisateurs qui souhaitent créer leur propre tournois gratuitement.",
+})
+
 const tournamentStore = useTournamentStore()
 
 const { data, error } = await useAsyncData('listing', async () => await tournamentStore.fetchItems())
 
-useHead({
-    title: "Spots : Les tournois",
-    description:
-        "Spots est un site de gaming qui regroupe les utilisateurs qui souhaitent créer leur propre tournois gratuitement.",
-})
 
 const infiniteKey = ref(0)
 

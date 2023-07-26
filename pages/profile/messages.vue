@@ -33,7 +33,7 @@ const loaded = ref(false)
 const {
     changeActiveConversation, createNewConversation, isNewConversation, fetchConversations, fetchMessages, addMessage
 } = useConversationStore()
-const { data } = useAuth()
+const { getUser } = useSecurity()
 const route = useRoute()
 
 const conversations = computed(() => useConversationStore().conversations)
@@ -51,7 +51,7 @@ onMounted(async () => {
     await loadConversation()
   }
 
-  const clientSSE = new ClientSSE(data.value.user)
+  const clientSSE = new ClientSSE(getUser())
   clientSSE.connect()
 
   clientSSE.eventSource.onmessage = ({ data }) => {

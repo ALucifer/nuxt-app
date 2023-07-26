@@ -27,6 +27,13 @@
 import RegisterForm from "@/components/RegisterForm";
 import SocialAuthenticator from "@/components/SocialAuthenticator";
 
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/',
+  }
+})
+
 useHead({
     title: 'Inscription'
 })

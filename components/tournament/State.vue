@@ -6,7 +6,7 @@
     </div>
     <div class="date-area bg bg-danger" v-if="isCompletlyClose(tournament)">Terminé</div>
     <div class="date-area bg bg-success" v-if="isRunning(tournament)">En cours</div>
-    <div class="date-area bg bg-warning" v-if="isRegister(tournament)">Inscrit</div>
+    <div class="date-area bg bg-warning" v-if="isLogged() && isRegister(tournament)">Inscrit</div>
     <div class="date-area bg">
       <span class="date">{{ formattedDate }}</span>
     </div>
@@ -22,6 +22,7 @@ const { dateToNow, dateFormatted, isAfterNow } = useDate()
 const props = defineProps<{ tournament: TournamentModel }>()
 
 const { isCompletlyClose, isRegister, isRunning } = useTournamentHeader()
+const { isLogged } = useSecurity()
 
 const formattedDate = computed(() => dateFormatted({ date: props.tournament.begin_at, format: "dddd DD MMM YYYY" }))
 </script>

@@ -6,10 +6,11 @@ export default class MatchClient extends AbstractClient {
         return data
     }
     async fetchUserMatches(tournament_id: number) {
-        const { data: user } = useAuth()
+        const { getToken } = useSecurity()
+
         const { data } = await this.axiosInstance.get(
             `users/tournaments/${tournament_id}/matches`,
-            { headers: { Authorization: "Bearer " + user.value.token } }
+            { headers: { Authorization: "Bearer " + getToken() } }
         )
 
         return data

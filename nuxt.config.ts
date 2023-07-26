@@ -20,7 +20,14 @@ export default defineNuxtConfig({
   ],
   auth: {
     origin: '127.0.0.1:3333',
-    enableGlobalAppMiddleware: true
+    globalAppMiddleware: true,
+    isEnabled: true,
+    globalAppMiddleware: {
+      isEnabled: true
+    },
+    provider: {
+      type: 'authjs'
+    }
   },
   css: [
     '@/assets/css/fontawesome.min.css',

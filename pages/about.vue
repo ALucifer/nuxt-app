@@ -33,6 +33,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  auth: false
+})
+
 useHead({
   title: "A propos de Spots",
   description: "Page d'information sur le site Spots."

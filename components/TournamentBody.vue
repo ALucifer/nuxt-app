@@ -3,9 +3,9 @@
     <div class="tab-content" id="myTabContent">
       <Overview />
       <Bracket v-if="tournament.image_bracket" :tournament="tournament" />
-      <Players v-if="isOwner(tournament)" :tournament="tournament" />
+      <Players v-if="isLogged() && isOwner(tournament)" :tournament="tournament" />
       <Matches v-if="matchStore.userMatches?.length > 0" :matches="matches" />
-      <Suivi v-if="isOwner(tournament) && hasMatches(tournament)" :tournament="tournament" />
+      <Suivi v-if="isLogged() && isOwner(tournament) && hasMatches(tournament)" :tournament="tournament" />
     </div>
   </section>
 </template>
@@ -23,6 +23,8 @@ import {useMatchStore} from "~/store/match";
 const { currentTournament } = useTournamentStore()
 const { isOwner, hasMatches } =
     useTournamentHeader()
+
+const { isLogged } = useSecurity()
 
 const matchStore = useMatchStore()
 

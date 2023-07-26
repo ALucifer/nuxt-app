@@ -53,7 +53,7 @@
                 <NuxtLink :to="{ name: 'profile' }">Profile</NuxtLink>
               </li>
               <li v-if="status === 'authenticated'">
-                <a @click.prevent="signOut()">Deconnexion</a>
+                <a @click="signOut()">Deconnexion</a>
               </li>
             </ul>
           </div>

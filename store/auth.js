@@ -34,15 +34,6 @@ export const useAuthStore = defineStore({
       this.user = await authClient.login(form)
       return !!this.user;
     },
-    logout() {
-      localStorage.removeItem("token");
-      this.user = null;
-    },
-    async fetchUser() {
-      if (localStorage.getItem("token") && !this.isAuthenticated) {
-        this.user = await authClient.me();
-      }
-    },
     changeAvatar(e) {
       let formData = new FormData();
       formData.append("avatar", e.target.files[0]);

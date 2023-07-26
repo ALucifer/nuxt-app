@@ -4,9 +4,7 @@ import {TournamentModel} from "~/app/models/tournament";
 
 export default function useTournament() {
     const date = useDate()
-    const { data: auth } = useAuth()
-
-    const user = computed(() => auth.value.user);
+    const { getUser } = useSecurity()
 
     function isHalf(tournament: TournamentModel) {
         return (
@@ -23,11 +21,11 @@ export default function useTournament() {
     }
 
     function isOwner(tournament: TournamentModel) {
-        return tournament.owner === user.value.id
+        return tournament.owner === getUser().id
     }
 
     function isRegister(tournament: TournamentModel) {
-        return find(tournament.teams, (t) => t.user_id === user.value.id)
+        return find(tournament.teams, (t) => t.user_id === getUser().id)
     }
 
     function hasMatches(tournament: TournamentModel) {

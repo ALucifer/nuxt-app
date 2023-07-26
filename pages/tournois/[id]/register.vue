@@ -32,10 +32,6 @@ import * as yup from "yup";
 import {useTournamentStore} from "~/store/tournament";
 import useTournament from "~/composables/useTournamentHeader";
 
-definePageMeta({
-  // middleware: "auth",
-});
-
 useHead({
     title: "Inscription au tournoi",
     description: "Page d'inscription à un tournoi.",

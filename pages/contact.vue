@@ -44,6 +44,10 @@
 <script setup lang="ts">
 import ContactForm from "@/components/ContactForm";
 
+definePageMeta({
+  auth: false
+})
+
 useHead({
   title: "Spots : Contact",
   description: "Page de contact."

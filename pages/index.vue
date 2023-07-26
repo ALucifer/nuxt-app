@@ -10,10 +10,7 @@ import Introduction from "@/components/Introduction";
 import PlayProcess from "@/components/PlayProcess";
 
 definePageMeta({
-  auth: {
-    unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/',
-  }
+  auth: false
 })
 
 useHead({

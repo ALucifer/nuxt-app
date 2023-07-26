@@ -29,16 +29,15 @@
 
 <script setup lang="ts">
 import useSidebar from "@/composables/useSidebar";
-import {useAuthStore} from "~/store/auth";
 
 const { isOpen, toggle } = useSidebar();
 const { close } = useSidebar()
 const router = useRouter()
 
 function logout () {
-  const { logout } = useAuthStore()
+  const { signOut } = useAuth()
 
-  logout()
+  signOut()
   close()
   router.push({ name: 'index' })
 }
