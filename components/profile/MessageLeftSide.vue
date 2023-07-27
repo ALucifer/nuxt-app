@@ -1,35 +1,33 @@
 <template>
   <div class="users-container">
-    <ul class="user-list">
+    <ul class="user-list" v-if="conversations">
       <template v-for="(conversation, key) in conversations" :key="key">
         <li
-          v-if="
-            conversation.total_messages > 0 ||
-            conversation.id == currentConversation.id
-          "
+          v-if="conversation.total_messages > 0"
           class="user-list__item"
           @click.prevent="
+            conversation.id !== currentConversation?.id &&
             $emit('changeConversation', {
-              conversation_id: conversation.id,
+              conversation: conversation,
             })
           "
         >
           <div class="user-item">
             <img
-              :src="conversation.interlocutor.avatar"
-              :alt="`${conversation.interlocutor.pseudo} avatar`"
+                :src="conversation.interlocutor.avatar"
+                :alt="`${conversation.interlocutor.pseudo} avatar`"
             />
           </div>
           <p class="name-time">
             <span class="name">{{ conversation.interlocutor.pseudo }}</span>
           </p>
           <span
-            v-if="
-              getUnreadMessagesByConversationId(conversation.id).length > 0
+              v-if="
+              getUnreadMessagesByConversation(conversation).length > 0
             "
-            class="badge rounded-pill bg-warning text-dark"
-            >{{
-              getUnreadMessagesByConversationId(conversation.id).length
+              class="badge rounded-pill bg-warning text-dark"
+          >{{
+              getUnreadMessagesByConversation(conversation).length
             }}</span
           >
         </li>
@@ -39,11 +37,12 @@
 </template>
 
 <script setup lang="ts">
-import { useConversationStore } from "@/store/conversation";
+import {useConversationStore} from "~/store/conversation";
+import {ConversationModel} from "~/app/models/conversation.model";
 
-defineProps({ conversations: { type: Array, default: [] }})
+defineProps<{conversations?: ConversationModel[]}>()
 
-const { getUnreadMessagesByConversationId, currentConversation } = useConversationStore()
+const {getUnreadMessagesByConversation, currentConversation} = useConversationStore()
 </script>
 
 <style lang="scss">

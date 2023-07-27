@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import useFlashMessages from "@/composables/useFlashMessages";
+import useFlashMessages from "~/composables/useFlashMessages";
 import { object, string } from "yup";
 import ContactClient from "~/app/client/ContactClient";
 

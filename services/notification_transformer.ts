@@ -2,7 +2,7 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-export function transformToLink(text) {
+export function transformToLink(text: string) : string {
   let parser = new DOMParser();
   let doc = parser.parseFromString(text, "text/html");
   const link = doc.querySelector("[data-url");

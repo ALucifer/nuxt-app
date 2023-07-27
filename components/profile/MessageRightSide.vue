@@ -3,14 +3,14 @@
     <span
       >De:
       <span class="selected-user__name">{{
-        currentConversation.interlocutor.pseudo
+        currentConversation?.interlocutor.pseudo
       }}</span></span
     >
   </div>
   <div class="chat-container chat__container" ref="chat__container">
     <ul class="chat-box chatContainerScroll">
       <li
-        v-for="(message, i) in getMessagesByConversationId(currentConversation.id)"
+        v-for="(message, i) in getMessagesByConversationId(currentConversation?.id)"
         class="chat__message"
         v-observe="{
           callback: messageRead,
@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { useConversationStore } from "@/store/conversation";
+import { useConversationStore } from "~/store/conversation";
 
 const message = ref('')
 const {
@@ -79,10 +79,10 @@ const {
 const emit = defineEmits(['newMessage'])
 
 async function send() {
-    if (currentConversation.id === 0) {
+    if (currentConversation?.id === 0) {
         await sendMessageToNewConversation({ text: message.value })
     } else {
-        await sendMessage({ text: message.value })
+        await sendMessage(message.value)
     }
 
     message.value = ''

@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { identicon } from "minidenticons";
-import useFlashMessages from "@/composables/useFlashMessages";
+import useFlashMessages from "~/composables/useFlashMessages";
 import * as yup from "yup";
 import {useTournamentStore} from "~/store/tournament";
 import useTournament from "~/composables/useTournamentHeader";

@@ -3,14 +3,11 @@
     <div
       class="row g-0"
       style="background-color: #665494; min-height: 350px"
-      v-if="loaded"
     >
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
         <MessageLeftSide
           @changeConversation="
-            changeActiveConversation({
-              id: $event.conversation_id,
-            })
+            changeActiveConversation($event.conversation)
           "
           :conversations="conversations"
         />
@@ -25,13 +22,13 @@
 <script setup lang="ts">
 import MessageLeftSide from "@/components/profile/MessageLeftSide.vue";
 import MessageRightSide from "@/components/profile/MessageRightSide.vue";
-import { useConversationStore } from "@/store/conversation";
+import { useConversationStore } from "~/store/conversation";
 import ClientSSE from "~/app/client/sse/ClientSSE";
 
-const loaded = ref(false)
-
 const {
-    changeActiveConversation, createNewConversation, isNewConversation, fetchConversations, fetchMessages, addMessage
+    changeActiveConversation, createNewConversation,
+  isNewConversation, fetchConversations, fetchMessagesByConversation,
+  addMessage, currentConversation
 } = useConversationStore()
 const { getUser } = useSecurity()
 const route = useRoute()
@@ -39,38 +36,42 @@ const route = useRoute()
 const conversations = computed(() => useConversationStore().conversations)
 
 useAsyncData(() => {
-  return fetchConversations()
-})
-
-onMounted(async () => {
-  if (conversations.length !== 0) {
-    await fetchMessages()
-  }
-
-  if (route.query.user) {
-    await loadConversation()
-  }
-
-  const clientSSE = new ClientSSE(getUser())
-  clientSSE.connect()
-
-  clientSSE.eventSource.onmessage = ({ data }) => {
-    addMessage(JSON.parse(data)).then(() => {
-      scrollToNewMessage();
-    });
-  };
-
-  loaded.value = true
-})
-
-async function loadConversation() {
-    const isNew = await isNewConversation({ user_id: route.query.user })
-
-    if (isNew) {
-        await createNewConversation({user_id: route.query.user })
+  return fetchConversations().then(() => {
+    if (currentConversation) {
+      fetchMessagesByConversation(currentConversation)
     }
-}
+  })
+})
 
+// onMounted(async () => {
+//   if (conversations.length !== 0) {
+//     await fetchMessages()
+//   }
+//
+//   if (route.query.user) {
+//     await loadConversation()
+//   }
+//
+//   const clientSSE = new ClientSSE(getUser())
+//   clientSSE.connect()
+//
+//   clientSSE.eventSource.onmessage = ({ data }) => {
+//     addMessage(JSON.parse(data)).then(() => {
+//       scrollToNewMessage();
+//     });
+//   };
+//
+//   loaded.value = true
+// })
+//
+// async function loadConversation() {
+//     const isNew = await isNewConversation({ user_id: route.query.user })
+//
+//     if (isNew) {
+//         await createNewConversation({user_id: route.query.user })
+//     }
+// }
+//
 function scrollToNewMessage() {
     const topPos = this.$refs.messages.$refs.messages.at(-1).offsetTop;
     let chat = this.$refs.messages.$refs.chat__container;

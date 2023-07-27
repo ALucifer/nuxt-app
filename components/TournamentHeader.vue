@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import useFlashMessages from "@/composables/useFlashMessages";
+import useFlashMessages from "~/composables/useFlashMessages";
 import useTournamentHeader from "~~/composables/useTournamentHeader";
 import {useTournamentStore} from "~/store/tournament";
 import State from '@/components/tournament/State.vue'
