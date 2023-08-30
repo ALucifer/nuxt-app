@@ -54,11 +54,19 @@ const isSubmitting = ref(false)
 const { login }  = useAuthStore()
 const router = useRouter()
 const { signIn } = useAuth()
+const route = useRoute()
 
-
+let redirect = route.query.callbackUrl as string ?? ''
 async function submit(values: any) {
   isSubmitting.value = true
-  await signIn('credentials', { email: values.email, password: values.password })
+  await signIn(
+      'credentials',
+      {
+        email: values.email,
+        password: values.password,
+        callbackUrl: redirect
+      }
+    )
   isSubmitting.value = false
 }
 </script>

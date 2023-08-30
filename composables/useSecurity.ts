@@ -1,25 +1,26 @@
 import { User, Token } from "next-auth";
 
 export default function useSecurity() {
-    const { status, data } = useAuth()
+    const { data: auth, status: userLogged } = useAuth()
+
     function isLogged() {
-        return status.value === 'authenticated'
+        return userLogged.value === 'authenticated'
     }
 
     function getUser(): User {
-        if (!data.value) {
-            throw Error('Pas co')
-        }
-
-        return data.value.user
-    }
-
-    function getToken(): Token {
-        if (!data.value) {
+        if (!auth.value) {
             throw Error('User not logged')
         }
 
-        return data.value.token
+        return auth.value.user
+    }
+
+    function getToken(): Token {
+        if (!auth.value) {
+            throw Error('User not logged')
+        }
+
+        return auth.value.token
     }
 
     return { isLogged, getUser, getToken }

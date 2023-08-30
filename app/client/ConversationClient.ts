@@ -1,5 +1,6 @@
 import AbstractClient from "~/app/client/DefaultClient";
 import {ConversationMessagesModel, ConversationModel, MessageForm, MessageModel} from "~/app/models/conversation.model";
+import useSecurity from "@/composables/useSecurity";
 
 export default class ConversationClient extends AbstractClient {
     async fetchAuthConversationsList(): Promise<Array<ConversationModel>> {
@@ -12,12 +13,18 @@ export default class ConversationClient extends AbstractClient {
     }
 
     async fetchConversationMessages(conversationId: number): Promise<Array<MessageModel>> {
-        const { getToken } = useSecurity()
-        const { data } =  await this.axiosInstance.get<ConversationMessagesModel>(
-            "users/conversations/" + conversationId,
-            { headers: { Authorization: "Bearer " + getToken() } }
+
+        try {
+            const { getToken } = useSecurity()
+            const { data } =  await this.axiosInstance.get<ConversationMessagesModel>(
+                "users/conversations/" + conversationId,
+                { headers: { Authorization: "Bearer " + getToken() } }
             )
-        return data.messages
+            return data.messages
+        } catch (error) {
+            console.log("Une erreur s'est produite lors de l'appel à l'API :", error);
+            return []
+        }
     }
 
     async sendMessage(form: MessageForm) {

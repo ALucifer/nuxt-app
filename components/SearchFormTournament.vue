@@ -91,23 +91,23 @@ const date = ref(new Date())
 const emit = defineEmits(['search'])
 
 function search() {
-    if (form.libelle === "") {
-        form.libelle = null;
+    if (form.value!.libelle === "") {
+        form.value.libelle = null;
     }
-    emit('search', { form: form })
+    emit('search', { form: form.value })
 }
 
-function changeFormat(id) {
+function changeFormat(id: number) {
     form.value.format = id
         ? lodash.find(formatItems.value, ["id", id]).libelle
         : null;
 }
 
-function changeBO(id) {
+function changeBO(id: number) {
     form.value.best_of = id;
 }
 
-function changeState(state) {
+function changeState(state: any) {
   form.value.state = state
 }
 

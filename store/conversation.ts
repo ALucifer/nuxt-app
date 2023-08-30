@@ -2,34 +2,27 @@ import {defineStore} from "pinia";
 import {useUserStore} from "@/store/user";
 import ConversationClient from "~/app/client/ConversationClient";
 import {ConversationModel, MessageModel} from "~/app/models/conversation.model";
+import useFlashMessages from "~/composables/useFlashMessages";
 
 const conversationClient = new ConversationClient();
-const { addMessage } = useFlashMessages()
 
 export const useConversationStore = defineStore({
   id: "conversation",
   state: () => {
     return {
       conversations: [] as ConversationModel[],
-      messages: [] as MessageModel[],
+      messages: [] as Array<MessageModel[]>,
       active_conversation_id: null as null|number,
+      currentConversation: {} as ConversationModel|null,
     };
   },
   getters: {
-    currentConversation: (state): null|ConversationModel  =>{
-      if (null === state.active_conversation_id) return null
-
-      return state.conversations
-          .find((conversation: ConversationModel) => conversation.id === state.active_conversation_id)!
-    },
-    getMessagesByConversationId: (state): (conversationId: number) => MessageModel[] => {
-      return (conversationId: number) => state.messages.filter(
-            (message: MessageModel) => message.conversation === conversationId
-        );
+    getMessagesByConversation: (state): (conversation: ConversationModel) => MessageModel[] => {
+      return (conversation: ConversationModel) => state.messages[conversation.id]
     },
     getUnreadMessagesByConversation: (state): (conversation: ConversationModel) => MessageModel[] => {
       const { getUser } = useSecurity()
-      return (conversation: ConversationModel) => state.messages.filter(
+      return (conversation: ConversationModel) => state.messages[conversation.id].filter(
           (message: MessageModel) =>
             message.conversation === conversation.id
             && message.state === 'UNREAD'
@@ -39,21 +32,26 @@ export const useConversationStore = defineStore({
   },
 
   actions: {
-    async fetchConversations() {
-      this.conversations = await conversationClient.fetchAuthConversationsList()
-      this.active_conversation_id = this.conversations[0].id
+    setConversations(conversations: ConversationModel[]) {
+      this.conversations = conversations
+      this.active_conversation_id = conversations[0].id
+      this.currentConversation = this.conversations.find(
+        (conversation: ConversationModel) => conversation.id === this.active_conversation_id)!
     },
 
-    async fetchMessagesByConversation(conversation: ConversationModel) {
-      this.messages = await conversationClient.fetchConversationMessages(conversation.id)
+    addMessagesByConversation(conversation: ConversationModel, messages: MessageModel[]) {
+      // @ts-ignore
+      this.messages[conversation.id] = messages
     },
 
     async changeActiveConversation(conversation: ConversationModel) {
       this.active_conversation_id = conversation.id;
-      await this.fetchMessagesByConversation(conversation);
+      // await this.fetchMessagesByConversation(conversation);
     },
 
     async sendMessage(text: string) {
+      const { addMessage } = useFlashMessages()
+
       if (!this.currentConversation || !this.active_conversation_id) {
         addMessage({
           message: 'Une erreur est survenu lors de l\'envoie du message',

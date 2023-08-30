@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { useAuthStore } from "@/store/auth";
 import TournamentClient from "~/app/client/TournamentClient";
 import { TournamentModel } from "~/app/models/tournament";
 
@@ -11,9 +10,8 @@ export const useTournamentStore = defineStore({
     return {
       items: [] as TournamentModel[],
       highlighted: [] as TournamentModel[],
-      search: null,
+      searchForm: [],
       total: 0,
-      totalLoaded: 0,
       currentPage: 1,
       currentTournament: null,
     };
@@ -26,37 +24,42 @@ export const useTournamentStore = defineStore({
       return state.total;
     },
     isFullyLoaded(state) {
-      return state.total == state.totalLoaded;
+      return state.total == state.items?.length;
     },
     getCurrentTournament(state) {
       return state.currentTournament
     },
+    getTotalLoaded(state)  {
+      return state.items?.length
+    }
   },
   actions: {
-    fetchItems() {
-      return tournamentClient.all({
-        page: this.currentPage,
-        ...this.search,
-      }).then((result) => {
-        this.setItems(this.items.concat(result.data));
-        this.setTotal(result.total);
-        this.totalLoaded = this.items.length;
-      })
-    },
     async fetchItem(id: number) {
       return await tournamentClient
           .findById(id)
           .then((data) => this.currentTournament = data);
     },
-    async fetchNextItems() {
+    fetchNextItems() {
       this.incrementCurrentPage();
-      await this.fetchItems();
+      tournamentClient.all({
+        page: this.currentPage,
+        ...this.searchForm,
+      }).then((result) => {
+        this.setItems(this.items.concat(result.data))
+      })
     },
-    async setSearch({ form }: any) {
+    sendSearch({ form }: any) {
+      tournamentClient.all(form).then((result) => {
+        this.reset()
+        this.setTotal(result.meta.total)
+        this.setItems(result.data)
+        this.searchForm = form
+      })
+    },
+    reset() {
       this.currentPage = 1;
       this.items = [];
-      this.search = form;
-      await this.fetchItems();
+      this.total = 0;
     },
     setItems(items: any) {
       this.items = items;
@@ -73,8 +76,8 @@ export const useTournamentStore = defineStore({
 
       return await tournamentClient.register(form)
     },
-    fetchHightlighted() {
-      return tournamentClient.hightlighted().then(data => this.highlighted = data);
+    setHightlighted(items: TournamentModel[]) {
+      this.highlighted = items
     },
     async start(tournament: any) {
      return await tournamentClient.start(tournament);

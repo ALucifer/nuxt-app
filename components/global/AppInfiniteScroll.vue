@@ -5,7 +5,7 @@
 const props = defineProps({ done: { type: Boolean, default: false }})
 const emit = defineEmits(['load'])
 let observer: IntersectionObserver = null
-const observerTemplate = ref({})
+const observerTemplate = ref()
 
 onMounted(() => {
   observer = new IntersectionObserver(

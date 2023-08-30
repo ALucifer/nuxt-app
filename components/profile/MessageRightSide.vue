@@ -3,14 +3,14 @@
     <span
       >De:
       <span class="selected-user__name">{{
-        currentConversation?.interlocutor.pseudo
+        currentConversation?.interlocutor?.pseudo
       }}</span></span
     >
   </div>
-  <div class="chat-container chat__container" ref="chat__container">
+  <div class="chat-container chat__container" ref="chatContainer">
     <ul class="chat-box chatContainerScroll">
       <li
-        v-for="(message, i) in getMessagesByConversationId(currentConversation?.id)"
+        v-for="(message, i) in getMessagesByConversation(currentConversation)"
         class="chat__message"
         v-observe="{
           callback: messageRead,
@@ -72,12 +72,16 @@ import { useConversationStore } from "~/store/conversation";
 
 const message = ref('')
 const {
-    currentConversation, sendMessage, sendMessageToNewConversation,
-    isOwnMessage, messageRead, getMessagesByConversationId
+    sendMessage, sendMessageToNewConversation,
+    isOwnMessage, messageRead, getMessagesByConversation, currentConversation
 } = useConversationStore()
 
 const emit = defineEmits(['newMessage'])
 
+const messages = ref()
+const chatContainer = ref()
+
+defineExpose({messages, chatContainer})
 async function send() {
     if (currentConversation?.id === 0) {
         await sendMessageToNewConversation({ text: message.value })

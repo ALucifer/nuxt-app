@@ -2,27 +2,26 @@
   <div>
     <BannerTournaments/>
     <section class="tournaments-card">
-          <div class="overlay pt-120 pb-120">
-            <div class="container wow fadeInUp">
-              <SearchFormTournament @search="searchFilter($event)" />
-              <p>Nombre de résultat(s) : {{ tournamentStore.itemsShow }}</p>
-              <transition-group name="flip-list" tag="div" class="search__result">
-                <tournamentCard
-                  v-for="item in tournamentStore.filteredItems"
-                  :key="item.id"
-                  :item="item"
-                />
-              </transition-group>
-              <AppInfiniteScroll
-                @load="tournamentStore.fetchNextItems()"
-                :done="tournamentStore.isFullyLoaded"
-                :key="'infiniteKey' + infiniteKey"
-              />
-              <div v-if="!tournamentStore.filteredItems.length">
-                <h4>Aucun résultat pour votre recherche</h4>
-              </div>
-            </div>
+      <div class="overlay pt-120 pb-120">
+        <div class="container wow fadeInUp">
+          <SearchFormTournament @search="searchFilter($event)" />
+          <p>Nombre de résultat(s) : {{ tournamentStore.itemsShow }}</p>
+          <transition-group name="flip-list" tag="div" class="search__result">
+            <tournamentCard
+              v-for="item in tournamentStore.filteredItems"
+              :key="item.id"
+              :item="item"
+            />
+          </transition-group>
+          <AppInfiniteScroll
+            @load="tournamentStore.fetchNextItems()"
+            :key="'infiniteKey' + infiniteKey"
+          />
+          <div v-if="!tournamentStore.filteredItems.length">
+            <h4>Aucun résultat pour votre recherche</h4>
           </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -45,14 +44,13 @@ useHead({
 
 const tournamentStore = useTournamentStore()
 
-const { data, error } = await useAsyncData('listing', async () => await tournamentStore.fetchItems())
-
+const { data, pending } = await useFetch('/api/tournaments/list', { key: 'test' })
 
 const infiniteKey = ref(0)
 
 function searchFilter(event: any) {
     infiniteKey.value++;
-    tournamentStore.setSearch({ form: event.form })
+    tournamentStore.sendSearch({ form: event.form })
 }
 </script>
 

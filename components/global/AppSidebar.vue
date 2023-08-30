@@ -11,7 +11,7 @@
     <div class="offcanvas-body">
       <ul>
         <li class="sidebar--menu-item">
-          <NuxtLink :to="{ name: 'profile' }" class="link-action--full">
+          <NuxtLink :to="{ name: 'profile' }" class="link-action--full" @click="toggle()">
             <account-icon class="me-2" />
             Profile
           </NuxtLink>

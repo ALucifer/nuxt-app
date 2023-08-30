@@ -48,7 +48,7 @@ const schema = yup.object({
 const { isCompletlyClose, isRegister } = useTournament()
 const tournamentStore = useTournamentStore()
 const { data, pending } = await useAsyncData(async() => {
-    const tournament = await tournamentStore.fetchItem(route.params.id)
+    const tournament = await tournamentStore.fetchItem(+route.params.id)
 
     if (isRegister(tournament)) {
       return router.push({name: 'tournois-id', params: { id: route.params.id } })

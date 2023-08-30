@@ -8,10 +8,8 @@
 
 <script setup lang="ts">
 import Carousel from "~/components/Carousel.vue";
-import { useTournamentStore } from "~/store/tournament";
 
-const store = useTournamentStore()
-const { data, error } = await useAsyncData('highlighted', async () => await store.fetchHightlighted())
+const { data, error } = await useFetch('/api/tournaments/highlighted')
 </script>
 
 <style></style>

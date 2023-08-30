@@ -1,27 +1,16 @@
 <template>
-  <div>
-    <ProfileBanner :isOwnProfile="true" :user="user" v-if="user" />
-    <NuxtPage :key="key"/>
-  </div>
+    <div>
+      <ProfileBanner :isOwnProfile="true" :user="user" v-if="user" />
+      <slot />
+    </div>
 </template>
 
 <script setup lang="ts">
 import ProfileBanner from "@/components/ProfileBanner";
 
-definePageMeta({
-  auth: {
-    unauthenticatedOnly: false,
-    navigateAuthenticatedTo: '/',
-  }
-})
-
 const { data } = useAuth()
 
 const user = data.value.user
-
-function key() {
-    return guid();
-}
 </script>
 
 <style lang="scss">

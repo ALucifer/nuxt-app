@@ -13,7 +13,7 @@
           "
         >
           <div class="user-item">
-            <img
+            <AppAvatar
                 :src="conversation.interlocutor.avatar"
                 :alt="`${conversation.interlocutor.pseudo} avatar`"
             />
@@ -38,11 +38,8 @@
 
 <script setup lang="ts">
 import {useConversationStore} from "~/store/conversation";
-import {ConversationModel} from "~/app/models/conversation.model";
 
-defineProps<{conversations?: ConversationModel[]}>()
-
-const {getUnreadMessagesByConversation, currentConversation} = useConversationStore()
+const {conversations} = useConversationStore()
 </script>
 
 <style lang="scss">

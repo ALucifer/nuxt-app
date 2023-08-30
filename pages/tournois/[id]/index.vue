@@ -24,8 +24,12 @@ const matchStore = useMatchStore()
 const route = useRoute()
 const router = useRouter()
 
-const { pending } = await useAsyncData(async() => await tournamentStore.fetchItem(+route.params.id))
-
+const { data, pending } = await useFetch(
+  `/api/tournaments/${route.params.id}`,
+  {
+    key: 'test'
+  }
+)
 const tournament = computed(() => tournamentStore.currentTournament)
 
 
