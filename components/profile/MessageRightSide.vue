@@ -1,46 +1,46 @@
 <template>
   <div class="selected-user">
     <span
-      >De:
+    >De:
       <span class="selected-user__name">{{
-        currentConversation?.interlocutor?.pseudo
-      }}</span></span
+          currentConversation?.interlocutor?.pseudo
+        }}</span></span
     >
   </div>
   <div class="chat-container chat__container" ref="chatContainer">
     <ul class="chat-box chatContainerScroll">
       <li
-        v-for="(message, i) in getMessagesByConversation(currentConversation)"
-        class="chat__message"
-        v-observe="{
+          v-for="(message, i) in getMessagesByConversation(currentConversation)"
+          class="chat__message"
+          v-observe="{
           callback: messageRead,
           useCallback: message.state === 'UNREAD' && !isOwnMessage(message),
           message,
         }"
-        :key="i"
-        :class="{
+          :key="i"
+          :class="{
           'chat__message message-item__left': isOwnMessage(message),
           'chat__message message-item__right': !isOwnMessage(message),
         }"
-        ref="messages"
+          ref="messages"
       >
         <div
-          :class="{
+            :class="{
             'message-item__avatar-left': isOwnMessage(message),
             'message-item__avatar-right': !isOwnMessage(message),
           }"
         >
           <nuxt-img
-            :src="message.fromUser.avatar"
-            placeholder="/images/participant-1.png"
-            :alt="`${message.fromUser.pseudo} avatar`"
-            class="message-item__avatar"
+              :src="message.fromUser.avatar"
+              placeholder="/images/participant-1.png"
+              :alt="`${message.fromUser.pseudo} avatar`"
+              class="message-item__avatar"
           />
           <div class="message-item__pseudo">{{ message.fromUser.pseudo }}</div>
         </div>
         <div
-          class="message-item__text"
-          :class="{
+            class="message-item__text"
+            :class="{
             'message-item__text--left': isOwnMessage(message),
             'message-item__text--right': !isOwnMessage(message),
           }"
@@ -48,8 +48,8 @@
           {{ message.text }}
         </div>
         <div
-          class="message-item__hour"
-          :class="{ 'message-item__hour--right': !isOwnMessage(message) }"
+            class="message-item__hour"
+            :class="{ 'message-item__hour--right': !isOwnMessage(message) }"
         >
           {{ $dayjs(message.created_at).fromNow() }}
         </div>
@@ -58,22 +58,22 @@
   </div>
   <div class="form-group mt-3 mb-0 p-3">
     <textarea
-      class="form-control"
-      rows="3"
-      placeholder="Tapez votre message"
-      v-model="message"
-      @keyup.enter="send()"
+        class="form-control"
+        rows="3"
+        placeholder="Tapez votre message"
+        v-model="message"
+        @keyup.enter="send()"
     ></textarea>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useConversationStore } from "~/store/conversation";
+import {useConversationStore} from "~/store/Conversation";
 
 const message = ref('')
 const {
-    sendMessage, sendMessageToNewConversation,
-    isOwnMessage, messageRead, getMessagesByConversation, currentConversation
+  sendMessage,
+  isOwnMessage, messageRead, getMessagesByConversation, currentConversation
 } = useConversationStore()
 
 const emit = defineEmits(['newMessage'])
@@ -82,15 +82,12 @@ const messages = ref()
 const chatContainer = ref()
 
 defineExpose({messages, chatContainer})
-async function send() {
-    if (currentConversation?.id === 0) {
-        await sendMessageToNewConversation({ text: message.value })
-    } else {
-        await sendMessage(message.value)
-    }
 
-    message.value = ''
-    emit('newMessage')
+async function send() {
+  await sendMessage(message.value)
+
+  message.value = ''
+  emit('newMessage')
 }
 </script>
 

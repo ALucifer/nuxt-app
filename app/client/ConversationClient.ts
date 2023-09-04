@@ -27,13 +27,14 @@ export default class ConversationClient extends AbstractClient {
         }
     }
 
-    async sendMessage(form: MessageForm) {
+    async sendMessage(form: MessageForm): Promise<MessageModel> {
         const { getToken } = useSecurity()
-        const { data } = await this.axiosInstance.post(
+        const { data } = await this.axiosInstance.post<MessageModel>(
             "message",
             form,
             { headers: { Authorization: "Bearer " + getToken() }}
         )
+
         return data
     }
 

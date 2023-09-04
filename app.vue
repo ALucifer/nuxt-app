@@ -3,7 +3,7 @@
   <div class="main">
     <NuxtLayout>
       <div>
-        <NuxtPage :key="`${$route.path}`" />
+        <NuxtPage :key="date" />
         <AppSidebar />
       </div>
     </NuxtLayout>
@@ -11,6 +11,10 @@
   <AppNotifications />
   <AppFooter />
 </template>
+
+<script setup lang="ts">
+const date = (new Date()).getMilliseconds()
+</script>
 
 <style lang="scss">
 @import "@/assets/css/common.scss";

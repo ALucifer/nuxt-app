@@ -9,10 +9,10 @@ const instance = axios.create({
 export default defineEventHandler(async (event) => {
     const id = getRouterParam(event, 'id')
 
-    const { setCurrentTournament } = useTournamentStore()
+    // const { setCurrentTournament } = useTournamentStore()
 
     const { data } = await instance.get(`tournaments/${id}`)
-    setCurrentTournament(data)
+    // setCurrentTournament(data)
 
     return data
 })

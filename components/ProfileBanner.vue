@@ -25,6 +25,7 @@
               <NuxtLink
                 v-if="isOwnProfile"
                 :to="{ name: 'profile-messages' }"
+                prefetch
                 class="cmn-btn"
                 >Mes messages</NuxtLink
               >

@@ -1,7 +1,6 @@
-import {defineStore} from "pinia";
 import {useUserStore} from "@/store/user";
 import ConversationClient from "~/app/client/ConversationClient";
-import {ConversationModel, MessageModel} from "~/app/models/conversation.model";
+import {ConversationMessagesModel, ConversationModel, MessageModel} from "~/app/models/conversation.model";
 import useFlashMessages from "~/composables/useFlashMessages";
 
 const conversationClient = new ConversationClient();
@@ -39,14 +38,16 @@ export const useConversationStore = defineStore({
         (conversation: ConversationModel) => conversation.id === this.active_conversation_id)!
     },
 
-    addMessagesByConversation(conversation: ConversationModel, messages: MessageModel[]) {
-      // @ts-ignore
-      this.messages[conversation.id] = messages
+    addMessagesByConversation(conversation: ConversationMessagesModel) {
+      this.messages[conversation.id] = conversation.messages
+    },
+
+    addMessage(message: MessageModel) {
+        this.messages[message.conversation].push(message);
     },
 
     async changeActiveConversation(conversation: ConversationModel) {
       this.active_conversation_id = conversation.id;
-      // await this.fetchMessagesByConversation(conversation);
     },
 
     async sendMessage(text: string) {
@@ -73,56 +74,54 @@ export const useConversationStore = defineStore({
       return message.fromUser.id === getUser().id;
     },
 
-    addMessage(message: MessageModel) {
-      return new Promise((resolve) => {
-        this.messages.push(message);
-        resolve(true);
-      });
-    },
     async messageRead(message: MessageModel) {
       await conversationClient.readMessage(message);
-      const index = this.messages.findIndex((i: MessageModel) => i == message);
-      this.messages[index].state = "READ";
+      const index = this.messages[message.conversation].findIndex(
+          (item: MessageModel) => {
+            return message.id === item.id;
+          }
+      );
+      this.messages[message.conversation][index].state = "READ";
     },
 
     // A refacto
 
-    async createNewConversation({ user_id }) {
-      const userStore = useUserStore();
-      const user = await userStore.fetchUserById(user_id);
-      this.active_conversation_id = 0;
-      this.conversations.push({
-        id: 0,
-        interlocutor: user,
-      });
-    },
-
-    async isNewConversation({ user_id }) {
-      const conversation = this.conversations.find(
-        (conversation) => conversation.interlocutor.id === user_id
-      );
-
-      if (conversation) {
-        this.changeActiveConversation(conversation.id);
-      }
-
-      return conversation === undefined ? true : false;
-    },
-
-    async sendMessageToNewConversation({ text }) {
-      const { data: auth } = useAuth();
-
-      const data = await conversationClient.createNewConversation({
-        sendFrom: auth.value.user.id,
-        sendTo: this.currentConversation.interlocutor.id,
-        messages: {
-          text: text,
-        },
-      });
-
-      this.messages.push(data.message);
-      this.conversation.push(data.conversation);
-      this.changeActiveConversation(data.conversation.id);
-    },
+    // async createNewConversation({ user_id }) {
+    //   const userStore = useUserStore();
+    //   const user = await userStore.fetchUserById(user_id);
+    //   this.active_conversation_id = 0;
+    //   this.conversations.push({
+    //     id: 0,
+    //     interlocutor: user,
+    //   });
+    // },
+    //
+    // async isNewConversation({ user_id }) {
+    //   const conversation = this.conversations.find(
+    //     (conversation) => conversation.interlocutor.id === user_id
+    //   );
+    //
+    //   if (conversation) {
+    //     this.changeActiveConversation(conversation.id);
+    //   }
+    //
+    //   return conversation === undefined ? true : false;
+    // },
+    //
+    // async sendMessageToNewConversation({ text }) {
+    //   const { data: auth } = useAuth();
+    //
+    //   const data = await conversationClient.createNewConversation({
+    //     sendFrom: auth.value.user.id,
+    //     sendTo: this.currentConversation.interlocutor.id,
+    //     messages: {
+    //       text: text,
+    //     },
+    //   });
+    //
+    //   this.messages.push(data.message);
+    //   this.conversation.push(data.conversation);
+    //   this.changeActiveConversation(data.conversation.id);
+    // },
   },
 });

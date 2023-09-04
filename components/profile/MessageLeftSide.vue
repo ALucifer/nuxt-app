@@ -8,7 +8,7 @@
           @click.prevent="
             conversation.id !== currentConversation?.id &&
             $emit('changeConversation', {
-              conversation: conversation,
+              conversation: this.conversation
             })
           "
         >
@@ -37,9 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import {useConversationStore} from "~/store/conversation";
+import { useConversationStore } from "~/store/Conversation";
 
-const {conversations} = useConversationStore()
+const { conversations, currentConversation, getUnreadMessagesByConversation } = useConversationStore()
 </script>
 
 <style lang="scss">

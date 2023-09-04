@@ -13,6 +13,7 @@
 import TournamentResume from "@/components/TournamentResume";
 import { useTournamentStore } from "~/store/tournament";
 import { useMatchStore } from "~/store/match";
+import useFetchTournamentById from "~/composables/api/useFetchTournamentById";
 
 definePageMeta({
   auth: false
@@ -24,12 +25,8 @@ const matchStore = useMatchStore()
 const route = useRoute()
 const router = useRouter()
 
-const { data, pending } = await useFetch(
-  `/api/tournaments/${route.params.id}`,
-  {
-    key: 'test'
-  }
-)
+const { pending } = await useFetchTournamentById()
+
 const tournament = computed(() => tournamentStore.currentTournament)
 
 

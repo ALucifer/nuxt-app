@@ -6,11 +6,13 @@ const instance = axios.create({
     headers: { 'Content-Type': 'application/json' }
 })
 export default defineEventHandler(async (event) => {
+    const query = getQuery(event)
     const session = await getServerSession(event)
 
-    const { data: conversations } = await instance.get('users/conversations', {
-        headers: { Authorization: 'Bearer ' + session!.token}
-    })
+    const { data: messages } = await instance.get(
+        '/users/conversations/' + query.conversationId,
+        { headers: { Authorization: 'Bearer ' + session!.token}}
+    )
 
-    return { conversations }
+    return { messages }
 })

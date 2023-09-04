@@ -7,7 +7,7 @@
             <h4>Let's get started</h4>
             <RegisterForm />
             <div class="or">
-              <p>OR</p>
+              <p>OU</p>
             </div>
             <SocialAuthenticator message="Connexion avec" />
             <div class="account">
