@@ -1,6 +1,6 @@
 <template>
     <div class="time-area bg" v-if="isAfterNow(tournament.begin_at)">
-      <img src="images/waitng-icon.png" alt="image" class="tournament-card__wait" />
+      <nuxt-img src="images/waitng-icon.png" alt="image" class="tournament-card__wait" />
       <span>Début</span>
       <span class="time">{{ dateToNow(tournament.begin_at) }}</span>
     </div>
