@@ -14,6 +14,7 @@
             />
           </transition-group>
           <AppInfiniteScroll
+            v-show="!pending"
             @load="tournamentStore.fetchNextItems()"
             :key="'infiniteKey' + infiniteKey"
           />
