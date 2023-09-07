@@ -56,7 +56,7 @@ const router = useRouter()
 const { signIn } = useAuth()
 const route = useRoute()
 
-let redirect = route.query.callbackUrl as string ?? ''
+let redirect = route.query.callbackUrl as string ?? '/profile'
 async function submit(values: any) {
   isSubmitting.value = true
   await signIn(

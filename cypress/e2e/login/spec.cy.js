@@ -37,8 +37,8 @@ describe('login', () => {
 
         cy.get('#login-email').type('test@test.com')
         cy.get('#login-password').type('test')
-        cy.get('.submit-btn').click()
-
-        cy.url().should('match', /profile/)
+        cy.get('.submit-btn').click().then(() => {
+            cy.url().should('match', /profile/)
+        })
     })
 })

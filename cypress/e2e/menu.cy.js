@@ -20,11 +20,12 @@ describe('menu', () => {
         cy.get('.nav-menu__actions > .login-btn').should('have.text', 'Login')
         cy.get('.nav-menu__actions > .cmn-btn').should('have.text', 'Inscription')
     })
-    it('should render user information when user is logged', () => {
-        cy.login('test@test.com', 'test')
-        cy.visit('/')
-        cy.get('.nav-menu__actions > .search-icon')
-        cy.get('.user-link__heading > span').should('have.text', 'kmeleoonn')
-        cy.get('.user-link__heading > img.user-link__picture')
+    it('should render user information when user is logged', async () => {
+        cy.login('test@test.com', 'test').then(() => {
+            cy.visit('/')
+            cy.get('.nav-menu__actions > .search-icon')
+            cy.get('.user-link__heading > span').should('have.text', 'kmeleoonn')
+            cy.get('.user-link__heading > img.user-link__picture')
+        })
     })
 })
