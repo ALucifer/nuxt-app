@@ -112,7 +112,7 @@ const searchGlobalActive = ref(false)
 
 const { status, data, signOut } = useAuth()
 
-const avatar = computed(() => data.value.user.avatar ?? '/')
+const avatar = computed(() => data.value!.user!.avatar ?? '/')
 </script>
 <style lang="scss">
 @import "@/assets/css/components/global/AppHeader.scss";

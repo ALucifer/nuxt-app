@@ -8,7 +8,7 @@
               <div class="profile-photo">
                 <AppAvatar
                   :editable="isOwnProfile"
-                  src="https://imgur.com/oxJYBVT.jpg"
+                  :src="user.avatar"
                   @change="changeAvatar"
                 />
               </div>

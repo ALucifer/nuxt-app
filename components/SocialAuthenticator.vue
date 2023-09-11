@@ -9,12 +9,17 @@
     <a class="twitch" href="javascript:void(0)"
       ><img src="images/social-icon-2.png" alt="image"
     /></a>
+<!--    <a-->
+<!--        v-if="googleClick"-->
+<!--      class="google"-->
+<!--      href="javascript:void(0)"-->
+<!--      @click="googleClick.requestAccessToken()"-->
+<!--      ><img src="images/social-icon-3.png" alt="image"-->
+<!--    /></a>-->
     <a
-        v-if="googleClick"
-      class="google"
-      href="javascript:void(0)"
-      @click="googleClick.requestAccessToken()"
-      ><img src="images/social-icon-3.png" alt="image"
+        class="google"
+        @click="signIn('google')"
+    ><img src="images/social-icon-3.png" alt="image"
     /></a>
   </div>
 </template>
@@ -24,6 +29,8 @@ defineProps({
     message: {type: String, required: true},
     googleClick: {type: Object}
 })
+
+const { signIn } = useAuth()
 </script>
 
 <style lang="scss" scoped>

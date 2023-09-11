@@ -10,9 +10,7 @@
               <p>OU</p>
             </div>
             <SocialAuthenticator
-                v-if="loaded"
                 message="Inscrivez-vous avec"
-                :googleClick="googleClick"
             />
             <div class="account">
               <p>Vous n'avez pas de compte?
@@ -50,12 +48,6 @@ useHead({
     },
   ]
 })
-const googleClick = ref()
-const loaded = ref(false)
-function loadGoogle() {
-    googleClick.value = (new SocialProvider()).init(ProviderDTO.google())
-    loaded.value = true
-}
 </script>
 
 <style lang="scss">
