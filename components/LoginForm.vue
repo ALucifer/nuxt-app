@@ -26,7 +26,7 @@
       <p class="text-danger">Login / Mot de passe incorrect</p>
     </div>
     <div class="form-group recover">
-      <p>Mot de passe oublié? <a href="#">Retrouvez le</a></p>
+      <p>Mot de passe oublié? <nuxt-link :to="{name: 'forgot-password'}">Retrouvez le</nuxt-link></p>
     </div>
     <div class="form-group">
       <button v-if="isSubmitting" class="cmn-btn submit-btn">

@@ -25,4 +25,22 @@ export default class AuthClient extends AbstractClient {
             return false
         }
     }
+
+    forgotPassword(email: string) {
+        try {
+            this.axiosInstance.post('/forgot-password', {email})
+         } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async resetPassword(form: any) {
+        try {
+            const { status } = await this.axiosInstance.post('/reset-password', form)
+
+            return status === 200
+        } catch (error) {
+            return false
+        }
+    }
 }

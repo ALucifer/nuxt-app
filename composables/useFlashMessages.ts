@@ -21,6 +21,20 @@ const addMessage = (message: AddFlashMessage) => {
   });
 };
 
+const successMessage = (message: string) => {
+  addMessage({
+    class: 'success',
+    message
+  })
+}
+
+const errorMessage = (message: string) => {
+  addMessage({
+    class: 'error',
+    message
+  })
+}
+
 const removeMessage = (id: number) => {
   const index = messages.findIndex((item) => item.id === id);
   messages.splice(index, 1);
@@ -31,5 +45,7 @@ export default function useFlashMessages() {
     messages,
     addMessage,
     removeMessage,
+    successMessage,
+    errorMessage
   };
 }

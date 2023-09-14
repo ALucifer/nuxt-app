@@ -1,34 +1,23 @@
 <template>
-  <section class="authentication pb-120 pt-120">
-    <div class="container">
-      <div class="authentication-container">
-        <div class="col-lg-6">
-          <div class="authentication-main">
-            <h4>Bienvenue</h4>
-            <LoginForm/>
-            <div class="or">
-              <p>OU</p>
-            </div>
-            <SocialAuthenticator
-                message="Inscrivez-vous avec"
-            />
-            <div class="account">
-              <p>Vous n'avez pas de compte?
-                <NuxtLink :to="{ name: 'register' }">Inscription ici</NuxtLink>
-              </p>
-            </div>
-          </div>
-        </div>
+  <AppSocialContainer>
+    <template #header>
+      <h4>Bienvenue</h4>
+    </template>
+    <template #default>
+      <LoginForm></LoginForm>
+    </template>
+    <template #footer>
+      <div class="account">
+        <p>Vous n'avez pas de compte?
+          <NuxtLink :to="{ name: 'register' }">Inscription ici</NuxtLink>
+        </p>
       </div>
-    </div>
-  </section>
+    </template>
+  </AppSocialContainer>
 </template>
 
 <script setup lang="ts">
 import LoginForm from "@/components/LoginForm";
-import SocialAuthenticator from "@/components/SocialAuthenticator";
-import SocialProvider from "~/app/client/oauth/SocialProvider";
-import ProviderDTO from "~/app/client/oauth/DTO/ProviderDTO";
 
 definePageMeta({
   auth: {

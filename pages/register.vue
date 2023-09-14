@@ -1,31 +1,23 @@
 <template>
-  <section class="authentication pb-120 pt-120">
-    <div class="container">
-      <div class="authentication-container">
-        <div class="col-lg-6">
-          <div class="authentication-main">
-            <h4>Let's get started</h4>
-            <RegisterForm />
-            <div class="or">
-              <p>OU</p>
-            </div>
-            <SocialAuthenticator message="Connexion avec" />
-            <div class="account">
-              <p>
-                Déjà un compte?
-                <NuxtLink :to="{ name: 'login' }">Connexion</NuxtLink>
-              </p>
-            </div>
-          </div>
-        </div>
+  <AppSocialContainer>
+    <template #header>
+      <h4>Inscription</h4>
+    </template>
+    <template #default>
+      <RegisterForm />
+    </template>
+    <template #footer>
+      <div class="account">
+        <p>Vous avez un compte?
+          <NuxtLink :to="{ name: 'login' }">Connexion</NuxtLink>
+        </p>
       </div>
-    </div>
-  </section>
+    </template>
+  </AppSocialContainer>
 </template>
 
 <script setup lang="ts">
 import RegisterForm from "@/components/RegisterForm";
-import SocialAuthenticator from "@/components/SocialAuthenticator";
 
 definePageMeta({
   auth: {
