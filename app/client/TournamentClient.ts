@@ -15,11 +15,18 @@ export default class TournamentClient extends AbstractClient {
     }
 
     async create(form: TournamentModel) {
-        const { status } = await this.axiosInstance.post(
-            "tournaments",
-            form,
-        )
-        return status
+        const { getToken } = useSecurity()
+        try {
+            const { data } = await this.axiosInstance.post(
+                "tournaments",
+                form,
+                { headers: { Authorization: 'Bearer ' + getToken() }}
+            )
+
+            return data
+        } catch (error) {
+            return null
+        }
     }
 
     async register(form: { libelle: string, avatar: string, tournament_id: number, user_id: number }) {

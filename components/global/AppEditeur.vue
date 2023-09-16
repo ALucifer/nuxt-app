@@ -1,13 +1,11 @@
 <template>
-  <div v-if="editor">
-    <button
-      @click="editor.chain().focus().toggleBulletList().run()"
-      :class="{ 'is-active': editor.isActive('bulletList') }"
-    >
-      Liste
+  <div>
+    <button onclick="editor.chain().focus().toggleBold().run()">
+      Bold
     </button>
-    <editor-content :editor="editor" />
+    <editor-content :editor="editor"/>
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -17,33 +15,26 @@ import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-ordered-list";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import { Editor, EditorContent } from "@tiptap/vue-3";
+import {EditorContent, useEditor} from "@tiptap/vue-3";
 
-const editor = ref()
-
-onMounted(() => {
-  editor.value = new Editor({
-    editorProps: {
-      attributes: { class: "test" },
-    },
-    extensions: [
-      Document,
-      Paragraph,
-      Text,
-      BulletList,
-      OrderedList,
-      ListItem,
-    ],
-    content: "",
-  })
+const editor = useEditor({
+  editorProps: {
+    attributes: {class: 'test'}
+  },
+  extensions: [
+    Document,
+    Paragraph,
+    Text,
+    BulletList,
+    OrderedList,
+    ListItem,
+  ],
 })
-
-onBeforeUnmount(() => editor.value.destroy())
 </script>
 
 <style lang="scss">
 .test {
-  background: var(--body-color);
+  background: #370898;
   border-radius: 10px;
   padding: 15px 25px;
   border: none;

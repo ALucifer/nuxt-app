@@ -35,6 +35,22 @@ const errorMessage = (message: string) => {
   })
 }
 
+const handleResponse = (status: boolean, success: string, error: string) => {
+  switch (status) {
+    case true: {
+      successMessage(success)
+      break
+    }
+    case false: {
+      errorMessage(error)
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
+
 const removeMessage = (id: number) => {
   const index = messages.findIndex((item) => item.id === id);
   messages.splice(index, 1);
@@ -46,6 +62,7 @@ export default function useFlashMessages() {
     addMessage,
     removeMessage,
     successMessage,
-    errorMessage
+    errorMessage,
+    handleResponse
   };
 }

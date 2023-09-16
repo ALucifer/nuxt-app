@@ -4,6 +4,7 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 import LogoutIcon from 'vue-material-design-icons/Logout.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import SearchIcon from 'vue-material-design-icons/Magnify.vue'
+import AddIcon from 'vue-material-design-icons/Plus.vue'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("download-icon", DownloadIcon);
@@ -12,4 +13,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('logout-icon', LogoutIcon)
   nuxtApp.vueApp.component('account-icon', AccountIcon)
   nuxtApp.vueApp.component('search-icon', SearchIcon)
+  nuxtApp.vueApp.component('plus-icon', AddIcon)
 });

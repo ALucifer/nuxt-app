@@ -56,7 +56,7 @@ function change(item) {
   if (item.libelle) {
     customLibelle.value = item.libelle
   }
-  emit('change', { value: item.id})
+  emit('change', { value: item.id })
 }
 </script>
 

@@ -17,7 +17,7 @@ const props = defineProps(
     {
       name: { type: String, required: true },
       minDate: { type: Date, required: false, default: new Date() },
-      format: { type: String, required: false, default: 'yyyy-MM-dd'}
+      format: { type: String, required: false, default: 'yyyy-MM-dd HH:mm'}
     }
 )
 const emit = defineEmits(['change'])
@@ -25,13 +25,13 @@ const emit = defineEmits(['change'])
 const date = ref(null)
 
 function change() {
-    let value = null
+    let formDate = null
 
     if (date.value) {
-        value = dayjs(date.value).format('YYYY-MM-DD')
+      formDate = dayjs(date.value).toISOString()
     }
 
-    emit('change', { value })
+    emit('change', { value: formDate })
 }
 </script>
 

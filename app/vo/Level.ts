@@ -3,26 +3,26 @@ export class Level {
 
     static all(): Level
     {
-        return new this('ALL', 'Tous')
+        return new this('Tous', 'Tous')
     }
 
     static beginner(): Level
     {
-        return new this('BEGINNER', 'Débutant')
+        return new this('Débutant', 'Débutant')
     }
 
     static amateur(): Level
     {
-        return new this('AMATEUR', 'Amateur')
+        return new this('Amateur', 'Amateur')
     }
 
     static semiPro(): Level
     {
-        return new this('SEMI_PRO', 'Semi-pro')
+        return new this('Semi-pro', 'Semi-pro')
     }
 
     static pro(): Level
     {
-        return new this('PRO', 'Pro')
+        return new this('Pro', 'Pro')
     }
 }

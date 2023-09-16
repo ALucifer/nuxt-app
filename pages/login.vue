@@ -4,7 +4,7 @@
       <h4>Bienvenue</h4>
     </template>
     <template #default>
-      <LoginForm></LoginForm>
+      <LoginForm />
     </template>
     <template #footer>
       <div class="account">

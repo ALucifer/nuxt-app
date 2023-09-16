@@ -17,6 +17,12 @@
           </NuxtLink>
         </li>
         <li class="sidebar--menu-item">
+          <NuxtLink :to="{ name: 'tournois-create'}" class="link-action--full" @click="toggle()">
+            <plus-icon class="me-2" />
+            Créer un tournoi
+          </NuxtLink>
+        </li>
+        <li class="sidebar--menu-item">
           <button @click="logout()" class="link-action--full text-start">
             <logout-icon class="me-2" />
             <span>Se deconnecter</span>
