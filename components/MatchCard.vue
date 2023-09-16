@@ -1,8 +1,8 @@
 <template>
-  <div class="col-10 match--container">
+  <div class="col-10 match--container mx-auto">
     <AppAvatar class="match--avatar" :src="getAvatar(firstTeam.avatar)" />
     <span>{{ firstTeam.libelle }}</span>
-    <span>
+    <span class="match--middle">
       <div class="match--action">
         <slot name="action"></slot>
       </div>
@@ -23,26 +23,31 @@ defineProps({
   secondTeam: {
     type: Object,
     required: true,
+  },
+  backgroundColor: {
+    type: String,
+    default: '#ffff',
   }
 })
 function getAvatar(avatar: string) {
-  if (avatar === '') {
     return "data:image/svg+xml;base64," + avatar;
-  }
-
-  return avatar;
 }
 </script>
 <style lang="scss" scoped>
 .match {
   &--container {
-    background: #ffff;
+    background: v-bind('backgroundColor');
     border-radius: 5px;
     padding: 10px;
     margin: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  &--middle {
+    display: inline-flex;
+    flex-direction: column;
   }
 
   &--avatar {

@@ -23,11 +23,7 @@ import {TournamentModel} from "~/app/models/tournament";
 defineProps<{tournament: TournamentModel}>()
 
 function getAvatar(avatar: string) {
-  if (avatar === '') {
-    return "data:image/svg+xml;base64," + avatar;
-  }
-
-  return avatar;
+  return "data:image/svg+xml;base64," + avatar;
 }
 </script>
 
@@ -44,7 +40,7 @@ function getAvatar(avatar: string) {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: #ffb9f2;
+    background: #ffff;
     margin-right: 15px;
   }
 }

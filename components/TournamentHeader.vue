@@ -34,9 +34,8 @@
           <AppNavItem
             name="matches"
             libelle="Mes matchs"
-            v-if="matchStore.userMatches?.length > 0"
+            v-if="matches?.length > 0"
           />
-          <AppNavItem name="suivi" v-if="isLogged() && isOwner(tournament) && hasMatches(tournament)" />
         </ul>
       </div>
     </div>
@@ -60,7 +59,7 @@ const { isLogged } = useSecurity()
 
 const { data: auth } = useAuth()
 const { currentTournament: tournament, start, setCurrentTournament } = useTournamentStore()
-const matchStore = useMatchStore()
+const { items: matches } = useMatchStore()
 
 const bracketLoading = ref(false)
 

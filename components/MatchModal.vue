@@ -56,7 +56,6 @@
                 >
                   <close-icon />
                 </button>
-
             </div>
           </div>
         </div>
@@ -94,21 +93,18 @@ function updatePointB() {
 }
 
 function getAvatar(avatar: string) {
-  if (avatar === '') {
-    return "data:image/svg+xml;base64," + avatar;
-  }
-
-  return avatar;
+  return "data:image/svg+xml;base64," + avatar;
 }
 
 const saveLoading = ref(false)
+const { handleResponse } = useFlashMessages()
 async function save() {
   let winner_id = match.team_a.id
   let winner_score = teamPointA.value
   let looser_id = match.team_b.id
   let looser_score = teamPointB.value
 
-  if (teamPointB > teamPointA) {
+  if (teamPointB.value > teamPointA.value) {
     winner_id = match.team_b.id
     winner_score = teamPointB.value
     looser_id = match.team_a.id
@@ -124,10 +120,18 @@ async function save() {
   }
 
   saveLoading.value = true
-  await saveScore(form).then(() => {
-    saveLoading.value = false
+  const status = await saveScore(form)
+  saveLoading.value = false
+
+  handleResponse(
+      status,
+      'Votre score à bien été enregistré.',
+      'Un problème est survenu lors du renseignement du score.'
+  )
+
+  if (status) {
     toggle()
-  })
+  }
 }
 </script>
 

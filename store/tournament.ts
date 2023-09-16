@@ -13,7 +13,8 @@ export const useTournamentStore = defineStore({
       searchForm: [],
       total: 0,
       currentPage: 1,
-      currentTournament: null,
+      currentTournament: {} as TournamentModel,
+      isOwner: false
     };
   },
   getters: {
@@ -34,6 +35,9 @@ export const useTournamentStore = defineStore({
     }
   },
   actions: {
+    toggleOwner() {
+      this.isOwner = !this.isOwner
+    },
     async fetchItem(id: number) {
       return await tournamentClient
           .findById(id)

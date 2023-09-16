@@ -10,14 +10,4 @@ export default abstract class AbstractClient {
             headers: { 'Content-Type': 'application/json' }
         })
     }
-
-    public async saveScore(score: ScoreFormModel) {
-        const { getToken } = useSecurity()
-
-        return await this.axiosInstance.post(
-            '/scores',
-            score,
-            { headers: { Authorization: "Bearer " + getToken() } }
-        )
-    }
 }

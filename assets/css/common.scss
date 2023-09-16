@@ -1,3 +1,7 @@
+body {
+    background: #160A3F;
+}
+
 
 .section-container {
     position: relative;
@@ -42,5 +46,17 @@
 .px {
     &-16 {
         padding: 16px 0;
+    }
+}
+
+.btn {
+    border-radius: 5px;
+    padding: 10px 15px;
+    background: #21156e;
+    color: white;
+
+    &--register {
+        background: #FFC107;
+        color: #212529FF;
     }
 }

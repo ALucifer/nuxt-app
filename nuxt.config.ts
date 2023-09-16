@@ -1,4 +1,3 @@
-
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   components: {
@@ -6,6 +5,7 @@ export default defineNuxtConfig({
     dirs: ['~/components/global']
   },
   modules: [
+    '@nuxt/devtools',
     '@sidebase/nuxt-auth',
     '@nuxt/image-edge',
     [

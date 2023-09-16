@@ -1,19 +1,23 @@
 import MatchClient from "~/app/client/MatchClient";
 import {ScoreFormModel} from "~/app/models/scoreFormModel";
-import { MatchWithTeamsAndScoresModel } from "~/app/models/match.model";
+import {MatchModel, MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
 const matchClient = new MatchClient();
 export const useMatchStore = defineStore({
     id: 'match',
     state: () => {
         return {
+            items: [] as MatchWithTeamsAndScoresModel[],
             item: {} as MatchWithTeamsAndScoresModel,
-            userMatches: null
+            userMatches: [] as MatchModel[] // a transformer en actions
         }
     },
     actions: {
         setItem(item: any) {
             this.item = item
+        },
+        setItems(items: MatchWithTeamsAndScoresModel[]) {
+            this.items = items
         },
         fetchMatch(item: any) {
             if (this.item && item.id === this.item.id) return
@@ -23,11 +27,14 @@ export const useMatchStore = defineStore({
                 return data
             })
         },
-        fetchUserMatches(tournament_id: number) {
-          return matchClient.fetchUserMatches(tournament_id).then((data) => this.userMatches = data)
-        },
         async saveScore(score: ScoreFormModel) {
-            return matchClient.saveScore(score)
+            const { status, match } = await matchClient.saveScore(score)
+
+            const index = this.userMatches.findIndex((item: any) => item.id === match.id)
+
+            this.userMatches[index] = match
+
+            return status
         }
     }
 })

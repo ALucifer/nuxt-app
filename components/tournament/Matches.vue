@@ -35,14 +35,15 @@
           >
         </MatchCard>
       </template>
-      <MatchModal v-if="isOpen()" />
+      <Teleport to="body">
+        <MatchModal v-if="isOpen()" />
+      </Teleport>
     </template>
   </AppTabPane>
 </template>
 
 <script setup lang="ts">
 import MatchCard from "@/components/MatchCard.vue";
-import { useAuthStore } from "~~/store/auth";
 import MatchModal from "@/components/MatchModal.vue";
 import {useMatchStore} from "~/store/match";
 import useMatchModal from "~/composables/useMatchModal";
@@ -50,7 +51,7 @@ import {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 import { find } from 'lodash'
 
 const props = defineProps<{matches: MatchWithTeamsAndScoresModel}>()
-const { user } = useAuthStore()
+const { getUser } = useSecurity()
 const matchStore = useMatchStore()
 const { toggle, isOpen } = useMatchModal()
 
@@ -62,7 +63,7 @@ async function fetchMatch(match: any) {
 function scoreInformation(match: MatchWithTeamsAndScoresModel) {
   let team = match.team_a
 
-  if (match.team_b.user_id === user.id) {
+  if (match.team_b.user_id === getUser().id) {
     team = match.team_b
   }
   const score = find(match.scores, (i) => {
@@ -80,7 +81,7 @@ function scoreInformation(match: MatchWithTeamsAndScoresModel) {
 }
 
 function userAlreadyScored(match: MatchWithTeamsAndScoresModel) {
-  return find(match.scores, { 'reporter_id': user.id }) !== undefined
+  return find(match.scores, { 'reporter_id': getUser().id }) !== undefined
 }
 </script>
 

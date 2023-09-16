@@ -24,7 +24,9 @@
               <li>
                 <NuxtLink :to="{ name: 'index' }">Home</NuxtLink>
               </li>
-
+              <li>
+                <a href="#" @click="toggleOwner()">Toggle</a>
+              </li>
               <li>
                 <NuxtLink :to="{ name: 'tournois' }">Tournois</NuxtLink>
               </li>
@@ -106,8 +108,10 @@
 <script setup lang="ts">
 import SearchGlobal from "@/components/SearchGlobal";
 import useSidebar from "@/composables/useSidebar";
+import {useTournamentStore} from "~/store/tournament";
 
 const { toggle } = useSidebar()
+const { toggleOwner } = useTournamentStore()
 const searchGlobalActive = ref(false)
 
 const { status, data, signOut } = useAuth()

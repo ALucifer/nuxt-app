@@ -27,3 +27,18 @@ API:
 
 info:
 que se passe-t-il si il n'y a pas de challongeID sur tournament et que le user s'inscrit ??
+
+
+De quoi à besoin à admin de tournoi ?
+En informations:
+  - Nom du tournoi
+  - Nombre de participants (total et inscrit)
+  - Format
+  - Voir les matches
+  - L'arbre du tournoi
+  - Si il y a eu un probleme de linking entre le site et challonge
+
+En actions
+  - Lancer le tournoi
+  - Dire quel match est gagnant ou non quand il y a un désaccord
+  - Pouvoir l'éditer si il n'est pas déjà démarré 

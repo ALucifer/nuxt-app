@@ -6,7 +6,7 @@ export default async function useFetchTournamentById() {
 
     const { data, pending } = await useFetch(`/api/tournaments/${route.params.id}`)
 
-    setCurrentTournament(data)
+    setCurrentTournament(data.value)
 
     return { pending }
 }

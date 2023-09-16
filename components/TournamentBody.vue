@@ -4,8 +4,7 @@
       <Overview />
       <Bracket v-if="tournament.image_bracket" :tournament="tournament" />
       <Players v-if="isLogged() && isOwner(tournament)" :tournament="tournament" />
-      <Matches v-if="matchStore.userMatches?.length > 0" :matches="matches" />
-      <Suivi v-if="isLogged() && isOwner(tournament) && hasMatches(tournament)" :tournament="tournament" />
+      <Matches v-if="matches?.length > 0" :matches="matches" />
     </div>
   </section>
 </template>
@@ -25,10 +24,7 @@ const { isOwner, hasMatches } =
     useTournamentHeader()
 
 const { isLogged } = useSecurity()
-
-const matchStore = useMatchStore()
-
-const matches = computed(() => matchStore.userMatches)
+const { items: matches } = useMatchStore()
 const tournament = computed(() => currentTournament)
 </script>
 
