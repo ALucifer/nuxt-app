@@ -70,12 +70,12 @@
 #how-works-section.border-area {
 	position: relative;
 	&::before {
-		position: absolute;
-		content: '';
-		width: 80%;
-		height: 1px;
-		// background: rgb(255 255 255 / 30%);
-		top: 0;
-		left: 10%;
+		//position: absolute;
+		//content: '';
+		//width: 80%;
+		//height: 1px;
+		//// background: rgb(255 255 255 / 30%);
+		//top: 0;
+		//left: 10%;
 	}
 }

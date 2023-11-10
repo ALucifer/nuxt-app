@@ -865,15 +865,7 @@ body::-webkit-scrollbar-thumb:hover {
 #how-works-section.border-area {
   position: relative;
 }
-#how-works-section.border-area::before {
-  position: absolute;
-  content: "";
-  width: 80%;
-  height: 1px;
-  background: rgb(255 255 255 / 30%);
-  top: 0;
-  left: 10%;
-}
+
 #how-works-section .obj-rel,
 #how-works-section .obj-alt {
   position: relative;
