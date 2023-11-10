@@ -11,7 +11,7 @@
                 <p>Venez affronter des milliers de joueur</p>
                 <div class="d-flex justify-content-center align-items-center">
                   <NuxtLink
-                    v-if="isAuthenticated"
+                    v-if="isLogged"
                     class="cmn-btn"
                     :to="{ name: 'tournois' }"
                     >Je joue
@@ -59,9 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "@/store/auth";
-
-const { isAuthenticated } = useAuthStore()
+const { isLogged } = useSecurity()
 </script>
 
 <style lang="scss" scoped>

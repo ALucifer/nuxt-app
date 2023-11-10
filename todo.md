@@ -31,9 +31,9 @@ que se passe-t-il si il n'y a pas de challongeID sur tournament et que le user s
 
 De quoi à besoin à admin de tournoi ?
 En informations:
-  - Nom du tournoi
-  - Nombre de participants (total et inscrit)
-  - Format
+  - Nom du tournoi => ok
+  - Nombre de participants (total et inscrit) => ok
+  - Format => ok
   - Voir les matches
   - L'arbre du tournoi
   - Si il y a eu un probleme de linking entre le site et challonge
