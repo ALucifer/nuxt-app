@@ -7,20 +7,20 @@ dayjs.extend(isSameOrAfter)
 
 export default function useDate() {
 
-    function dateFormatted({date, format})
+    function dateFormatted({ date, format })
     {
         return dayjs(date).format(format)
     }
 
-    function dateToNow(date) {
+    function dateToNow(date: string) {
         return dayjs(date).fromNow()
     }
 
-    function isAfterNow(date) {
+    function isAfterNow(date: string) {
         return dayjs(date).isSameOrAfter(dayjs())
     }
 
-    function isBeforeNow(date) {
+    function isBeforeNow(date: string) {
         return dayjs(date).isSameOrBefore(dayjs(),'seconds')
     }
 

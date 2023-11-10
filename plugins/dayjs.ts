@@ -1,9 +1,11 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime.js'
+import duration from 'dayjs/plugin/duration.js'
 import "dayjs/locale/fr.js";
 
 export default defineNuxtPlugin((nuxtApp) => {
     dayjs.extend(relativeTime).locale('fr')
+    dayjs.extend(duration)
     nuxtApp.provide('dayjs', dayjs)
 })
 
