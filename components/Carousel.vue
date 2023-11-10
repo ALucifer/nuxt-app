@@ -6,13 +6,14 @@
           <div class="row">
             <div class="col-lg-5">
               <div class="slide__left">
-                <p class="text-sm" :class="getClass(item.isRegisterOpen)">
-                  Registration {{ item.isRegisterOpen ? "opened" : "close" }}
+                <p class="text-sm" :class="{ 'text-danger': !isOpen(item) }">
+                  Tournois {{ isOpen(item) ? "ouvert" : "fermé" }}
                 </p>
                 <h4>{{ item.libelle }}</h4>
                 <CounterTournament :beginAt="item.begin_at" />
                 <div class="btn-area">
                   <nuxt-link
+                      v-if="isOpen(item)"
                     :to="{ name: 'tournois-id-register', params: { id: 1 } }"
                     class="cmn-btn"
                     >S'inscrire</nuxt-link
@@ -46,9 +47,8 @@ import CounterTournament from "@/components/CounterTournament";
 import "vue3-carousel/dist/carousel.css";
 
 defineProps({ items: { type: Array, required: true }})
-function getClass(isRegisterOpen) {
-   return isRegisterOpen ? "" : "text-danger";
-}
+
+const { isOpen } = useTournamentHeader()
 </script>
 
 <style lang="scss">
