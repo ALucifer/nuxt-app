@@ -38,8 +38,22 @@ que se passe-t-il si il n'y a pas de challongeID sur tournament et que le user s
   - Voir les matches
   - L'arbre du tournoi
   - Si il y a eu un probleme de linking entre le site et challonge
+  - Voir le listing des equipes
 
 ### En actions
   - Lancer le tournoi
   - Dire quel match est gagnant ou non quand il y a un désaccord
   - Pouvoir l'éditer si il n'est pas déjà démarré 
+
+## Sécurité
+- About => anony => ok
+- Contact => anony => ok
+- Home => anony => ok
+- Login => anony only => ok
+- Register => anony only => ok
+- Reset-password => anony only
+- tournoi
+  - index => anony => ok
+  - create => logged => ok
+  - id => anony => ok
+  - register => logged => ok

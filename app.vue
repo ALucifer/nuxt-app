@@ -23,14 +23,16 @@ const date = (new Date()).getMilliseconds()
 
 body {
   min-height: 100vh;
-  //height: 100vh;
+  background-color: #0e063d;
 
   .spots {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
-    //overflow-y: scroll;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
 }
 </style>
