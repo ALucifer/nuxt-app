@@ -1,8 +1,10 @@
 <template>
-  <div class="container-fluid p-5">
-    <div class="admin-card-tournament">
+  <div class="container-fluid p-5 d-flex">
+    <div class="admin-card-tournament"></div>
+    <div class="admin-card-tournament"></div>
+    <div class="admin-card-tournament"></div>
+    <div class="admin-card-tournament"></div>
 
-    </div>
   </div>
 </template>
 
