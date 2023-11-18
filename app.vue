@@ -23,7 +23,7 @@ const date = (new Date()).getMilliseconds()
 
 body {
   min-height: 100vh;
-  background-color: #0e063d;
+  background-color: #160A3F;
 
   .spots {
     display: flex;

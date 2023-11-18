@@ -2,100 +2,44 @@
   <div class="container">
     <div class="tournament-register">
       <div class="col-8 card-tournament">
-        <FormCreateStepper/>
-<!--        <AppForm-->
-<!--            @submit="submit"-->
-<!--            :validation-schema="schema"-->
-<!--            class="tournament-register&#45;&#45;container"-->
-<!--            v-slot="{ setFieldValue }"-->
-<!--        >-->
-<!--          <div class="row px-16">-->
-<!--            <div class="col-6 form-group">-->
-<!--              <label>Titre</label>-->
-<!--              <AppField name="libelle" type="text"/>-->
-<!--              <AppErrorMessage class="error" name="libelle"/>-->
-<!--            </div>-->
-<!--            <div class="col-6 form-group">-->
-<!--              <label>Date</label>-->
-<!--              <AppDatePicker-->
-<!--                  name="beginAt"-->
-<!--                  @change="setFieldValue('beginAt', $event.value)"-->
-<!--              />-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="row px-16">-->
-<!--            <div class="col-3 form-group single-input">-->
-<!--              <label for="">Participants</label>-->
-<!--              <AppSelect-->
-<!--                  :items="participantValues"-->
-<!--                  libelle="Nombre de participants"-->
-<!--                  name="maxTeams"-->
-<!--                  @change="setFieldValue('maxTeams', $event.value)"-->
-<!--              />-->
-<!--            </div>-->
-<!--            <div class="col-3 form-group single-input">-->
-<!--              <label for="">Format</label>-->
-<!--              <AppSelect-->
-<!--                  :items="formatValues"-->
-<!--                  libelle="Format"-->
-<!--                  name="format"-->
-<!--                  @change="setFieldValue('format', $event.value)"-->
-<!--              />-->
-<!--            </div>-->
-<!--            <div class="col-3 form-group single-input">-->
-<!--              <label for="">Niveau</label>-->
-<!--              <AppSelect-->
-<!--                  :items="levelValues"-->
-<!--                  libelle="Niveau"-->
-<!--                  name="skillLevel"-->
-<!--                  @change="setFieldValue('skillLevel', $event.value)"-->
-<!--              />-->
-<!--            </div>-->
-<!--            <div class="col-3 form-group single-input">-->
-<!--              <label for="">Best Of</label>-->
-<!--              <AppSelect-->
-<!--                  :items="boValues"-->
-<!--                  libelle="Best Of"-->
-<!--                  name="bestOf"-->
-<!--                  @change="setFieldValue('bestOf', $event.value)"-->
-<!--              />-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="row px-16">-->
-<!--            <div class="col-12 form-group">-->
-<!--              <label>Message de motivation</label>-->
-<!--              <AppField-->
-<!--                  name="speech"-->
-<!--                  type="text"-->
-<!--                  rows="10"-->
-<!--                  cols="30"-->
-<!--                  maxlength="100"-->
-<!--                  placeholder="Message de motivation pour venir participier à votre tournoi."-->
-<!--              />-->
-<!--              <AppErrorMessage class="error" name="description"/>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="row px-16">-->
-<!--            <div class="col-12 form-group">-->
-<!--              <label>Définisez le déroulement du tournoi</label>-->
-<!--              <AppEditeur/>-->
-<!--            </div>-->
-<!--          </div>-->
+        <AppForm
+          @submit="submit"
+          :validation-schema="schema"
+          v-slot="{ setFieldValue }"
+        >
+          <Stepper :current="currentStep" />
 
-<!--          <p class="error m-2" v-if="error">-->
-<!--            Une erreur est survenu lors de la création de votre tournoi-->
-<!--          </p>-->
-<!--          <button v-else type="submit" class="cmn-btn submit-btn" >-->
-<!--            <template v-if="isSubmitting">-->
-<!--              <span-->
-<!--                  class="spinner-border spinner-border-sm"-->
-<!--                  role="status"-->
-<!--                  aria-hidden="true"-->
-<!--              ></span>-->
-<!--            </template>-->
-<!--            <template v-else>Connexion</template>-->
-<!--          </button>-->
-<!--        </AppForm>-->
+          <div class="row my-5" :class="{ 'active-step': currentStep === 1, 'disable-step': currentStep !== 1 }">
+            <div class="col-12 form-group mt-3">
+              <label class="text-14">Titre</label>
+              <AppField name="libelle" type="text"/>
+              <AppErrorMessage class="error" name="libelle"/>
+            </div>
+            <div class="col-12 form-group mt-3">
+              <label class="text-14">Date</label>
+              <AppDatePicker name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
+            </div>
+          </div>
+
+          <div class="row my-5" :class="{ 'active-step': currentStep === 2, 'disable-step': currentStep !== 2 }">
+            <div class="col-12 form-group mt-3">
+              <label class="text-14">Titre2</label>
+              <AppField name="libelle" type="text"/>
+              <AppErrorMessage class="error" name="libelle"/>
+            </div>
+            <div class="col-12 form-group mt-3">
+              <label class="text-14">Date</label>
+              <AppDatePicker name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
+            </div>
+          </div>
+
+          <div class="button-end">
+            <button class="cmn-btn" @click="currentStep++">Suivant</button>
+            <NuxtLink class="btn btn--cancel" v-if="currentStep === 1">Annuler</NuxtLink>
+            <button class="btn btn--previous" v-else @click="currentStep--">Précédent</button>
+          </div>
+
+        </AppForm>
       </div>
     </div>
   </div>
@@ -107,7 +51,7 @@ import {useAuthStore} from "@/store/auth";
 import TournamentClient from "~/app/client/TournamentClient";
 import {tournament} from '~/app/models/tournament'
 import useRedirection from "~/composables/useRedirection";
-import FormCreateStepper from "@/components/tournament/FormCreateStepper.vue";
+import Stepper from "~/components/stepper/Stepper.vue";
 
 const tournamentClient = new TournamentClient()
 
@@ -151,6 +95,7 @@ const { handleResponse } = useFlashMessages()
 const { handleRedirect } = useRedirection()
 
 const isSubmitting = ref(false)
+const currentStep = ref(1)
 
 async function submit(values) {
   isSubmitting.value = true
@@ -179,8 +124,19 @@ async function submit(values) {
 <style lang="scss">
 @import "@/assets/css/form.scss";
 
+.disable-step {
+  display: none;
+}
+
+.button-end {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .card-tournament {
   padding: 16px;
+  background-color: #3B2D91;
+  border-radius: 16px;
 }
 
 .tournament-register {

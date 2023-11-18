@@ -1,8 +1,3 @@
-body {
-    background: #160A3F;
-}
-
-
 .section-container {
     position: relative;
 	padding-top: 247px;
@@ -54,9 +49,24 @@ body {
     padding: 10px 15px;
     background: #21156e;
     color: white;
+    margin: 0 4px;
 
     &--register {
         background: #FFC107;
         color: #212529FF;
+    }
+
+    &--cancel, &--previous {
+        border-radius: 25px;
+    }
+}
+
+$textSize: (10: 10px, 14: 14px);
+
+.text {
+    @each $name, $size in $textSize {
+        &-#{$name} {
+            font-size: $size !important;
+        }
     }
 }
