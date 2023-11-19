@@ -1,0 +1,34 @@
+.container-radios {
+  width: 250px;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+
+  &__label {
+    font-size: 24px;
+    margin: 10px 0;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+    border-radius: 4px;
+    background-color: #21156e;
+    height: 70px;
+    margin: 10px 0;
+
+    &--checked {
+      background-image: linear-gradient(298deg, #da2c4d, #f8ab37);
+    }
+
+    .radio-choice {
+      visibility: hidden;
+      display: none;
+    }
+  }
+}
