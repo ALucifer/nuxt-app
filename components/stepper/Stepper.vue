@@ -5,7 +5,7 @@
         :libelle="step"
         :number="index + 1"
         :need-divider="index !== 0"
-        :current="current"
+        :current="current + 1"
         :key="index"
     />
   </div>
@@ -16,7 +16,7 @@ import StepItem from "~/components/stepper/StepItem.vue";
 
 defineProps({ current: { type: Number, required: true  }})
 
-const steps = ['Informations', 'Paramètres', 'Déroulé', 'Extra']
+const steps = ['Informations', 'Paramètres', 'Déroulé']
 </script>
 
 <style lang="scss" scoped>

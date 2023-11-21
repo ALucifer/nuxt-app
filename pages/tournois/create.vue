@@ -3,7 +3,12 @@
     <div class="tournament-register">
       <div class="col-8 card-tournament">
         <Stepper :current="currentStep"/>
-        <FormWizard :validation-schema="schema" @submit="submit" v-slot="{ setFieldValue, values }">
+        <FormWizard
+          :validation-schema="schema"
+          @submit="submit"
+          @changeStep="currentStep = $event.value"
+          v-slot="{ setFieldValue, values }"
+        >
           <FormStep>
             <div class="row my-5">
               <div class="col-12 form-group mt-3">
@@ -19,46 +24,92 @@
           </FormStep>
           <FormStep>
             <div class="row my-5">
-              <div class="col-12 form-group mt-3">
-                {{ values }}
-                <div class="d-flex">
-                  <div class="container-radios">
-                    <span class="container-radios__label">Format</span>
-                    <div
-                      v-for="format in formatValues"
+              <div class="wrapper">
+                <div class="container-radios">
+                  <span class="container-radios__label">Format</span>
+                  <AppErrorMessage class="error" name="format" />
+                  <div
+                    v-for="format in formatValues"
+                    class="container-radios__item"
+                    :class="{ 'container-radios__item--checked': values.format == format.id}"
+                    @click="setFieldValue('format', format.id)"
+                  >
+                    <AppField
+                      class="radio-choice"
+                      type="radio"
+                      name="format"
+                      :value="format.id"
+                    />
+                    <label class="for-radio-choice">{{ format.libelle }}</label>
+                  </div>
+                </div>
+                <div class="container-radios">
+                  <span class="container-radios__label">Participants</span>
+                  <AppErrorMessage class="error" name="maxTeams" />
+                  <div
+                    v-for="participant in participantValues"
+                    class="container-radios__item"
+                    :class="{ 'container-radios__item--checked': values.maxTeams == participant.id}"
+                    @click="setFieldValue('maxTeams', participant.id)"
+                  >
+                    <AppField
+                      class="radio-choice"
+                      type="radio"
+                      name="maxTeams"
+                      :value="participant.id"
+                    />
+                    <label class="for-radio-choice">{{ participant.libelle }}</label>
+                  </div>
+                </div>
+                <div class="container-radios">
+                  <span class="container-radios__label">Niveau</span>
+                  <AppErrorMessage class="error" name="skillLevel" />
+                  <div
+                      v-for="level in levelValues"
                       class="container-radios__item"
-                      :class="{ 'container-radios__item--checked': values.format == format.id}"
-                      @click="setFieldValue('format', format.id)"
-                    >
-                      <AppField
+                      :class="{ 'container-radios__item--checked': values.skillLevel == level.id}"
+                      @click="setFieldValue('skillLevel', level.id)"
+                  >
+                    <AppField
                         class="radio-choice"
                         type="radio"
-                        name="format"
-                        :value="format.id"
-                      />
-                      <label class="for-radio-choice">{{ format.libelle }}</label>
-                    </div>
+                        name="skillLevel"
+                        :value="level.id"
+                    />
+                    <label class="for-radio-choice">{{ level.libelle }}</label>
                   </div>
                 </div>
-                <div class="d-flex">
-                  <div class="container-radios">
-                    <span class="container-radios__label">Participants</span>
-                    <div
-                        v-for="format in participantValues"
-                        class="container-radios__item"
-                        :class="{ 'container-radios__item--checked': values.format == format.id}"
-                        @click="setFieldValue('format', format.id)"
-                    >
-                      <AppField
-                          class="radio-choice"
-                          type="radio"
-                          name="format"
-                          :value="format.id"
-                      />
-                      <label class="for-radio-choice">{{ format.libelle }}</label>
-                    </div>
+                <div class="container-radios">
+                  <span class="container-radios__label">Best of</span>
+                  <AppErrorMessage class="error" name="bestOf" />
+                  <div
+                      v-for="bo in boValues"
+                      class="container-radios__item"
+                      :class="{ 'container-radios__item--checked': values.bestOf == bo.id}"
+                      @click="setFieldValue('bestOf', bo.id)"
+                  >
+                    <AppField
+                        class="radio-choice"
+                        type="radio"
+                        name="bestOf"
+                        :value="bo.id"
+                    />
+                    <label class="for-radio-choice">{{ bo.libelle }}</label>
                   </div>
                 </div>
+              </div>
+            </div>
+          </FormStep>
+          <FormStep>
+            <div class="row my-5">
+              <div class="col-12 form-group mt-3">
+                <label class="text-14">Message de motivation</label>
+                <AppField name="speech" type="text"/>
+                <AppErrorMessage class="error" name="speech"/>
+              </div>
+              <div class="col-12 form-group mt-3">
+                <label class="text-14">Déroulement</label>
+                <AppEditeur />
               </div>
             </div>
           </FormStep>
@@ -77,7 +128,6 @@ import useRedirection from "~/composables/useRedirection";
 import Stepper from "~/components/stepper/Stepper.vue";
 import FormWizard from "~/components/form/FormWizard.vue";
 import FormStep from "~/components/form/FormStep.vue";
-import formatClear from "vue-material-design-icons/FormatClear.vue";
 
 const tournamentClient = new TournamentClient()
 
@@ -93,38 +143,26 @@ const schema = [
         .required("Veuillez renseigner ce champs."),
   }),
   yup.object({
-    // speech: yup.string().notRequired(),
     format: yup
       .string()
-      .required("Veuillez renseigner ce champs.")
+      .required("Veuillez selectionner un format")
       .typeError("Veuillez renseigner ce champs."),
-      maxTeams: yup
-          .number()
-          .required("Veuillez renseigner ce champs.")
-          .typeError("Veuillez renseigner ce champs."),
+    maxTeams: yup
+        .number()
+        .required("Veuillez renseigner ce champs.")
+        .typeError("Veuillez renseigner ce champs."),
+    skillLevel: yup
+        .string()
+        .required("Veuillez renseigner ce champs.")
+        .typeError("Veuillez renseigner ce champs."),
+    bestOf: yup
+        .number()
+        .required("Veuillez renseigner ce champs.")
+        .typeError("Veuillez renseigner ce champs. type error"),
   }),
-  // yup.object({
-  //   maxTeams: yup
-  //       .number()
-  //       .required("Veuillez renseigner ce champs.")
-  //       .typeError("Veuillez renseigner ce champs."),
-  //   format: yup
-  //       .string()
-  //       .required("Veuillez renseigner ce champs.")
-  //       .typeError("Veuillez renseigner ce champs."),
-  //   skillLevel: yup
-  //       .string()
-  //       .required("Veuillez renseigner ce champs.")
-  //       .typeError("Veuillez renseigner ce champs."),
-  //   bestOf: yup
-  //       .number()
-  //       .required("Veuillez renseigner ce champs.")
-  //       .typeError("Veuillez renseigner ce champs. type error"),
-  // }),
-  // yup.object({
-  //   speech: yup.string().notRequired(),
-  //   owner: yup.number().notRequired(),
-  // })
+  yup.object({
+    speech: yup.string().notRequired(),
+  })
 ]
 
 const participantValues = ref(tournament.participants())
@@ -133,35 +171,35 @@ const boValues = ref(tournament.bestOf())
 const levelValues = ref(tournament.levels())
 const error = ref(false)
 
+const currentStep = ref(0)
+
 const {getUser} = useSecurity()
 const {handleResponse} = useFlashMessages()
 const {handleRedirect} = useRedirection()
 
 const isSubmitting = ref(false)
-const currentStep = ref(1)
 
-async function submit(values) {
-  console.log(values)
-  // isSubmitting.value = true
-  //
-  // const tournament = await tournamentClient.create({
-  //   ...values,
-  //   owner: getUser().id,
-  // });
-  //
-  // handleResponse(
-  //     !!tournament,
-  //     'Votre tournoi à bien été créé',
-  //     'Une erreur est survenu lors de la création de votre tournoi'
-  // )
-  //
-  // handleRedirect(
-  //     !!tournament,
-  //     { name: 'tournois-id', params: { id: tournament.id } },
-  //     { path: '/' },
-  // )
-  //
-  // isSubmitting.value = false
+async function submit(values: any) {
+  isSubmitting.value = true
+
+  const tournament = await tournamentClient.create({
+    ...values,
+    owner: getUser().id,
+  });
+
+  handleResponse(
+      !!tournament,
+      'Votre tournoi à bien été créé',
+      'Une erreur est survenu lors de la création de votre tournoi'
+  )
+
+  handleRedirect(
+      !!tournament,
+      { name: 'tournois-id', params: { id: tournament.id } },
+      { path: '/' },
+  )
+
+  isSubmitting.value = false
 }
 </script>
 
@@ -182,15 +220,6 @@ async function submit(values) {
   padding: 16px;
   background-color: #3B2D91;
   border-radius: 16px;
-}
-
-.card-radio {
-  padding: 8px;
-  background-color: red;
-
-  > input[type=radio] {
-    display: none;
-  }
 }
 
 .tournament-register {

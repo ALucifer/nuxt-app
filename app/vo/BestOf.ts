@@ -7,10 +7,10 @@ export class BestOf {
     }
 
     static three(): BestOf {
-        return new this(1, 3)
+        return new this(3, 3)
     }
 
     static five(): BestOf {
-        return new this(1, 5)
+        return new this(5, 5)
     }
 }

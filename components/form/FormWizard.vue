@@ -7,8 +7,6 @@
       <NuxtLink class="btn btn--cancel" v-if="currentStepIdx === 0">Annuler</NuxtLink>
       <button class="btn btn--previous" v-if="hasPrevious" @click="goToPrev">Précédent</button>
     </div>
-
-<!--    <pre>{{ values }}</pre>-->
   </form>
 </template>
 
@@ -23,15 +21,20 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(['submit', 'changeStep']);
 
 const currentStepIdx = ref(0);
 const stepCounter = ref(0);
+
+watch(currentStepIdx, () => {
+  emit('changeStep', currentStepIdx)
+})
 
 provide('STEP_COUNTER', stepCounter);
 provide('CURRENT_STEP_INDEX', currentStepIdx);
 
 const isLastStep = computed(() => {
+  console.log(currentStepIdx.value, stepCounter.value)
   return currentStepIdx.value === stepCounter.value - 1;
 });
 

@@ -1,6 +1,6 @@
 <template>
   <div v-if="needDivider" class="step__divider" :class="{ disable: current < number }"></div>
-  <span class="step__number" v-if="current <= number" :class="{ disable: current < number }">{{ number }}</span>
+  <span class="step__number" v-if="showNumber" :class="{ disable: current < number }">{{ number }}</span>
   <span class="step__icon" v-else>
     <check-icon :size="18" fillColor="#3B2D91" />
   </span>
@@ -8,11 +8,15 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
   needDivider: { type: Boolean, default: false },
   number: { type: Number, default: 1},
   libelle: { type: String, required: true },
   current: { type: Number, required: true }
+})
+
+const showNumber = computed(() => {
+  return props.current <= props.number;
 })
 </script>
 
