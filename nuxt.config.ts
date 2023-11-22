@@ -31,11 +31,8 @@ export default defineNuxtConfig({
   },
   css: [
     '@/assets/css/fontawesome.min.css',
-    '@/assets/css/slick.css',
      "~/node_modules/bootstrap/dist/css/bootstrap.min.css",
-    '@/assets/css/magnific-popup.css',
     '@/assets/css/nice-select.css',
-    '@/assets/css/animate.css',
     '@/assets/css/style.css',
   ],
   router: {
