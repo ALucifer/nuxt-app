@@ -30,13 +30,19 @@
           >
             <ul class="social-bar">
               <li>
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#">
+                  <facebook-icon />
+                </a>
               </li>
               <li>
-                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#">
+                  <twitter-icon />
+                </a>
               </li>
               <li>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#">
+                  <instagram-icon />
+                </a>
               </li>
             </ul>
           </div>
@@ -45,10 +51,6 @@
     </div>
   </footer>
 </template>
-
-<script setup lang="ts">
-import NewsletterSubscriber from "@/components/NewsletterSubscriber";
-</script>
 
 <style lang="scss" scoped>
 @import "@/assets/css/components/global/AppFooter.scss";

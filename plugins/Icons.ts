@@ -5,6 +5,9 @@ import LogoutIcon from 'vue-material-design-icons/Logout.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import SearchIcon from 'vue-material-design-icons/Magnify.vue'
 import AddIcon from 'vue-material-design-icons/Plus.vue'
+import Facebook from 'vue-material-design-icons/Facebook.vue'
+import Twitter from 'vue-material-design-icons/Twitter.vue'
+import Instagram from 'vue-material-design-icons/Instagram.vue'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("download-icon", DownloadIcon);
@@ -14,4 +17,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('account-icon', AccountIcon)
   nuxtApp.vueApp.component('search-icon', SearchIcon)
   nuxtApp.vueApp.component('plus-icon', AddIcon)
+  nuxtApp.vueApp.component('facebook-icon', Facebook)
+  nuxtApp.vueApp.component('twitter-icon', Twitter)
+  nuxtApp.vueApp.component('instagram-icon', Instagram)
 });
