@@ -30,7 +30,6 @@ export default defineNuxtConfig({
     }
   },
   css: [
-    '@/assets/css/fontawesome.min.css',
      "~/node_modules/bootstrap/dist/css/bootstrap.min.css",
     '@/assets/css/nice-select.css',
     '@/assets/css/style.css',
