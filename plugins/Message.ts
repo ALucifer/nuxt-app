@@ -1,5 +1,5 @@
 const MessageDirective = {
-  mounted(el, binding) {
+  mounted(el: any, binding: any) {
     let observer = new IntersectionObserver(
       (observables) => {
         observables.forEach(function (observable) {
