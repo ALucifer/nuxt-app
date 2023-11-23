@@ -14,8 +14,7 @@ import Overview from "@/components/tournament/Overview";
 import Bracket from "@/components/tournament/Bracket";
 import Players from "@/components/tournament/Players";
 import Matches from "@/components/tournament/Matches";
-import Suivi from "@/components/tournament/Suivi";
-import useTournamentHeader from "~~/composables/useTournamentHeader";
+import useTournamentHeader from "~/composables/useTournament";
 import {useTournamentStore} from "~/store/tournament";
 import {useMatchStore} from "~/store/match";
 

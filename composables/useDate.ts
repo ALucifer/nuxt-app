@@ -16,11 +16,11 @@ export default function useDate() {
         return dayjs(date).fromNow()
     }
 
-    function isAfterNow(date: string) {
+    function isAfterNow(date: string|Date) {
         return dayjs(date).isSameOrAfter(dayjs())
     }
 
-    function isBeforeNow(date: string) {
+    function isBeforeNow(date: string|Date) {
         return dayjs(date).isSameOrBefore(dayjs(),'seconds')
     }
 
