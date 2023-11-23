@@ -191,35 +191,6 @@ span {
 .table th {
   border: none;
 }
-.bg_img {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.bg_img {
-  background-position: center;
-  background-size: cover;
-}
-.mr-1,
-.mx-1 {
-  margin-right: 0.25rem !important;
-}
-.mr-60 {
-  margin-right: 60px;
-}
-.mt-1,
-.my-1 {
-  margin-top: 0.25rem !important;
-}
-.button-group {
-  display: inline-flex;
-  overflow: hidden;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.b-none {
-  border: none !important;
-}
 .nice-select:after {
   position: absolute;
   content: "";
@@ -297,18 +268,6 @@ span {
   .pb-120 {
     padding-bottom: 50px;
   }
-}
-body::-webkit-scrollbar {
-  width: 4px;
-}
-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-body::-webkit-scrollbar-thumb {
-  background: #535264;
-}
-body::-webkit-scrollbar-thumb:hover {
-  background: #535264;
 }
 
 @media (max-width: 991px) {
@@ -930,204 +889,10 @@ body::-webkit-scrollbar-thumb:hover {
 #all-trophies .single-trophies .right h4 {
   color: #00fadf;
 }
-#all-trophies .statistics-area {
-  margin-top: 40px;
-  margin-bottom: -7px;
-}
-#all-trophies .statistics-area .total-area {
-  background: #4609c3;
-  border-radius: 10px;
-  padding: 30px;
-}
-#all-trophies .statistics-area .total-area .head-area {
-  margin-bottom: 20px;
-}
-#all-trophies .statistics-area .total-area .right p {
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  padding: 5px 20px;
-  border-radius: 10px;
-}
-#all-trophies .statistics-area .total-area .right p span {
-  color: #25ff03;
-  font-size: inherit;
-  font-weight: inherit;
-}
-#all-trophies .statistics-area .head-area .left h5 {
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-#all-trophies .statistics-area .single-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 30px 5px;
-  margin-bottom: 20px;
-}
-#all-trophies .statistics-area .single-item p {
-  margin: 16px 0 20px;
-}
-#all-trophies .statistics-area .tournaments-slider {
-  margin-top: 80px;
-}
-#all-trophies .statistics-area .tournaments-slider .top-area h5 {
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-#all-trophies .statistics-area .tournaments-slider .top-area {
-  margin-bottom: 30px;
-}
-#all-trophies .statistics-area .single-slide {
-  padding: 0 10px;
-}
-#all-trophies .statistics-area .sidebar-area {
-  background: #4609c3;
-  border-radius: 10px;
-  padding: 30px 20px;
-  margin-bottom: 30px;
-}
-#all-trophies .statistics-area .sidebar-area:last-child {
-  margin-bottom: -30px;
-}
-#all-trophies .statistics-area .sidebar-area h5 {
-  text-transform: uppercase;
-  margin-bottom: 5px;
-}
-#all-trophies .statistics-area .sidebar-area p {
-  color: rgba(255, 255, 255, 0.85);
-}
-#all-trophies .statistics-area .sidebar-area .title-area {
-  margin-bottom: 30px;
-}
-#all-trophies .statistics-area .sidebar-area ul {
-  margin-bottom: -20px;
-}
-#all-trophies .statistics-area .sidebar-area ul li {
-  display: flex;
-  align-self: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-#all-trophies .statistics-area .sidebar-area ul li span {
-  font-size: 14px;
-  line-height: 20px;
-}
-#all-trophies .statistics-area .sidebar-area ul li img {
-  margin-right: 5px;
-}
-#all-trophies .statistics-area .sidebar-area .parents-area {
-  margin-bottom: -10px;
-}
-#all-trophies .statistics-area .sidebar-area .single-area {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
-  padding: 20px 10px;
-  margin-bottom: 10px;
-}
-#all-trophies .statistics-area .sidebar-area .single-area .img-area {
-  width: 50px;
-  height: 50px;
-  background: #ffb130;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-#all-trophies .statistics-area .sidebar-area .single-area .img-area.mid {
-  background: #66c205;
-}
-#all-trophies .statistics-area .sidebar-area .single-area .img-area.last {
-  background: #00acf6;
-}
-#all-trophies .statistics-area .sidebar-area .single-area .right-area img {
-  margin-right: 5px;
-}
-#all-trophies .statistics-area .nav-tabs .nav-item {
-  margin-right: 30px;
-}
-#all-trophies .statistics-area .nav-tabs {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  margin-bottom: 30px;
-}
-#all-trophies .statistics-area .nav-tabs .nav-item .nav-link {
-  color: rgba(255, 255, 255, 0.8);
-  background-color: transparent;
-  border-color: transparent;
-  text-transform: uppercase;
-  font-weight: 500;
-  padding: 15px 0;
-}
-#all-trophies .statistics-area .nav-tabs .nav-item .nav-link.active {
-  color: #00fadf;
-  border-bottom: 3px solid #00fadf;
-}
-
-/* Error Page Start */
-#error-section {
-  background-image: url(../images/404.png);
-  background-repeat: no-repeat;
-  background-size: 55%;
-  background-position: center;
-}
-#error-section .overlay {
-  margin-bottom: -20px;
-}
-#error-section .main-content {
-  margin-bottom: 15px;
-}
-#error-section .main-content h5,
-#error-section .main-content h3 {
-  text-transform: uppercase;
-}
-#error-section .main-content h5 {
-  margin: 20px 0 40px;
-}
-
-/* responsive area */
-@media (min-width: 991px) and (max-width: 1449.98px) {
-  #banner-section .right-area .right-img {
-    width: 100% !important;
-  }
-  #banner-section .text-right {
-    text-align: center !important;
-  }
-}
 
 @media (max-width: 1199px) {
-  #header-section .right-area .nice-select {
-    padding-left: 20px;
-    margin-right: 10px;
-  }
-  #header-section .logo-section {
-    -ms-flex-positive: 0 !important;
-    flex-grow: 0 !important;
-  }
   .navbar-collapse .main-menu li a {
     padding: 40px 10px;
-  }
-  #header-section .navbar {
-    margin: 0 8px;
-  }
-  #header-section .right-area .login-btn {
-    padding: 0 5px 0 20px;
-  }
-  #header-section .right-area .cmn-btn {
-    margin-left: 10px;
-    padding: 11px 15px;
-  }
-  #banner-section .banner-content .ani-illu .left-1 {
-    left: -24%;
-  }
-  #banner-section .banner-content .ani-illu .right-2 {
-    right: -26%;
-  }
-  /* #tournaments-section .single-item .single-box .box-item {
-        margin-right: 5px;
-    } */
-  #banner-section.inner-banner {
-    padding: 250px 0 120px;
-  }
-  #banner-section.inner-banner .slick-active .right-area::before {
-    transform: skew(-18deg) translateY(0px) translateX(15px);
-  }
-  #shop-content .shop-details-content .right-item .bottom-area h5 {
-    margin-right: 25px;
   }
 }
 
@@ -1187,37 +952,9 @@ body::-webkit-scrollbar-thumb:hover {
   .navbar-collapse .main-menu li a {
     padding: 10px 8px;
   }
-  #header-section .navbar .navbar-nav .dropdown {
-    display: grid;
-  }
-  #banner-section {
-    background-size: inherit;
-    padding-top: 170px;
-  }
-  #banner-section .right-area {
-    margin-top: 30px;
-  }
-  #banner-section .text-area h2 {
-    font-size: 60px;
-    line-height: 70px;
-  }
-  #banner-section .banner-content .text-right {
-    text-align: center !important;
-  }
   .cmn-btn {
     font-size: 14px;
     line-height: 24px;
-  }
-  #banner-section .banner-content .ani-illu .left-1 {
-    left: -22%;
-    width: 55%;
-  }
-  #banner-section .banner-content .ani-illu img {
-    width: 55%;
-  }
-  #banner-section .banner-content .ani-illu .left-1 {
-    left: -22%;
-    width: 55%;
   }
   #how-works-section .obj-alt::before,
   #how-works-section .obj-rel::before {
@@ -1226,162 +963,16 @@ body::-webkit-scrollbar-thumb:hover {
   #how-works-section .overlay .cmn-btn {
     margin-top: 40px;
   }
-  /* #tournaments-section .single-item .single-box {
-        padding-bottom: 20px;
-    } */
-  #banner-section.inner-banner.shop-details {
-    padding: 240px 0 140px;
-  }
-  #counter-section .mp-none {
-    margin-bottom: -30px;
-  }
-  #counter-section .single-item {
-    margin-bottom: 30px;
-  }
-  #players-week-section .single-item.mid-area {
-    margin: 0;
-  }
-  #players-week-section .mp-none {
-    margin-bottom: -25px;
-  }
-  #players-week-section .single-item {
-    margin-bottom: 25px;
-  }
-  #features-section .pm-none {
-    margin-top: 20px;
-  }
-  #banner-section.inner-banner.profile.shop {
-    padding: 240px 0 10px;
-  }
-  #call-to-action .main-content .left {
-    display: none;
-  }
-  #testimonials-section .mp-none {
-    margin-bottom: -30px;
-  }
-  #testimonials-section .single-item {
-    margin-bottom: 30px;
-  }
-  #shop-content .shop-details-content .right-item {
-    margin-top: 30px;
-  }
-  #header-section .right-area {
-    right: 8%;
-  }
-  /* #tournaments-section .single-item .single-box .box-item .head {
-        font-size: 12px;
-        line-height: 15px;
-    } */
-  #banner-section.inner-banner {
-    padding: 180px 0 70px;
-  }
-  #team-section .single-item .bottom-area h5 {
-    margin: 20px 0 10px;
-  }
-  #banner-section.inner-banner .ani-img .img-3,
-  #banner-section.inner-banner .ani-img .img-2 {
-    width: 10%;
-  }
-  #banner-section.inner-banner .bottom-item .left-item {
-    display: grid;
-    justify-content: center;
-    text-align: center;
-  }
-  #banner-section.inner-banner .slick-active .right-area img {
-    margin: 0 auto;
-  }
-  #banner-section.inner-banner .right-area::before {
-    display: none;
-  }
-  #banner-section.inner-banner .slick-initialized {
-    margin-bottom: -140px;
-  }
-  #banner-section.inner-banner .main-content {
-    margin-bottom: 50px;
-  }
-  #banner-section .features-video .magnific-area .right-area {
-    margin-top: 0;
-  }
-  #banner-section.inner-banner.shop {
-    padding: 180px 0 30px;
-  }
-  #policy-section .cus-m,
-  #featured-products .cus-m {
-    margin-bottom: -30px;
-  }
-  #policy-section .single-box,
-  #featured-products .single-item {
-    margin-bottom: 30px;
-  }
-  #deal-of-day .deal-item {
-    margin-bottom: 30px;
-  }
-  #shop-cart-section .right-sidebar {
-    margin-top: 30px;
-  }
-  #checkout .right-sidebar {
-    margin-top: 30px;
-  }
   #contact-section .right-sidebar .img-area {
     width: 65px;
     height: 65px;
     margin-right: 10px;
-  }
-  #all-trophies .statistics-area .tournaments-slider {
-    margin-top: 60px;
-    margin-bottom: 30px;
-  }
-  #all-trophies .statistics-area .sidebar-area:last-child {
-    margin-bottom: 0;
   }
 }
 
 @media (max-width: 767px) {
   .section-header {
     margin-bottom: 40px;
-  }
-  .sub-title,
-  .sub-title-alt {
-    font-size: 16px;
-  }
-  #banner-section .text-area h5 {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  .cmn-btn-second {
-    padding: 12px 24px;
-  }
-  .right-btn {
-    right: 25%;
-  }
-  .navbar-light .navbar-toggler {
-    right: 16%;
-  }
-  #banner-section {
-    padding-top: 130px;
-  }
-  #banner-section .banner-content .main-content .top-area p {
-    margin: auto 10%;
-    margin-bottom: 30px;
-  }
-  #available-game-section .slick-initialized .slick-prev::before,
-  #available-game-section .slick-initialized .slick-next::before {
-    top: 11px;
-    left: 11px;
-  }
-  #available-game-section .slick-initialized .slick-next,
-  #available-game-section .slick-initialized .slick-prev {
-    width: 40px;
-    height: 40px;
-  }
-  #available-game-section .main-container {
-    padding: 60px 20px;
-  }
-  #available-game-section .slick-initialized .slick-next {
-    right: calc(10% - -10px);
-  }
-  #available-game-section .slick-initialized .slick-prev {
-    right: calc(14% - 60px);
   }
   #how-works-section .single-item {
     margin-bottom: 40px;
@@ -1395,73 +986,8 @@ body::-webkit-scrollbar-thumb:hover {
   #all-trophies {
     margin-top: -15px;
   }
-  #shop-content .shop-details-content .right-item {
-    margin-top: 20px;
-  }
-  #players-week-section .single-item.mid-area {
-    margin-bottom: 30px;
-  }
-  #call-to-action .main-content img {
-    max-width: 100%;
-  }
-  #call-action .left-area {
-    margin-bottom: 30px;
-  }
-  #testimonials-section .single-item {
-    padding: 26px 15px;
-  }
-  #features-section .single-item .img-area {
-    width: 90px;
-    height: 90px;
-  }
-  #features-section .single-item .img-area::before {
-    width: 110px;
-    height: 110px;
-  }
-  #features-section .single-item .img-area img {
-    width: 60%;
-  }
   #about-us-section .overlay {
     margin-top: -10px;
-  }
-  #call-action .right-area {
-    text-align: center;
-  }
-  #banner-section.inner-banner .banner-content {
-    margin-bottom: -20px;
-  }
-  #products-content .nav-tabs {
-    margin-top: 20px;
-  }
-  #call-action .right-area,
-  #claim-rank .right-area {
-    margin-bottom: 30px;
-  }
-  #esports-matches .right-area,
-  #tournaments-everyone .right-area {
-    margin-top: 30px;
-  }
-  #banner-section.inner-banner.shop {
-    margin-bottom: -10px;
-  }
-  #products-content .single .single-side h6 {
-    margin-bottom: 10px;
-  }
-  #products-content .single p {
-    width: 100%;
-  }
-  #products-content .comments .comment-form .top-area ul li {
-    margin-left: 10px;
-  }
-  #products-content .comments .comment-form .top-area ul li::before {
-    height: 15px;
-    right: -5px;
-  }
-  #products-content .comments .comment-form .top-area ul li a i {
-    font-size: 12px;
-  }
-  #shop-cart-section .table {
-    width: 130%;
   }
   label {
     font-size: 14px;
@@ -1475,15 +1001,6 @@ body::-webkit-scrollbar-thumb:hover {
   #contact-section .right-sidebar .img-area {
     width: 45px;
     height: 45px;
-  }
-  #banner-section.inner-banner.inner-banner.profile.shop-details {
-    padding: 200px 0 160px;
-  }
-  #banner-section.profile .heading-area .right {
-    margin-top: 20px;
-  }
-  #banner-section.inner-banner.profile {
-    padding: 200px 0 135px;
   }
 }
 
@@ -1531,12 +1048,6 @@ body::-webkit-scrollbar-thumb:hover {
   }
 }
 
-@media (max-width: 575px) {
-  #banner-section.inner-banner .nav-tabs {
-    justify-content: center;
-  }
-}
-
 @media (max-width: 480px) {
   .col-6 {
     -ms-flex: 0 0 100%;
@@ -1549,32 +1060,6 @@ body::-webkit-scrollbar-thumb:hover {
   #how-works-section .obj-rel::before,
   #how-works-section .obj-alt::before {
     display: none;
-  }
-  #banner-section.inner-banner .bottom-item .draw-counter .date-area h6 {
-    padding: 5px;
-    margin: 0 5px;
-  }
-  #banner-section.inner-banner .bottom-item .left-item {
-    padding: 25px 10px;
-  }
-  #banner-section.inner-banner .bottom-item .draw-counter .time-parameter.left {
-    padding: 8px 10px;
-  }
-  #banner-section.inner-banner .bottom-item .draw-counter .time-parameter span {
-    margin: 0 5px;
-  }
-  #banner-section.inner-banner .bottom-item .draw-counter {
-    align-items: center;
-  }
-  #banner-section.inner-banner .right-area {
-    margin-top: 0;
-  }
-  #banner-section.inner-banner .right-area img {
-    width: 80%;
-  }
-  #banner-section.inner-banner .bottom-area {
-    display: grid !important;
-    justify-content: start;
   }
   #contact-section form {
     padding: 30px 20px;
