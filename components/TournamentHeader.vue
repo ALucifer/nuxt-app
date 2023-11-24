@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import useFlashMessages from "~/composables/useFlashMessages";
-import useTournamentHeader from "~/composables/useTournament";
+import useTournament from "~/composables/useTournament";
 import {useTournamentStore} from "~/store/tournament";
 import State from '@/components/tournament/State.vue'
 import { useMatchStore } from "~/store/match";
@@ -52,7 +52,7 @@ import useSecurity from "~/composables/useSecurity";
 import TournamentButton from "~/components/tournament/TournamentButton.vue";
 
 const { isOwner, isHalf, hasMatches, isOpen } =
-    useTournamentHeader()
+    useTournament()
 const { addMessage } = useFlashMessages()
 
 const { isLogged } = useSecurity()

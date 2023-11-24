@@ -456,14 +456,10 @@ span {
   left: -20%;
   top: 15%;
 }
-#how-works-section .obj-alt::before {
-  background-image: url(../images/line-one.png);
-  background-repeat: no-repeat;
-}
-#how-works-section .obj-rel::before {
-  background-image: url(../images/line-two.png);
-  background-repeat: no-repeat;
-}
+/*#how-works-section .obj-rel::before {*/
+/*  background-image: url(../images/line-two.png);*/
+/*  background-repeat: no-repeat;*/
+/*}*/
 #how-works-section .mp-top {
   margin-top: 13px;
 }

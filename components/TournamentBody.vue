@@ -14,13 +14,13 @@ import Overview from "@/components/tournament/Overview";
 import Bracket from "@/components/tournament/Bracket";
 import Players from "@/components/tournament/Players";
 import Matches from "@/components/tournament/Matches";
-import useTournamentHeader from "~/composables/useTournament";
+import useTournament from "~/composables/useTournament";
 import {useTournamentStore} from "~/store/tournament";
 import {useMatchStore} from "~/store/match";
 
 const { currentTournament } = useTournamentStore()
 const { isOwner, hasMatches } =
-    useTournamentHeader()
+    useTournament()
 
 const { isLogged } = useSecurity()
 const { items: matches } = useMatchStore()
