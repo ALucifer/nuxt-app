@@ -1,8 +1,8 @@
 .footer {
   &__wrapper {
-    margin-top: 5px;
     width: 100%;
     background-image: url("@/assets/images/footer-bg.png");
+    background-size: contain;
     padding-bottom: 5px;
   }
 
@@ -51,6 +51,12 @@
   }
 }
 
+.footer-item-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 767px) {
   .footer {
     &__wrapper {
@@ -58,6 +64,7 @@
     }
     &__mid {
       margin-bottom: 0;
+      padding-top: 60px;
 
       .single-area {
         margin-bottom: 40px;
@@ -69,12 +76,16 @@
   }
   .social-bar {
     display: flex;
-    margin-bottom: 20px;
-    margin-top: 15px;
+    margin-bottom: 24px;
     li {
       a {
         margin: 0 15px;
       }
     }
+  }
+
+  .footer-item-container {
+    flex-direction: column;
+    gap: 20px;
   }
 }

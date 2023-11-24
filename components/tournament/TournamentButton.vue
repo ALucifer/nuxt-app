@@ -28,7 +28,7 @@ import useSecurity from "~/composables/useSecurity";
 import { TournamentModel } from "~/app/models/tournament";
 
 const props = defineProps<{tournament: TournamentModel}>()
-const { isRegister, isOpen, isCompletlyClose } = useTournamentHeader()
+const { isRegister, isOpen, isCompletlyClose } = useTournament()
 
 const { unsubscribe, setCurrentTournament, } = useTournamentStore()
 const { addMessage } = useFlashMessages()

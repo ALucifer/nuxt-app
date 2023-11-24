@@ -48,7 +48,7 @@ import "vue3-carousel/dist/carousel.css";
 
 defineProps({ items: { type: Array, required: true }})
 
-const { isOpen } = useTournamentHeader()
+const { isOpen } = useTournament()
 </script>
 
 <style lang="scss">

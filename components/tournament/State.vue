@@ -15,13 +15,13 @@
 
 <script setup lang="ts">
 import { TournamentModel } from "~/app/models/tournament";
-import useTournamentHeader from "~/composables/useTournament";
+import useTournament from "~/composables/useTournament";
 import useDate from "~/composables/useDate";
 const { dateToNow, dateFormatted, isAfterNow } = useDate()
 
 const props = defineProps<{ tournament: TournamentModel }>()
 
-const { isCompletlyClose, isRegister, isRunning } = useTournamentHeader()
+const { isCompletlyClose, isRegister, isRunning } = useTournament()
 const { isLogged } = useSecurity()
 
 const formattedDate = computed(() => dateFormatted({ date: props.tournament.begin_at, format: "dddd DD MMM YYYY" }))
