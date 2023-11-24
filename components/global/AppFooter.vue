@@ -2,7 +2,7 @@
   <footer class="footer__wrapper">
     <div class="footer__mid pt-120">
       <div class="container">
-        <div class="d-flex flex-md-row flex-sm-column align-items-center justify-content-center">
+        <div class="footer-item-container">
           <div class="logo-section">
             <NuxtLink :to="{ name: 'index' }" class="site-logo site-title">
               <img src="/images/logo.png" alt="site-logo" />

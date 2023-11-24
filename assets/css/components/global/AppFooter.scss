@@ -51,6 +51,12 @@
   }
 }
 
+.footer-item-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 767px) {
   .footer {
     &__wrapper {
@@ -76,5 +82,10 @@
         margin: 0 15px;
       }
     }
+  }
+
+  .footer-item-container {
+    flex-direction: column;
+    gap: 20px;
   }
 }
