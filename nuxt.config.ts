@@ -35,7 +35,6 @@ export default defineNuxtConfig({
     '@/assets/css/style.css',
   ],
   router: {
-    // turns off prefetching (since the default is true)
     prefetchLinks: false,
   },
   vue: {
