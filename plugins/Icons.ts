@@ -8,6 +8,7 @@ import AddIcon from 'vue-material-design-icons/Plus.vue'
 import Facebook from 'vue-material-design-icons/Facebook.vue'
 import Twitter from 'vue-material-design-icons/Twitter.vue'
 import Instagram from 'vue-material-design-icons/Instagram.vue'
+import Menu from 'vue-material-design-icons/Menu.vue'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("download-icon", DownloadIcon);
@@ -20,4 +21,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('facebook-icon', Facebook)
   nuxtApp.vueApp.component('twitter-icon', Twitter)
   nuxtApp.vueApp.component('instagram-icon', Instagram)
+  nuxtApp.vueApp.component('menu-icon', Menu)
 });

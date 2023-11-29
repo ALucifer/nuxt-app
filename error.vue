@@ -5,12 +5,6 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import Error from "@/components/Error.vue";
-
-export default {
-  components: { Error },
-};
 </script>
-
-<style></style>
