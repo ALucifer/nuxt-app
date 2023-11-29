@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="editable">
-      <div class="avatar-edit">
+      <label class="avatar-edit">
         <nuxt-img
           :src="src"
           placeholder="/user-placeholder.png"
@@ -18,7 +18,7 @@
           accept="image/*"
           @change="handleAvatarUpload"
         />
-      </div>
+      </label>
     </div>
     <nuxt-img
         :src="src"
@@ -31,12 +31,12 @@
 
 <script setup lang="ts">
 defineProps({
-  src: { type: String },
+  src: { type: String, required: true },
   editable: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['change'])
-function handleAvatarUpload(event) {
+function handleAvatarUpload(event: Event) {
   emit("change", event);
 }
 </script>

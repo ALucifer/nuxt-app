@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTabStore } from "~~/store/tab";
+import { useTabStore } from "~/store/tab";
 import { mapActions } from "pinia";
 
 defineProps({

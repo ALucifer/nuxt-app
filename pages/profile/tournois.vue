@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "@/store/auth";
 import TournamentTable from "@/components/TournamentTable";
 import TournamentClient from "~/app/client/TournamentClient";
 
@@ -32,12 +31,12 @@ const myTournaments = ref({
     }
 })
 
-const { user } = useAuthStore()
+const { getUser } = useSecurity()
 
 function fetchTournament() {
   tournamentClient.all(
     {
-      user: user.id,
+      user: getUser().id,
       pagination: myTournaments.value.pagination.range,
       page: queryParamValue.value,
     }

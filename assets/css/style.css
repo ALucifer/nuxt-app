@@ -435,7 +435,7 @@ span {
 /* How Works */
 #how-works-section {
   position: relative;
-  background-image: url(../images/how-works-bg.png);
+  background-image: url('~/images/how-works-bg.png');
   background-size: 100%;
   background-repeat: no-repeat;
 }
@@ -456,10 +456,7 @@ span {
   left: -20%;
   top: 15%;
 }
-/*#how-works-section .obj-rel::before {*/
-/*  background-image: url(../images/line-two.png);*/
-/*  background-repeat: no-repeat;*/
-/*}*/
+
 #how-works-section .mp-top {
   margin-top: 13px;
 }

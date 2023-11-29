@@ -1,4 +1,4 @@
-import {useUserStore} from "@/store/user";
+import {useUserStore} from "~/store/user";
 import ConversationClient from "~/app/client/ConversationClient";
 import {ConversationMessagesModel, ConversationModel, MessageModel} from "~/app/models/conversation.model";
 import useFlashMessages from "~/composables/useFlashMessages";
