@@ -14,7 +14,7 @@
             />
           </transition-group>
           <AppInfiniteScroll
-            v-show="!pending"
+            v-if="!pending"
             @load="tournamentStore.fetchNextItems()"
             :key="'infiniteKey' + infiniteKey"
           />
@@ -32,6 +32,7 @@ import TournamentCard from "@/components/TournamentCard"
 import SearchFormTournament from "@/components/SearchFormTournament";
 import { useTournamentStore } from "~/store/tournament";
 import BannerTournaments from "~/components/BannerTournaments.vue";
+import {useAsyncData} from "#app";
 
 definePageMeta({
   auth: false
@@ -45,8 +46,7 @@ useHead({
 
 const tournamentStore = useTournamentStore()
 
-const { data, pending } = await useFetch('/api/tournaments/list', { key: 'test' })
-
+const { data, pending } = await useAsyncData('list', () => tournamentStore.fetchItems())
 const infiniteKey = ref(0)
 
 function searchFilter(event: any) {

@@ -23,13 +23,5 @@ export default function useSecurity() {
         return auth.value.token
     }
 
-    function setAvatar(avatar: string) {
-        if (!auth.value) {
-            throw Error('User not logged')
-        }
-
-        auth.value.user.avatar = avatar
-    }
-
-    return { isLogged, getUser, getToken, setAvatar }
+    return { isLogged, getUser, getToken }
 }

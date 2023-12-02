@@ -3,13 +3,11 @@ import {NuxtAuthHandler} from '#auth'
 import AuthClient from "~/app/client/AuthClient";
 import Google from "next-auth/providers/google";
 
-
-// @ts-ignore
 // @ts-ignore
 export default NuxtAuthHandler({
     // A secret string you define, to ensure correct encryption
     secret: 'your-secret-here',
-    debug: false,
+    debug: true,
     pages: {
         signIn: '/login',
     },
@@ -49,7 +47,7 @@ export default NuxtAuthHandler({
     ],
     callbacks: {
         // @ts-ignore
-        signIn: async ({user, account }) => {
+        signIn: async ({ user, account }) => {
             try {
                 if (account.provider === 'credentials') {
                     return true
@@ -65,14 +63,23 @@ export default NuxtAuthHandler({
 
                 user.id = data.user.id
 
+                account.token = data.token
+
                 return data
             } catch(error: any) {
                 return false
             }
         },
+        /**
+         * account
+         * token
+         * user
+         * isNewUser
+         * trigger
+         */
         // @ts-ignore
-        jwt: async ({ token, user, account }) => {
-            const isSignIn = user ? true : false;
+        jwt: async ({ account, token, user }) => {
+            const isSignIn = !!user;
 
             if (account?.provider === 'google') {
                 token.user = {
@@ -82,7 +89,7 @@ export default NuxtAuthHandler({
                     id: user.id,
                     email: user.email
                 }
-                token.token = account.access_token
+                token.token = account.token.token
             } else {
 
                 if (isSignIn) {

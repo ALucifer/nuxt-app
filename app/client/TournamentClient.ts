@@ -2,7 +2,7 @@ import AbstractClient from "~/app/client/DefaultClient";
 import {TournamentModel} from "~/app/models/tournament";
 
 export default class TournamentClient extends AbstractClient {
-    async all(params: any) {
+    async all(params: any = null) {
         const { data } = await this.axiosInstance.get("tournaments", {
             params: params,
         })

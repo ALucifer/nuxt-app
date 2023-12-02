@@ -18,8 +18,8 @@ export const useTournamentStore = defineStore({
     };
   },
   getters: {
-    filteredItems(state) {
-      return state.items || {};
+    filteredItems(state): TournamentModel[]  {
+      return state.items || [];
     },
     itemsShow(state) {
       return state.total;
@@ -37,6 +37,12 @@ export const useTournamentStore = defineStore({
   actions: {
     toggleOwner() {
       this.isOwner = !this.isOwner
+    },
+    async fetchItems() {
+      const data = await tournamentClient.all()
+
+      this.setItems(data.data)
+      this.setTotal(data.meta.total)
     },
     async fetchItem(id: number) {
       return await tournamentClient
