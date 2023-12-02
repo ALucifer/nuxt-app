@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppBanner :isDefault="true" />
+    <AppBanner />
     <section id="contact-section" class="pb-120">
       <div class="overlay">
         <div class="container">

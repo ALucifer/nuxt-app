@@ -9,7 +9,7 @@
         <MessageLeftSide @changeConversation="changeActiveConversation($event.conversation)" />
       </div>
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-        <MessageRightSide  ref="messageRightSide" @newMessage="scrollToNewMessage" />
+        <MessageRightSide  ref="messageRightSide" @newMessage="scrollToNewMessage" v-if="currentConversation" />
       </div>
     </div>
   </div>
@@ -18,15 +18,16 @@
 <script setup lang="ts">
 import MessageLeftSide from "@/components/profile/MessageLeftSide.vue";
 import MessageRightSide from "~/components/profile/MessageRightSide.vue";
-import {useConversationStore} from "~/store/Conversation";
+import {useConversationStore} from "~/store/conversation";
 import useFetchConversationsList from "~/composables/api/useFetchConversationsList";
 import ClientSSE from "~/app/client/sse/ClientSSE";
 import useFetchMessagesByConversation from "~/composables/api/useFetchMessagesByConversation";
+
 definePageMeta({
   layout: 'profile'
 })
 
-const { changeActiveConversation,addMessage } = useConversationStore()
+const { changeActiveConversation,addMessage, currentConversation } = useConversationStore()
 const { getUser } = useSecurity()
 const { pending } = await useFetchConversationsList()
 await useFetchMessagesByConversation()

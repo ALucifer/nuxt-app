@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { useConversationStore } from "~/store/Conversation";
+import { useConversationStore } from "~/store/conversation";
 
 const { conversations, currentConversation, getUnreadMessagesByConversation } = useConversationStore()
 </script>

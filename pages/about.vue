@@ -1,5 +1,5 @@
 <template>
-  <AppBanner :isDefault="true" />
+  <AppBanner />
   <section id="about-us-section">
     <div class="overlay pt-120">
       <div class="container wow fadeInUp">

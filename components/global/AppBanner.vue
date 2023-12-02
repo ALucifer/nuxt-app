@@ -1,5 +1,5 @@
 <template>
-  <div class="banner" :class="{ 'banner--default': isDefault }">
+  <div class="banner">
     <div class="image-banner__container">
       <img
         class="image-banner__img image-banner__img--1"
@@ -7,13 +7,11 @@
         alt="icon"
       />
       <img
-        v-if="!isDefault"
         class="image-banner__img image-banner__img--2"
         src="/images/banner-circle-2.png"
         alt="icon"
       />
       <img
-        v-if="!isDefault"
         class="image-banner__img image-banner__img--3"
         src="/images/banner-circle-2.png"
         alt="icon"
@@ -24,10 +22,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-defineProps({ isDefault: { default: false } })
-</script>
 
 <style lang="scss">
 @import "@/assets/css/components/global/AppBanner.scss";

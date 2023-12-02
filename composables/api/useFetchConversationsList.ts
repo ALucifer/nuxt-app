@@ -1,4 +1,4 @@
-import { useConversationStore } from "~/store/Conversation";
+import { useConversationStore } from "~/store/conversation";
 
 export default async function useFetchConversationsList() {
     const { setConversations } = useConversationStore()

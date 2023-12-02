@@ -1,4 +1,4 @@
-import { useConversationStore } from "~/store/Conversation";
+import { useConversationStore } from "~/store/conversation";
 import { ConversationMessagesModel } from "~/app/models/conversation.model";
 
 export default async function useFetchMessagesByConversation() {

@@ -12,7 +12,7 @@ export const useConversationStore = defineStore({
       conversations: [] as ConversationModel[],
       messages: [] as Array<MessageModel[]>,
       active_conversation_id: null as null|number,
-      currentConversation: {} as ConversationModel|null,
+      currentConversation: null as ConversationModel|null,
     };
   },
   getters: {
@@ -33,9 +33,11 @@ export const useConversationStore = defineStore({
   actions: {
     setConversations(conversations: ConversationModel[]) {
       this.conversations = conversations
-      this.active_conversation_id = conversations[0].id
-      this.currentConversation = this.conversations.find(
-        (conversation: ConversationModel) => conversation.id === this.active_conversation_id)!
+      if (conversations.length > 0) {
+        this.active_conversation_id = conversations[0].id
+        this.currentConversation = this.conversations.find(
+            (conversation: ConversationModel) => conversation.id === this.active_conversation_id)!
+      }
     },
 
     addMessagesByConversation(conversation: ConversationMessagesModel) {
