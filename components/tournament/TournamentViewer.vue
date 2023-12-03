@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <TournamentResume />
-  </div>
+  <TournamentResume />
 </template>
 
 <script setup lang="ts">

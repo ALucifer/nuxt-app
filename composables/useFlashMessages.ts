@@ -8,17 +8,26 @@ interface AddFlashMessage {
 }
 
 interface FlashMessage extends AddFlashMessage{
-  id: undefined|number,
+  id: number,
+  visible: boolean,
 }
 
 
 const addMessage = (message: AddFlashMessage) => {
   const messageFormatted: string = transformToLink(message.message);
-  messages.push({
+
+  const flashMessage = {
     ...message,
     id: Math.random() + Date.now(),
     message: messageFormatted,
-  });
+    visible: true
+  }
+
+  messages.push(flashMessage);
+
+  setTimeout(() => {
+    messages.at(-1).visible = false
+  }, 5000)
 };
 
 const successMessage = (message: string) => {

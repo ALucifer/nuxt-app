@@ -7,10 +7,7 @@
           <div class="col-lg-10 col-md-10 d-grid">
             <div class="d-inline-flex justify-content-between">
               <h3>{{ tournament.libelle }}</h3>
-              <TournamentButton
-                v-if="isOpen(tournament) && isLogged()"
-                :tournament="tournament"
-              />
+              <TournamentButton v-if="isOpen(tournament) && isLogged()" />
             </div>
             <div class="title-bottom d-flex align-items-end">
               <State :tournament="tournament" />
@@ -51,18 +48,18 @@ import { useMatchStore } from "~/store/match";
 import useSecurity from "~/composables/useSecurity";
 import TournamentButton from "~/components/tournament/TournamentButton.vue";
 
-const { isOwner, isHalf, hasMatches, isOpen } =
+const { isOwner, isHalf, isOpen } =
     useTournament()
 const { addMessage } = useFlashMessages()
 
 const { isLogged } = useSecurity()
 
 const { data: auth } = useAuth()
-const { currentTournament: tournament, start, setCurrentTournament } = useTournamentStore()
+const { getCurrentTournament, start, setCurrentTournament } = useTournamentStore()
 const { items: matches } = useMatchStore()
 
 const bracketLoading = ref(false)
-
+const tournament = computed(() => getCurrentTournament)
 
 async function generate() {
     bracketLoading.value = true;

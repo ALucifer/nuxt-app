@@ -25,12 +25,9 @@
 import { useTournamentStore } from "~/store/tournament";
 import useFlashMessages from "~/composables/useFlashMessages";
 import useSecurity from "~/composables/useSecurity";
-import { TournamentModel } from "~/app/models/tournament";
 
-const props = defineProps<{tournament: TournamentModel}>()
 const { isRegister, isOpen, isCompletlyClose } = useTournament()
-
-const { unsubscribe, setCurrentTournament, } = useTournamentStore()
+const { unsubscribe, currentTournament: tournament, removeUserTeamFromCurrentTournament } = useTournamentStore()
 const { addMessage } = useFlashMessages()
 const { getUser } = useSecurity()
 
@@ -39,8 +36,8 @@ const unsubscribeLoad = ref(false)
 function unsubscribeClick() {
   unsubscribeLoad.value = true
 
-  unsubscribe(props.tournament.id, getUser().id).then((data) => {
-    setCurrentTournament(data.data)
+  unsubscribe(tournament.id, getUser().id).then(() => {
+    removeUserTeamFromCurrentTournament()
     unsubscribeLoad.value = false
     addMessage({
       class: 'success',
@@ -55,7 +52,3 @@ function unsubscribeClick() {
   })
 }
 </script>
-
-<style scoped>
-
-</style>

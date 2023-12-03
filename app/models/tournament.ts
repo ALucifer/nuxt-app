@@ -2,6 +2,7 @@ import {Level} from "~/app/vo/Level";
 import {BestOf} from "~/app/vo/BestOf";
 import {Format} from "~/app/vo/Format";
 import {Participant} from "~/app/vo/Participant";
+import {TeamModel} from "~/app/models/team.model";
 
 
 export type TournamentModel = {
@@ -21,7 +22,7 @@ export type TournamentModel = {
     challonge_id: null|number,
     owner: number,
     image_bracket: null|string,
-    teams?: any,
+    teams?: TeamModel[],
     matches?: any
 }
 

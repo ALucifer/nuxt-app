@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import TournamentClient from "~/app/client/TournamentClient";
 import { TournamentModel } from "~/app/models/tournament";
+import {TeamModel} from "~/app/models/team.model";
 
 const tournamentClient = new TournamentClient();
 
@@ -37,6 +38,11 @@ export const useTournamentStore = defineStore({
   actions: {
     toggleOwner() {
       this.isOwner = !this.isOwner
+    },
+    removeUserTeamFromCurrentTournament() {
+      const { getUser } = useSecurity()
+      const index = this.currentTournament.teams!.findIndex((team: TeamModel) => team.user_id === getUser().id)
+      this.currentTournament.teams!.splice(index, 1)
     },
     async fetchItems() {
       const data = await tournamentClient.all()
