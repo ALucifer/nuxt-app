@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!pending">
+  <div>
     <TournamentViewer v-if="!tournamentStore.isOwner"/>
     <TournamentAdmin v-else/>
   </div>
@@ -7,11 +7,8 @@
 
 <script setup lang="ts">
 import {useTournamentStore} from "~/store/tournament";
-import {useMatchStore} from "~/store/match";
-import useFetchTournamentById from "~/composables/api/useFetchTournamentById";
 import TournamentAdmin from "~/components/tournament/TournamentAdmin.vue";
 import TournamentViewer from "~/components/tournament/TournamentViewer.vue";
-import useFetchMatchsByTournamentId from "~/composables/api/useFetchMatchsByTournamentId";
 
 definePageMeta({
   auth: false
@@ -22,16 +19,14 @@ const { getUser } = useSecurity()
 const route = useRoute()
 const router = useRouter()
 
-const { pending } = await useFetchTournamentById()
-await useFetchMatchsByTournamentId()
+await useAsyncData('tournament-view', () => tournamentStore.fetchTournament(+route.params.id))
 
 const tournament = computed(() => tournamentStore.currentTournament)
 
-/*function isOwner() {
-  return tournament.value.owner === getUser().id
-}*/
-
 onMounted(() => {
+  /**
+   * Passer par un middleware et ne pas renvoyer une redirection mais une 404
+   */
   if (!tournamentStore.currentTournament) {
     router.push({name: 'index'})
   }

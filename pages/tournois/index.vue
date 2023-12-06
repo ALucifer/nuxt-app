@@ -32,7 +32,6 @@ import TournamentCard from "@/components/TournamentCard"
 import SearchFormTournament from "@/components/SearchFormTournament";
 import { useTournamentStore } from "~/store/tournament";
 import BannerTournaments from "~/components/BannerTournaments.vue";
-import {useAsyncData} from "#app";
 
 definePageMeta({
   auth: false
@@ -46,7 +45,7 @@ useHead({
 
 const tournamentStore = useTournamentStore()
 
-const { data, pending } = await useAsyncData('list', () => tournamentStore.fetchItems())
+const { pending } = await useAsyncData('tournament-list', () => tournamentStore.fetchTournaments())
 const infiniteKey = ref(0)
 
 function searchFilter(event: any) {

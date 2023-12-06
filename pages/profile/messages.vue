@@ -3,13 +3,12 @@
     <div
         class="row g-0"
         style="background-color: #665494; min-height: 350px"
-        v-if="!pending"
     >
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
-        <MessageLeftSide @changeConversation="changeActiveConversation($event.conversation)" />
+        <MessageLeftSide @changeConversation="changeActiveConversation($event.conversation)"  />
       </div>
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-        <MessageRightSide  ref="messageRightSide" @newMessage="scrollToNewMessage" v-if="currentConversation" />
+        <MessageRightSide  ref="messageRightSide" @newMessage="scrollToNewMessage"  />
       </div>
     </div>
   </div>
@@ -19,18 +18,17 @@
 import MessageLeftSide from "@/components/profile/MessageLeftSide.vue";
 import MessageRightSide from "~/components/profile/MessageRightSide.vue";
 import {useConversationStore} from "~/store/conversation";
-import useFetchConversationsList from "~/composables/api/useFetchConversationsList";
 import ClientSSE from "~/app/client/sse/ClientSSE";
-import useFetchMessagesByConversation from "~/composables/api/useFetchMessagesByConversation";
 
 definePageMeta({
   layout: 'profile'
 })
 
-const { changeActiveConversation,addMessage, currentConversation } = useConversationStore()
+const { changeActiveConversation,addMessage, fetchConversations, fetchCurrentConversation } = useConversationStore()
 const { getUser } = useSecurity()
-const { pending } = await useFetchConversationsList()
-await useFetchMessagesByConversation()
+
+await useAsyncData('conversations-list', async() => await fetchConversations())
+await useAsyncData('current-conversation-message', async () => await fetchCurrentConversation())
 
 onMounted(async () => {
   const clientSSE = new ClientSSE(getUser())

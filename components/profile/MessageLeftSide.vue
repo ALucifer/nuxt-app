@@ -1,6 +1,6 @@
 <template>
   <div class="users-container">
-    <ul class="user-list" v-if="conversations">
+    <ul class="user-list">
       <template v-for="(conversation, key) in conversations" :key="key">
         <li
           v-if="conversation.total_messages > 0"

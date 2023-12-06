@@ -10,7 +10,6 @@ export const useTournamentStore = defineStore({
   state: () => {
     return {
       items: [] as TournamentModel[],
-      highlighted: [] as TournamentModel[],
       searchForm: [],
       total: 0,
       currentPage: 1,
@@ -44,14 +43,14 @@ export const useTournamentStore = defineStore({
       const index = this.currentTournament.teams!.findIndex((team: TeamModel) => team.user_id === getUser().id)
       this.currentTournament.teams!.splice(index, 1)
     },
-    async fetchItems() {
+    async fetchTournaments() {
       const data = await tournamentClient.all()
 
       this.setItems(data.data)
       this.setTotal(data.meta.total)
     },
-    async fetchItem(id: number) {
-      return await tournamentClient
+    async fetchTournament(id: number) {
+      return tournamentClient
           .findById(id)
           .then((data) => this.currentTournament = data);
     },
@@ -87,13 +86,10 @@ export const useTournamentStore = defineStore({
       this.currentPage++;
     },
     async register(form: any) {
-      const { data } = useAuth()
-      form.user_id = data.value.user.id;
+      const { getUser } = useSecurity()
+      form.user_id = getUser().id;
 
       return await tournamentClient.register(form)
-    },
-    setHightlighted(items: TournamentModel[]) {
-      this.highlighted = items
     },
     async start(tournament: any) {
      return await tournamentClient.start(tournament);

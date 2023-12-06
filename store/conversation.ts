@@ -21,7 +21,10 @@ export const useConversationStore = defineStore({
     },
     getUnreadMessagesByConversation: (state): (conversation: ConversationModel) => MessageModel[] => {
       const { getUser } = useSecurity()
-      return (conversation: ConversationModel) => state.messages[conversation.id].filter(
+
+      return (conversation: ConversationModel) => !state.messages[conversation.id]
+          ? []
+          : state.messages[conversation.id].filter(
           (message: MessageModel) =>
             message.conversation === conversation.id
             && message.state === 'UNREAD'
@@ -85,6 +88,19 @@ export const useConversationStore = defineStore({
       );
       this.messages[message.conversation][index].state = "READ";
     },
+
+    async fetchConversations() {
+      const conversations = await conversationClient.fetchAuthConversationsList()
+      this.setConversations(conversations)
+    },
+
+    async fetchCurrentConversation() {
+      if (!this.currentConversation) return
+      const conversation = await conversationClient.fetchConversationMessages(this.currentConversation.id)
+      if (conversation) {
+        this.addMessagesByConversation(conversation)
+      }
+    }
 
     // A refacto
 
