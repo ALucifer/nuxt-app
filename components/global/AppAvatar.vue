@@ -1,32 +1,30 @@
 <template>
-  <div>
-    <div v-if="editable">
-      <label class="avatar-edit">
-        <nuxt-img
-          :src="src"
-          placeholder="/user-placeholder.png"
-          v-bind="$attrs"
-          class="avatar-img"
-        />
-        <div class="avatar-upload-overlay">
-          <download-icon />
-        </div>
-        <input
-          v-show="false"
-          type="file"
-          id="avatar"
-          accept="image/*"
-          @change="handleAvatarUpload"
-        />
-      </label>
-    </div>
-    <nuxt-img
+  <div v-if="editable">
+    <label class="avatar-edit">
+      <nuxt-img
         :src="src"
         placeholder="/user-placeholder.png"
-        :class="[$attrs.class ? $attrs.class : 'avatar-img']"
-        v-else
-    />
+        v-bind="$attrs"
+        class="avatar-img"
+      />
+      <div class="avatar-upload-overlay">
+        <download-icon />
+      </div>
+      <input
+        v-show="false"
+        type="file"
+        id="avatar"
+        accept="image/*"
+        @change="handleAvatarUpload"
+      />
+    </label>
   </div>
+  <nuxt-img
+    :src="src"
+    placeholder="/user-placeholder.png"
+    :class="[$attrs.class ? $attrs.class : 'avatar-img']"
+    v-else
+  />
 </template>
 
 <script setup lang="ts">

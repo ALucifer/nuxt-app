@@ -10,6 +10,6 @@ import TournamentHeader from "@/components/TournamentHeader";
 import TournamentBody from "~/components/TournamentBody.vue";
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/css/components/tournamentResume.scss";
 </style>

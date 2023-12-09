@@ -7,7 +7,7 @@ import Google from "next-auth/providers/google";
 export default NuxtAuthHandler({
     // A secret string you define, to ensure correct encryption
     secret: 'your-secret-here',
-    debug: true,
+    debug: false,
     pages: {
         signIn: '/login',
     },
@@ -78,7 +78,7 @@ export default NuxtAuthHandler({
          * trigger
          */
         // @ts-ignore
-        jwt: async ({ account, token, user }) => {
+        jwt: async ({ account, token, user, trigger }) => {
             const isSignIn = !!user;
 
             if (account?.provider === 'google') {
@@ -89,6 +89,7 @@ export default NuxtAuthHandler({
                     id: user.id,
                     email: user.email
                 }
+
                 token.token = account.token.token
             } else {
 
