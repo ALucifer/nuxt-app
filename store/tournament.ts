@@ -13,7 +13,7 @@ export const useTournamentStore = defineStore({
       searchForm: [],
       total: 0,
       currentPage: 1,
-      currentTournament: {} as TournamentModel,
+      currentTournament: {} as TournamentModel | null,
       isOwner: false
     };
   },
@@ -35,13 +35,10 @@ export const useTournamentStore = defineStore({
     }
   },
   actions: {
-    toggleOwner() {
-      this.isOwner = !this.isOwner
-    },
     removeUserTeamFromCurrentTournament() {
       const { getUser } = useSecurity()
-      const index = this.currentTournament.teams!.findIndex((team: TeamModel) => team.user_id === getUser().id)
-      this.currentTournament.teams!.splice(index, 1)
+      const index = this.currentTournament!.teams!.findIndex((team: TeamModel) => team.user_id === getUser().id)
+      this.currentTournament!.teams!.splice(index, 1)
     },
     async fetchTournaments() {
       const data = await tournamentClient.all()
@@ -52,7 +49,8 @@ export const useTournamentStore = defineStore({
     async fetchTournament(id: number) {
       return tournamentClient
           .findById(id)
-          .then((data) => this.currentTournament = data);
+          .then((data) => this.currentTournament = data)
+          .catch((error) => error(error));
     },
     fetchNextItems() {
       this.incrementCurrentPage();

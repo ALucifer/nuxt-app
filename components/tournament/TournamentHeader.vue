@@ -10,7 +10,7 @@
               <TournamentButton v-if="isOpen(tournament) && isLogged()" />
             </div>
             <div class="title-bottom d-flex align-items-end">
-              <State :tournament="tournament" />
+              <State :tournament="tournament" v-if="tournament" />
               <div
                 class="start-area bg--action"
                 v-if="isLogged() && isHalf(tournament)"
@@ -43,7 +43,7 @@
 import useFlashMessages from "~/composables/useFlashMessages";
 import useTournament from "~/composables/useTournament";
 import {useTournamentStore} from "~/store/tournament";
-import State from '@/components/tournament/State.vue'
+import State from '~/components/tournament/State.vue'
 import { useMatchStore } from "~/store/match";
 import useSecurity from "~/composables/useSecurity";
 import TournamentButton from "~/components/tournament/TournamentButton.vue";
@@ -75,6 +75,6 @@ async function generate() {
 </script>
 
 <style lang="scss">
-@import "@/assets/css/components/tournamentHeader.scss";
-@import "@/assets/css/components/tournamentCard.scss";
+@import "assets/css/components/tournamentHeader";
+@import "assets/css/components/tournamentCard";
 </style>

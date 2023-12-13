@@ -1,6 +1,13 @@
 import {TeamModel} from "~/app/models/team.model";
 import {ScoreModel} from "~/app/models/scoreFormModel";
 
+export enum State {
+    OPEN = 'OPEN',
+    VALIDATION = 'VALIDATION',
+    NEED_VALIDATION = 'NEED_VALIDATION',
+    FINISH = 'FINISH',
+}
+
 export interface MatchModel {
     id: number,
     created_at: Date,

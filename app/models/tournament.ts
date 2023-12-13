@@ -3,7 +3,7 @@ import {BestOf} from "~/app/vo/BestOf";
 import {Format} from "~/app/vo/Format";
 import {Participant} from "~/app/vo/Participant";
 import {TeamModel} from "~/app/models/team.model";
-import {MatchModel} from "~/app/models/match.model";
+import {MatchModel, MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
 
 export type TournamentModel = {
@@ -24,7 +24,7 @@ export type TournamentModel = {
     owner: number,
     image_bracket: null|string,
     teams?: TeamModel[],
-    matches?: MatchModel[]
+    matches?: MatchModel[] | MatchWithTeamsAndScoresModel[]
 }
 
 

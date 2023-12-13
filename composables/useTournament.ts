@@ -2,6 +2,7 @@ import { find } from "lodash"
 import useDate from "~/composables/useDate";
 import {TournamentModel} from "~/app/models/tournament";
 import {TeamModel} from "~/app/models/team.model";
+import {MatchModel, MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
 export default function useTournament() {
     const date = useDate()
@@ -55,5 +56,17 @@ export default function useTournament() {
         return teams.find((team) => team.id == team_id)
     }
 
-    return {isHalf, isOwner, isRegister, hasMatches, isCompletlyClose, isOpen, isRunning, getTeam }
+    function findUserMatchFromMatches(matches: MatchWithTeamsAndScoresModel[], user_id: number) {
+        const matchesWithUser: MatchWithTeamsAndScoresModel[] = []
+
+        matches.forEach((item) => {
+            if (item.team_a.user_id === user_id || item.team_b.user_id === user_id) {
+                matchesWithUser.push(item)
+            }
+        })
+
+        return matchesWithUser
+    }
+
+    return {isHalf, isOwner, isRegister, hasMatches, isCompletlyClose, isOpen, isRunning, getTeam, findUserMatchFromMatches }
 }
