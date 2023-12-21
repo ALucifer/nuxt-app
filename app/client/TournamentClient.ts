@@ -44,19 +44,31 @@ export default class TournamentClient extends AbstractClient {
     }
 
     async start(tournament: { id: number }) {
-        const { data: auth } = useAuth()
-        return await this.axiosInstance.get(
-            "tournaments/" + tournament.id + "/start",
-            { headers: { Authorization: "Bearer " + auth.value.token } }
-        )
+        const { getToken } = useSecurity()
+        try {
+            await this.axiosInstance.post(
+                "tournaments/" + tournament.id + "/start",
+                {},
+                { headers: { Authorization: "Bearer " + getToken() } }
+            )
+
+            return { status: true }
+        } catch (e) {
+            return { status: false }
+        }
     }
 
-    async unsubscribe(tournament_id: number, user_id: number) {
-        const { data: auth } = useAuth()
-        return await this.axiosInstance.post(
-            "/tournaments/" + tournament_id + "/unsubscribe/" + user_id,
-            {},
-            { headers: { Authorization: "Bearer " + auth.value.token } }
-        )
+    async unsubscribe(tournament_id: number) {
+        const { getToken } = useSecurity()
+        try {
+            await this.axiosInstance.post(
+                "/tournaments/" + tournament_id + "/unsubscribe",
+                {},
+                { headers: { Authorization: "Bearer " + getToken() } }
+            )
+            return { status : true }
+        } catch (e) {
+            return { status: false }
+        }
     }
 }

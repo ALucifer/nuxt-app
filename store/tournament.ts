@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import TournamentClient from "~/app/client/TournamentClient";
-import { TournamentModel } from "~/app/models/tournament";
+import {TournamentModel, TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
 import {TeamModel} from "~/app/models/team.model";
 
 const tournamentClient = new TournamentClient();
@@ -13,7 +13,7 @@ export const useTournamentStore = defineStore({
       searchForm: [],
       total: 0,
       currentPage: 1,
-      currentTournament: {} as TournamentModel | null,
+      currentTournament: {} as TournamentModelWithMatchesAndTeams,
       isOwner: false
     };
   },
@@ -92,8 +92,8 @@ export const useTournamentStore = defineStore({
     async start(tournament: any) {
      return await tournamentClient.start(tournament);
     },
-    async unsubscribe(tournament_id: number, user_id: number) {
-      return await tournamentClient.unsubscribe(tournament_id, user_id);
+    async unsubscribe(tournament_id: number) {
+      return await tournamentClient.unsubscribe(tournament_id);
     },
     setCurrentTournament(tournament: any) {
       this.currentTournament = tournament

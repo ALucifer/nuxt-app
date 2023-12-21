@@ -6,7 +6,7 @@ const instance = axios.create({
     baseURL: 'http://127.0.0.1:3333',
     headers: { 'Content-Type': 'application/json' }
 })
-export default defineEventHandler(async (event): Promise<MatchWithTeamsAndScoresModel[] | null> => {
+export default defineEventHandler(async (event): Promise<MatchWithTeamsAndScoresModel[]> => {
     const id = getRouterParam(event, 'id')
     const session = await getServerSession(event)
 
@@ -17,6 +17,6 @@ export default defineEventHandler(async (event): Promise<MatchWithTeamsAndScores
 
         return data
     } catch (e) {
-        return null
+        return []
     }
 })

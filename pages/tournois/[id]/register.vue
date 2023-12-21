@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="col-6 mx-auto">
+    <div class="col-6 mx-auto mt-3">
       <div class="card__format card__format--light">
         <div class="rows m-5">
           <AppForm @submit="submit" :validation-schema="schema">

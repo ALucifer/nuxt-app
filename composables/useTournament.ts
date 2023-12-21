@@ -1,12 +1,12 @@
-import { find } from "lodash"
+import {find} from "lodash"
 import useDate from "~/composables/useDate";
-import {TournamentModel} from "~/app/models/tournament";
+import {TournamentModel, TournamentModelWithMatches} from "~/app/models/tournament";
 import {TeamModel} from "~/app/models/team.model";
-import {MatchModel, MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
+import {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
 export default function useTournament() {
     const date = useDate()
-    const { getUser } = useSecurity()
+    const {getUser, isLogged} = useSecurity()
 
     function isHalf(tournament: TournamentModel) {
         return (
@@ -17,20 +17,28 @@ export default function useTournament() {
         )
     }
 
-    function isOpen(tournament: TournamentModel)
-    {
+    function canBeStarted(tournament: TournamentModel) {
+        return (
+            isHalf(tournament)
+            && isOwner(tournament)
+            && tournament.state === 'OPEN'
+            && tournament.image_bracket === null
+        )
+    }
+
+    function isOpen(tournament: TournamentModel) {
         return tournament.state === "OPEN" && tournament.challonge_id !== null && date.isAfterNow(tournament.begin_at)
     }
 
     function isOwner(tournament: TournamentModel) {
-        return tournament.owner === getUser().id
+        return isLogged() && tournament.owner === getUser().id
     }
 
     function isRegister(tournament: TournamentModel) {
-        return find(tournament.teams, (t) => t.user_id === getUser().id)
+        return isLogged() && find(tournament.teams, (t) => t.user_id === getUser().id)
     }
 
-    function hasMatches(tournament: TournamentModel) {
+    function hasMatches(tournament: TournamentModelWithMatches) {
         return tournament.matches?.length > 0
     }
 
@@ -38,7 +46,7 @@ export default function useTournament() {
         return ['OPEN', 'RUNNING'].includes(tournament.state) && tournament.challonge_id !== null
     }
 
-    function isCompletlyClose (tournament: TournamentModel) {
+    function isCompletlyClose(tournament: TournamentModel) {
         const valid = isValid(tournament)
 
         if (!valid) {
@@ -48,7 +56,7 @@ export default function useTournament() {
         return !isRunning(tournament) && date.isBeforeNow(tournament.begin_at);
     }
 
-    function isRunning (tournament: TournamentModel) {
+    function isRunning(tournament: TournamentModel) {
         return tournament.state === 'RUNNING'
     }
 
@@ -68,5 +76,27 @@ export default function useTournament() {
         return matchesWithUser
     }
 
-    return {isHalf, isOwner, isRegister, hasMatches, isCompletlyClose, isOpen, isRunning, getTeam, findUserMatchFromMatches }
+    function isComplete(tournament: TournamentModel) {
+        return tournament.enroll === tournament.teams?.length
+    }
+
+    function isUserLoggedInMatch(match: MatchWithTeamsAndScoresModel)
+    {
+        return match.team_a.user_id === getUser().id || match.team_b.user_id === getUser().id
+    }
+
+    return {
+        isHalf,
+        isOwner,
+        isRegister,
+        hasMatches,
+        isCompletlyClose,
+        isOpen,
+        isRunning,
+        getTeam,
+        findUserMatchFromMatches,
+        canBeStarted,
+        isComplete,
+        isUserLoggedInMatch
+    }
 }

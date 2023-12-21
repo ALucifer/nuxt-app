@@ -27,6 +27,16 @@ export type TournamentModel = {
     matches?: MatchModel[] | MatchWithTeamsAndScoresModel[]
 }
 
+export type TournamentModelWithTeams = TournamentModel & {
+    teams: TeamModel[]
+}
+
+export type TournamentModelWithMatches = TournamentModel & {
+    matches: MatchModel[] | MatchWithTeamsAndScoresModel[]
+}
+
+export type TournamentModelWithMatchesAndTeams = TournamentModelWithMatches & TournamentModelWithTeams
+
 
 class Tournament {
     levels(): Level[] {
