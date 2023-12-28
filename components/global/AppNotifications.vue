@@ -20,7 +20,6 @@
 
 <script setup lang="ts">
 import useFlashMessages from "~/composables/useFlashMessages";
-import dayjs from "dayjs";
 
 const { messages, removeMessage } = useFlashMessages();
 </script>

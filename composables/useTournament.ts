@@ -1,6 +1,6 @@
 import {find} from "lodash"
 import useDate from "~/composables/useDate";
-import {TournamentModel, TournamentModelWithMatches} from "~/app/models/tournament";
+import {TournamentModel, TournamentModelWithMatches, TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
 import {TeamModel} from "~/app/models/team.model";
 import {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
@@ -82,7 +82,7 @@ export default function useTournament() {
 
     function isUserLoggedInMatch(match: MatchWithTeamsAndScoresModel)
     {
-        return match.team_a.user_id === getUser().id || match.team_b.user_id === getUser().id
+        return isLogged() && (match.team_a.user_id === getUser().id || match.team_b.user_id === getUser().id)
     }
 
     return {

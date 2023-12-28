@@ -52,9 +52,9 @@ export default class TournamentClient extends AbstractClient {
                 { headers: { Authorization: "Bearer " + getToken() } }
             )
 
-            return { status: true }
+            return true
         } catch (e) {
-            return { status: false }
+            return false
         }
     }
 

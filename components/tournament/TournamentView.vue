@@ -76,12 +76,12 @@
       <div
         class="matchs-listing"
         :class="{
-          'd-none-on-768': tournament.matches?.length <= 0,
+          'd-none-on-768': matches.length <= 0,
           'matchs-listing--full-width': display === 'matches',
           'd-none': display !== 'matches' && display !== 'all'
         }"
       >
-        <template v-if="tournament.matches.length > 0">
+        <template v-if="matches.length > 0">
           <div class="matchs-header">
             <span v-if="display === 'matches'"><arrow-left-icon fill-color="black" @click="display = 'all'" /></span>
             <span>Matches</span>
@@ -92,7 +92,7 @@
               <ul class="dropdown-menu">
                 <li v-for="filter in filters">
                   <button
-                      v-if="filter !== currentFilter"
+                      v-if="filter !== currentFilter && !(filter === FiltersTournamentMatches.MY_MATCHES && !isLogged())"
                       @click="() => currentFilter = filter"
                       class="dropdown-item"
                   >{{ filter }}
@@ -164,6 +164,7 @@ import {useTournamentStore} from "~/store/tournament";
 import {MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
 import {ScoreModel} from "~/app/models/scoreFormModel";
 import {TournamentModel} from "~/app/models/tournament";
+import {FiltersTournamentMatches} from "~/app/vo/Filters";
 
 const {currentTournament: tournament, start, unsubscribe} = useTournamentStore()
 const {dateFormatted} = useDate()
@@ -171,16 +172,21 @@ const {
   getTeam, findUserMatchFromMatches, isRegister, isUserLoggedInMatch,
   isCompletlyClose, canBeStarted, isRunning, isOwner, isComplete
 } = useTournament()
-const {getUser} = useSecurity()
+const {getUser, isLogged} = useSecurity()
 const { handleResponse } = useFlashMessages()
 
-const filters = ['Tous', 'Terminé', 'Score incorrect', 'Mes matchs']
+const filters = Object.values(FiltersTournamentMatches)
 const currentFilter = ref(filters[0])
 const loading = ref(false)
 
-const { data: matches } = await useFetch<MatchWithTeamsAndScoresModel[]>(
-    `/api/tournaments/${tournament.id}/matches`,
-)
+function fetchMatches(tournament_id: number) {
+  return useFetch<MatchWithTeamsAndScoresModel[]>(
+      `/api/tournaments/${tournament_id}/matches`,
+  );
+}
+
+const useFetcheMatchesResult = await fetchMatches(tournament.id)
+const matches = ref(useFetcheMatchesResult.data)
 
 const tournamentSorted = computed(() => {
   let filtered: MatchWithTeamsAndScoresModel[] = []
@@ -199,13 +205,8 @@ const tournamentSorted = computed(() => {
       break;
     }
     default: {
-      filtered = matches.value
-      break
+      return matches.value
     }
-  }
-
-  if (display.value === 'matches') {
-    return filtered
   }
 
   return filtered.slice(0, 5)
@@ -259,11 +260,17 @@ async function handleUnsubscribe(tournament_id: number) {
 
 async function handleStart(tournament: TournamentModel) {
   loading.value = true
-  const { status } = await start(tournament)
+  const success = await start(tournament)
+
+  if (success) {
+    const useFetcheMatchesResult = await fetchMatches(tournament.id)
+    matches.value = useFetcheMatchesResult.data.value
+  }
+
   loading.value = false
 
   handleResponse(
-      status,
+      success,
       'Le tournois est maintenant démarré',
       'Un problème est survenu lors du lancement du tournoi'
   )
