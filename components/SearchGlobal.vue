@@ -3,7 +3,7 @@
     <form
       action=""
       class="search-form"
-      v-click-outside="() => this.$emit('close')"
+      v-click-outside="() => emit('close')"
     >
       <input
         v-model="text"
@@ -54,6 +54,8 @@ const searchClient = new SearchClient()
 const text = ref('')
 const searching = ref(false)
 const users = ref([])
+
+const emit = defineEmits(['close'])
 
 function isValidSearch() {
     return text.value.length >= 4

@@ -2,6 +2,8 @@ import {Level} from "~/app/vo/Level";
 import {BestOf} from "~/app/vo/BestOf";
 import {Format} from "~/app/vo/Format";
 import {Participant} from "~/app/vo/Participant";
+import {TeamModel} from "~/app/models/team.model";
+import {MatchModel, MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
 
 export type TournamentModel = {
@@ -13,17 +15,27 @@ export type TournamentModel = {
     enroll: number,
     is_highlighted: boolean,
     state: string,
-    skill_level: any,
+    skill_level: string,
     speech: string,
-    best_of: any,
-    format: any,
+    best_of: string,
+    format: string,
     begin_at: Date,
     challonge_id: null|number,
     owner: number,
     image_bracket: null|string,
-    teams?: any,
-    matches?: any
+    teams?: TeamModel[],
+    matches?: MatchModel[] | MatchWithTeamsAndScoresModel[]
 }
+
+export type TournamentModelWithTeams = TournamentModel & {
+    teams: TeamModel[]
+}
+
+export type TournamentModelWithMatches = TournamentModel & {
+    matches: MatchModel[] | MatchWithTeamsAndScoresModel[]
+}
+
+export type TournamentModelWithMatchesAndTeams = TournamentModelWithMatches & TournamentModelWithTeams
 
 
 class Tournament {

@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import {useConversationStore} from "~/store/Conversation";
+import {useConversationStore} from "~/store/conversation";
 
 const message = ref('')
 const {

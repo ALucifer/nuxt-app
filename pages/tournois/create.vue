@@ -121,7 +121,6 @@
 
 <script setup lang="ts">
 import * as yup from "yup";
-import {useAuthStore} from "@/store/auth";
 import TournamentClient from "~/app/client/TournamentClient";
 import {tournament} from '~/app/models/tournament'
 import useRedirection from "~/composables/useRedirection";

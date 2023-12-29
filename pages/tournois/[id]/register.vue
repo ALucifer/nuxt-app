@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <div class="col-6 mx-auto">
+    <div class="col-6 mx-auto mt-3">
       <div class="card__format card__format--light">
         <div class="rows m-5">
           <AppForm @submit="submit" :validation-schema="schema">
-            <img
+            <nuxt-img
               :src="'data:image/svg+xml;base64,' + avatar"
               @click.prevent="generateAvatar()"
               class="card__avatar"
@@ -30,11 +30,15 @@ import { identicon } from "minidenticons";
 import useFlashMessages from "~/composables/useFlashMessages";
 import * as yup from "yup";
 import {useTournamentStore} from "~/store/tournament";
-import useTournament from "~/composables/useTournament";
+import {definePageMeta} from "#imports";
 
-useHead({
+useSeoMeta({
     title: "Inscription au tournoi",
     description: "Page d'inscription à un tournoi.",
+})
+
+definePageMeta({
+  middleware: ['test']
 })
 
 const { addMessage } = useFlashMessages();
@@ -43,21 +47,6 @@ const route = useRoute()
 const router = useRouter()
 const schema = yup.object({
     libelle: yup.string().required("Le nom de votre équipe est obligatoire."),
-})
-
-const { isCompletlyClose, isRegister } = useTournament()
-const tournamentStore = useTournamentStore()
-const { data, pending } = await useAsyncData(async() => {
-    const tournament = await tournamentStore.fetchItem(+route.params.id)
-
-    if (isRegister(tournament)) {
-      return router.push({name: 'tournois-id', params: { id: route.params.id } })
-    }
-
-    if (isCompletlyClose(tournament)) {
-        router.push({name: 'tournois-id', params: { id: route.params.id } })
-    }
-    return tournament
 })
 
 const avatar = ref()
@@ -99,8 +88,11 @@ async function submit(values) {
       return;
     } else if (result === 403) {
       message =
-        "Le tournoi est fermé, il vous est impossible de vous enregistré.";
+          "Le tournoi est fermé, il vous est impossible de vous enregistré.";
       classCss = "error";
+    } else if (result === 401) {
+      message = 'Vous n\'etes pas autorisé à faire cette action.';
+      classCss = 'error'
     } else {
       message =
         "Vous êtes bien inscrit sous l'équipe <b>" + values.libelle + "</b>";

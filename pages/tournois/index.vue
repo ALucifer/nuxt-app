@@ -45,8 +45,7 @@ useHead({
 
 const tournamentStore = useTournamentStore()
 
-const { data, pending } = await useFetch('/api/tournaments/list', { key: 'test' })
-
+const { pending } = await useAsyncData('tournament-list', () => tournamentStore.fetchTournaments())
 const infiniteKey = ref(0)
 
 function searchFilter(event: any) {

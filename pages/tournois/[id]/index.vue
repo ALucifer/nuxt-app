@@ -1,17 +1,10 @@
 <template>
-  <div v-if="!pending">
-    <TournamentViewer v-if="!tournamentStore.isOwner"/>
-    <TournamentAdmin v-else/>
-  </div>
+    <TournamentView />
 </template>
 
 <script setup lang="ts">
 import {useTournamentStore} from "~/store/tournament";
-import {useMatchStore} from "~/store/match";
-import useFetchTournamentById from "~/composables/api/useFetchTournamentById";
-import TournamentAdmin from "~/components/tournament/TournamentAdmin.vue";
-import TournamentViewer from "~/components/tournament/TournamentViewer.vue";
-import useFetchMatchsByTournamentId from "~/composables/api/useFetchMatchsByTournamentId";
+import TournamentView from "~/components/tournament/TournamentView.vue";
 
 definePageMeta({
   auth: false
@@ -22,24 +15,11 @@ const { getUser } = useSecurity()
 const route = useRoute()
 const router = useRouter()
 
-const { pending } = await useFetchTournamentById()
-await useFetchMatchsByTournamentId()
-
-const tournament = computed(() => tournamentStore.currentTournament)
-
-/*function isOwner() {
-  return tournament.value.owner === getUser().id
-}*/
-
-onMounted(() => {
-  if (!tournamentStore.currentTournament) {
-    router.push({name: 'index'})
-  }
-})
+const { data } = await useAsyncData('tournament-view' + route.params.id, () => tournamentStore.fetchTournament(+route.params.id))
 
 useSeoMeta({
   titleTemplate: 'Tournoi: %s',
-  title: tournamentStore.currentTournament.libelle,
+  title: data.value.libelle,
   description: 'test'
 })
 </script>

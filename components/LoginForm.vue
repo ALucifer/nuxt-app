@@ -42,7 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "@/store/auth";
 import * as yup from "yup";
 
 const schema = yup.object({
@@ -51,7 +50,6 @@ const schema = yup.object({
 })
 const error = ref(false)
 const isSubmitting = ref(false)
-const { login }  = useAuthStore()
 const router = useRouter()
 const { signIn } = useAuth()
 const route = useRoute()

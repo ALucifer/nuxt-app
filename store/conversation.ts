@@ -1,4 +1,4 @@
-import {useUserStore} from "@/store/user";
+import {useUserStore} from "~/store/user";
 import ConversationClient from "~/app/client/ConversationClient";
 import {ConversationMessagesModel, ConversationModel, MessageModel} from "~/app/models/conversation.model";
 import useFlashMessages from "~/composables/useFlashMessages";
@@ -12,7 +12,7 @@ export const useConversationStore = defineStore({
       conversations: [] as ConversationModel[],
       messages: [] as Array<MessageModel[]>,
       active_conversation_id: null as null|number,
-      currentConversation: {} as ConversationModel|null,
+      currentConversation: null as ConversationModel|null,
     };
   },
   getters: {
@@ -21,7 +21,10 @@ export const useConversationStore = defineStore({
     },
     getUnreadMessagesByConversation: (state): (conversation: ConversationModel) => MessageModel[] => {
       const { getUser } = useSecurity()
-      return (conversation: ConversationModel) => state.messages[conversation.id].filter(
+
+      return (conversation: ConversationModel) => !state.messages[conversation.id]
+          ? []
+          : state.messages[conversation.id].filter(
           (message: MessageModel) =>
             message.conversation === conversation.id
             && message.state === 'UNREAD'
@@ -33,9 +36,11 @@ export const useConversationStore = defineStore({
   actions: {
     setConversations(conversations: ConversationModel[]) {
       this.conversations = conversations
-      this.active_conversation_id = conversations[0].id
-      this.currentConversation = this.conversations.find(
-        (conversation: ConversationModel) => conversation.id === this.active_conversation_id)!
+      if (conversations.length > 0) {
+        this.active_conversation_id = conversations[0].id
+        this.currentConversation = this.conversations.find(
+            (conversation: ConversationModel) => conversation.id === this.active_conversation_id)!
+      }
     },
 
     addMessagesByConversation(conversation: ConversationMessagesModel) {
@@ -83,6 +88,19 @@ export const useConversationStore = defineStore({
       );
       this.messages[message.conversation][index].state = "READ";
     },
+
+    async fetchConversations() {
+      const conversations = await conversationClient.fetchAuthConversationsList()
+      this.setConversations(conversations)
+    },
+
+    async fetchCurrentConversation() {
+      if (!this.currentConversation) return
+      const conversation = await conversationClient.fetchConversationMessages(this.currentConversation.id)
+      if (conversation) {
+        this.addMessagesByConversation(conversation)
+      }
+    }
 
     // A refacto
 

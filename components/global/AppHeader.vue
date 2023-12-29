@@ -4,7 +4,7 @@
       <div class="header-container nav-menu">
         <div class="nav-menu__logo">
           <NuxtLink :to="{ name: 'index' }" class="site-logo">
-            <img src="/images/logo.png" alt="site-logo"/>
+            <nuxt-img src="/images/logo.png" alt="site-logo" class="logo-header"/>
           </NuxtLink>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@
               <hr class="separator"/>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  Rechercher<img
+                  Rechercher<nuxt-img
                     src="/images/search_btn.png"
                     alt="icon"
                     class="search"
@@ -114,7 +114,6 @@
 <script setup lang="ts">
 import SearchGlobal from "@/components/SearchGlobal";
 import useSidebar from "@/composables/useSidebar";
-import {useTournamentStore} from "~/store/tournament";
 
 const {toggle} = useSidebar()
 const searchGlobalActive = ref(false)

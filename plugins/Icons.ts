@@ -9,6 +9,10 @@ import Facebook from 'vue-material-design-icons/Facebook.vue'
 import Twitter from 'vue-material-design-icons/Twitter.vue'
 import Instagram from 'vue-material-design-icons/Instagram.vue'
 import Menu from 'vue-material-design-icons/Menu.vue'
+import Calendar from 'vue-material-design-icons/Calendar.vue'
+import Filter from 'vue-material-design-icons/Filter.vue'
+import Alert from 'vue-material-design-icons/AlertCircle.vue'
+import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("download-icon", DownloadIcon);
@@ -22,4 +26,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('twitter-icon', Twitter)
   nuxtApp.vueApp.component('instagram-icon', Instagram)
   nuxtApp.vueApp.component('menu-icon', Menu)
+  nuxtApp.vueApp.component('calendar-icon', Calendar)
+  nuxtApp.vueApp.component('filter-icon', Filter)
+  nuxtApp.vueApp.component('alert-icon', Alert)
+  nuxtApp.vueApp.component('arrow-left-icon', ArrowLeft)
 });

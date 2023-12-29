@@ -10,10 +10,10 @@
 </template>
 
 <script setup lang="ts">
-import Overview from "@/components/tournament/Overview";
-import Bracket from "@/components/tournament/Bracket";
-import Players from "@/components/tournament/Players";
-import Matches from "@/components/tournament/Matches";
+import Overview from "~/components/tournament/Overview.vue";
+import Bracket from "~/components/tournament/Bracket.vue";
+import Players from "~/components/tournament/Players.vue";
+import Matches from "~/components/tournament/Matches.vue";
 import useTournament from "~/composables/useTournament";
 import {useTournamentStore} from "~/store/tournament";
 import {useMatchStore} from "~/store/match";

@@ -16,7 +16,8 @@
                 class="profile-informations"
                 :class="{ 'profile-informations--verified': true }"
               >
-                <h4>{{ auth.user.pseudo }}</h4>
+                <h4>{{ user.pseudo }}</h4>
+                <button @click="test">Update</button>
               </div>
             </div>
           </div>
@@ -32,7 +33,7 @@
               <NuxtLink
                 v-else
                 class="cmn-btn"
-                :to="{ name: 'profile-messages', query: { user: auth.user.id } }"
+                :to="{ name: 'profile-messages', query: { user: auth.id } }"
                 >Message</NuxtLink
               >
             </div>
@@ -44,13 +45,33 @@
 </template>
 
 <script setup lang="ts">
+import UserClient from "~/app/client/UserClient";
 
-import {useAuthStore} from "~/store/auth";
-
-const { data: auth } = useAuth()
+const { getUser: auth } = useSecurity()
 defineProps({ user: { type: Object, required: true }, isOwnProfile: { type: Boolean, default: false }})
 
-const { changeAvatar } = useAuthStore()
+const userClient = new UserClient()
+const authState = useAuthState()
+const authtest = useAuth()
+
+
+async function test() {
+}
+
+function changeAvatar(e: Event) {
+  let formData = new FormData();
+  formData.append("avatar", e.target.files[0]);
+
+  const { errorMessage } = useFlashMessages()
+  userClient
+      .uploadAvatar(formData)
+      .then(async (response) => {
+        alert('modifier l\'avatar')
+        // data.value.user.avatar = 'toto'
+      }).catch((error) => {
+    errorMessage('Une erreur est survenu lors de la mise à jour de votre avatar.')
+  });
+}
 </script>
 
 <style lang="scss">

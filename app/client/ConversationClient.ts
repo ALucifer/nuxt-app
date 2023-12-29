@@ -3,27 +3,32 @@ import {ConversationMessagesModel, ConversationModel, MessageForm, MessageModel}
 import useSecurity from "@/composables/useSecurity";
 
 export default class ConversationClient extends AbstractClient {
-    async fetchAuthConversationsList(): Promise<Array<ConversationModel>> {
-        const { getToken } = useSecurity()
-        const { data } = await this.axiosInstance.get<Array<ConversationModel>>(
+    async fetchAuthConversationsList(): Promise<ConversationModel[]> {
+        try {
+            const { getToken } = useSecurity()
+            const { data } = await this.axiosInstance.get<ConversationModel[]>(
                 "users/conversations",
                 { headers: { Authorization: "Bearer " + getToken() } }
             )
-        return data;
+
+            return data;
+        } catch (error) {
+            console.log(error)
+            return []
+        }
     }
 
-    async fetchConversationMessages(conversationId: number): Promise<Array<MessageModel>> {
-
+    async fetchConversationMessages(conversationId: number): Promise<ConversationMessagesModel|null> {
         try {
             const { getToken } = useSecurity()
             const { data } =  await this.axiosInstance.get<ConversationMessagesModel>(
                 "users/conversations/" + conversationId,
                 { headers: { Authorization: "Bearer " + getToken() } }
             )
-            return data.messages
+            return data
         } catch (error) {
             console.log("Une erreur s'est produite lors de l'appel à l'API :", error);
-            return []
+            return null
         }
     }
 

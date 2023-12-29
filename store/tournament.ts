@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import TournamentClient from "~/app/client/TournamentClient";
-import { TournamentModel } from "~/app/models/tournament";
+import {TournamentModel, TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
+import {TeamModel} from "~/app/models/team.model";
 
 const tournamentClient = new TournamentClient();
 
@@ -9,17 +10,16 @@ export const useTournamentStore = defineStore({
   state: () => {
     return {
       items: [] as TournamentModel[],
-      highlighted: [] as TournamentModel[],
       searchForm: [],
       total: 0,
       currentPage: 1,
-      currentTournament: {} as TournamentModel,
+      currentTournament: {} as TournamentModelWithMatchesAndTeams,
       isOwner: false
     };
   },
   getters: {
-    filteredItems(state) {
-      return state.items || {};
+    filteredItems(state): TournamentModel[]  {
+      return state.items || [];
     },
     itemsShow(state) {
       return state.total;
@@ -35,13 +35,22 @@ export const useTournamentStore = defineStore({
     }
   },
   actions: {
-    toggleOwner() {
-      this.isOwner = !this.isOwner
+    removeUserTeamFromCurrentTournament() {
+      const { getUser } = useSecurity()
+      const index = this.currentTournament!.teams!.findIndex((team: TeamModel) => team.user_id === getUser().id)
+      this.currentTournament!.teams!.splice(index, 1)
     },
-    async fetchItem(id: number) {
-      return await tournamentClient
+    async fetchTournaments() {
+      const data = await tournamentClient.all()
+
+      this.setItems(data.data)
+      this.setTotal(data.meta.total)
+    },
+    async fetchTournament(id: number) {
+      return tournamentClient
           .findById(id)
-          .then((data) => this.currentTournament = data);
+          .then((data) => this.currentTournament = data)
+          .catch((error) => error(error));
     },
     fetchNextItems() {
       this.incrementCurrentPage();
@@ -75,19 +84,16 @@ export const useTournamentStore = defineStore({
       this.currentPage++;
     },
     async register(form: any) {
-      const { data } = useAuth()
-      form.user_id = data.value.user.id;
+      const { getUser } = useSecurity()
+      form.user_id = getUser().id;
 
       return await tournamentClient.register(form)
-    },
-    setHightlighted(items: TournamentModel[]) {
-      this.highlighted = items
     },
     async start(tournament: any) {
      return await tournamentClient.start(tournament);
     },
-    async unsubscribe(tournament_id: number, user_id: number) {
-      return await tournamentClient.unsubscribe(tournament_id, user_id);
+    async unsubscribe(tournament_id: number) {
+      return await tournamentClient.unsubscribe(tournament_id);
     },
     setCurrentTournament(tournament: any) {
       this.currentTournament = tournament

@@ -1,15 +1,19 @@
 <template>
   <div class="notifications">
     <TransitionGroup name="fade">
-      <div
-        class="notification"
-        :class="message.class"
+      <template
         v-for="message in messages"
         :key="message.id"
       >
-        <span v-html="message.message"></span>
-        <button @click="removeMessage(message.id)">x</button>
-      </div>
+        <div
+          class="notification"
+          :class="message.class"
+          v-show="message.visible"
+        >
+          <span v-html="message.message"></span>
+          <button @click="removeMessage(message.id)">x</button>
+        </div>
+      </template>
     </TransitionGroup>
   </div>
 </template>

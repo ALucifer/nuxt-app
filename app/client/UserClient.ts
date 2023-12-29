@@ -19,12 +19,13 @@ export default class UserClient extends AbstractClient {
     }
 
     async uploadAvatar(avatar: FormData) {
+        const { getToken } = useSecurity()
         const { data } = await this.axiosInstance.post(
             "me/avatar",
             avatar,
             {
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token"),
+                    Authorization: 'Bearer ' + getToken(),
                     "Content-Type": "multipart/form-data",
                 },
             })

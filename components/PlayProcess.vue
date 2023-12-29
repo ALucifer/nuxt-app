@@ -15,7 +15,7 @@
             <div class="single-item">
               <div class="icon-area">
                 <span>1</span>
-                <img src="images/how-icon-1.png" alt="image" />
+                <nuxt-img src="images/how-icon-1.png" alt="image" />
               </div>
               <div class="text-area">
                 <h5>Inscription</h5>
@@ -28,7 +28,7 @@
             <div class="single-item">
               <div class="icon-area">
                 <span>2</span>
-                <img src="images/how-icon-3.png" alt="image" />
+                <nuxt-img src="images/how-icon-3.png" alt="image" />
               </div>
               <div class="text-area">
                 <h5>Compétition</h5>
@@ -41,7 +41,7 @@
             <div class="single-item">
               <div class="icon-area">
                 <span>3</span>
-                <img src="images/how-icon-4.png" alt="image" />
+                <nuxt-img src="images/how-icon-4.png" alt="image" />
               </div>
               <div class="text-area">
                 <h5>Récompense</h5>
@@ -51,7 +51,8 @@
         </div>
         <div class="row d-flex justify-content-center">
           <div class="col-lg-6 text-center">
-            <NuxtLink :to="{ name: 'register' }" class="cmn-btn"
+            <NuxtLink v-if="isLogged" :to="{ name: 'tournois' }" class="cmn-btn">Je joue</NuxtLink>
+            <NuxtLink v-else :to="{ name: 'register' }" class="cmn-btn"
               >Rejoignez nous!</NuxtLink
             >
           </div>
@@ -60,6 +61,10 @@
     </div>
   </section>
 </template>
+
+<script lang="ts" setup>
+const { isLogged } = useSecurity()
+</script>
 
 <style style lang="scss" scoped>
 @import "@/assets/css/components/playProcess.scss";

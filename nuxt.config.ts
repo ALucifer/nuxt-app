@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     global: true,
     dirs: ['~/components/global']
   },
+
   modules: [
     '@nuxt/devtools',
     '@sidebase/nuxt-auth',
@@ -46,5 +47,18 @@ export default defineNuxtConfig({
     cloudinary: {
       baseURL: 'https://res.cloudinary.com/davxuwzzl/image/upload/'
     }
+  },
+
+  head: {
+    link: [
+      { rel: 'icon', href: '/favicon.png' }
+      // Si vous utilisez un fichier PNG, utilisez 'image/png' comme type
+    ]
+  },
+
+  devtools: {
+    timeline: {
+      enabled: true,
+    },
   },
 })

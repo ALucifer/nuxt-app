@@ -9,16 +9,13 @@ export const useTabStore = defineStore({
       },
     };
   },
-  getters: {
-    getActiveTabByKeyName(key) {
-      return this.items[key];
-    },
-  },
   actions: {
-    setActiveTabByKeyName(key, value) {
+    setActiveTabByKeyName(key: string, value: string) {
+      // @ts-ignore
       this.items[key] = value;
     },
-    isActiveTabByKeyName(key, value) {
+    isActiveTabByKeyName(key: string, value: string) {
+      // @ts-ignore
       return this.items[key] === value;
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppBanner :isDefault="true" />
+    <AppBanner />
     <section id="contact-section" class="pb-120">
       <div class="overlay">
         <div class="container">
@@ -25,7 +25,7 @@
                 <h6 class="head-area">Plus d'information</h6>
                 <div class="single-area d-flex align-items-center">
                   <div class="img-area">
-                    <img src="images/email-icon.png" alt="image" />
+                    <nuxt-img src="images/email-icon.png" alt="image" />
                   </div>
                   <div class="right-area">
                     <h6>Email</h6>

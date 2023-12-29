@@ -34,7 +34,6 @@ provide('STEP_COUNTER', stepCounter);
 provide('CURRENT_STEP_INDEX', currentStepIdx);
 
 const isLastStep = computed(() => {
-  console.log(currentStepIdx.value, stepCounter.value)
   return currentStepIdx.value === stepCounter.value - 1;
 });
 

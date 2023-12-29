@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { useUserStore } from "~~/store/user";
+import { useUserStore } from "~/store/user";
 
 definePageMeta({
   // middleware: "auth",
@@ -28,7 +28,7 @@ export default {
     const route = useRoute();
     const userStore = useUserStore($pinia);
 
-    this.user = await userStore.fetchUserById(route.params.id);
+    this.user = await userStore.fetchUserById(+route.params.id);
   },
 };
 </script>

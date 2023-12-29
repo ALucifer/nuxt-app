@@ -1,6 +1,6 @@
 <template>
   <div class="users-container">
-    <ul class="user-list" v-if="conversations">
+    <ul class="user-list">
       <template v-for="(conversation, key) in conversations" :key="key">
         <li
           v-if="conversation.total_messages > 0"
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { useConversationStore } from "~/store/Conversation";
+import { useConversationStore } from "~/store/conversation";
 
 const { conversations, currentConversation, getUnreadMessagesByConversation } = useConversationStore()
 </script>

@@ -3,8 +3,11 @@ import {NuxtAuthHandler} from '#auth'
 import AuthClient from "~/app/client/AuthClient";
 import Google from "next-auth/providers/google";
 
+async function verifyToken(token) {
+    const client = new AuthClient()
+    return await client.checkToken(token)
+}
 
-// @ts-ignore
 // @ts-ignore
 export default NuxtAuthHandler({
     // A secret string you define, to ensure correct encryption
@@ -49,7 +52,7 @@ export default NuxtAuthHandler({
     ],
     callbacks: {
         // @ts-ignore
-        signIn: async ({user, account }) => {
+        signIn: async ({ user, account }) => {
             try {
                 if (account.provider === 'credentials') {
                     return true
@@ -65,15 +68,16 @@ export default NuxtAuthHandler({
 
                 user.id = data.user.id
 
+                account.token = data.token
+
                 return data
             } catch(error: any) {
                 return false
             }
         },
         // @ts-ignore
-        jwt: async ({ token, user, account }) => {
-            const isSignIn = user ? true : false;
-
+        jwt: async ({ account, token, user }) => {
+            const isSignIn = !!user;
             if (account?.provider === 'google') {
                 token.user = {
                     avatar: user.image,
@@ -82,7 +86,8 @@ export default NuxtAuthHandler({
                     id: user.id,
                     email: user.email
                 }
-                token.token = account.access_token
+
+                token.token = account.token.token
             } else {
 
                 if (isSignIn) {
@@ -90,6 +95,15 @@ export default NuxtAuthHandler({
                     token.token = user.token
                 }
             }
+
+            const tokenValid = await verifyToken(token.token)
+
+            console.log(tokenValid)
+
+            if (!tokenValid) {
+                return Promise.reject('Invalid token')
+            }
+
 
             return Promise.resolve(token);
         },
