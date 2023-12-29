@@ -1,5 +1,5 @@
 <template>
-    <div class="time-area bg" v-if="isAfterNow(tournament.begin_at)">
+    <div class="time-area bg" v-if="isAfterNow(tournament.begin_at) && !isCompletlyClose(tournament)">
       <div>
         <nuxt-img src="images/waitng-icon.png" alt="image" class="tournament-card__wait" />
         <span>Début</span>

@@ -18,7 +18,7 @@
                   <div
                       class="left d-flex align-items-center justify-content-center"
                   >
-                    <img
+                    <nuxt-img
                         :src="'images/trophies-icon-' + (key + 1) + '.png'"
                         alt="image"
                     />

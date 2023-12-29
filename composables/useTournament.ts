@@ -35,7 +35,7 @@ export default function useTournament() {
     }
 
     function isRegister(tournament: TournamentModel) {
-        return isLogged() && find(tournament.teams, (t) => t.user_id === getUser().id)
+        return isLogged() && !!find(tournament.teams, (t) => t.user_id === getUser().id)
     }
 
     function hasMatches(tournament: TournamentModelWithMatches) {
@@ -77,7 +77,7 @@ export default function useTournament() {
     }
 
     function isComplete(tournament: TournamentModel) {
-        return tournament.enroll === tournament.teams?.length
+        return tournament.enroll === tournament.max_teams
     }
 
     function isUserLoggedInMatch(match: MatchWithTeamsAndScoresModel)

@@ -43,4 +43,13 @@ export default class AuthClient extends AbstractClient {
             return false
         }
     }
+
+    async checkToken(token: string) {
+        try {
+            await this.axiosInstance.get('/me/check', { headers: { Authorization: "Bearer " + token } })
+            return true
+        } catch (e) {
+            return false
+        }
+    }
 }

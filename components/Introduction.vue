@@ -23,7 +23,7 @@
                     href="https://www.youtube.com/watch?v=MJ0zpsWQ_XM"
                     class="mfp-iframe popupvideo"
                   >
-                    <img src="images/play-icon.png" alt="play" />
+                    <nuxt-img src="images/play-icon.png" alt="play" />
                   </a>
                 </div>
               </div>
@@ -32,7 +32,7 @@
                   <div class="row justify-content-center">
                     <div class="col-lg-6">
                       <div class="bottom-area text-center">
-                        <img src="images/versus.png" alt="banner-vs" />
+                        <nuxt-img src="images/versus.png" alt="banner-vs" />
                       </div>
                     </div>
                   </div>
@@ -42,12 +42,12 @@
           </div>
         </div>
         <div class="ani-illu">
-          <img
+          <nuxt-img
             class="left-1 wow fadeInUp"
             src="images/left-banner.png"
             alt="image"
           />
-          <img
+          <nuxt-img
             class="right-2 wow fadeInUp"
             src="images/right-banner.png"
             alt="image"

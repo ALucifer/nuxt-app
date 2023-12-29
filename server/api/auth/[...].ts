@@ -3,6 +3,11 @@ import {NuxtAuthHandler} from '#auth'
 import AuthClient from "~/app/client/AuthClient";
 import Google from "next-auth/providers/google";
 
+async function verifyToken(token) {
+    const client = new AuthClient()
+    return await client.checkToken(token)
+}
+
 // @ts-ignore
 export default NuxtAuthHandler({
     // A secret string you define, to ensure correct encryption
@@ -70,17 +75,9 @@ export default NuxtAuthHandler({
                 return false
             }
         },
-        /**
-         * account
-         * token
-         * user
-         * isNewUser
-         * trigger
-         */
         // @ts-ignore
-        jwt: async ({ account, token, user, trigger }) => {
+        jwt: async ({ account, token, user }) => {
             const isSignIn = !!user;
-
             if (account?.provider === 'google') {
                 token.user = {
                     avatar: user.image,
@@ -98,6 +95,15 @@ export default NuxtAuthHandler({
                     token.token = user.token
                 }
             }
+
+            const tokenValid = await verifyToken(token.token)
+
+            console.log(tokenValid)
+
+            if (!tokenValid) {
+                return Promise.reject('Invalid token')
+            }
+
 
             return Promise.resolve(token);
         },

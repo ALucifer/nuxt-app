@@ -4,7 +4,7 @@
       <div class="card__format card__format--light">
         <div class="rows m-5">
           <AppForm @submit="submit" :validation-schema="schema">
-            <img
+            <nuxt-img
               :src="'data:image/svg+xml;base64,' + avatar"
               @click.prevent="generateAvatar()"
               class="card__avatar"
@@ -30,7 +30,6 @@ import { identicon } from "minidenticons";
 import useFlashMessages from "~/composables/useFlashMessages";
 import * as yup from "yup";
 import {useTournamentStore} from "~/store/tournament";
-import useTournament from "~/composables/useTournament";
 import {definePageMeta} from "#imports";
 
 useSeoMeta({
