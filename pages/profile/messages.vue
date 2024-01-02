@@ -5,10 +5,10 @@
         style="background-color: #665494; min-height: 350px"
     >
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
-        <MessageLeftSide @changeConversation="changeActiveConversation($event.conversation)"  />
+        <MessageLeftSide @changeConversation="conversationStore.setCurrentConversation($event.conversation)"  />
       </div>
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-        <MessageRightSide  ref="messageRightSide" @newMessage="scrollToNewMessage"  />
+        <MessageRightSide v-if="currentConversation" ref="messageRightSide" @newMessage="scrollToNewMessage"  />
       </div>
     </div>
   </div>
@@ -19,23 +19,49 @@ import MessageLeftSide from "@/components/profile/MessageLeftSide.vue";
 import MessageRightSide from "~/components/profile/MessageRightSide.vue";
 import {useConversationStore} from "~/store/conversation";
 import ClientSSE from "~/app/client/sse/ClientSSE";
+import {definePageMeta} from "#imports";
+import {mapActions, storeToRefs} from "pinia";
 
 definePageMeta({
   layout: 'profile'
 })
 
-const { changeActiveConversation,addMessage, fetchConversations, fetchCurrentConversation } = useConversationStore()
-const { getUser } = useSecurity()
+definePageMeta({
+  middleware: ['is-new-conversation']
+})
 
-await useAsyncData('conversations-list', async() => await fetchConversations())
-await useAsyncData('current-conversation-message', async () => await fetchCurrentConversation())
+const conversationStore = useConversationStore()
+const { conversations, currentConversation } = storeToRefs(conversationStore)
+const { getUser } = useSecurity()
+const route = useRoute()
+
+conversationStore.$onAction(
+    ({ name, after }) => {
+      if (name === 'fetchConversations') {
+        after(async () => {
+          if (route.meta.user && !conversations.value.find((c) => c.interlocutor.id === route.meta.user.id)) {
+            conversationStore.createNewConversation(route.meta.user)
+          }
+
+          conversationStore.setCurrentConversation()
+        })
+      }
+      if (name === 'setCurrentConversation') {
+        after(() => {
+          conversationStore.fetchCurrentConversation()
+        })
+      }
+    }
+)
+
+await useAsyncData('conversations-list', () => conversationStore.fetchConversations().then(() => true))
 
 onMounted(async () => {
   const clientSSE = new ClientSSE(getUser())
   clientSSE.connect()
 
   clientSSE.eventSource.onmessage = ({ data }) => {
-    addMessage(JSON.parse(data))
+    conversationStore.addMessage(JSON.parse(data))
     scrollToNewMessage();
   };
 })

@@ -98,8 +98,6 @@ export default NuxtAuthHandler({
 
             const tokenValid = await verifyToken(token.token)
 
-            console.log(tokenValid)
-
             if (!tokenValid) {
                 return Promise.reject('Invalid token')
             }

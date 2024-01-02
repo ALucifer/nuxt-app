@@ -3,12 +3,11 @@
     <ul class="user-list">
       <template v-for="(conversation, key) in conversations" :key="key">
         <li
-          v-if="conversation.total_messages > 0"
           class="user-list__item"
           @click.prevent="
             conversation.id !== currentConversation?.id &&
-            $emit('changeConversation', {
-              conversation: this.conversation
+            $emit('change-conversation', {
+              conversation: conversation
             })
           "
         >
@@ -38,8 +37,11 @@
 
 <script setup lang="ts">
 import { useConversationStore } from "~/store/conversation";
+import {storeToRefs} from "pinia";
 
-const { conversations, currentConversation, getUnreadMessagesByConversation } = useConversationStore()
+const conversationStore = useConversationStore()
+const { conversations, getUnreadMessagesByConversation, currentConversation } = storeToRefs(conversationStore)
+defineEmits(['change-conversation'])
 </script>
 
 <style lang="scss">

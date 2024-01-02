@@ -69,12 +69,16 @@
 
 <script setup lang="ts">
 import {useConversationStore} from "~/store/conversation";
+import {storeToRefs} from "pinia";
 
 const message = ref('')
 const {
   sendMessage,
-  isOwnMessage, messageRead, getMessagesByConversation, currentConversation
+  isOwnMessage, messageRead
 } = useConversationStore()
+const conversationStore = useConversationStore()
+
+const { currentConversation, getMessagesByConversation } = storeToRefs(conversationStore)
 
 const emit = defineEmits(['newMessage'])
 

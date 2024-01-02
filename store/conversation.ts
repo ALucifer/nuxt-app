@@ -1,4 +1,3 @@
-import {useUserStore} from "~/store/user";
 import ConversationClient from "~/app/client/ConversationClient";
 import {ConversationMessagesModel, ConversationModel, MessageModel} from "~/app/models/conversation.model";
 import useFlashMessages from "~/composables/useFlashMessages";
@@ -11,7 +10,6 @@ export const useConversationStore = defineStore({
     return {
       conversations: [] as ConversationModel[],
       messages: [] as Array<MessageModel[]>,
-      active_conversation_id: null as null|number,
       currentConversation: null as ConversationModel|null,
     };
   },
@@ -34,14 +32,41 @@ export const useConversationStore = defineStore({
   },
 
   actions: {
-    setConversations(conversations: ConversationModel[]) {
-      this.conversations = conversations
-      if (conversations.length > 0) {
-        this.active_conversation_id = conversations[0].id
-        this.currentConversation = this.conversations.find(
-            (conversation: ConversationModel) => conversation.id === this.active_conversation_id)!
+    async fetchConversations() {
+      this.conversations = await conversationClient.fetchAuthConversationsList()
+    },
+
+    async fetchCurrentConversation() {
+      console.log(this.currentConversation)
+      if (!this.currentConversation || this.currentConversation?.isNew) return
+      const conversation = await conversationClient.fetchConversationMessages(this.currentConversation.id)
+      if (conversation) {
+        this.addMessagesByConversation(conversation)
       }
     },
+
+    createNewConversation(user) {
+      const conversation = { interlocutor: user, isNew: true }
+      this.conversations.unshift(conversation)
+    },
+
+    setCurrentConversation (conversation?: ConversationModel) {
+      if (this.conversations.length === 0) return
+      if (!conversation) {
+        this.currentConversation = this.conversations[0]
+      } else {
+        this.currentConversation = this.conversations.find((c: ConversationModel) => c.id === conversation.id)!
+      }
+    },
+
+
+
+
+
+
+
+
+
 
     addMessagesByConversation(conversation: ConversationMessagesModel) {
       this.messages[conversation.id] = conversation.messages
@@ -51,14 +76,10 @@ export const useConversationStore = defineStore({
         this.messages[message.conversation].push(message);
     },
 
-    async changeActiveConversation(conversation: ConversationModel) {
-      this.active_conversation_id = conversation.id;
-    },
-
     async sendMessage(text: string) {
       const { addMessage } = useFlashMessages()
 
-      if (!this.currentConversation || !this.active_conversation_id) {
+      if (!this.currentConversation) {
         addMessage({
           message: 'Une erreur est survenu lors de l\'envoie du message',
           class: 'error'
@@ -68,13 +89,16 @@ export const useConversationStore = defineStore({
       const message = await conversationClient.sendMessage({
         text: text,
         sendTo: this.currentConversation.interlocutor.id,
-        conversation_id: this.active_conversation_id,
+        conversation_id: this.currentConversation.id,
       });
 
       await this.addMessage(message);
     },
 
     isOwnMessage(message: MessageModel) {
+      /**
+       * Voir pour le passer en getter ou en composable
+       */
       const { getUser } = useSecurity()
       return message.fromUser.id === getUser().id;
     },
@@ -88,58 +112,5 @@ export const useConversationStore = defineStore({
       );
       this.messages[message.conversation][index].state = "READ";
     },
-
-    async fetchConversations() {
-      const conversations = await conversationClient.fetchAuthConversationsList()
-      this.setConversations(conversations)
-    },
-
-    async fetchCurrentConversation() {
-      if (!this.currentConversation) return
-      const conversation = await conversationClient.fetchConversationMessages(this.currentConversation.id)
-      if (conversation) {
-        this.addMessagesByConversation(conversation)
-      }
-    }
-
-    // A refacto
-
-    // async createNewConversation({ user_id }) {
-    //   const userStore = useUserStore();
-    //   const user = await userStore.fetchUserById(user_id);
-    //   this.active_conversation_id = 0;
-    //   this.conversations.push({
-    //     id: 0,
-    //     interlocutor: user,
-    //   });
-    // },
-    //
-    // async isNewConversation({ user_id }) {
-    //   const conversation = this.conversations.find(
-    //     (conversation) => conversation.interlocutor.id === user_id
-    //   );
-    //
-    //   if (conversation) {
-    //     this.changeActiveConversation(conversation.id);
-    //   }
-    //
-    //   return conversation === undefined ? true : false;
-    // },
-    //
-    // async sendMessageToNewConversation({ text }) {
-    //   const { data: auth } = useAuth();
-    //
-    //   const data = await conversationClient.createNewConversation({
-    //     sendFrom: auth.value.user.id,
-    //     sendTo: this.currentConversation.interlocutor.id,
-    //     messages: {
-    //       text: text,
-    //     },
-    //   });
-    //
-    //   this.messages.push(data.message);
-    //   this.conversation.push(data.conversation);
-    //   this.changeActiveConversation(data.conversation.id);
-    // },
   },
 });

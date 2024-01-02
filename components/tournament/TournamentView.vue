@@ -143,7 +143,9 @@
             <AppAvatar :src="'data:image/svg+xml;base64,' + team.avatar"/>
             <div class="team-informations">
               <p class="team-libelle">{{ team.libelle }}</p>
-              <p class="team-user">{{ team.user.pseudo }}</p>
+              <p class="team-user">
+                <nuxt-link :to="{ name: 'user-id-profile', params: { id: team.user.id }}" class="team-user">{{ team.user.pseudo }}</nuxt-link>
+              </p>
             </div>
           </div>
           <div class="team-card team-card--show-more" v-if="tournament.teams.length > 6">

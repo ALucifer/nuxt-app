@@ -5,32 +5,18 @@
   >
     <div class="row justify-content-center">
       Mon futur container du profile d'un autre user {{ $route.params.id }}
-      {{ user }}
+      <nuxt-link :to="{ name: 'profile-messages', query: { user: user.id } }">Envoyer un message</nuxt-link>
     </div>
   </div>
 </template>
 
-<script>
-import { useUserStore } from "~/store/user";
-
+<script lang="ts" setup>
 definePageMeta({
-  // middleware: "auth",
-});
+  auth: false
+})
 
-export default {
-  name: "ExternalUserProfile",
-  data() {
-    return {
-      user: null,
-    };
-  },
-  async fetch({ $pinia }) {
-    const route = useRoute();
-    const userStore = useUserStore($pinia);
-
-    this.user = await userStore.fetchUserById(+route.params.id);
-  },
-};
+const route = useRoute()
+const { data: user } = await useFetch(`/api/user/${route.params.id}`)
 </script>
 
 <style></style>

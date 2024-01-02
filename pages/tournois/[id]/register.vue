@@ -38,7 +38,7 @@ useSeoMeta({
 })
 
 definePageMeta({
-  middleware: ['test']
+  middleware: ['register']
 })
 
 const { addMessage } = useFlashMessages();
