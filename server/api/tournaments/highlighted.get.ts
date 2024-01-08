@@ -1,7 +1,12 @@
-import TournamentClient from "~/app/client/TournamentClient";
+import axiosInstance from "~/app/client/axios";
 
-export default defineEventHandler(async (event) => {
-    const client = new TournamentClient()
+export default defineEventHandler(async () => {
+    try {
+        const { data, status } = await axiosInstance.get('/tournaments/highlights')
 
-    return await client.hightlighted()
+        return data
+    } catch (e) {
+        // todo: voir pour gerer le cas d'erreur
+        return []
+    }
 })

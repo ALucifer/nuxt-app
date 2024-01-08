@@ -4,7 +4,7 @@
       <div class="header-container nav-menu">
         <div class="nav-menu__logo">
           <NuxtLink :to="{ name: 'index' }" class="site-logo">
-            <nuxt-img src="/images/logo.png" alt="site-logo" class="logo-header"/>
+            <NuxtImg src="/images/logo.png" alt="site-logo" class="logo-header"/>
           </NuxtLink>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   aria-controls="offcanvasNavbar" aria-label="Toggle navigation">

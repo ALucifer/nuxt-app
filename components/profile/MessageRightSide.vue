@@ -8,15 +8,10 @@
     >
   </div>
   <div class="chat-container chat__container" ref="chatContainer">
-    <ul class="chat-box chatContainerScroll">
+    <ul class="chat-box chatContainerScroll" v-if="currentConversation.messages">
       <li
-          v-for="(message, i) in getMessagesByConversation(currentConversation)"
+          v-for="(message, i) in currentConversation.messages"
           class="chat__message"
-          v-observe="{
-          callback: messageRead,
-          useCallback: message.state === 'UNREAD' && !isOwnMessage(message),
-          message,
-        }"
           :key="i"
           :class="{
           'chat__message message-item__left': isOwnMessage(message),
@@ -70,25 +65,31 @@
 <script setup lang="ts">
 import {useConversationStore} from "~/store/conversation";
 import {storeToRefs} from "pinia";
+import {MessageModel} from "~/app/models/conversation.model";
 
-const message = ref('')
-const {
-  sendMessage,
-  isOwnMessage, messageRead
-} = useConversationStore()
 const conversationStore = useConversationStore()
+const { getUser } = useSecurity()
 
-const { currentConversation, getMessagesByConversation } = storeToRefs(conversationStore)
+const { currentConversation } = storeToRefs(conversationStore)
+const { sendMessage, sendMessageToNewConversation } = conversationStore
 
 const emit = defineEmits(['newMessage'])
 
 const messages = ref()
 const chatContainer = ref()
+const message = ref('')
 
 defineExpose({messages, chatContainer})
 
+function isOwnMessage(message: MessageModel) {
+  return getUser().id === message.fromUser.id
+}
 async function send() {
-  await sendMessage(message.value)
+  if (currentConversation.value!.id === 0) {
+    await sendMessageToNewConversation(message.value)
+  } else {
+    await sendMessage(message.value)
+  }
 
   message.value = ''
   emit('newMessage')

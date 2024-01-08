@@ -41,7 +41,7 @@ export const useTournamentStore = defineStore({
       this.currentTournament!.teams!.splice(index, 1)
     },
     async fetchTournaments() {
-      const data = await tournamentClient.all()
+      const data = await $fetch('/api/tournaments/all')
 
       this.setItems(data.data)
       this.setTotal(data.meta.total)

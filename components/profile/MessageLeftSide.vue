@@ -20,15 +20,15 @@
           <p class="name-time">
             <span class="name">{{ conversation.interlocutor.pseudo }}</span>
           </p>
-          <span
-              v-if="
-              getUnreadMessagesByConversation(conversation).length > 0
-            "
-              class="badge rounded-pill bg-warning text-dark"
-          >{{
-              getUnreadMessagesByConversation(conversation).length
-            }}</span
-          >
+<!--          <span-->
+<!--              v-if="-->
+<!--              getUnreadMessagesByConversation(conversation).length > 0-->
+<!--            "-->
+<!--              class="badge rounded-pill bg-warning text-dark"-->
+<!--          >{{-->
+<!--              getUnreadMessagesByConversation(conversation).length-->
+<!--            }}</span-->
+<!--          >-->
         </li>
       </template>
     </ul>
@@ -39,8 +39,8 @@
 import { useConversationStore } from "~/store/conversation";
 import {storeToRefs} from "pinia";
 
-const conversationStore = useConversationStore()
-const { conversations, getUnreadMessagesByConversation, currentConversation } = storeToRefs(conversationStore)
+const { conversations, currentConversation } = storeToRefs(useConversationStore())
+
 defineEmits(['change-conversation'])
 </script>
 

@@ -38,11 +38,6 @@ export default class TournamentClient extends AbstractClient {
         ).catch(error => error.response.status)
     }
 
-    async hightlighted(): Promise<TournamentModel[]> {
-        const { data } = await this.axiosInstance.get('/tournaments/highlights')
-        return data
-    }
-
     async start(tournament: { id: number }) {
         const { getToken } = useSecurity()
         try {

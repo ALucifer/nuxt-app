@@ -16,7 +16,7 @@ export interface ConversationModel {
     interlocutor: InterlocutorModel,
 }
 
-export interface ConversationMessagesModel {
+export interface ConversationMessagesModel extends ConversationModel {
     id: number,
     created_at: Date,
     updated_at: Date,

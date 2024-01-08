@@ -4,17 +4,17 @@ export default defineNuxtConfig({
     global: true,
     dirs: ['~/components/global']
   },
-
   modules: [
     '@nuxt/devtools',
     '@sidebase/nuxt-auth',
-    '@nuxt/image-edge',
+    '@nuxt/image',
     [
       '@pinia/nuxt',
       {
         autoImports: [
           'defineStore',
-          ['defineStore', 'definePiniaStore'],
+          'acceptHMRUpdate',
+          ['defineStore', 'definePiniaStore', 'acceptHMRUpdate'],
         ],
       },
     ],
@@ -48,14 +48,12 @@ export default defineNuxtConfig({
       baseURL: 'https://res.cloudinary.com/davxuwzzl/image/upload/'
     }
   },
-
   head: {
     link: [
       { rel: 'icon', href: '/favicon.png' }
       // Si vous utilisez un fichier PNG, utilisez 'image/png' comme type
     ]
   },
-
   devtools: {
     timeline: {
       enabled: true,
