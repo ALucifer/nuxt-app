@@ -11,6 +11,11 @@
     <ul class="chat-box chatContainerScroll" v-if="currentConversation.messages">
       <li
           v-for="(message, i) in currentConversation.messages"
+          v-observe="{
+            callback: messageRead,
+            useCallback: message.state === 'UNREAD' && !isOwnMessage(message),
+            message,
+          }"
           class="chat__message"
           :key="i"
           :class="{
@@ -71,7 +76,7 @@ const conversationStore = useConversationStore()
 const { getUser } = useSecurity()
 
 const { currentConversation } = storeToRefs(conversationStore)
-const { sendMessage, sendMessageToNewConversation } = conversationStore
+const { sendMessage, sendMessageToNewConversation, messageRead } = conversationStore
 
 const emit = defineEmits(['newMessage'])
 

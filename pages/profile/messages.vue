@@ -20,6 +20,7 @@ import MessageLeftSide from "~/components/profile/MessageLeftSide.vue";
 import MessageRightSide from "~/components/profile/MessageRightSide.vue";
 import {InterlocutorModel} from "~/app/models/conversation.model";
 import {storeToRefs} from "pinia";
+import ClientSSE from "~/app/client/sse/ClientSSE";
 
 definePageMeta({
   layout: 'profile'
@@ -31,8 +32,13 @@ definePageMeta({
 
 const route = useRoute()
 const conversationStore = useConversationStore()
+const { getUser } = useSecurity()
 const {conversations, currentConversation} = storeToRefs(conversationStore)
-const {fetchConversations, fetchCurrentConversationMessages, createNewConversation, initCurrentConversation, setCurrentConversation} = conversationStore
+const {
+  fetchConversations, fetchCurrentConversationMessages,
+  createNewConversation, initCurrentConversation,
+  setCurrentConversation, messageHasArrived
+} = conversationStore
 
 conversationStore.$onAction(({ name, after }) => {
   if (name === 'setCurrentConversation') {
@@ -59,8 +65,17 @@ await useAsyncData(
     async () => await fillCurrentConversationMessages(),
 )
 
-const messageRightSide = ref()
+onMounted(async () => {
+  const clientSSE = new ClientSSE(getUser().id)
+  clientSSE.connect()
 
+  clientSSE.eventSource.onmessage = ({ data }) => {
+    messageHasArrived(JSON.parse(data))
+    scrollToNewMessage();
+  };
+})
+
+const messageRightSide = ref()
 
 async function fillCurrentConversationMessages() {
   if (

@@ -47,10 +47,6 @@
 </template>
 
 <script setup lang="ts">
-import SearchClient from "~/app/client/SearchClient";
-
-const searchClient = new SearchClient()
-
 const text = ref('')
 const searching = ref(false)
 const users = ref([])
@@ -69,7 +65,16 @@ async function suggestUsers() {
     searching.value = false;
     if (isValidSearch()) {
         searching.value = true;
-        users.value = await searchClient.user(text.value);
+        const { data } = await useFetch(
+            '/api/user/search',
+            {
+              method: 'POST',
+              body: {
+                text: text.value
+              }
+            }
+        )
+        users.value = data.value
         searching.value = false;
     }
 }

@@ -7,34 +7,30 @@ export interface InterlocutorModel {
 }
 
 export interface ConversationModel {
-    id: number,
-    created_at: Date,
-    updated_at: Date,
-    send_from: number,
-    send_to: number,
-    total_messages: number,
-    interlocutor: InterlocutorModel,
+    id: number;
+    created_at: Date;
+    updated_at: Date;
+    send_from: number;
+    send_to: number;
+    total_messages: number;
+    total_messages_unread: number;
+    interlocutor: InterlocutorModel;
 }
 
 export interface ConversationMessagesModel extends ConversationModel {
-    id: number,
-    created_at: Date,
-    updated_at: Date,
-    send_from: number,
-    send_to: number,
-    messages: Array<MessageModel>
+    messages: Array<MessageModel>;
 }
 
 export interface MessageModel {
-    id: number,
-    conversation: number,
-    created_at: Date,
-    updated_at: Date,
-    text: string,
-    from: number,
-    to: number,
-    state: string,
-    fromUser: UserModel
+    id: number;
+    conversation: number;
+    created_at: Date;
+    updated_at: Date;
+    text: string;
+    from: number;
+    to: number;
+    state: string;
+    fromUser: UserModel;
 }
 
 export interface MessageForm {

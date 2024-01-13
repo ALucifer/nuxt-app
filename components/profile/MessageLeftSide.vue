@@ -20,15 +20,9 @@
           <p class="name-time">
             <span class="name">{{ conversation.interlocutor.pseudo }}</span>
           </p>
-<!--          <span-->
-<!--              v-if="-->
-<!--              getUnreadMessagesByConversation(conversation).length > 0-->
-<!--            "-->
-<!--              class="badge rounded-pill bg-warning text-dark"-->
-<!--          >{{-->
-<!--              getUnreadMessagesByConversation(conversation).length-->
-<!--            }}</span-->
-<!--          >-->
+          <span v-if="conversation.total_messages_unread > 0" class="badge rounded-pill bg-warning text-dark">
+            {{ conversation.total_messages_unread }}
+          </span>
         </li>
       </template>
     </ul>
@@ -38,6 +32,7 @@
 <script setup lang="ts">
 import { useConversationStore } from "~/store/conversation";
 import {storeToRefs} from "pinia";
+import {ConversationMessagesModel} from "~/app/models/conversation.model";
 
 const { conversations, currentConversation } = storeToRefs(useConversationStore())
 

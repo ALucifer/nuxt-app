@@ -35,7 +35,7 @@ export const useConversationStore = defineStore('conversation', {
         initCurrentConversation() {
             this.currentConversation = this.conversations.length > 0 ? this.conversations[0] : null
         },
-        setCurrentConversation(conversation: ConversationModel) {
+        setCurrentConversation(conversation: ConversationMessagesModel) {
             this.currentConversation = conversation
         },
         async sendMessage(text: string) {
@@ -74,6 +74,13 @@ export const useConversationStore = defineStore('conversation', {
             const index = this.conversations.findIndex((c) => c.id === this.currentConversation!.id)
             this.currentConversation = conversation
             this.conversations[index] = conversation
+        },
+        messageHasArrived(message: MessageModel) {
+            const index = this.conversations.findIndex(c => c.id === message.conversation)
+            this.conversations[index].messages.push(message)
+        },
+        messageRead(message: MessageModel) {
+            console.log('message readed')
         }
     },
 });

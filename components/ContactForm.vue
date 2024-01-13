@@ -39,9 +39,7 @@
 <script setup lang="ts">
 import useFlashMessages from "~/composables/useFlashMessages";
 import { object, string } from "yup";
-import ContactClient from "~/app/client/ContactClient";
 
-const contactClient = new ContactClient()
 const { addMessage } = useFlashMessages();
 
 const schema = object({
@@ -56,7 +54,13 @@ const schema = object({
 
 async function onSubmit(values, { resetForm }) {
   try {
-    await contactClient.post(values)
+    await useFetch(
+        '/api/contact',
+        {
+          method: 'POST',
+          body: values
+        }
+    )
     addMessage({
       message: 'Votre demande à bien été envoyé',
       class: 'success'

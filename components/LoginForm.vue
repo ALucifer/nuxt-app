@@ -44,6 +44,8 @@
 <script setup lang="ts">
 import * as yup from "yup";
 
+const { errorMessage } = useFlashMessages()
+
 const schema = yup.object({
     email: yup.string().email('Invalid email format (ex: john.dev@gmail.com)').required("Email requis."),
     password: yup.string().required("Mot de passe requis."),
@@ -55,6 +57,12 @@ const { signIn } = useAuth()
 const route = useRoute()
 
 let redirect = route.query.callbackUrl as string ?? '/profile'
+
+onMounted(() => {
+  if (route.query.error) {
+    errorMessage('Login/Mot de passe incorrect')
+  }
+})
 async function submit(values: any) {
   isSubmitting.value = true
   await signIn(
@@ -62,9 +70,10 @@ async function submit(values: any) {
       {
         email: values.email,
         password: values.password,
-        callbackUrl: redirect
+        callbackUrl: redirect,
       }
-    )
+  )
+
   isSubmitting.value = false
 }
 </script>
