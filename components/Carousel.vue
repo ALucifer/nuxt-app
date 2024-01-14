@@ -23,7 +23,7 @@
             </div>
             <div class="d-none d-lg-block col-lg-7 col-md-5">
               <div class="slide__right">
-                <nuxt-img
+                <AppImage
                   class="slide__right-img"
                   src="images/character.png"
                   alt="image"

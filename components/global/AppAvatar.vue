@@ -1,7 +1,7 @@
 <template>
   <div v-if="editable">
     <label class="avatar-edit">
-      <nuxt-img
+      <AppImage
         :src="src"
         placeholder="/user-placeholder.png"
         v-bind="$attrs"
@@ -19,7 +19,7 @@
       />
     </label>
   </div>
-  <nuxt-img
+  <AppImage
     :src="src"
     placeholder="/user-placeholder.png"
     :class="[$attrs.class ? $attrs.class : 'avatar-img']"

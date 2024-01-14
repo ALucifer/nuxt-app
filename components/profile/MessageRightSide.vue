@@ -30,7 +30,7 @@
             'message-item__avatar-right': !isOwnMessage(message),
           }"
         >
-          <nuxt-img
+          <AppImage
               :src="message.fromUser.avatar"
               placeholder="/images/participant-1.png"
               :alt="`${message.fromUser.pseudo} avatar`"

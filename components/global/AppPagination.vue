@@ -1,51 +1,51 @@
 <template>
   <nav class="m-auto">
     <ul class="pagination">
-      <li class="page-item" v-if="this.currentPage !== 1">
+      <li class="page-item" v-if="currentPage !== 1">
         <NuxtLink
           class="page-link"
           :to="{
-            name: this.routeName,
-            query: this.previousLink,
+            name: routeName,
+            query: previousLink,
           }"
           >Previous</NuxtLink
         >
       </li>
-      <li class="page-item" :class="{ active: this.currentPage === 1 }">
+      <li class="page-item" :class="{ active: currentPage === 1 }">
         <NuxtLink
           class="page-link"
-          :to="{ name: this.routeName, query: this.firstPageLink }"
+          :to="{ name: routeName, query: firstPageLink }"
           >1</NuxtLink
         >
       </li>
-      <template v-for="i in this.pages">
+      <template v-for="i in pages">
         <li
           class="page-item"
-          v-if="i !== 1 && i !== this.pages"
-          :class="{ active: this.currentPage === i }"
+          v-if="i !== 1 && i !== pages"
+          :class="{ active: currentPage === i }"
         >
           <NuxtLink
             class="page-link"
-            :to="{ name: this.routeName, query: this.nthPageLink(i) }"
+            :to="{ name: routeName, query: nthPageLink(i) }"
             >{{ i }}</NuxtLink
           >
         </li>
       </template>
       <li
         class="page-item"
-        :class="{ active: this.currentPage === this.pages }"
+        :class="{ active: currentPage === pages }"
       >
         <NuxtLink
           class="page-link"
-          :to="{ name: this.routeName, query: this.lastPageLink }"
-          >{{ this.pages }}</NuxtLink
+          :to="{ name: routeName, query: lastPageLink }"
+          >{{ pages }}</NuxtLink
         >
       </li>
-      <li class="page-item" v-if="this.currentPage != this.pages">
+      <li class="page-item" v-if="currentPage != pages">
         <NuxtLink
           class="page-link"
-          :to="{ name: this.routeName, query: this.nextLink }"
-          @click="this.$emit('changepage', 'toto')"
+          :to="{ name: routeName, query: nextLink }"
+          @click="$emit('changepage', 'toto')"
           >Next</NuxtLink
         >
       </li>
@@ -105,54 +105,4 @@ function nthPageLink(i: number) {
   nth[props.query] = i;
   return nth;
 }
-
-// export default {
-  // props: {
-  //   pages: {
-  //     type: Number,
-  //     required: true,
-  //   },
-  //   query: {
-  //     type: String,
-  //     required: false,
-  //   },
-  //   routeName: {
-  //     type: String,
-  //     required: true,
-  //   },
-  // },
-  // computed: {
-  //   currentPage: function () {
-  //     const query = this.$route.query[this.query] || this.$route.query.page;
-  //     return parseInt(query) || 1;
-  //   },
-  //   previousLink: function () {
-  //     const pevious = {};
-  //     pevious[this.query] = this.currentPage - 1;
-  //     return pevious;
-  //   },
-  //   nextLink: function () {
-  //     const next = {};
-  //     next[this.query] = parseInt(this.currentPage) + 1;
-  //     return next;
-  //   },
-  //   firstPageLink: function () {
-  //     const first = {};
-  //     first[this.query] = 1;
-  //     return first;
-  //   },
-  //   lastPageLink: function () {
-  //     const last = {};
-  //     last[this.query] = this.pages;
-  //     return last;
-  //   },
-  // },
-  // methods: {
-  //   nthPageLink: function (i) {
-  //     const nth = {};
-  //     nth[this.query] = i;
-  //     return nth;
-  //   },
-  // },
-// };
 </script>

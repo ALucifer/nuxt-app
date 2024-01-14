@@ -1,6 +1,7 @@
 <template>
   <div class="spots">
     <AppHeader />
+    <NuxtLoadingIndicator />
     <div class="main">
       <NuxtLayout>
         <div>

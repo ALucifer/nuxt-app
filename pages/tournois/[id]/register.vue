@@ -4,7 +4,7 @@
       <div class="card__format card__format--light">
         <div class="rows m-5">
           <AppForm @submit="submit" :validation-schema="schema">
-            <nuxt-img
+            <AppImage
               :src="'data:image/svg+xml;base64,' + avatar"
               @click.prevent="generateAvatar()"
               class="card__avatar"
