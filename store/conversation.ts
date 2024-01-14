@@ -77,10 +77,23 @@ export const useConversationStore = defineStore('conversation', {
         },
         messageHasArrived(message: MessageModel) {
             const index = this.conversations.findIndex(c => c.id === message.conversation)
-            this.conversations[index].messages.push(message)
+            if (index === -1) {
+                console.log('Nouvelle conversation incomming')
+                // this.conversations.push()
+            } else {
+                this.conversations[index]?.messages.push(message)
+            }
         },
-        messageRead(message: MessageModel) {
-            console.log('message readed')
+        async messageRead(message: MessageModel) {
+            await $fetch(
+                '/api/conversations/readMessage',
+                {
+                    method: 'POST',
+                    body: message
+                }
+            )
+            const index = this.conversations.findIndex(c => c.id === message.conversation)
+            this.conversations[index].total_messages_unread--
         }
     },
 });

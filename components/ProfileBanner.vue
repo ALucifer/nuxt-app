@@ -45,32 +45,25 @@
 </template>
 
 <script setup lang="ts">
-import UserClient from "~/app/client/UserClient";
-
 const { getUser: auth } = useSecurity()
 defineProps({ user: { type: Object, required: true }, isOwnProfile: { type: Boolean, default: false }})
-
-const userClient = new UserClient()
-const authState = useAuthState()
-const authtest = useAuth()
-
-
-async function test() {
-}
 
 function changeAvatar(e: Event) {
   let formData = new FormData();
   formData.append("avatar", e.target.files[0]);
 
   const { errorMessage } = useFlashMessages()
-  userClient
-      .uploadAvatar(formData)
-      .then(async (response) => {
-        alert('modifier l\'avatar')
-        // data.value.user.avatar = 'toto'
-      }).catch((error) => {
+  const status = $fetch(
+      '/api/user/uploadAvatar',
+      {
+        method: 'POST',
+        body: formData
+      }
+  )
+
+  if(!status) {
     errorMessage('Une erreur est survenu lors de la mise à jour de votre avatar.')
-  });
+  }
 }
 </script>
 

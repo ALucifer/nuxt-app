@@ -32,10 +32,17 @@
               @click="this.$emit('close')"
             >
               <nuxt-img
+                v-if="user.avatar"
                 :src="user.avatar"
                 placeholder="/user-placeholder.png"
                 class="search-avatar"
                 alt=""
+              />
+              <nuxt-img
+                  v-else
+                  src="/user-placeholder.png"
+                  class="search-avatar"
+                  alt=""
               />
               {{ user.pseudo }}
             </NuxtLink>

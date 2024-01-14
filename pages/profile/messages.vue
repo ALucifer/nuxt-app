@@ -8,7 +8,7 @@
         <MessageLeftSide @changeConversation="setCurrentConversation($event.conversation)"/>
       </div>
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-        <MessageRightSide ref="messageRightSide" @newMessage="scrollToNewMessage"  />
+        <MessageRightSide v-if="currentConversation" ref="messageRightSide" @newMessage="scrollToNewMessage"  />
       </div>
     </div>
   </div>
@@ -70,8 +70,11 @@ onMounted(async () => {
   clientSSE.connect()
 
   clientSSE.eventSource.onmessage = ({ data }) => {
+    console.log(JSON.parse(data))
     messageHasArrived(JSON.parse(data))
-    scrollToNewMessage();
+    if (currentConversation.value && currentConversation.value.id === JSON.parse(data).id) {
+      scrollToNewMessage();
+    }
   };
 })
 

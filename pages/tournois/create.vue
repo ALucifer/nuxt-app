@@ -121,14 +121,11 @@
 
 <script setup lang="ts">
 import * as yup from "yup";
-import TournamentClient from "~/app/client/TournamentClient";
 import {tournament} from '~/app/models/tournament'
 import useRedirection from "~/composables/useRedirection";
 import Stepper from "~/components/stepper/Stepper.vue";
 import FormWizard from "~/components/form/FormWizard.vue";
 import FormStep from "~/components/form/FormStep.vue";
-
-const tournamentClient = new TournamentClient()
 
 const schema = [
   yup.object({
@@ -181,10 +178,17 @@ const isSubmitting = ref(false)
 async function submit(values: any) {
   isSubmitting.value = true
 
-  const tournament = await tournamentClient.create({
-    ...values,
-    owner: getUser().id,
-  });
+  const tournament = await $fetch(
+      '/api/tournaments/create',
+      {
+        method: 'POST',
+        body: {
+          ...values,
+          progress: 'todo',
+          owner: getUser().id
+        }
+      }
+  )
 
   handleResponse(
       !!tournament,

@@ -13,7 +13,7 @@
         >
           <div class="user-item">
             <AppAvatar
-                :src="conversation.interlocutor.avatar"
+                :src="conversation.interlocutor.avatar ?? ''"
                 :alt="`${conversation.interlocutor.pseudo} avatar`"
             />
           </div>
