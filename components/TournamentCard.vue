@@ -2,7 +2,7 @@
   <div class="tournament-card">
     <div class="row">
       <div class="col-lg-3 col-md-3 tournament-card__image">
-        <AppImage class="top-img" src="images/game-img-1.png" alt="image" />
+        <AppImage class="top-img" src="/images/game-img-1.png" alt="image" />
       </div>
       <div class="col-lg-6 col-md-9 tournament-card__informations">
         <div class="mid-area">

@@ -25,7 +25,7 @@
               <div class="slide__right">
                 <AppImage
                   class="slide__right-img"
-                  src="images/character.png"
+                  src="/images/character.png"
                   alt="image"
                 />
               </div>

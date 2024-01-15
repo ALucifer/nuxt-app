@@ -5,7 +5,7 @@
         <div class="footer-item-container">
           <div class="logo-section">
             <NuxtLink :to="{ name: 'index' }" class="site-logo site-title">
-              <AppImage src="images/logo.png" alt="site-logo" class="logo-footer" />
+              <AppImage src="/images/logo.png" alt="site-logo" class="logo-footer" />
             </NuxtLink>
           </div>
           <ul class="menu-side mx-auto my-sm-4">
