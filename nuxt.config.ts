@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/devtools',
     '@sidebase/nuxt-auth',
+    '@vee-validate/nuxt',
     '@nuxt/image',
     [
       '@pinia/nuxt',

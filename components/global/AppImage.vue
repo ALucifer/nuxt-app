@@ -2,7 +2,7 @@
   <nuxt-img
       v-if="src"
       :src="src"
-      :placeholder="usePlaceholder ? placeholder : false"
+      placeholder
       alt=""
   />
   <nuxt-img
@@ -16,14 +16,12 @@
 interface Props {
   src ?: String,
   placeholder ?: String,
-  usePlaceholder ?: Boolean,
 }
 
 withDefaults(
     defineProps<Props>(),
     {
-      placeholder: 'user-placeholder.png',
-      usePlaceholder: true,
+      placeholder: 'user-placeholder.png'
     }
 )
 </script>

@@ -1,9 +1,9 @@
-import axiosInstance from "~/app/client/axios";
-
 export default defineEventHandler(async event => {
     try {
         const body = await readBody(event)
-        await axiosInstance.post('/forgot-password', body)
+
+        await fetchSpotsApi('forgot-password', { method: 'POST', body })
+
         return true
     } catch (error) {
         return false

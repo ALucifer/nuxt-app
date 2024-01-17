@@ -1,5 +1,4 @@
 import {getToken} from "#auth";
-import axiosInstance from "~/app/client/axios";
 
 export default defineEventHandler(async event => {
     const session = await getToken({ event })
@@ -8,16 +7,16 @@ export default defineEventHandler(async event => {
     const body = await readBody(event)
 
     try {
-        await axiosInstance.post(
+        await fetchSpotsApi(
             `/message/${body.id}/read`,
-            {},
             {
+                method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + session.token
                 }
             }
         )
-    } catch (e) {
+    } catch (e: any) {
         console.log(e.message)
     }
 })

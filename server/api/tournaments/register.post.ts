@@ -8,16 +8,21 @@ export default defineEventHandler(async event => {
     const body = await readBody(event)
 
     try {
-        const { status } = await axiosInstance.post(
-            '/tournaments/register',
-            { ...body, user_id: session.user.id },
+        await fetchSpotsApi(
+            'tournaments/register',
             {
+                method: 'POST',
+                body: {
+                    ...body,
+                    user_id: session.user.id
+                },
                 headers: {
                     Authorization: 'Bearer ' + session.token
                 }
             }
         )
-        return status
+
+        return 200
     } catch (e) {
         return e.response.status
     }

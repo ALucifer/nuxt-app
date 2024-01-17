@@ -41,7 +41,6 @@
 
 <script setup lang="ts">
 import * as yup from "yup";
-import useFlashMessages from "~/composables/useFlashMessages";
 
 const schema = yup.object({
   email: yup
@@ -73,26 +72,26 @@ const form = ref({
 })
 const error = ref(false)
 
-const {addMessage} = useFlashMessages()
+const { addMessage } = useFlashMessages()
 const router = useRouter()
 const isSubmitting = ref(false)
 
 async function submit(values, actions) {
   isSubmitting.value = true
 
-  const result = await $fetch('/api/user/register', {method: 'POST', body: values})
+  const { data: result } = await useFetch('/api/user/register', {method: 'POST', body: values})
 
-  if (409 === result) {
+  if (409 === result.value) {
     actions.setFieldError("email", "Cet email est déjà utilisé");
   }
-  if (200 === result) {
+  if (200 === result.value) {
     addMessage({
       class: 'success',
       message: 'Félicitation ! Un émail de validation vous a été envoyé.'
     })
 
     router.push({name: "index"});
-  } else if (![200, 409].includes(result)) {
+  } else if (![200, 409].includes(result.value)) {
     error.value = true;
   }
 

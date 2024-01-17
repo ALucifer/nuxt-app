@@ -1,5 +1,4 @@
 import {getToken} from "#auth";
-import axiosInstance from "~/app/client/axios";
 
 export default defineEventHandler(async event => {
     const session = await getToken({ event })
@@ -8,17 +7,16 @@ export default defineEventHandler(async event => {
     const body = await readBody(event)
 
     try {
-        const { data } = await axiosInstance.post(
+        return fetchSpotsApi(
             'tournaments',
-            body,
             {
+                method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + session.token
-                }
+                },
+                body
             }
         )
-
-        return data
     } catch (e) {
         console.log(e.response.data.messages)
         return null

@@ -38,23 +38,27 @@ const schema = object({
   email: string().required('Email requis.').email('Email non valide.')
 })
 
-const { addMessage } = useFlashMessages()
+const { handleResponse } = useFlashMessages()
 const router = useRouter()
 
-async function onSubmit(values) {
-  await $fetch(
+async function onSubmit(values: any) {
+  const { data } = await useFetch(
       '/api/user/forgotPassword',
       {
         method: 'POST',
-        body: values,
+        body: values
       }
   )
-  addMessage({
-    class: "success",
-    message: "Un message de réinitialisation de mot de passe à été envoyé."
-  })
 
-  await router.push('/')
+  handleResponse(
+      data.value!,
+      "Un message de réinitialisation de mot de passe à été envoyé.",
+      "Une erreur est survenu"
+  )
+
+  if (data.value) {
+    await router.push('/')
+  }
 }
 </script>
 

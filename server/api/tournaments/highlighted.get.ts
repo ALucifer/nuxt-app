@@ -1,12 +1,7 @@
-import axiosInstance from "~/app/client/axios";
-
 export default defineEventHandler(async () => {
     try {
-        const { data, status } = await axiosInstance.get('/tournaments/highlights')
-
-        return data
+        return fetchSpotsApi('tournaments/highlights')
     } catch (e) {
-        // todo: voir pour gerer le cas d'erreur
         return []
     }
 })

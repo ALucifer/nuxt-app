@@ -1,12 +1,8 @@
-import axiosInstance from "~/app/client/axios";
-
 export default defineEventHandler(async event => {
     try {
         const body = await readBody(event)
 
-        const { data } = await axiosInstance.post('users/search', { text: body.text })
-
-        return data
+        return fetchSpotsApi('users/search', { method: 'post', body: { text: body.text }})
     } catch (e) {
         return []
     }

@@ -1,12 +1,8 @@
-import axiosInstance from "~/app/client/axios";
-
 export default defineEventHandler(async (event) => {
     const id = parseInt(event.context.params.id) as number
 
     try {
-        const { data } = await axiosInstance.get(`/users/${id}`)
-
-        return data
+        return fetchSpotsApi(`/users/${id}`)
     } catch (e) {
         throw createError({
             statusCode: 404,
