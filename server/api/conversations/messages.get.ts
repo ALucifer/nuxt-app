@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
         const session = await getServerSession(event)
         if (!session || query.conversationId === '0') return
 
-        return fetchSpotsApi(
+        return await fetchSpotsApi(
             'users/conversations/' + query.conversationId,
             { headers: { Authorization: 'Bearer ' + session!.token}}
         )

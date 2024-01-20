@@ -16,7 +16,7 @@
                 v-for="(team, index) in tournament.teams.slice(0,3)"
                 class="counter-teams__avatar"
                 :class="['counter-teams__avatar--' + (index + 1)]"
-                :src="'data:image/svg+xml;base64,' + team.avatar"
+                :src="getTeamAvatar(team)"
             />
           </template>
         </div>
@@ -118,16 +118,18 @@
               </div>
             </div>
             <div class="matchs-cards" v-for="match in tournamentSorted">
-              <div
-                  class="match-card"
-                  :class="{
-                      'match-card--error': match.state === 'NEED_VALIDATION',
-                      'cursor': isOwner(tournament) || isUserLoggedInMatch(match)
-                    }"
+              <NuxtLink
+                class="match-card"
+                :class="{
+                  'match-card--error': match.state === 'NEED_VALIDATION',
+                  'cursor': isOwner(tournament) || isUserLoggedInMatch(match)
+                }"
+                :to="{ name: 'matchs-id', params: { id: match.id } }"
               >
                 <div>
                   <AppAvatar
-                      :src="'data:image/svg+xml;base64,' + getTeam(match.adversaire_a, tournament.teams).avatar"/>
+                    :src="getTeamAvatar(getTeam(match.adversaire_a, tournament.teams))"
+                  />
                   <span class="match-card__team-name">{{
                       getTeam(match.adversaire_a, tournament.teams).libelle
                     }}</span>
@@ -143,10 +145,9 @@
                     <span class="match-card__team-name">{{
                         getTeam(match.adversaire_b, tournament.teams).libelle
                       }}</span>
-                  <AppAvatar
-                      :src="'data:image/svg+xml;base64,' + getTeam(match.adversaire_b, tournament.teams).avatar"/>
+                  <AppAvatar :src="getTeamAvatar(getTeam(match.adversaire_a, tournament.teams))"/>
                 </div>
-              </div>
+              </NuxtLink>
             </div>
             <div class="d-flex justify-content-center" v-if="tournamentSorted.length >= 5"
                  :class="{'d-none': display === 'matches'}">
@@ -163,7 +164,9 @@
         >
           <template v-if="tournament.teams.length > 0">
             <div class="team-card" v-for="team in teamsList">
-              <AppAvatar :src="'data:image/svg+xml;base64,' + team.avatar"/>
+              <AppAvatar
+                :src="getTeamAvatar(team)"
+              />
               <div class="team-informations">
                 <p class="team-libelle">{{ team.libelle }}</p>
                 <p class="team-user">
@@ -193,6 +196,7 @@ import {MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
 import {ScoreModel} from "~/app/models/scoreFormModel";
 import {TournamentModel} from "~/app/models/tournament";
 import {FiltersTournamentMatches} from "~/app/vo/Filters";
+import {TeamModel} from "~/app/models/team.model";
 
 const {currentTournament: tournament, start, unsubscribe} = useTournamentStore()
 const {dateFormatted} = useDate()
@@ -306,6 +310,10 @@ async function handleStart(tournament: TournamentModel) {
       'Le tournois est maintenant démarré',
       'Un problème est survenu lors du lancement du tournoi'
   )
+}
+
+function getTeamAvatar(team?: TeamModel) {
+  return (team && team.avatar) ?  'data:image/svg+xml;base64,' + team.avatar : null
 }
 </script>
 

@@ -8,14 +8,16 @@
   <nuxt-img
       v-else
       :src="placeholder"
+      placeholder
+      preload
       alt=""
   />
 </template>
 
 <script setup lang="ts">
 interface Props {
-  src ?: String,
-  placeholder ?: String,
+  src ?: string|null,
+  placeholder ?: string,
 }
 
 withDefaults(

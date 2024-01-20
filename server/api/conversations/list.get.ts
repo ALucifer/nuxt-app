@@ -5,7 +5,7 @@ export default eventHandler(async (event) => {
         const session = await getToken({ event })
         if (!session) return
 
-        return fetchSpotsApi(
+        return await fetchSpotsApi(
             'users/conversations',
             {
                 headers: { Authorization: 'Bearer ' + session!.token}
