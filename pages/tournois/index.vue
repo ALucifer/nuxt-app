@@ -1,11 +1,11 @@
 <template>
   <div>
-    <BannerTournaments/>
+    <BannerTournaments />
     <section class="tournaments-card">
       <div class="overlay pt-120 pb-120">
         <div class="container wow fadeInUp">
           <SearchFormTournament @search="searchFilter($event)" />
-          <p>Nombre de résultat(s) : {{ tournamentStore.itemsShow }}</p>
+          <p>Nombre de résultat(s) : {{ tournamentStore.total }}</p>
           <transition-group name="flip-list" tag="div" class="search__result">
             <tournamentCard
               v-for="item in tournamentStore.filteredItems"
@@ -16,6 +16,7 @@
           <AppInfiniteScroll
             v-show="!pending"
             @load="tournamentStore.fetchNextItems()"
+            :done="tournamentStore.items.length === tournamentStore.total"
             :key="'infiniteKey' + infiniteKey"
           />
           <div v-if="!tournamentStore.filteredItems.length">

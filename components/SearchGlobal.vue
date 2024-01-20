@@ -31,7 +31,7 @@
               class="search-link"
               @click="this.$emit('close')"
             >
-              <AppImage :src="user.avatar" />
+              <AppAvatar class="search-avatar" :src="user.avatar" />
               {{ user.pseudo }}
             </NuxtLink>
           </li>

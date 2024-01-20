@@ -1,6 +1,6 @@
 export default defineEventHandler(async () => {
     try {
-        return fetchSpotsApi('tournaments/highlights')
+        return await fetchSpotsApi('tournaments/highlights')
     } catch (e) {
         return []
     }
