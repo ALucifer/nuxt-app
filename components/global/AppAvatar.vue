@@ -1,9 +1,8 @@
 <template>
   <div v-if="editable">
     <label class="avatar-edit">
-      <nuxt-img
+      <AppImage
         :src="src"
-        placeholder="/user-placeholder.png"
         v-bind="$attrs"
         class="avatar-img"
       />
@@ -19,19 +18,24 @@
       />
     </label>
   </div>
-  <nuxt-img
+  <AppImage
     :src="src"
-    placeholder="/user-placeholder.png"
     :class="[$attrs.class ? $attrs.class : 'avatar-img']"
     v-else
   />
 </template>
 
 <script setup lang="ts">
-defineProps({
-  src: { type: String, required: true },
-  editable: { type: Boolean, default: false },
-})
+interface Avatar {
+  src: string|null,
+  editable?: boolean
+}
+withDefaults(
+    defineProps<Avatar>(),
+    {
+      editable: false,
+    }
+)
 
 const emit = defineEmits(['change'])
 function handleAvatarUpload(event: Event) {

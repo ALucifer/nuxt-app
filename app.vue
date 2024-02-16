@@ -1,6 +1,7 @@
 <template>
   <div class="spots">
     <AppHeader />
+    <NuxtLoadingIndicator />
     <div class="main">
       <NuxtLayout>
         <div>
@@ -23,7 +24,7 @@ const date = (new Date()).getMilliseconds()
 
 body {
   min-height: 100vh;
-  background-color: #160A3F;
+  background-color: #1C1041;
 
   .spots {
     display: flex;

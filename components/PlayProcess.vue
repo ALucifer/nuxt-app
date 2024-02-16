@@ -15,7 +15,7 @@
             <div class="single-item">
               <div class="icon-area">
                 <span>1</span>
-                <nuxt-img src="images/how-icon-1.png" alt="image" />
+                <AppImage src="/images/how-icon-1.png" alt="image" />
               </div>
               <div class="text-area">
                 <h5>Inscription</h5>
@@ -28,7 +28,7 @@
             <div class="single-item">
               <div class="icon-area">
                 <span>2</span>
-                <nuxt-img src="images/how-icon-3.png" alt="image" />
+                <AppImage src="/images/how-icon-3.png" alt="image" />
               </div>
               <div class="text-area">
                 <h5>Compétition</h5>
@@ -41,7 +41,7 @@
             <div class="single-item">
               <div class="icon-area">
                 <span>3</span>
-                <nuxt-img src="images/how-icon-4.png" alt="image" />
+                <AppImage src="/images/how-icon-4.png" alt="image" />
               </div>
               <div class="text-area">
                 <h5>Récompense</h5>

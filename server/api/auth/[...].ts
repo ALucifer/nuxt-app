@@ -1,11 +1,9 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
 import {NuxtAuthHandler} from '#auth'
-import AuthClient from "~/app/client/AuthClient";
 import Google from "next-auth/providers/google";
 
-async function verifyToken(token) {
-    const client = new AuthClient()
-    return await client.checkToken(token)
+async function verifyToken(token: any) {
+    return await $fetch('/api/auth/checkToken', { query: { token: token }})
 }
 
 // @ts-ignore
@@ -31,8 +29,13 @@ export default NuxtAuthHandler({
             },
             async authorize(credentials: any) {
                 try {
-                    const client = new AuthClient()
-                    const data = await client.login({ email: credentials.email, password: credentials.password})
+                    const data = await $fetch(
+                        '/api/auth/login',
+                        {
+                            method: 'POST',
+                            body: { email: credentials.email, password: credentials.password }
+                        }
+                    )
 
                     return {
                         user: {
@@ -45,7 +48,7 @@ export default NuxtAuthHandler({
                         token: data.token.token
                     }
                 } catch (e: any) {
-                    return false
+                    return Promise.reject('Erreur')
                 }
             }
         })
@@ -58,13 +61,20 @@ export default NuxtAuthHandler({
                     return true
                 }
 
-                const client = new AuthClient()
-                const data = await client.oauth({
-                    provider: account.provider,
-                    email: user.email,
-                    providerId: account.providerAccountId,
-                    avatar: user.image
-                })
+                const data = await $fetch(
+                    '/api/auth/social',
+                    {
+                        method: 'POST',
+                        body: {
+                            form: {
+                                provider: account.provider,
+                                email: user.email,
+                                providerId: account.providerAccountId,
+                                avatar: user.image
+                            }
+                        }
+                    }
+                )
 
                 user.id = data.user.id
 
@@ -97,8 +107,6 @@ export default NuxtAuthHandler({
             }
 
             const tokenValid = await verifyToken(token.token)
-
-            console.log(tokenValid)
 
             if (!tokenValid) {
                 return Promise.reject('Invalid token')

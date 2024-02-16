@@ -4,8 +4,8 @@
       :class="{'only-one-item': display !== 'all'}"
   >
     <div
-      class="hero"
-      :class="{
+        class="hero"
+        :class="{
         'd-none': display !== 'all'
       }"
     >
@@ -16,7 +16,7 @@
                 v-for="(team, index) in tournament.teams.slice(0,3)"
                 class="counter-teams__avatar"
                 :class="['counter-teams__avatar--' + (index + 1)]"
-                :src="'data:image/svg+xml;base64,' + team.avatar"
+                :src="getTeamAvatar(team)"
             />
           </template>
         </div>
@@ -50,7 +50,7 @@
           <span class="admin-sub-info">
             <calendar-icon class="mr-1" fillColor="black" :size="14"/>{{
               dateFormatted({
-                date: tournament.begin_at,
+                date: tournament.beginAt,
                 format: 'DD MMM YYYY'
               })
             }}
@@ -58,7 +58,7 @@
           <span class="admin-sub-info">
             <calendar-icon class="mr-1" fillColor="black" :size="14"/>{{
               dateFormatted({
-                date: tournament.begin_at,
+                date: tournament.beginAt,
                 format: 'HH : mm'
               })
             }}
@@ -66,93 +66,124 @@
         </div>
         <div class="admin-tags">
           <span class="admin-tag">{{ tournament.format }}</span>
-          <span class="admin-tag admin-tag--large">Best of {{ tournament.best_of }}</span>
-          <span class="admin-tag admin-tag--large">{{ tournament.skill_level }}</span>
-          <span class="admin-tag admin-tag--large">Equipes {{ tournament.max_teams }}</span>
+          <span class="admin-tag admin-tag--large">Best of {{ tournament.bestOf }}</span>
+          <span class="admin-tag admin-tag--large">{{ tournament.skillLevel }}</span>
+          <span class="admin-tag admin-tag--large">Equipes {{ tournament.maxTeams }}</span>
         </div>
       </div>
     </div>
-    <div class="listings">
-      <div
-        class="matchs-listing"
-        :class="{
-          'd-none-on-768': matches.length <= 0,
-          'matchs-listing--full-width': display === 'matches',
-          'd-none': display !== 'matches' && display !== 'all'
-        }"
-      >
-        <template v-if="matches.length > 0">
-          <div class="matchs-header">
-            <span v-if="display === 'matches'"><arrow-left-icon fill-color="black" @click="display = 'all'" /></span>
-            <span>Matches</span>
-            <div class="dropdown">
-              <span class="matchs-listing__dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ currentFilter }} <filter-icon :size="14"/>
-              </span>
-              <ul class="dropdown-menu">
-                <li v-for="filter in filters">
-                  <button
-                      v-if="filter !== currentFilter && !(filter === FiltersTournamentMatches.MY_MATCHES && !isLogged())"
-                      @click="() => currentFilter = filter"
-                      class="dropdown-item"
-                  >{{ filter }}
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="matchs-cards" v-for="match in tournamentSorted">
-            <div
-              class="match-card"
-              :class="{
-                'match-card--error': match.state === 'NEED_VALIDATION',
-                'cursor': isOwner(tournament) || isUserLoggedInMatch(match)
-              }"
-            >
-              <div>
-                <AppAvatar :src="'data:image/svg+xml;base64,' + getTeam(match.adversaire_a, tournament.teams).avatar"/>
-                <span class="match-card__team-name">{{ getTeam(match.adversaire_a, tournament.teams).libelle }}</span>
-              </div>
-              <span v-if="match.state === 'NEED_VALIDATION' && isOwner(tournament)" class="need-action">
-                <alert-icon fill-color="red" :size="16"/> Action requise
-              </span>
-              <span v-else-if="match.state === 'FINISH'">{{ showScore(match) }}</span>
-              <template v-else>
-                <span class="match-card-text">{{ showMissingScore(match)}}</span>
-              </template>
-              <div>
-                <span class="match-card__team-name">{{ getTeam(match.adversaire_b, tournament.teams).libelle }}</span>
-                <AppAvatar :src="'data:image/svg+xml;base64,' + getTeam(match.adversaire_b, tournament.teams).avatar"/>
-              </div>
-            </div>
-          </div>
-          <div class="d-flex justify-content-center" v-if="tournamentSorted.length >= 5" :class="{'d-none': display === 'matches'}">
-            <p class="show-more" @click="display = 'matches'">Voir plus</p>
-          </div>
-        </template>
+    <div class="d-flex flex-grow-1">
+      <div class="d-flex gap-3" v-if="description">
+        <div class="description">
+          <p style="color: black">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi asperiores
+            assumenda,
+            test test consequuntur earum enim est exercitationem fugiat illum labore nihil nisi odit qui quo
+            reprehenderit, repudiandae sequi tempore ut vitae.</p>
+        </div>
+        <div class="next" @click="description = !description">
+          <chevron-right-icon fill-color="black"/>
+        </div>
       </div>
-      <div
-        class="teams-cards"
-        :class="{
-          'd-none': display !== 'all',
-          'd-all-teams': displayAllTeams
-        }"
-      >
-        <template v-if="tournament.teams.length > 0">
-          <div class="team-card" v-for="team in teamsList">
-            <AppAvatar :src="'data:image/svg+xml;base64,' + team.avatar"/>
-            <div class="team-informations">
-              <p class="team-libelle">{{ team.libelle }}</p>
-              <p class="team-user">{{ team.user.pseudo }}</p>
+      <div class="listings" v-else>
+        <div class="next" @click="description = !description">
+          <chevron-left-icon fill-color="black"/>
+        </div>
+        <div
+            class="matchs-listing"
+            :class="{
+                'd-none-on-768': matches.length <= 0,
+                'matchs-listing--full-width': display === 'matches',
+                'd-none': display !== 'matches' && display !== 'all'
+              }"
+        >
+          <template v-if="matches.length > 0">
+            <div class="matchs-header">
+              <span v-if="display === 'matches'"><arrow-left-icon fill-color="black" @click="display = 'all'"/></span>
+              <span>Matches</span>
+              <div class="dropdown">
+                    <span class="matchs-listing__dropdown" type="button" data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                      {{ currentFilter }} <filter-icon :size="14"/>
+                    </span>
+                <ul class="dropdown-menu">
+                  <li v-for="filter in filters">
+                    <button
+                        v-if="filter !== currentFilter && !(filter === FiltersTournamentMatches.MY_MATCHES && !isLogged())"
+                        @click="() => currentFilter = filter"
+                        class="dropdown-item"
+                    >{{ filter }}
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
+            <div class="matchs-cards" v-for="match in tournamentSorted">
+              <NuxtLink
+                class="match-card"
+                :class="{
+                  'match-card--error': match.state === 'NEED_VALIDATION',
+                  'cursor': isOwner(tournament) || isUserLoggedInMatch(match)
+                }"
+                :to="{ name: 'matchs-id', params: { id: match.id } }"
+              >
+                <div>
+                  <AppAvatar
+                    :src="getTeamAvatar(getTeam(match.adversaire_a, tournament.teams))"
+                  />
+                  <span class="match-card__team-name">{{
+                      getTeam(match.adversaire_a, tournament.teams).libelle
+                    }}</span>
+                </div>
+                <span v-if="match.state === 'NEED_VALIDATION' && isOwner(tournament)" class="need-action">
+                      <alert-icon fill-color="red" :size="16"/> Action requise
+                    </span>
+                <span v-else-if="match.state === 'FINISH'">{{ showScore(match) }}</span>
+                <template v-else>
+                  <span class="match-card-text">{{ showMissingScore(match) }}</span>
+                </template>
+                <div>
+                    <span class="match-card__team-name">{{
+                        getTeam(match.adversaire_b, tournament.teams).libelle
+                      }}</span>
+                  <AppAvatar :src="getTeamAvatar(getTeam(match.adversaire_a, tournament.teams))"/>
+                </div>
+              </NuxtLink>
+            </div>
+            <div class="d-flex justify-content-center" v-if="tournamentSorted.length >= 5"
+                 :class="{'d-none': display === 'matches'}">
+              <p class="show-more" @click="display = 'matches'">Voir plus</p>
+            </div>
+          </template>
+        </div>
+        <div
+            class="teams-cards"
+            :class="{
+                'd-none': display !== 'all',
+                'd-all-teams': displayAllTeams
+              }"
+        >
+          <template v-if="tournament.teams.length > 0">
+            <div class="team-card" v-for="team in teamsList">
+              <AppAvatar
+                :src="getTeamAvatar(team)"
+              />
+              <div class="team-informations">
+                <p class="team-libelle">{{ team.libelle }}</p>
+                <p class="team-user">
+                  <nuxt-link :to="{ name: 'user-id-profile', params: { id: team.user.id }}" class="team-user">
+                    {{ team.user.pseudo }}
+                  </nuxt-link>
+                </p>
+              </div>
+            </div>
+            <div class="team-card team-card--show-more" v-if="tournament.teams.length > 6">
+              <button v-if="!displayAllTeams" @click="displayAllTeams = !displayAllTeams">Voir plus</button>
+              <button v-else @click="displayAllTeams = !displayAllTeams">Voir moins</button>
+            </div>
+          </template>
+          <div v-else class="team-card team-card--show-more">
+            <p>Aucune équipe(s)</p>
           </div>
-          <div class="team-card team-card--show-more" v-if="tournament.teams.length > 6">
-            <button v-if="!displayAllTeams" @click="displayAllTeams = !displayAllTeams">Voir plus</button>
-            <button v-else @click="displayAllTeams = !displayAllTeams">Voir moins</button>
-          </div>
-        </template>
-        <div v-else class="team-card team-card--show-more">
-          <p>Aucune équipe(s)</p>
         </div>
       </div>
     </div>
@@ -165,6 +196,7 @@ import {MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
 import {ScoreModel} from "~/app/models/scoreFormModel";
 import {TournamentModel} from "~/app/models/tournament";
 import {FiltersTournamentMatches} from "~/app/vo/Filters";
+import {TeamModel} from "~/app/models/team.model";
 
 const {currentTournament: tournament, start, unsubscribe} = useTournamentStore()
 const {dateFormatted} = useDate()
@@ -173,7 +205,7 @@ const {
   isCompletlyClose, canBeStarted, isRunning, isOwner, isComplete
 } = useTournament()
 const {getUser, isLogged} = useSecurity()
-const { handleResponse } = useFlashMessages()
+const {handleResponse} = useFlashMessages()
 
 const filters = Object.values(FiltersTournamentMatches)
 const currentFilter = ref(filters[0])
@@ -218,14 +250,16 @@ const showRegisterLabel = ref(!isRegister(tournament) && !isCompletlyClose(tourn
 const action = ref()
 const display = ref('all')
 const displayAllTeams = ref(false)
+const description = ref(true)
 
 function hideActionButtons() {
   return action.value?.childElementCount === 0;
 }
+
 function showScore(match: MatchWithTeamsAndScoresModel) {
   let score = match.scores.at(0)
   if (match.scores.length === 3) {
-     score = match.scores.filter((item: ScoreModel) => item.reporter_id === getUser().id).at(0)
+    score = match.scores.filter((item: ScoreModel) => item.reporter_id === getUser().id).at(0)
   }
 
   let leftScore = score.winner_id === match.team_a.id ? score.winner_score : score.looser_score
@@ -233,6 +267,7 @@ function showScore(match: MatchWithTeamsAndScoresModel) {
 
   return `${leftScore} - ${rightScore}`
 }
+
 function showMissingScore(match: MatchWithTeamsAndScoresModel) {
   if (match.scores.length === 0) {
     return 'Aucune équipe n\'a renseigné de score'
@@ -244,9 +279,10 @@ function showMissingScore(match: MatchWithTeamsAndScoresModel) {
 
   return `L'équipe ${match.team_a.libelle} n'a pas encore renseigné de score`
 }
+
 async function handleUnsubscribe(tournament_id: number) {
   loading.value = true
-  const { status } = await unsubscribe(tournament_id)
+  const {status} = await unsubscribe(tournament_id)
   loading.value = false
 
   handleResponse(
@@ -274,6 +310,10 @@ async function handleStart(tournament: TournamentModel) {
       'Le tournois est maintenant démarré',
       'Un problème est survenu lors du lancement du tournoi'
   )
+}
+
+function getTeamAvatar(team?: TeamModel) {
+  return (team && team.avatar) ?  'data:image/svg+xml;base64,' + team.avatar : null
 }
 </script>
 

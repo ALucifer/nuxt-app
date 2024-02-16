@@ -18,12 +18,6 @@
         <div class="form-group p-2">
           <button type="submit" class="cmn-btn submit-btn">Sauvegarder</button>
         </div>
-        <div v-if="error" class="form-group">
-          <p class="error">
-            Une erreur est survenue lors de votre inscription, merci de réésayer
-            plus tard.
-          </p>
-        </div>
       </AppForm>
     </template>
   </AppSocialContainer>
@@ -31,7 +25,6 @@
 
 <script setup lang="ts">
 import * as yup from "yup";
-import AuthClient from "~/app/client/AuthClient";
 
 definePageMeta({
   auth: {
@@ -42,7 +35,7 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
-const { successMessage, errorMessage } = useFlashMessages()
+const { handleResponse } = useFlashMessages()
 
 const schema = yup.object({
   password: yup
@@ -58,16 +51,25 @@ const schema = yup.object({
       ),
 })
 
-const client = new AuthClient()
-
 async function onSubmit(values) {
-  const success = await client.resetPassword({ token: route.query.token, ...values })
+  const success = await $fetch(
+      '/api/user/resetPassword',
+      {
+        method: 'POST',
+        body: {
+          token: route.query.token,
+          ...values
+        }
+      }
+  )
 
-  if (success) {
-    successMessage('Votre nouveau mot de passe à bien été pris en compte')
-  } else {
-    errorMessage('Une erreur est survenu lors de la mise à jour de votre mot de passe.')
-  }
+  handleResponse(
+      success,
+      'Votre nouveau mot de passe à bien été pris en compte',
+      'Une erreur est survenu lors de la mise à jour de votre mot de passe.'
+  )
+
+  await router.push({ name: 'login' })
 }
 </script>
 

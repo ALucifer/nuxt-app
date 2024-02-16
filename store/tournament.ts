@@ -1,9 +1,6 @@
 import { defineStore } from "pinia";
-import TournamentClient from "~/app/client/TournamentClient";
 import {TournamentModel, TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
 import {TeamModel} from "~/app/models/team.model";
-
-const tournamentClient = new TournamentClient();
 
 export const useTournamentStore = defineStore({
   id: "tournament",
@@ -41,33 +38,40 @@ export const useTournamentStore = defineStore({
       this.currentTournament!.teams!.splice(index, 1)
     },
     async fetchTournaments() {
-      const data = await tournamentClient.all()
+      const data = await $fetch('/api/tournaments/all')
 
       this.setItems(data.data)
       this.setTotal(data.meta.total)
     },
     async fetchTournament(id: number) {
-      return tournamentClient
-          .findById(id)
-          .then((data) => this.currentTournament = data)
-          .catch((error) => error(error));
+      this.currentTournament = await $fetch(`/api/tournaments/${id}`)
+
+      return this.currentTournament
     },
-    fetchNextItems() {
+    async fetchNextItems() {
       this.incrementCurrentPage();
-      tournamentClient.all({
-        page: this.currentPage,
-        ...this.searchForm,
-      }).then((result) => {
-        this.setItems(this.items.concat(result.data))
-      })
+      const items = await $fetch(
+        '/api/tournaments/all',
+        {
+          query: {
+            page: this.currentPage,
+            ...this.searchForm
+          }
+        }
+      )
+      this.setItems(this.items.concat(items.data))
     },
-    sendSearch({ form }: any) {
-      tournamentClient.all(form).then((result) => {
-        this.reset()
-        this.setTotal(result.meta.total)
-        this.setItems(result.data)
-        this.searchForm = form
-      })
+    async sendSearch({ form }: any) {
+      const result = await $fetch(
+          '/api/tournaments/all',
+          {
+            query: form
+          }
+      )
+      this.reset()
+      this.setTotal(result.meta.total)
+      this.setItems(result.data)
+      this.searchForm = form
     },
     reset() {
       this.currentPage = 1;
@@ -84,16 +88,29 @@ export const useTournamentStore = defineStore({
       this.currentPage++;
     },
     async register(form: any) {
-      const { getUser } = useSecurity()
-      form.user_id = getUser().id;
-
-      return await tournamentClient.register(form)
+      return await $fetch(
+          '/api/tournaments/register',
+          {
+            method: 'POST',
+            body: form
+          }
+      )
     },
-    async start(tournament: any) {
-     return await tournamentClient.start(tournament);
+    async start(tournament: TournamentModel) {
+      return $fetch(
+          `/api/tournaments/${tournament.id}/start`,
+          {
+            method: 'POST'
+          }
+      )
     },
     async unsubscribe(tournament_id: number) {
-      return await tournamentClient.unsubscribe(tournament_id);
+      return await $fetch(
+          `/api/tournaments/${tournament_id}/unsubscribe`,
+          {
+            method: 'POST'
+          }
+      )
     },
     setCurrentTournament(tournament: any) {
       this.currentTournament = tournament

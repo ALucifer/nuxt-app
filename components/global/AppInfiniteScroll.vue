@@ -1,5 +1,9 @@
 <template>
-  <div ref="observerTemplate" class="inersection-observer"></div>
+  <div ref="observerTemplate" class="inersection-observer">
+    <div class="spinner-border" role="status" v-if="!done">
+      <span class="sr-only"></span>
+    </div>
+  </div>
 </template>
 <script setup lang="ts">
 const props = defineProps({ done: { type: Boolean, default: false }})
@@ -11,7 +15,7 @@ onMounted(() => {
   observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && !props.done) {
             emit('load')
           }
         })
@@ -31,9 +35,11 @@ onBeforeUnmount(() => {
 </script>
 <style scoped>
 div {
+  display: flex;
+  justify-content: center;
+  padding: 36px;
   position: relative;
   z-index: -1;
   pointer-events: none;
-  bottom: 200px;
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="container">
       <div class="record-tournament--resume-area">
         <div class="row resume-wrapper">
-          <nuxt-img src="images/game-img-1.png" class="col-lg-2"></nuxt-img>
+          <AppImage src="/images/game-img-1.png" class="col-lg-2"></AppImage>
           <div class="col-lg-10 col-md-10 d-grid">
             <div class="d-inline-flex justify-content-between">
               <h3>{{ tournament.libelle }}</h3>

@@ -2,7 +2,7 @@
   <AppTabPane name="bracket" tabName="tournament-view">
     <template v-slot:content>
       <div class="row">
-        <nuxt-img :src="tournament.image_bracket" alt="" />
+        <AppImage :src="tournament.image_bracket" alt="" />
       </div>
     </template>
   </AppTabPane>

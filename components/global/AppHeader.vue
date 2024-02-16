@@ -4,7 +4,7 @@
       <div class="header-container nav-menu">
         <div class="nav-menu__logo">
           <NuxtLink :to="{ name: 'index' }" class="site-logo">
-            <nuxt-img src="/images/logo.png" alt="site-logo" class="logo-header"/>
+            <AppImage src="/images/logo.png" alt="site-logo" class="logo-header"/>
           </NuxtLink>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@
               <hr class="separator"/>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  Rechercher<nuxt-img
+                  Rechercher<AppImage
                     src="/images/search_btn.png"
                     alt="icon"
                     class="search"
@@ -93,7 +93,7 @@
               <span class="">
                 {{ data.user.pseudo }}
               </span>
-              <nuxt-img
+              <AppImage
                   :src="avatar"
                   placeholder="/user-placeholder.png"
                   alt=""

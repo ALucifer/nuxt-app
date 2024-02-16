@@ -8,15 +8,15 @@
     >
   </div>
   <div class="chat-container chat__container" ref="chatContainer">
-    <ul class="chat-box chatContainerScroll">
+    <ul class="chat-box chatContainerScroll" v-if="currentConversation.messages">
       <li
-          v-for="(message, i) in getMessagesByConversation(currentConversation)"
-          class="chat__message"
+          v-for="(message, i) in currentConversation.messages"
           v-observe="{
-          callback: messageRead,
-          useCallback: message.state === 'UNREAD' && !isOwnMessage(message),
-          message,
-        }"
+            callback: messageRead,
+            useCallback: message.state === 'UNREAD' && !isOwnMessage(message),
+            message,
+          }"
+          class="chat__message"
           :key="i"
           :class="{
           'chat__message message-item__left': isOwnMessage(message),
@@ -30,7 +30,7 @@
             'message-item__avatar-right': !isOwnMessage(message),
           }"
         >
-          <nuxt-img
+          <AppImage
               :src="message.fromUser.avatar"
               placeholder="/images/participant-1.png"
               :alt="`${message.fromUser.pseudo} avatar`"
@@ -69,22 +69,32 @@
 
 <script setup lang="ts">
 import {useConversationStore} from "~/store/conversation";
+import {storeToRefs} from "pinia";
+import {MessageModel} from "~/app/models/conversation.model";
 
-const message = ref('')
-const {
-  sendMessage,
-  isOwnMessage, messageRead, getMessagesByConversation, currentConversation
-} = useConversationStore()
+const conversationStore = useConversationStore()
+const { getUser } = useSecurity()
+
+const { currentConversation } = storeToRefs(conversationStore)
+const { sendMessage, sendMessageToNewConversation, messageRead } = conversationStore
 
 const emit = defineEmits(['newMessage'])
 
 const messages = ref()
 const chatContainer = ref()
+const message = ref('')
 
 defineExpose({messages, chatContainer})
 
+function isOwnMessage(message: MessageModel) {
+  return getUser().id === message.fromUser.id
+}
 async function send() {
-  await sendMessage(message.value)
+  if (currentConversation.value!.id === 0) {
+    await sendMessageToNewConversation(message.value)
+  } else {
+    await sendMessage(message.value)
+  }
 
   message.value = ''
   emit('newMessage')

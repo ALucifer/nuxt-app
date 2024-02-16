@@ -26,7 +26,6 @@
 
 <script setup lang="ts">
 import {object, string} from "yup";
-import AuthClient from "~/app/client/AuthClient";
 
 definePageMeta({
   auth: {
@@ -39,20 +38,27 @@ const schema = object({
   email: string().required('Email requis.').email('Email non valide.')
 })
 
-const {addMessage} = useFlashMessages()
+const { handleResponse } = useFlashMessages()
 const router = useRouter()
-const authclient = new AuthClient()
 
-function onSubmit(values, { resetForm }) {
-  authclient.forgotPassword(values.email)
+async function onSubmit(values: any) {
+  const { data } = await useFetch(
+      '/api/user/forgotPassword',
+      {
+        method: 'POST',
+        body: values
+      }
+  )
 
-  addMessage({
-    class: "success",
-    message: "Un message de réinitialisation de mot de passe à été envoyé."
-  })
+  handleResponse(
+      data.value!,
+      "Un message de réinitialisation de mot de passe à été envoyé.",
+      "Une erreur est survenu"
+  )
 
-  resetForm()
-  router.push('/')
+  if (data.value) {
+    await router.push('/')
+  }
 }
 </script>
 

@@ -31,12 +31,7 @@
               class="search-link"
               @click="this.$emit('close')"
             >
-              <nuxt-img
-                :src="user.avatar"
-                placeholder="/user-placeholder.png"
-                class="search-avatar"
-                alt=""
-              />
+              <AppAvatar class="search-avatar" :src="user.avatar" />
               {{ user.pseudo }}
             </NuxtLink>
           </li>
@@ -47,10 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import SearchClient from "~/app/client/SearchClient";
-
-const searchClient = new SearchClient()
-
 const text = ref('')
 const searching = ref(false)
 const users = ref([])
@@ -69,7 +60,16 @@ async function suggestUsers() {
     searching.value = false;
     if (isValidSearch()) {
         searching.value = true;
-        users.value = await searchClient.user(text.value);
+        const { data } = await useFetch(
+            '/api/user/search',
+            {
+              method: 'POST',
+              body: {
+                text: text.value
+              }
+            }
+        )
+        users.value = data.value
         searching.value = false;
     }
 }
