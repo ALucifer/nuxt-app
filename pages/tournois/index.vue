@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BannerTournaments/>
+    <BannerTournaments />
     <section class="tournaments-card">
       <div class="overlay pt-120 pb-120">
         <div class="container wow fadeInUp">

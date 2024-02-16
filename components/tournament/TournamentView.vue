@@ -50,7 +50,7 @@
           <span class="admin-sub-info">
             <calendar-icon class="mr-1" fillColor="black" :size="14"/>{{
               dateFormatted({
-                date: tournament.begin_at,
+                date: tournament.beginAt,
                 format: 'DD MMM YYYY'
               })
             }}
@@ -58,7 +58,7 @@
           <span class="admin-sub-info">
             <calendar-icon class="mr-1" fillColor="black" :size="14"/>{{
               dateFormatted({
-                date: tournament.begin_at,
+                date: tournament.beginAt,
                 format: 'HH : mm'
               })
             }}
@@ -66,9 +66,9 @@
         </div>
         <div class="admin-tags">
           <span class="admin-tag">{{ tournament.format }}</span>
-          <span class="admin-tag admin-tag--large">Best of {{ tournament.best_of }}</span>
-          <span class="admin-tag admin-tag--large">{{ tournament.skill_level }}</span>
-          <span class="admin-tag admin-tag--large">Equipes {{ tournament.max_teams }}</span>
+          <span class="admin-tag admin-tag--large">Best of {{ tournament.bestOf }}</span>
+          <span class="admin-tag admin-tag--large">{{ tournament.skillLevel }}</span>
+          <span class="admin-tag admin-tag--large">Equipes {{ tournament.maxTeams }}</span>
         </div>
       </div>
     </div>

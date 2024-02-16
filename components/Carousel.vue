@@ -10,7 +10,7 @@
                   Tournois {{ isOpen(item) ? "ouvert" : "fermé" }}
                 </p>
                 <h4>{{ item.libelle }}</h4>
-                <CounterTournament :beginAt="item.begin_at" />
+                <CounterTournament :beginAt="item.beginAt" />
                 <div class="btn-area">
                   <nuxt-link
                       v-if="isOpen(item)"

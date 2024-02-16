@@ -32,6 +32,11 @@
 <script setup lang="ts">
 // Penser a checker que le user à bien le droit de donner le score
 import {TeamModel} from "~/app/models/team.model";
+import {definePageMeta} from "#imports";
+
+definePageMeta({
+  middleware: ['show-score'],
+})
 
 const route = useRoute()
 const {data: match, pending} = useFetch(`/api/matches/${route.params.id}`)

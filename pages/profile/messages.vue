@@ -23,11 +23,12 @@ import {storeToRefs} from "pinia";
 import ClientSSE from "~/app/client/sse/ClientSSE";
 
 definePageMeta({
-  layout: 'profile'
+  layout: 'profile',
+  middleware: ['is-new-conversation']
 })
 
-definePageMeta({
-  middleware: ['is-new-conversation']
+useSeoMeta({
+  title: 'Messagerie'
 })
 
 const route = useRoute()

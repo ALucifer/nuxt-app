@@ -17,7 +17,6 @@
                 :class="{ 'profile-informations--verified': true }"
               >
                 <h4>{{ user.pseudo }}</h4>
-                <button @click="test">Update</button>
               </div>
             </div>
           </div>
