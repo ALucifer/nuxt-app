@@ -61,4 +61,7 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
+  routeRules: {
+    '/profile/messages': { redirect: '/profile' }
+  }
 })

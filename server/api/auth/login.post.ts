@@ -7,7 +7,6 @@ export default defineEventHandler(async event => {
         const { data } = await axiosInstance.post('users/login', body)
         return data
     } catch (e) {
-        console.log('Login ou mot de passe incorrect')
-
+        throw createError({ statusCode: 404, message: 'user not found' })
     }
 })

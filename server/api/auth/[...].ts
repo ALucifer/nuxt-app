@@ -36,7 +36,6 @@ export default NuxtAuthHandler({
                             body: { email: credentials.email, password: credentials.password }
                         }
                     )
-
                     return {
                         user: {
                             avatar: data.avatar,
@@ -48,7 +47,7 @@ export default NuxtAuthHandler({
                         token: data.token.token
                     }
                 } catch (e: any) {
-                    return Promise.reject('Erreur')
+                    return null
                 }
             }
         })

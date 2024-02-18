@@ -1,4 +1,5 @@
 import {getToken} from "#auth";
+import {useLogger} from "@nuxt/kit";
 
 export default defineEventHandler(async event => {
     const session = await getToken({ event })
@@ -18,7 +19,11 @@ export default defineEventHandler(async event => {
             }
         )
     } catch (e) {
-        console.log(e.response.data.messages)
-        return null
+         useLogger().error(e)
+
+        throw createError({
+            statusCode: 400,
+            message: 'Une erreur est survenu lors de la création de votre tournoi'
+        })
     }
 })
