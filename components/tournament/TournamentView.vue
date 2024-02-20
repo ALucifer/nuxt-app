@@ -189,11 +189,11 @@
 
 <script setup lang="ts">
 import {useTournamentStore} from "~/store/tournament";
-import {MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
-import {ScoreModel} from "~/app/models/scoreFormModel";
-import {TournamentModel} from "~/app/models/tournament";
+import type {MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
+import type {ScoreModel} from "~/app/models/scoreFormModel";
+import type {TournamentModel} from "~/app/models/tournament";
 import {FiltersTournamentMatches} from "~/app/vo/Filters";
-import {TeamModel} from "~/app/models/team.model";
+import type {TeamModel} from "~/app/models/team.model";
 import {AsyncData} from "#app";
 
 const {currentTournament: tournament, start, unsubscribe} = useTournamentStore()

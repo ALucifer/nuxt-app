@@ -45,5 +45,5 @@
 </template>
 
 <style lang="scss" scoped>
-@import "@/assets/css/components/global/AppFooter.scss";
+@use '~/assets/css/components/global/AppFooter.scss';
 </style>

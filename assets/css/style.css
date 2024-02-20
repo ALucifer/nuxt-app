@@ -435,7 +435,7 @@ span {
 /* How Works */
 #how-works-section {
   position: relative;
-  background-image: url('~/images/how-works-bg.png');
+  /*background-image: url('~/images/how-works-bg.png');*/
   background-size: 100%;
   background-repeat: no-repeat;
 }

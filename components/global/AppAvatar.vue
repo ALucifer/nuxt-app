@@ -42,7 +42,7 @@ function handleAvatarUpload(event: Event) {
   emit("change", event);
 }
 </script>
-<style>
+<style scoped lang="scss">
 img {
   object-fit: cover;
 }

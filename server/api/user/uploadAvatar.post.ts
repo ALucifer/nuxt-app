@@ -21,7 +21,9 @@ export default defineEventHandler(async event => {
 
         return true
     } catch (e) {
-        console.log(e)
-        return false
+        throw  createError({
+            statusCode: e.response.status,
+            message: 'une erreur est survenur lors de la mise à jour de l\'avatar'
+        })
     }
 })

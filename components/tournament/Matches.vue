@@ -47,7 +47,7 @@ import MatchCard from "@/components/MatchCard.vue";
 import MatchModal from "@/components/MatchModal.vue";
 import {useMatchStore} from "~/store/match";
 import useMatchModal from "~/composables/useMatchModal";
-import {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
+import type {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 import { find } from 'lodash'
 
 const props = defineProps<{matches: MatchWithTeamsAndScoresModel}>()

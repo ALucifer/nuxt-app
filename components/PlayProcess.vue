@@ -67,5 +67,5 @@ const { isLogged } = useSecurity()
 </script>
 
 <style style lang="scss" scoped>
-@import "@/assets/css/components/playProcess.scss";
+@use "@/assets/css/components/playProcess.scss";
 </style>

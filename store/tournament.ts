@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import {TournamentModel, TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
-import {TeamModel} from "~/app/models/team.model";
+import {type TournamentModel, type TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
+import {type TeamModel} from "~/app/models/team.model";
 
 export const useTournamentStore = defineStore({
   id: "tournament",

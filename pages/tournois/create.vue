@@ -190,6 +190,7 @@ async function submit(values: any) {
           method: 'POST',
           body: {
             ...values,
+
             owner: getUser().id
           }
         }

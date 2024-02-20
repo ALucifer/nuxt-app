@@ -1,8 +1,8 @@
 import {find} from "lodash"
 import useDate from "~/composables/useDate";
-import {TournamentModel, TournamentModelWithMatches, TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
-import {TeamModel} from "~/app/models/team.model";
-import {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
+import type {TournamentModel, TournamentModelWithMatches} from "~/app/models/tournament";
+import type {TeamModel} from "~/app/models/team.model";
+import type {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
 export default function useTournament() {
     const date = useDate()
