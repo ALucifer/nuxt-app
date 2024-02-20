@@ -5,9 +5,10 @@
         <Stepper :current="currentStep"/>
         <FormWizard
           :validation-schema="schema"
+          :isSubmitLastStep="isSubmitLastStep"
           @submit="submit"
           @changeStep="currentStep = $event.value"
-          v-slot="{ setFieldValue, values }"
+          v-slot="{ setFieldValue, values, useFieldModel }"
         >
           <FormStep>
             <div class="row my-5">
@@ -18,7 +19,7 @@
               </div>
               <div class="col-12 form-group mt-3">
                 <label class="text-14">Date</label>
-                <AppDatePicker name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
+                  <AppDatePicker name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
               </div>
             </div>
           </FormStep>
@@ -109,7 +110,9 @@
               </div>
               <div class="col-12 form-group mt-3">
                 <label class="text-14">Déroulement</label>
-                <AppEditeur />
+               <client-only>
+                  <AppEditeur placeholder="Veuillez renseignez les différentes manches de votre tournois" />
+                </client-only>
               </div>
             </div>
           </FormStep>
@@ -126,6 +129,10 @@ import useRedirection from "~/composables/useRedirection";
 import Stepper from "~/components/stepper/Stepper.vue";
 import FormWizard from "~/components/form/FormWizard.vue";
 import FormStep from "~/components/form/FormStep.vue";
+
+useSeoMeta({
+  title: 'Création d\'un tournoi'
+})
 
 const schema = [
   yup.object({
@@ -170,39 +177,37 @@ const error = ref(false)
 const currentStep = ref(0)
 
 const {getUser} = useSecurity()
-const {handleResponse} = useFlashMessages()
+const {errorMessage, successMessage} = useFlashMessages()
 const {handleRedirect} = useRedirection()
-
-const isSubmitting = ref(false)
-
+const isSubmitLastStep = ref(false)
 async function submit(values: any) {
-  isSubmitting.value = true
+  isSubmitLastStep.value = true
 
-  const tournament = await $fetch(
-      '/api/tournaments/create',
-      {
-        method: 'POST',
-        body: {
-          ...values,
-          progress: 'todo',
-          owner: getUser().id
+  try {
+    const tournament = await $fetch(
+        '/api/tournaments/create',
+        {
+          method: 'POST',
+          body: {
+            ...values,
+            progress: 'todo',
+            owner: getUser().id
+          }
         }
-      }
-  )
+    )
 
-  handleResponse(
-      !!tournament,
-      'Votre tournoi à bien été créé',
-      'Une erreur est survenu lors de la création de votre tournoi'
-  )
+    successMessage('Votre tournoi à bien été créé')
 
-  handleRedirect(
-      !!tournament,
-      { name: 'tournois-id', params: { id: tournament.id } },
-      { path: '/' },
-  )
+    handleRedirect(
+        !!tournament,
+        { name: 'tournois-id', params: { id: tournament.id } },
+        { path: '/' },
+    )
+  } catch (e) {
+    errorMessage('Une erreur est survenu lors de la création de votre tournoi')
+  }
 
-  isSubmitting.value = false
+  isSubmitLastStep.value = false
 }
 </script>
 

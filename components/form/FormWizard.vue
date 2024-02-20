@@ -1,11 +1,23 @@
 <template>
   <form @submit="onSubmit">
-    <slot :setFieldValue="setFieldValue" :values="values"/>
+    <slot :setFieldValue="setFieldValue" :values="values" />
 
     <div class="button-end">
-      <button class="cmn-btn" type="submit">{{ isLastStep ? 'Envoyer' : 'Suivant' }}</button>
+      <button class="cmn-btn" type="submit" v-if="!isLastStep">Suivant</button>
+      <template v-else>
+        <button v-if="isSubmitLastStep" class="cmn-btn submit-btn">
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+        </button>
+        <button v-else class="cmn-btn" type="submit">
+          Envoyer
+        </button>
+      </template>
       <NuxtLink class="btn btn--cancel" v-if="currentStepIdx === 0">Annuler</NuxtLink>
-      <button class="btn btn--previous" v-if="hasPrevious" @click="goToPrev">Précédent</button>
+      <button class="btn btn--previous" v-if="hasPrevious" @click="goToPrev" type="button">Précédent</button>
     </div>
   </form>
 </template>
@@ -19,6 +31,11 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  isSubmitLastStep: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
 });
 
 const emit = defineEmits(['submit', 'changeStep']);
@@ -64,6 +81,7 @@ function goToPrev() {
   if (currentStepIdx.value === 0) {
     return;
   }
+
 
   currentStepIdx.value--;
 }

@@ -24,6 +24,7 @@
             <div class="profile-banner__actions">
               <NuxtLink
                 v-if="isOwnProfile"
+                v-show="false"
                 :to="{ name: 'profile-messages' }"
                 prefetch
                 class="cmn-btn"

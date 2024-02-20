@@ -10,9 +10,9 @@ export default function useTournament() {
 
     function isHalf(tournament: TournamentModel) {
         return (
-            tournament.enroll >= tournament.max_teams / 2 &&
+            tournament.enroll >= tournament.maxTeams / 2 &&
             tournament.state === "OPEN" &&
-            tournament.image_bracket === null &&
+            tournament.imageBracket === null &&
             isOwner(tournament)
         )
     }
@@ -22,12 +22,12 @@ export default function useTournament() {
             isHalf(tournament)
             && isOwner(tournament)
             && tournament.state === 'OPEN'
-            && tournament.image_bracket === null
+            && tournament.imageBracket === null
         )
     }
 
     function isOpen(tournament: TournamentModel) {
-        return tournament.state === "OPEN" && tournament.challonge_id !== null && date.isAfterNow(tournament.begin_at)
+        return tournament.state === "OPEN" && tournament.challongeId !== null && date.isAfterNow(tournament.beginAt)
     }
 
     function isOwner(tournament: TournamentModel) {
@@ -43,17 +43,16 @@ export default function useTournament() {
     }
 
     function isValid(tournament: TournamentModel) {
-        return ['OPEN', 'RUNNING'].includes(tournament.state) && tournament.challonge_id !== null
+        return ['OPEN', 'RUNNING'].includes(tournament.state) && tournament.challongeId !== null
     }
 
     function isCompletlyClose(tournament: TournamentModel) {
         const valid = isValid(tournament)
-
         if (!valid) {
             return true
         }
 
-        return !isRunning(tournament) && date.isBeforeNow(tournament.begin_at);
+        return !isRunning(tournament) && date.isBeforeNow(tournament.beginAt);
     }
 
     function isRunning(tournament: TournamentModel) {
@@ -77,7 +76,7 @@ export default function useTournament() {
     }
 
     function isComplete(tournament: TournamentModel) {
-        return tournament.enroll === tournament.max_teams
+        return tournament.enroll === tournament.maxTeams
     }
 
     function isUserLoggedInMatch(match: MatchWithTeamsAndScoresModel)
