@@ -73,12 +73,8 @@
       </div>
     </div>
     <div class="d-flex flex-grow-1">
-      <div class="d-flex gap-3" v-if="description">
-        <div class="description">
-          <p style="color: black">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi asperiores
-            assumenda,
-            test test consequuntur earum enim est exercitationem fugiat illum labore nihil nisi odit qui quo
-            reprehenderit, repudiandae sequi tempore ut vitae.</p>
+      <div class="d-flex gap-3 flex-grow-1" v-if="description">
+        <div class="description" v-html="tournament.progress">
         </div>
         <div class="next" @click="description = !description">
           <chevron-right-icon fill-color="black"/>
@@ -154,6 +150,7 @@
               <p class="show-more" @click="display = 'matches'">Voir plus</p>
             </div>
           </template>
+          <template v-else> Aucun match pour le moment</template>
         </div>
         <div
             class="teams-cards"
@@ -197,6 +194,7 @@ import {ScoreModel} from "~/app/models/scoreFormModel";
 import {TournamentModel} from "~/app/models/tournament";
 import {FiltersTournamentMatches} from "~/app/vo/Filters";
 import {TeamModel} from "~/app/models/team.model";
+import {AsyncData} from "#app";
 
 const {currentTournament: tournament, start, unsubscribe} = useTournamentStore()
 const {dateFormatted} = useDate()
@@ -218,7 +216,7 @@ function fetchMatches(tournament_id: number) {
 }
 
 const useFetcheMatchesResult = await fetchMatches(tournament.id)
-const matches = ref(useFetcheMatchesResult.data)
+const matches = ref<MatchWithTeamsAndScoresModel[]>(useFetcheMatchesResult.data)
 
 const tournamentSorted = computed(() => {
   let filtered: MatchWithTeamsAndScoresModel[] = []
@@ -332,5 +330,9 @@ function getTeamAvatar(team?: TeamModel) {
 
 .cursor:hover {
   cursor: pointer;
+}
+
+.description :deep(p) {
+  color: black;
 }
 </style>

@@ -9,12 +9,16 @@
                 <p class="text-sm" :class="{ 'text-danger': !isOpen(item) }">
                   Tournois {{ isOpen(item) ? "ouvert" : "fermé" }}
                 </p>
-                <h4>{{ item.libelle }}</h4>
+                <h4>
+                  <nuxt-link :to="{ name: 'tournois-id', params: { id: item.id } }">
+                    {{ item.libelle }}{{ item.id }}
+                  </nuxt-link>
+                </h4>
                 <CounterTournament :beginAt="item.beginAt" />
                 <div class="btn-area">
                   <nuxt-link
-                      v-if="isOpen(item)"
-                    :to="{ name: 'tournois-id-register', params: { id: 1 } }"
+                    v-if="isOpen(item)"
+                    :to="{ name: 'tournois-id-register', params: { id: item.id } }"
                     class="cmn-btn"
                     >S'inscrire</nuxt-link
                   >
@@ -35,7 +39,7 @@
       </Slide>
     </template>
     <template #addons>
-      <Navigation />
+      <Navigation v-if="items.length > 1" />
     </template>
   </Carousel>
 </template>

@@ -111,7 +111,7 @@
               <div class="col-12 form-group mt-3">
                 <label class="text-14">Déroulement</label>
                <client-only>
-                  <AppEditeur placeholder="Veuillez renseignez les différentes manches de votre tournois" />
+                  <AppEditeur name="progress" placeholder="Veuillez renseignez les différentes manches de votre tournois" />
                 </client-only>
               </div>
             </div>
@@ -190,7 +190,6 @@ async function submit(values: any) {
           method: 'POST',
           body: {
             ...values,
-            progress: 'todo',
             owner: getUser().id
           }
         }

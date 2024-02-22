@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <client-only>
     <VueDatePicker
       v-model="date"
       @update:model-value="change"
@@ -12,7 +12,7 @@
     </VueDatePicker>
     <AppField type="hidden" :name="name" />
     <AppErrorMessage class="error" :name="name" />
-  </div>
+  </client-only>
 </template>
 
 <script setup lang="ts">

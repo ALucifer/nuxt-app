@@ -63,5 +63,8 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/profile/messages': { redirect: '/profile' }
+  },
+  build: {
+    transpile: ['@vuepic/vue-datepicker']
   }
 })

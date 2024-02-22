@@ -5,16 +5,16 @@
         :tippy-options="{ hideOnClick: 'toggle', appendTo: 'parent' }"
         :editor="editor"
     >
-      <button @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
+      <button type="button" @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
         Titre
       </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
+      <button type="button" @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
         Sous-titre
       </button>
-      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+      <button type="button" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         Gras
       </button>
-      <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
+      <button type="button" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
         List
       </button>
     </bubble-menu>
@@ -29,7 +29,13 @@ import Placeholder from '@tiptap/extension-placeholder'
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 
-const props = defineProps({ placeholder: { type: String, default: 'Votre texte' }})
+const props = defineProps({
+  placeholder: { type: String, default: 'Votre texte' },
+  name: { type: String, required: true }
+})
+
+const name = computed(() => props.name)
+const { setValue } = useField(name)
 
 const editor = useEditor({
   extensions: [
@@ -38,7 +44,12 @@ const editor = useEditor({
       placeholder: props.placeholder,considerAnyAsEmpty: true
     }),
   ],
+  onUpdate: ({ editor }) => {
+    setValue(editor.getHTML())
+  }
 })
+
+// watch(editor.value!.getHTML()!, (newvalue) => {console.log(newvalue)})
 </script>
 
 <style lang="scss">

@@ -24,7 +24,8 @@ export type TournamentModel = {
     owner: number,
     imageBracket: null|string,
     teams?: TeamModel[],
-    matches?: MatchModel[] | MatchWithTeamsAndScoresModel[]
+    matches?: MatchModel[] | MatchWithTeamsAndScoresModel[],
+    progress: string,
 }
 
 export type TournamentModelWithTeams = TournamentModel & {
