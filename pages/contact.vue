@@ -8,7 +8,7 @@
             <div class="col-lg-10">
               <div class="section-header text-center">
                 <h5>Contactez-nous</h5>
-                <h2 class="title">Get in touch today!</h2>
+                <h2 class="title">Prenez contact!</h2>
                 <p>
                   Nous mettons tout en place pour convenir à vos besoins.
                   N'hésitez pas !
