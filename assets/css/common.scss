@@ -61,12 +61,12 @@
     }
 }
 
-$textSize: (10: 10px, 14: 14px);
+$textSize: (8: 8px, 10: 10px, 12: 12px, 14: 14px, 16: 16px);
 
 .text {
     @each $name, $size in $textSize {
         &-#{$name} {
-            font-size: $size !important;
+            font-size: $size;
         }
     }
 }

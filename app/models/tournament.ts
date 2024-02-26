@@ -2,8 +2,8 @@ import {Level} from "~/app/vo/Level";
 import {BestOf} from "~/app/vo/BestOf";
 import {Format} from "~/app/vo/Format";
 import {Participant} from "~/app/vo/Participant";
-import {TeamModel} from "~/app/models/team.model";
-import {MatchModel, MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
+import type {TeamModel} from "~/app/models/team.model";
+import type { MatchModel, MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
 
 export type TournamentModel = {

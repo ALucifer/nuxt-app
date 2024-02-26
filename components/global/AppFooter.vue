@@ -1,6 +1,6 @@
 <template>
   <footer class="footer__wrapper">
-    <div class="footer__mid pt-120">
+    <div class="footer__mid">
       <div class="container">
         <div class="footer-item-container">
           <div class="logo-section">
@@ -45,5 +45,5 @@
 </template>
 
 <style lang="scss" scoped>
-@import "@/assets/css/components/global/AppFooter.scss";
+@use '~/assets/css/components/global/AppFooter.scss';
 </style>

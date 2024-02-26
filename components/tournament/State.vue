@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { TournamentModel } from "~/app/models/tournament";
+import type { TournamentModel } from "~/app/models/tournament";
 import useTournament from "~/composables/useTournament";
 import useDate from "~/composables/useDate";
 const { dateToNow, dateFormatted, isAfterNow } = useDate()

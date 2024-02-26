@@ -4,10 +4,8 @@
     <NuxtLoadingIndicator />
     <div class="main">
       <NuxtLayout>
-        <div>
-          <NuxtPage :key="date" />
-          <AppSidebar />
-        </div>
+        <NuxtPage :key="date" />
+        <AppSidebar />
       </NuxtLayout>
     </div>
     <AppNotifications />

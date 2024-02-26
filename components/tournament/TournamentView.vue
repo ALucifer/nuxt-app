@@ -74,7 +74,10 @@
     </div>
     <div class="d-flex flex-grow-1">
       <div class="d-flex gap-3 flex-grow-1" v-if="description">
-        <div class="description" v-html="tournament.progress">
+        <div class="description">
+          <template v-if="tournament.progress" v-html="tournament.progress">
+          </template>
+          <template v-else>Pas de description du déroulement du tournoi actuellement</template>
         </div>
         <div class="next" @click="description = !description">
           <chevron-right-icon fill-color="black"/>
@@ -189,12 +192,11 @@
 
 <script setup lang="ts">
 import {useTournamentStore} from "~/store/tournament";
-import {MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
-import {ScoreModel} from "~/app/models/scoreFormModel";
-import {TournamentModel} from "~/app/models/tournament";
+import type {MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
+import type {ScoreModel} from "~/app/models/scoreFormModel";
+import type {TournamentModel} from "~/app/models/tournament";
 import {FiltersTournamentMatches} from "~/app/vo/Filters";
-import {TeamModel} from "~/app/models/team.model";
-import {AsyncData} from "#app";
+import type {TeamModel} from "~/app/models/team.model";
 
 const {currentTournament: tournament, start, unsubscribe} = useTournamentStore()
 const {dateFormatted} = useDate()

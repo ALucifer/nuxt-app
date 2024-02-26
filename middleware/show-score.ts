@@ -1,4 +1,4 @@
-import {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
+import type {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const { getUser } = useSecurity()

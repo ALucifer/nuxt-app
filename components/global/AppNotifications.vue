@@ -24,6 +24,6 @@ import useFlashMessages from "~/composables/useFlashMessages";
 const { messages, removeMessage } = useFlashMessages();
 </script>
 
-<style scoped>
-@import "@/assets/css/components/global/AppNotifications.scss";
+<style lang="scss" scoped>
+@use "assets/css/components/global/AppNotifications.scss";
 </style>

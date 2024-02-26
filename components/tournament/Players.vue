@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import {TournamentModel} from "~/app/models/tournament";
+import type {TournamentModel} from "~/app/models/tournament";
 
 defineProps<{tournament: TournamentModel}>()
 

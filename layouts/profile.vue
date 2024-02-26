@@ -1,36 +1,18 @@
 <template>
-    <div>
-      <ProfileBanner :isOwnProfile="true" :user="user" v-if="user" />
+    <div class="profile">
       <slot />
     </div>
 </template>
 
-<script setup lang="ts">
-import ProfileBanner from "@/components/ProfileBanner";
-
-const { data } = useAuth()
-
-const user = data.value.user
-</script>
-
 <style lang="scss">
-.right {
-  > .text-sm {
-    color: var(--body-color);
-  }
-}
-
-.tournaments-slider {
-  margin-top: 80px;
-}
-.tournaments-slider .top-area h5 {
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.tournaments-slider .top-area {
-  margin-bottom: 30px;
-}
-.single-slide {
-  padding: 0 10px;
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 560px;
+  background-image: url("@/assets/images/about-bg-overlay.png"), url("@/assets/images/about-bg.png");
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100%, 100% 100%;
+  background-position-y: bottom;
 }
 </style>

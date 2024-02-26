@@ -60,3 +60,8 @@ function change(item) {
 }
 </script>
 
+<style lang="scss" scoped>
+* + * {
+  color: white;
+}
+</style>
