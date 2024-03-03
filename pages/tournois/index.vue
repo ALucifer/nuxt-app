@@ -5,7 +5,7 @@
       <div class="overlay pt-120 pb-120">
         <div class="container wow fadeInUp">
           <SearchFormTournament @search="searchFilter($event)" />
-          <p>Nombre de résultat(s) : {{ tournamentStore.total }}</p>
+          <p class="text-white">Nombre de résultat(s) : {{ tournamentStore.total }}</p>
           <transition-group name="flip-list" tag="div" class="search__result">
             <tournamentCard
               v-for="item in tournamentStore.filteredItems"

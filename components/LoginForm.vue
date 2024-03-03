@@ -56,7 +56,7 @@ const router = useRouter()
 const { signIn } = useAuth()
 const route = useRoute()
 
-let redirect = route.query.callbackUrl as string ?? '/profile'
+let redirect = route.query.callbackUrl as string ?? router.resolve({ name: 'profile-slug', params: { slug: 'general' }}).href
 
 onMounted(() => {
   if (route.query.error) {

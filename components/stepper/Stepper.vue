@@ -26,6 +26,7 @@ const steps = ['Informations', 'Paramètres', 'Déroulé']
     align-items: center;
     justify-content: center;
     margin: 32px;
+    color: white;
   }
 }
 </style>

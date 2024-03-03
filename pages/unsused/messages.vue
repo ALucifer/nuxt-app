@@ -100,5 +100,5 @@ function scrollToNewMessage() {
 </script>
 
 <style lang="scss">
-@import "@/assets/css/pages/profile/messageList.scss";
+@import "assets/css/pages/profile/messageList";
 </style>

@@ -99,5 +99,6 @@ const editor = useEditor({
 }
 .nb {
   font-size: 10px;
+  color: white;
 }
 </style>

@@ -41,7 +41,7 @@
                 <NuxtLink class="nav-link" :to="{ name: 'register' }">Inscription</NuxtLink>
               </li>
               <li class="nav-item" v-if="status === 'authenticated'">
-                <NuxtLink class="nav-link" :to="{ name: 'profile' }">Profile</NuxtLink>
+                <NuxtLink class="nav-link" :to="{ name: 'profile-slug', params: { slug: 'general' } }">Profile</NuxtLink>
               </li>
               <li class="nav-item" v-if="status === 'authenticated'">
                 <a class="nav-link" @click="signOut()">Deconnexion</a>
@@ -129,5 +129,9 @@ const avatar = computed(() => data.value!.user!.avatar ?? '/')
 <style lang="scss">
 .search {
   margin-left: 8px;
+
+  &--button {
+    color: white;
+  }
 }
 </style>

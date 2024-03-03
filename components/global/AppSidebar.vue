@@ -11,7 +11,7 @@
     <div class="offcanvas-body">
       <ul>
         <li class="sidebar--menu-item">
-          <NuxtLink :to="{ name: 'profile' }" class="link-action--full" @click="toggle()">
+          <NuxtLink :to="{ name: 'profile-slug', params: { slug: 'general' } }" class="link-action--full" @click="toggle()">
             <account-icon class="me-2" />
             Profile
           </NuxtLink>
@@ -23,7 +23,7 @@
           </NuxtLink>
         </li>
         <li class="sidebar--menu-item">
-          <button @click="logout()" class="link-action--full text-start">
+          <button @click="logout()" class="link-action--full text-start text-white">
             <logout-icon class="me-2" />
             <span>Se deconnecter</span>
           </button>
