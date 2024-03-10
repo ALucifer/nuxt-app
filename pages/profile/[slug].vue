@@ -1,63 +1,56 @@
 <template>
-  <div class="profile__container">
-    <div class="profile__banner">
-      <div class="profile__banner-user-info">
-        <AppAvatar class="profile__avatar" :src="getUser().avatar" />
+  <div class="spots-container">
+    <div class="profile__container">
+      <div class="profile__banner">
+        <div class="profile__banner-user-info">
+          <AppAvatar
+            class="profile__avatar"
+            :src="getUser().avatar"
+            :editable="true"
+            @change="handleChangeAvatar($event)"
+          />
+        </div>
+        <div class="profile__banner-user-pseudo">{{ getUser().pseudo }}</div>
       </div>
-      <div class="profile__banner-user-pseudo">{{ getUser().pseudo }}</div>
-    </div>
-    <div class="container-main">
-      <div class="profile__sidebar">
-        <ul class="d-none d-sm-block">
-          <li>
+      <div class="container-main">
+        <div class="profile__sidebar">
+          <ul class="d-none d-sm-block">
+            <li>
+              <NuxtLink
+                :to="{ name: 'profile-slug', params: { slug: 'general' }}"
+                :class="{ 'tab-active': $route.params.slug === 'general'}">
+                Général
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink
+                :to="{ name: 'profile-slug', params: { slug: 'tournaments' }}"
+                :class="{ 'tab-active': $route.params.slug === 'tournaments'}">
+                Tournois
+              </NuxtLink>
+            </li>
+          </ul>
+          <div class="d-block d-sm-none">
             <NuxtLink
-              :to="{ name: 'profile-slug', params: { slug: 'general' }}"
-              :class="{ 'tab-active': $route.params.slug === 'general'}">
+                class="mobile-tab"
+                :to="{ name: 'profile-slug', params: { slug: 'general' }}"
+                :class="{ 'mobile-tab-active': $route.params.slug === 'general'}">
               Général
             </NuxtLink>
-          </li>
-          <li>
             <NuxtLink
-              :to="{ name: 'profile-slug', params: { slug: 'tournaments' }}"
-              :class="{ 'tab-active': $route.params.slug === 'tournaments'}">
+                class="mobile-tab"
+                :to="{ name: 'profile-slug', params: { slug: 'tournaments' }}"
+                :class="{ 'mobile-tab-active': $route.params.slug === 'tournaments'}">
               Tournois
             </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink
-              :to="{ name: 'profile-slug', params: { slug: 'bugs' }}"
-              :class="{ 'tab-active': $route.params.slug === 'bugs'}">
-              Bug report
-            </NuxtLink>
-          </li>
-        </ul>
-        <div class="d-block d-sm-none">
-          <NuxtLink
-              class="mobile-tab"
-              :to="{ name: 'profile-slug', params: { slug: 'general' }}"
-              :class="{ 'mobile-tab-active': $route.params.slug === 'general'}">
-            Général
-          </NuxtLink>
-          <NuxtLink
-              class="mobile-tab"
-              :to="{ name: 'profile-slug', params: { slug: 'tournaments' }}"
-              :class="{ 'mobile-tab-active': $route.params.slug === 'tournaments'}">
-            Tournois
-          </NuxtLink>
-          <NuxtLink
-              class="mobile-tab"
-              :to="{ name: 'profile-slug', params: { slug: 'bugs' }}"
-              :class="{ 'mobile-tab-active': $route.params.slug === 'bugs'}">
-            Bug report
-          </NuxtLink>
+          </div>
         </div>
-      </div>
-      <div class="profile-main">
-        <div class="general active" v-if="$route.params.slug === 'general'">Général</div>
-        <div class="tournaments active" v-if="$route.params.slug === 'tournaments'">
-          <TournamentListing />
+        <div class="profile-main">
+          <div class="general active" v-if="$route.params.slug === 'general'">Général, régler le probleme d'opacité au hover de l'avatar</div>
+          <div class="tournaments active" v-if="$route.params.slug === 'tournaments'">
+            <TournamentListing />
+          </div>
         </div>
-        <div class="bugs" v-if="$route.params.slug === 'bugs'">Bug report</div>
       </div>
     </div>
   </div>
@@ -69,7 +62,7 @@ import TournamentListing from "~/components/profile/TournamentListing.vue";
 definePageMeta({
   layout: 'profile',
   validate: async (route) => {
-    return ['general', 'tournaments', 'bugs'].includes(<string>route.params.slug)
+    return ['general', 'tournaments'].includes(<string>route.params.slug)
   }
 })
 
@@ -78,9 +71,48 @@ useSeoMeta({
 })
 
 const { getUser } = useSecurity()
+
+function handleChangeAvatar(e: any) {
+  const { errorMessage } = useFlashMessages()
+  const status = useFetch(
+      '/api/user/uploadAvatar',
+      {
+        method: 'POST',
+        body: e.target.files,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+  )
+
+  if(!status) {
+    errorMessage('Une erreur est survenu lors de la mise à jour de votre avatar.')
+  }
+}
 </script>
 
 <style lang="scss">
+.avatar {
+  &-edit {
+    width: 100%;
+    height: 100%;
+  }
+
+  &-img {
+    position: initial;
+    margin-left: initial;
+    border-radius: 50%;
+  }
+}
+
+.spots-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  z-index: 1;
+}
+
 .general, .tournaments, .bugs {
   display: none;
 }
@@ -100,8 +132,6 @@ const { getUser } = useSecurity()
     flex-direction: column;
     width: 1200px;
     min-height: 800px;
-    position: absolute;
-    top: 20%;
     background-color: white;
 
     @media (max-width: 1199px) {
@@ -156,6 +186,10 @@ const { getUser } = useSecurity()
     background-color: white;
     border-radius: 50%;
     border: 2px solid white;
+
+    :hover .avatar-img {
+      opacity: 0.25;
+    }
   }
 
   &__sidebar {

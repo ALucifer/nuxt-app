@@ -1,19 +1,21 @@
 import {getToken} from "#auth";
-import axiosInstance from "~/app/client/axios";
 
 export default defineEventHandler(async event => {
     const session = await getToken({ event })
     if (!session) return
 
-    const body = await readBody(event)
+    const formData = await readFormData(event);
+
+    console.log(formData)
 
     try {
-        await axiosInstance.post(
+        await fetchSpotsApi(
             '/me/avatar',
-            body,
             {
+                method: 'post',
+                // body: formData,
                 headers: {
-                    Authorization: 'Bearer ' + session.token,
+                    Authorization: 'Bearer ' + session!.token,
                     'Content-Type': 'multipart/form-data'
                 }
             }
@@ -21,6 +23,7 @@ export default defineEventHandler(async event => {
 
         return true
     } catch (e) {
+        // console.log(e.response._data)
         throw  createError({
             statusCode: e.response.status,
             message: 'une erreur est survenur lors de la mise à jour de l\'avatar'
