@@ -499,7 +499,6 @@ span {
 /* About Us Start */
 #about-us-section .overlay {
   background-image: url('~/assets/images/about-us-bg.png');
-  /*background-image: url(../images/about-us-bg.png);*/
   background-repeat: no-repeat;
   background-position: bottom;
   padding-bottom: 440px;
