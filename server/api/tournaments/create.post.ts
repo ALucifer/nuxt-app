@@ -1,4 +1,4 @@
-import {getToken} from "#auth";
+import {getToken} from "#auth"
 
 export default defineEventHandler(async event => {
     const session = await getToken({ event })

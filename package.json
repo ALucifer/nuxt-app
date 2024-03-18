@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.0.0-beta.2",
-    "@sidebase/nuxt-auth": "^0.6.7",
     "cypress": "^13.1.0",
     "nuxt": "^3.10.3",
     "sass": "^1.54.7",
@@ -20,6 +19,7 @@
     "@nuxtjs/dayjs": "^1.4.1",
     "@pinia/nuxt": "^0.4.1",
     "@popperjs/core": "^2.11.6",
+    "@sidebase/nuxt-auth": "^0.7.0",
     "@tiptap/extension-bubble-menu": "^2.2.3",
     "@tiptap/extension-floating-menu": "^2.2.3",
     "@tiptap/extension-placeholder": "^2.2.3",
@@ -34,7 +34,6 @@
     "dayjs": "^1.11.5",
     "lodash": "^4.17.21",
     "minidenticons": "^1.0.3",
-    "next-auth": "4.22.5",
     "pinia": "^2.0.21",
     "vee-validate": "^4.5.7",
     "vue-content-loader": "^2.0.1",

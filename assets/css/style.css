@@ -498,7 +498,7 @@ span {
 
 /* About Us Start */
 #about-us-section .overlay {
-  background-image: url('~/assets/images/about-us-bg.png');
+  /*background-image: url(../images/about-us-bg.png);*/
   background-repeat: no-repeat;
   background-position: bottom;
   padding-bottom: 440px;
@@ -548,14 +548,14 @@ span {
   position: relative;
 }
 #tournaments-content .bracket-area .group-bracket .bracket-single.second::before {
-  background-image: url("~/assets/images/bracket-line-2.png");
+  /*background-image: url(../images/bracket-line-2.png);*/
   background-repeat: no-repeat;
   top: calc(50% - 135px);
 }
 #tournaments-content .bracket-area .group-bracket .bracket-single::before {
   position: absolute;
   content: "";
-  background-image: url("~/assets/images/bracket-line.png");
+  /*background-image: url(../images/bracket-line.png);*/
   background-repeat: no-repeat;
   width: 15px;
   height: 100%;
