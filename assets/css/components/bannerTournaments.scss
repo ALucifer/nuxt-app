@@ -15,7 +15,7 @@
     }
     .breadcrumb-item + .breadcrumb-item {
       &::before {
-        background-image: url("~@/assets/images/single-right.png");
+        background-image: url("@/assets/images/single-right.png");
         background-repeat: no-repeat;
         content: "";
         width: 22px;
