@@ -21,14 +21,12 @@ export default defineNuxtConfig({
     ],
   ],
   auth: {
-    origin: '127.0.0.1:3333',
+    origin: 'http://127.0.0.1:3333',
+    baseURL: process.env.AUTH_ORIGIN,
     globalAppMiddleware: true,
     isEnabled: true,
-    globalAppMiddleware: {
-      isEnabled: true
-    },
     provider: {
-      type: 'authjs'
+      type: 'authjs',
     }
   },
   css: [

@@ -1,3 +1,6 @@
+import { consola } from 'consola'
+
 export default defineEventHandler((event) => {
-    console.log('New request: ' + getRequestURL(event))
+
+    consola.success(`[${event.method}] ${getRequestURL(event)}`)
 })

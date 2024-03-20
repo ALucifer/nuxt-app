@@ -1,5 +1,5 @@
 <template>
-  <div class="offcanvas offcanvas-end" :class="{ show: isOpen() }"  v-click-outside="() => close()" >
+  <div class="offcanvas offcanvas-end" :class="{ show: isOpen() }" v-click-outside="() => close()" >
     <div class="offcanvas-header">
       <button
         type="button"

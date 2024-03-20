@@ -1,7 +1,6 @@
 <template>
   <div class="search-popup">
     <form
-      action=""
       class="search-form"
       v-click-outside="() => emit('close')"
     >
