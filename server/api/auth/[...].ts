@@ -9,7 +9,7 @@ async function verifyToken(token: any) {
 // @ts-ignore
 export default NuxtAuthHandler({
     // A secret string you define, to ensure correct encryption
-    secret: 'your-secret-here',
+    secret: 'gargragroajg',
     debug: false,
     pages: {
         signIn: '/login',
