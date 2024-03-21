@@ -3,8 +3,7 @@
     <label class="avatar-edit">
       <AppImage
         :src="src"
-        v-bind="$attrs"
-        class="avatar-img"
+        :class="[imgClass ? imgClass : 'avatar-img']"
       />
       <div class="avatar-upload-overlay">
         <download-icon />
@@ -28,7 +27,8 @@
 <script setup lang="ts">
 interface Avatar {
   src: string|null,
-  editable?: boolean
+  editable?: boolean,
+  imgClass?: string|null,
 }
 withDefaults(
     defineProps<Avatar>(),
@@ -50,10 +50,6 @@ img {
 .avatar-edit {
   position: relative;
   cursor: pointer;
-}
-
-.avatar-edit:hover {
-  opacity: 0.9;
 }
 
 .avatar-edit .avatar-upload-overlay {

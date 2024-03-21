@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import {type TournamentModel, type TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
 import {type TeamModel} from "~/app/models/team.model";
+import {useAsyncData} from "#app";
 
 export const useTournamentStore = defineStore({
   id: "tournament",
@@ -38,10 +39,17 @@ export const useTournamentStore = defineStore({
       this.currentTournament!.teams!.splice(index, 1)
     },
     async fetchTournaments() {
-      const data = await $fetch('/api/tournaments/all')
+      const { data} = await useAsyncData(
+          'tournament-list',
+          () => $fetch('/api/tournaments/all'),
+      )
 
-      this.setItems(data.data)
-      this.setTotal(data.meta.total)
+      if (!data.value) {
+        return
+      }
+
+      this.setItems(data.value.data)
+      this.setTotal(data.value.meta.total)
     },
     async fetchTournament(id: number) {
       this.currentTournament = await $fetch(`/api/tournaments/${id}`)
@@ -50,27 +58,29 @@ export const useTournamentStore = defineStore({
     },
     async fetchNextItems() {
       this.incrementCurrentPage();
-      const items = await $fetch(
-        '/api/tournaments/all',
-        {
-          query: {
-            page: this.currentPage,
-            ...this.searchForm
-          }
+      const { data } = await useAsyncData(
+    `tournament-list-${this.currentPage}`,
+    () => $fetch(
+      '/api/tournaments/all',
+      {
+        query: {
+          page: this.currentPage,
+          ...this.searchForm
         }
-      )
-      this.setItems(this.items.concat(items.data))
+      }
+      ))
+      this.setItems(this.items.concat(data.value.data))
     },
     async sendSearch({ form }: any) {
-      const result = await $fetch(
+      const { data } = await useAsyncData('search-tournament', () => $fetch(
           '/api/tournaments/all',
           {
             query: form
           }
-      )
+      ))
       this.reset()
-      this.setTotal(result.meta.total)
-      this.setItems(result.data)
+      this.setTotal(data.value.meta.total)
+      this.setItems(data.value.data)
       this.searchForm = form
     },
     reset() {
