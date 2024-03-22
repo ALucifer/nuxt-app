@@ -53,3 +53,9 @@ useHead({
   description: "Page de contact."
 })
 </script>
+
+<style lang="scss" scoped>
+* + * {
+  color: white;
+}
+</style>

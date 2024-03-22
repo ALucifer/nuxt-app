@@ -6,8 +6,17 @@
     flex-grow: 1;
     align-items: center;
 
+    @media (max-width: 991px) {
+      justify-content: space-between;
+    }
+
     .site-logo {
       margin-top: -4px;
+
+      @media (max-width: 991px) {
+        margin-right: 12px;
+        margin-top: initial;
+      }
     }
   }
 
@@ -15,6 +24,8 @@
     margin-right: 60px;
 
     @media (max-width: 991px) {
+      display: none;
+
       .main-menu {
         padding-top: 30px;
       }
@@ -147,6 +158,7 @@
 @media (max-width: 991px) {
   .navbar-toggler {
     display: inline-block;
+    color: white;
 
     i {
       color: var(--body-color);
@@ -220,4 +232,9 @@
 
 .logo-header {
   height: 70px;
+
+  @media (max-width: 991px) {
+    height: 50px;
+    width: 60px;
+  }
 }

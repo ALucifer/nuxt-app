@@ -6,6 +6,11 @@
 	background-size: 117%;
 	background-repeat: no-repeat;
 	z-index: 0;
+    
+    @media (max-width: 1199px) {
+        padding-top: 100px;
+    }
+    
     .section-content {
         display: flex;
         align-items: center;

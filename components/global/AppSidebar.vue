@@ -54,8 +54,9 @@ function logout () {
   background-color: inherit;
 }
 .offcanvas {
-  width: 350px !important;
+  width: 200px !important;
   background-color: #6610f2;
+  color: white;
 }
 
 .sidebar {
