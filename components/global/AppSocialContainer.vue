@@ -1,5 +1,5 @@
 <template>
-  <section class="authentication pb-120 pt-120">
+  <section class="authentication pb-120 pt-120 h-100">
     <div class="container">
       <div class="authentication-container">
         <div class="col-lg-6">

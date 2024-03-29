@@ -71,22 +71,26 @@ useSeoMeta({
 })
 
 const { getUser } = useSecurity()
+const auth = useAuth()
 
-function handleChangeAvatar(e: any) {
+async function handleChangeAvatar(e: any) {
+  let formData = new FormData();
+  formData.append("avatar", e.target.files[0]);
+
   const { errorMessage } = useFlashMessages()
-  const status = useFetch(
+
+  const { error } = await useFetch(
       '/api/user/uploadAvatar',
       {
         method: 'POST',
-        body: e.target.files,
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+        body: formData,
       }
   )
 
-  if(!status) {
+  if(error.value !== null) {
     errorMessage('Une erreur est survenu lors de la mise à jour de votre avatar.')
+  } else {
+    await auth.getSession({ force: true, required: true })
   }
 }
 </script>

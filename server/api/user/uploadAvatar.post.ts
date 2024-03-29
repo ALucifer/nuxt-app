@@ -1,32 +1,36 @@
 import {getToken} from "#auth";
+import type { MultiPartData } from "h3";
 
 export default defineEventHandler(async event => {
     const session = await getToken({ event })
-    if (!session) return
-
-    const formData = await readFormData(event);
-
-    console.log(formData)
+    if (!session) return createError({ statusCode: 403, message: 'You are not authorize to perform this action.'})
 
     try {
-        await fetchSpotsApi(
-            '/me/avatar',
+        const files = await readMultipartFormData(event)
+
+        if (!files) {
+            return createError({ statusCode: 400, message: 'Missing file.' })
+        }
+
+        const file: MultiPartData = files[0]
+
+        const blob = new Blob([file.data], {type: file.type})
+        const avatar = new File([blob], file.filename ?? 'file',  { type: files[0].type})
+
+        const form = new FormData()
+        form.append('avatar', avatar)
+
+        return await fetchSpotsApi(
+            'me/avatar',
             {
-                method: 'post',
-                // body: formData,
+                method: 'POST',
+                body: form,
                 headers: {
                     Authorization: 'Bearer ' + session!.token,
-                    'Content-Type': 'multipart/form-data'
                 }
             }
         )
-
-        return true
-    } catch (e) {
-        // console.log(e.response._data)
-        throw  createError({
-            statusCode: e.response.status,
-            message: 'une erreur est survenur lors de la mise à jour de l\'avatar'
-        })
+    } catch (error) {
+        return createError({ statusCode: 400, message: 'Something when wrong in upload avatar'})
     }
 })

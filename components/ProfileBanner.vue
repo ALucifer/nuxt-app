@@ -49,21 +49,22 @@ const { getUser: auth } = useSecurity()
 defineProps({ user: { type: Object, required: true }, isOwnProfile: { type: Boolean, default: false }})
 
 function changeAvatar(e: Event) {
-  let formData = new FormData();
-  formData.append("avatar", e.target.files[0]);
-
-  const { errorMessage } = useFlashMessages()
-  const status = $fetch(
-      '/api/user/uploadAvatar',
-      {
-        method: 'POST',
-        body: formData
-      }
-  )
-
-  if(!status) {
-    errorMessage('Une erreur est survenu lors de la mise à jour de votre avatar.')
-  }
+  // let formData = new FormData();
+  // formData.append("avatar", e.target.files[0]);
+  //
+  console.log(e.target)
+  // const { errorMessage } = useFlashMessages()
+  // const status = $fetch(
+  //     '/api/user/uploadAvatar',
+  //     {
+  //       method: 'POST',
+  //       body: formData
+  //     }
+  // )
+  //
+  // if(!status) {
+  //   errorMessage('Une erreur est survenu lors de la mise à jour de votre avatar.')
+  // }
 }
 </script>
 

@@ -21,12 +21,34 @@
 }
 .ani-illu {
   position: relative;
-  bottom: -35px;
   z-index: -1;
-  margin-bottom: 34px;
   img {
     position: absolute;
   }
+
+  @media (max-width: 1199px) {
+    .left-1, .right-2 {
+      width: 500px;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .left-1, .right-2 {
+      width: 300px;
+    }
+
+    .left-1 {
+      left: -5%!important;
+    }
+    .right-2 {
+      right: -5%!important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+
   .left-1 {
     left: -15%;
     bottom: 0;

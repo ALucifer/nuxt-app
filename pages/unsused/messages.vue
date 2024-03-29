@@ -71,7 +71,6 @@ onMounted(async () => {
   clientSSE.connect()
 
   clientSSE.eventSource.onmessage = ({ data }) => {
-    console.log(JSON.parse(data))
     messageHasArrived(JSON.parse(data))
     if (currentConversation.value && currentConversation.value.id === JSON.parse(data).id) {
       scrollToNewMessage();

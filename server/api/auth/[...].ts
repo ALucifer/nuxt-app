@@ -111,6 +111,7 @@ export default NuxtAuthHandler({
                 return Promise.reject('Invalid token')
             }
 
+            token.user = tokenValid.user
 
             return Promise.resolve(token);
         },
