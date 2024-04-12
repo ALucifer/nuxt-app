@@ -1,25 +1,20 @@
 <template>
-  <div class="banner">
-    <div class="image-banner__container">
-      <AppImage
-        class="image-banner__img image-banner__img--1"
-        src="/images/banner-circle-1.png"
-        alt="icon"
-      />
-      <AppImage
-        class="image-banner__img image-banner__img--2"
-        src="/images/banner-circle-2.png"
-        alt="icon"
-      />
-      <AppImage
-        class="image-banner__img image-banner__img--3"
-        src="/images/banner-circle-2.png"
-        alt="icon"
-      />
-    </div>
-    <div class="container">
-      <slot name="content"></slot>
-    </div>
+  <div class="banner__container">
+    <AppImage
+      class="banner__img banner__img--1"
+      src="/images/banner-circle-1.png"
+      alt="icon"
+    />
+    <AppImage
+      class="banner__img banner__img--2"
+      src="/images/banner-circle-2.png"
+      alt="icon"
+    />
+    <AppImage
+      class="banner__img banner__img--3"
+      src="/images/banner-circle-2.png"
+      alt="icon"
+    />
   </div>
 </template>
 

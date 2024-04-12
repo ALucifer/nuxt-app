@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <BannerTournaments />
+  <div class="pt-4">
+    <div class="container">
+      <Carousel :items="data" />
+    </div>
     <section class="tournaments-card">
       <div class="overlay pt-120 pb-120">
         <div class="container wow fadeInUp">
@@ -32,7 +34,8 @@
 import TournamentCard from "@/components/TournamentCard"
 import SearchFormTournament from "@/components/SearchFormTournament";
 import { useTournamentStore } from "~/store/tournament";
-import BannerTournaments from "~/components/BannerTournaments.vue";
+import Carousel from "~/components/Carousel.vue";
+import type {TournamentModel} from "~/app/models/tournament";
 
 definePageMeta({
   auth: false
@@ -47,6 +50,7 @@ useHead({
 const tournamentStore = useTournamentStore()
 
 const { pending } = await useAsyncData('tournament-list', () => tournamentStore.fetchTournaments())
+const { data, error } = await useAsyncData<TournamentModel[]>('tournament-highlighted', () => $fetch('/api/tournaments/highlighted'))
 const infiniteKey = ref(0)
 
 function searchFilter(event: any) {
