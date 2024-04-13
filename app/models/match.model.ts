@@ -1,5 +1,6 @@
-import {TeamModel} from "~/app/models/team.model";
-import {ScoreModel} from "~/app/models/scoreFormModel";
+import type { TeamModel } from "~/app/models/team.model";
+import type { ScoreModel } from "~/app/models/scoreFormModel";
+import type { TournamentModel } from "./tournament";
 
 export enum State {
     OPEN = 'OPEN',
@@ -13,8 +14,8 @@ export interface MatchModel {
     created_at: Date,
     updated_at: Date,
     tournament_id: number,
-    adversaire_a: number,
-    adversaire_b: number,
+    adversaireA: number,
+    adversaireB: number,
     state: string,
     team_a?: TeamModel,
     team_b?: TeamModel
@@ -23,5 +24,6 @@ export interface MatchModel {
 export interface MatchWithTeamsAndScoresModel extends MatchModel {
     team_a: TeamModel,
     team_b: TeamModel,
-    scores: ScoreModel[]
+    scores: ScoreModel[],
+    tournament: TournamentModel,
 }

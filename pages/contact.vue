@@ -52,7 +52,7 @@ useHead({
 </script>
 
 <style lang="scss" scoped>
-* + * {
+* {
   color: white;
 }
 </style>

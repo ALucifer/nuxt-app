@@ -6,113 +6,107 @@
       </div>
     </div>
   </div>
-  <div class="search__container row mb-40 mp-none">
-    <div class="col-lg-4">
-      <div class="single-input">
-        <span>Search</span>
-        <input v-model="form.libelle" type="text" placeholder="Search" />
+  <AppForm :validation-schema="schema" @submit="search" v-slot="{ setFieldValue }">
+    <div class="search__container row mb-40 mp-none">
+      <div class="col-lg-4">
+        <div class="single-input">
+          <span>Search</span>
+          <AppField name="libelle" type="text" placeholder="Libellé" />
+        </div>
       </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="single-input">
-        <span>Format</span>
-        <AppSelect
-          libelle="Format du tournoi"
-          :items="formatItems"
-          @change="changeFormat($event.value)"
-          name="format"
-        />
+      <div class="col-lg-2">
+        <div class="single-input">
+          <span>Format</span>
+          <AppSelect
+              libelle="Format du tournoi"
+              :items="formatItems"
+              @change="setFieldValue('format', $event.value)"
+              name="format"
+          />
+        </div>
       </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="single-input">
-        <span>Best Of</span>
-        <AppSelect
-          libelle="Best Of"
-          :items="boItems"
-          @change="changeBO($event.value)"
-          name="bestOf"
-        />
+      <div class="col-lg-2">
+        <div class="single-input">
+          <span>Best Of</span>
+          <AppSelect
+              libelle="Best Of"
+              :items="boItems"
+              @change="setFieldValue('best_of', $event.value)"
+              name="best_of"
+          />
+        </div>
       </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="single-input">
+      <div class="col-lg-2">
+        <div class="single-input">
           <span>Status</span>
           <AppSelect
-                  libelle="Status"
-                  :items="statusItems"
-                  @change="changeState($event.value)"
-                  name="state"
+              libelle="Status"
+              :items="statusItems"
+              @change="setFieldValue('state', $event.value)"
+              name="state"
           />
+        </div>
       </div>
-    </div>
       <div class="col-lg-2">
-          <div class="single-input">
-              <span>Date</span>
-              <AppDatePicker
-                      name="date"
-                      @change="changeDate($event.value)"
-              />
-          </div>
+        <div class="single-input">
+          <span>Date</span>
+          <AppDatePicker
+              name="date"
+              placeholder="Date"
+              @change="setFieldValue('date', $event.value)"
+          />
+        </div>
       </div>
-    <div class="col-lg-3">
-      <div class="single-input">
-        <button @click="search()" class="cmn-btn" style="margin-top: 15px">
-          Rechercher
-        </button>
+      <div class="col-lg-3">
+        <div class="single-input">
+          <button type="submit" class="cmn-btn" style="margin-top: 15px">
+              <template v-if="!searching">
+                  Rechercher
+              </template>
+              <AppSpinner v-else />
+          </button>
+        </div>
       </div>
     </div>
-
-  </div>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
-import lodash from "lodash";
+import * as yup from "yup";
 
-const form = ref({ libelle: null, format: null, best_of: null, date: null, state: null })
+const schema = [
+    yup.object({
+      libelle: yup.string(),
+      format: yup.string(),
+      best_of: yup.string(),
+      date: yup.date(),
+      state: yup.string(),
+    })
+]
+
 const boItems = ref([
-    { id: 1, libelle: "1" },
-    { id: 3, libelle: "3" },
-    { id: 5, libelle: "5" },
+  {id: 1, libelle: "1"},
+  {id: 3, libelle: "3"},
+  {id: 5, libelle: "5"},
 ])
 const formatItems = ref([
-    { id: 1, libelle: "1 vs 1" },
-    { id: 2, libelle: "2 vs 2" },
-    { id: 3, libelle: "3 vs 3" },
-    { id: 4, libelle: "4 vs 4" },
+  {id: '1 vs 1', libelle: "1 vs 1"},
+  {id: '2 vs 2', libelle: "2 vs 2"},
+  {id: '2 vs 2', libelle: "3 vs 3"},
+  {id: '4 vs 4', libelle: "4 vs 4"},
 ])
 const statusItems = ref([
-    { id: 'OPEN', libelle: 'Ouvert'},
-    { id: 'CLOSE', libelle: 'Fermé'},
+  {id: 'OPEN', libelle: 'Ouvert'},
+  {id: 'CLOSE', libelle: 'Fermé'},
 ])
 
 const date = ref(new Date())
 
 const emit = defineEmits(['search'])
+const searching = defineModel()
 
-function search() {
-    if (form.value!.libelle === "") {
-        form.value.libelle = null;
-    }
-    emit('search', { form: form.value })
-}
-
-function changeFormat(id: number) {
-    form.value.format = id
-        ? lodash.find(formatItems.value, ["id", id]).libelle
-        : null;
-}
-
-function changeBO(id: number) {
-    form.value.best_of = id;
-}
-
-function changeState(state: any) {
-  form.value.state = state
-}
-
-function changeDate(date) {
-    form.value.date = date
+function search(values) {
+    emit('search', {form: values})
 }
 </script>
 

@@ -12,41 +12,33 @@
       </p>
     </div>
   </div>
-  <div class="container-card" v-if="!pending && tournaments.data.length > 0">
-    <div v-for="tournament in tournaments.data" class="item" :key="tournament.id">
-      <div class="item__header">
-        <span>{{ tournament.skill_level }}</span>
-        <span>{{ $dayjs(tournament.begin_at).format('DD MMM YYYY') }}</span>
-      </div>
-      <p class="item__description">{{ tournament.libelle }}</p>
-      <p class="item__motivation">{{ tournament.speech }}</p>
-      <div class="item__action">
-        <nuxt-link :to="{ name: 'tournois-id', params: { id: tournament.id } }">Voir</nuxt-link>
-      </div>
-    </div>
+  <div class="container-card">
+    <TournamentCard :owner="true" :user="false" />
+    <TournamentCard :owner="false" :user="true" />
   </div>
-  <div v-else class="container-card">Vous n'avez actuellement aucun tournois</div>
-  <nav v-if="!pending && tournaments.meta.lastPage > 1">
-    <ul class="pagination justify-content-center pt-2">
-      <li class="page-item" :class="{ 'disabled': currentPage <= 1}">
-        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { page: currentPage - 1 } }">Précédent</NuxtLink>
-      </li>
-      <li class="page-item" v-for="i in range" :class="{'active': currentPage === i}">
-        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { page: i } }">{{ i }}</NuxtLink>
-      </li>
-      <li class="page-item" :class="{ 'disabled': tournaments.meta.lastPage <= currentPage}">
-        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { page: currentPage + 1 } }">Suivant</NuxtLink>
-      </li>
-    </ul>
-  </nav>
+  <div v-else class="container-card">Vous n'avez actuellement aucun tournois.</div>
+<!--  <nav v-if="!pending && tournaments.meta.lastPage > 1">-->
+<!--    <ul class="pagination justify-content-center pt-2">-->
+<!--      <li class="page-item" :class="{ 'disabled': currentPage <= 1}">-->
+<!--        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { page: currentPage - 1 } }">Précédent</NuxtLink>-->
+<!--      </li>-->
+<!--      <li class="page-item" v-for="i in range" :class="{'active': currentPage === i}">-->
+<!--        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { page: i } }">{{ i }}</NuxtLink>-->
+<!--      </li>-->
+<!--      <li class="page-item" :class="{ 'disabled': tournaments.meta.lastPage <= currentPage}">-->
+<!--        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { page: currentPage + 1 } }">Suivant</NuxtLink>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </nav>-->
 </template>
 
 <script setup lang="ts">
 import type {TournamentModel} from "~/app/models/tournament";
+import TournamentCard from '@/components/profile/TournamentCard'
 
 const { getUser } = useSecurity()
 const route = useRoute()
-const { currentPage, range } = pagination()
+// const { currentPage, range } = pagination()
 const nuxtApp = useNuxtApp()
 
 const filters = ref([
@@ -55,57 +47,57 @@ const filters = ref([
 ])
 const selected = ref(1)
 
-const { data: tournaments, pending } = await useAsyncData<TournamentModel[]>(
-    'user-tournament-list-' + (selected.value === 1 ? 'owner' : 'user'),
-    async () => await $fetch(
-        '/api/tournaments/all',
-        {
-          query: {
-            owner: selected.value === 1 ? getUser().id : null,
-            user: selected.value === 2 ? getUser().id : null,
-            pagination: 6,
-            page: currentPage.value
-          }
-        }
-    ),
-    {
-      transform(input) {
-        return {
-          ...input,
-          fetchedAt: new Date()
-        }
-      },
-      getCachedData(key) {
-        const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-        if (!data) {
-          return
-        }
-
-        const expirationDate = new Date(data.fetchedAt)
-        expirationDate.setTime(expirationDate.getTime() + 10 * 1000)
-        const isExpired = expirationDate.getTime() < Date.now()
-        if(isExpired) {
-          return
-        }
-
-        return data
-      },
-      watch: [ currentPage, selected ]
-    }
-)
-function pagination() {
-  const currentPage = computed(() => route.query.page! ? +route.query.page : 1)
-
-  const range = computed(() => {
-    let end = currentPage.value + 2
-    end = end > tournaments.value!.meta.lastPage ? tournaments.value!.meta.lastPage : end
-    let start = currentPage.value - 2
-    start = start >=1 ? start : 1;
-    return Array.from({ length: end - start + 1 }, (v, k) => k + start)
-  })
-
-  return { currentPage, range }
-}
+// const { data: tournaments, pending } = await useAsyncData<TournamentModel[]>(
+//     'user-tournament-list-' + (selected.value === 1 ? 'owner' : 'user'),
+//     async () => await $fetch(
+//         '/api/tournaments/all',
+//         {
+//           query: {
+//             owner: selected.value === 1 ? getUser().id : null,
+//             user: selected.value === 2 ? getUser().id : null,
+//             pagination: 6,
+//             page: currentPage.value
+//           }
+//         }
+//     ),
+//     {
+//       transform(input) {
+//         return {
+//           ...input,
+//           fetchedAt: new Date()
+//         }
+//       },
+//       getCachedData(key) {
+//         const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+//         if (!data) {
+//           return
+//         }
+//
+//         const expirationDate = new Date(data.fetchedAt)
+//         expirationDate.setTime(expirationDate.getTime() + 10 * 1000)
+//         const isExpired = expirationDate.getTime() < Date.now()
+//         if(isExpired) {
+//           return
+//         }
+//
+//         return data
+//       },
+//       watch: [ currentPage, selected ]
+//     }
+// )
+// function pagination() {
+//   const currentPage = computed(() => route.query.page! ? +route.query.page : 1)
+//
+//   const range = computed(() => {
+//     let end = currentPage.value + 2
+//     end = end > tournaments.value!.meta.lastPage ? tournaments.value!.meta.lastPage : end
+//     let start = currentPage.value - 2
+//     start = start >=1 ? start : 1;
+//     return Array.from({ length: end - start + 1 }, (v, k) => k + start)
+//   })
+//
+//   return { currentPage, range }
+// }
 </script>
 
 <style lang="scss">

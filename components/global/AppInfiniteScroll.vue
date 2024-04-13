@@ -1,8 +1,6 @@
 <template>
   <div ref="observerTemplate" class="inersection-observer">
-    <div class="spinner-border" role="status" v-if="!done">
-      <span class="sr-only"></span>
-    </div>
+    <AppSpinner v-if="!done" />
   </div>
 </template>
 <script setup lang="ts">

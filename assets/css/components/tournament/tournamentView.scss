@@ -104,6 +104,7 @@
   .admin-info {
     display: flex;
     flex-direction: column;
+    gap: 4px;
     justify-content: space-evenly;
     position: absolute;
     bottom: 10px;
@@ -159,6 +160,21 @@
 
   &--large {
     padding: 0 16px;
+  }
+
+  &--success {
+    background-color: #146551;
+    color: white;
+  }
+
+  &--error {
+    background-color: #B11000;
+    color: white;
+  }
+
+  &--info {
+    background-color: #7EB0CC;
+    color: white
   }
 }
 

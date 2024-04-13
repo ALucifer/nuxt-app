@@ -6,7 +6,7 @@
       </div>
       <span class="time">{{ dateToNow(tournament.begin_at) }}</span>
     </div>
-    <div class="date-area bg bg-danger" v-if="isCompletlyClose(tournament)">Terminé</div>
+    <div class="date-area bg bg-danger" v-if="isCompletlyClose(tournament) && !isRunning(tournament)">Terminé</div>
     <div class="date-area bg bg-success" v-if="isRunning(tournament)">En cours</div>
     <div class="date-area bg bg-warning" v-if="isLogged() && isRegister(tournament)">Inscrit</div>
     <div class="date-area bg">
@@ -19,10 +19,10 @@
 import type { TournamentModel } from "~/app/models/tournament";
 import useTournament from "~/composables/useTournament";
 import useDate from "~/composables/useDate";
-const { dateToNow, dateFormatted, isAfterNow } = useDate()
 
 const props = defineProps<{ tournament: TournamentModel }>()
 
+const { dateToNow, dateFormatted, isAfterNow } = useDate()
 const { isCompletlyClose, isRegister, isRunning } = useTournament()
 const { isLogged } = useSecurity()
 

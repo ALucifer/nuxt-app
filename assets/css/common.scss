@@ -9,7 +9,7 @@
     
     @media (max-width: 1199px) {
         padding-top: 100px;
-        background-color: #1C1041;
+        background-color: #160A3F;
         background-size: 150%;
     }
 
@@ -62,9 +62,8 @@
     color: white;
     margin: 0 4px;
 
-    &--register {
-        background: #FFC107;
-        color: #212529FF;
+    &--register, &--primary {
+        background: linear-gradient(351.09deg, #f029a0 4.36%, #f0b000 117.5%);
     }
 
     &--cancel, &--previous {
@@ -80,4 +79,8 @@ $textSize: (8: 8px, 10: 10px, 12: 12px, 14: 14px, 16: 16px);
             font-size: $size;
         }
     }
+}
+
+input[type='text']::placeholder {
+    color: white;
 }

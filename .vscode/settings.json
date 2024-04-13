@@ -1,4 +1,8 @@
 {
   "files.autoSave": "afterDelay",
-  "nuxt.isNuxtApp": false
+  "nuxt.isNuxtApp": true,
+  "vetur.validation.template": false,
+  "vetur.format.enable": false,
+  "prettier.requireConfig": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
