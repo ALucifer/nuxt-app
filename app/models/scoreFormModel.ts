@@ -1,11 +1,17 @@
+import type { TeamModel } from "./team.model";
+
 export interface ScoreFormModel {
-    match_id: number,
-    winner_id: number,
-    winner_score: number,
-    looser_id: number,
-    looser_score: number,
+    id: number,
+    matchId: number,
+    winnerId: number,
+    winnerScore: number,
+    looserId: number,
+    looserScore: number,
 }
 
 export interface ScoreModel extends ScoreFormModel {
-    reporter_id: number,
+    reporterId: number,
+    reporter: TeamModel,
+    winner: TeamModel,
+    looser: TeamModel,
 }

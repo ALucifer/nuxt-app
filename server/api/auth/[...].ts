@@ -8,8 +8,12 @@ async function verifyToken(token: any) {
 
 // @ts-ignore
 export default NuxtAuthHandler({
-    // A secret string you define, to ensure correct encryption
     secret: 'gargragroajg',
+    auth: {
+        provider: {
+            type: 'authjs',
+        },
+    },
     debug: false,
     pages: {
         signIn: '/login',
@@ -98,7 +102,6 @@ export default NuxtAuthHandler({
 
                 token.token = account.token.token
             } else {
-
                 if (isSignIn) {
                     token.user = user.user
                     token.token = user.token
@@ -111,10 +114,11 @@ export default NuxtAuthHandler({
                 return Promise.reject('Invalid token')
             }
 
-            token.user = tokenValid.user
+            // token.user = tokenValid.user
 
             return Promise.resolve(token);
         },
+        
         // @ts-ignore
         session: async ({ session, token }) => {
             session.user = token.user

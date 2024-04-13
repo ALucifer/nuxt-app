@@ -1,10 +1,13 @@
-import axiosInstance from "~/app/client/axios";
-
 export default defineEventHandler(async event => {
     try {
         const body = await readBody(event)
-        const { data } = await axiosInstance.post('/oauth/login', body.form)
-        return data
+        return fetchSpotsApi(
+          '/oauh/login',
+          {
+              method: 'POST',
+              body: { ...body.form }
+          }
+        )
     } catch (error) {
         return false
     }

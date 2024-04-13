@@ -1,5 +1,4 @@
 import {getToken} from "#auth";
-import axiosInstance from "~/app/client/axios";
 
 export default defineEventHandler(async event => {
     const session = await getToken({ event })
@@ -8,14 +7,14 @@ export default defineEventHandler(async event => {
     try {
         const id = getRouterParam(event, 'id')
 
-        await axiosInstance.post(
+        await fetchSpotsApi(
             `/tournaments/${id}/start`,
-            {},
             {
+                method: 'POST',
                 headers: {
-                    Authorization: 'Bearer ' + session.token
-                }
-            }
+                    Authorization: 'Bearer ' + session.token,
+                },
+            },
         )
         return true
     } catch (e) {

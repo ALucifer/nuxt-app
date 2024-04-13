@@ -35,7 +35,7 @@ export const useTournamentStore = defineStore({
   actions: {
     removeUserTeamFromCurrentTournament() {
       const { getUser } = useSecurity()
-      const index = this.currentTournament!.teams!.findIndex((team: TeamModel) => team.user_id === getUser().id)
+      const index = this.currentTournament!.teams!.findIndex((team: TeamModel) => team.userId === getUser().id)
       this.currentTournament!.teams!.splice(index, 1)
     },
     async fetchTournaments() {
@@ -106,24 +106,5 @@ export const useTournamentStore = defineStore({
           }
       )
     },
-    async start(tournament: TournamentModel) {
-      return $fetch(
-          `/api/tournaments/${tournament.id}/start`,
-          {
-            method: 'POST'
-          }
-      )
-    },
-    async unsubscribe(tournament_id: number) {
-      return await $fetch(
-          `/api/tournaments/${tournament_id}/unsubscribe`,
-          {
-            method: 'POST'
-          }
-      )
-    },
-    setCurrentTournament(tournament: any) {
-      this.currentTournament = tournament
-    }
   },
 });

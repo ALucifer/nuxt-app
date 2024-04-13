@@ -1,5 +1,4 @@
 import {getToken} from "#auth";
-import axiosInstance from "~/app/client/axios";
 
 export default defineEventHandler(async event => {
     const session = await getToken({ event })

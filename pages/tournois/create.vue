@@ -21,9 +21,6 @@
                 <label class="text-14">Date</label>
                   <AppDatePicker name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
               </div>
-              <div class="col-12 form-group mt-3">
-                <AppEditeur />
-              </div>
             </div>
           </FormStep>
           <FormStep>

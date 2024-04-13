@@ -1,24 +1,25 @@
 import {getToken} from "#auth";
-import axiosInstance from "~/app/client/axios";
 
 export default defineEventHandler(async event => {
-    const session = await getToken({ event })
-    if(!session) return
+  const session = await getToken({event})
+  if (!session) return
 
-    const id = getRouterParam(event, 'id')
+  const id = getRouterParam(event, 'id')
 
-    try {
-        await axiosInstance.post(
-            `/tournaments/${id}/unsubscribe`,
-            {},
-            {
-                headers: {
-                    Authorization: 'Bearer ' + session.token
-                }
-            }
-        )
-        return { status: true }
-    } catch (e) {
-        return { status: false }
-    }
+  try {
+    return await fetchSpotsApi(
+      `/tournaments/${id}/unsubscribe`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + session.token
+        }
+      }
+    )
+  } catch (e) {
+    throw createError({
+      statusCode: e.statusCode,
+      message: 'An error occurred on unsubscribe'
+    })
+  }
 })

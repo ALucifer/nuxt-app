@@ -19,6 +19,7 @@ export default defineNuxtConfig({
         ],
       },
     ],
+    "@nuxt/eslint"
   ],
   auth: {
     origin: 'http://127.0.0.1:3333',
@@ -27,6 +28,9 @@ export default defineNuxtConfig({
     isEnabled: true,
     provider: {
       type: 'authjs',
+    },
+    session: {
+      enableRefreshPeriodically: false
     }
   },
   css: [
@@ -51,7 +55,7 @@ export default defineNuxtConfig({
     link: [
       { rel: 'icon', href: '/favicon.png' }
       // Si vous utilisez un fichier PNG, utilisez 'image/png' comme type
-    ]
+    ],
   },
   devtools: {
     timeline: {
@@ -63,5 +67,5 @@ export default defineNuxtConfig({
   },
   build: {
     transpile: ['@vuepic/vue-datepicker']
-  }
+  },
 })

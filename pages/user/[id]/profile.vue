@@ -16,7 +16,7 @@ definePageMeta({
 })
 
 const route = useRoute()
-const { data: user } = await useFetch(`/api/user/${route.params.id}`)
+const { data: user } = await useFetch<any>(`/api/user/${route.params.id}`)
 </script>
 
 <style></style>

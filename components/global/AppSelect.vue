@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <client-only>
     <div
       class="nice-select"
       @click="open = !open"
@@ -25,13 +25,12 @@
         </li>
       </ul>
     </div>
-    <AppField type="hidden" :name="name" />
+    <AppField type="hidden" :name="name"/>
     <AppErrorMessage class="error" :name="name" />
-  </div>
+  </client-only>
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps({
   libelle: {
     type: String,
@@ -63,5 +62,9 @@ function change(item) {
 <style lang="scss" scoped>
 * + * {
   color: white;
+}
+
+.nice-select {
+  color: var(--body-color);
 }
 </style>

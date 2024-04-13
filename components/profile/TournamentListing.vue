@@ -25,7 +25,7 @@
       </div>
     </div>
   </div>
-  <div v-else class="container-card">Vous n'avez actuellement aucun tournois</div>
+  <div v-else class="container-card">Vous n'avez actuellement aucun tournois.</div>
   <nav v-if="!pending && tournaments.meta.lastPage > 1">
     <ul class="pagination justify-content-center pt-2">
       <li class="page-item" :class="{ 'disabled': currentPage <= 1}">

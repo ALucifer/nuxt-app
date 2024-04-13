@@ -12,7 +12,7 @@ export default function useDate() {
         return dayjs(date).format(format)
     }
 
-    function dateToNow(date: string) {
+    function dateToNow(date: Date) {
         return dayjs(date).fromNow()
     }
 

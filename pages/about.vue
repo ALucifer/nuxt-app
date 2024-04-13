@@ -1,5 +1,4 @@
 <template>
-  <AppBanner />
   <section id="about-us-section">
     <div class="overlay pt-120">
       <div class="container wow fadeInUp">
@@ -42,3 +41,9 @@ useHead({
   description: "Page d'information sur le site Spots."
 })
 </script>
+
+<style lang="scss" scoped>
+p {
+  color: white;
+}
+</style>
