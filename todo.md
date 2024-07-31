@@ -1,3 +1,4 @@
+test
 - Utiliser la façon de nuxt pour loader les requete de recuperation des data
 - utiliser le asyncData pour les page suivante:
   - profile/messages
