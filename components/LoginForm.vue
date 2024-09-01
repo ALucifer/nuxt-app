@@ -7,6 +7,8 @@
         placeholder="Entrez votre email"
         type="email"
         :class="{ 'is-invalid': error }"
+        :validate-on-blur="false"
+        :validate-on-change="false"
         id="login-email"
       />
       <AppErrorMessage class="error" name="email" />
@@ -18,6 +20,8 @@
         placeholder="Entrez votre mot de passe"
         type="password"
         :class="{ 'is-invalid': error }"
+        :validate-on-blur="false"
+        :validate-on-change="false"
         id="login-password"
       />
       <AppErrorMessage class="error" name="password" />

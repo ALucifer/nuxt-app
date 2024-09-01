@@ -2,22 +2,22 @@
   <AppForm @submit="submit" :validation-schema="schema">
     <div class="form-group p-2">
       <label>Email</label>
-      <AppField name="email" type="email" placeholder="mon@email.com"/>
+      <AppField name="email" type="email" placeholder="mon@email.com" :validate-on-blur="false" :validate-on-change="false"/>
       <AppErrorMessage class="error" name="email"/>
     </div>
     <div class="form-group p-2">
       <label>Pseudo</label>
-      <AppField name="pseudo" placeholder="Pseudo"/>
+      <AppField name="pseudo" placeholder="Pseudo" :validate-on-blur="false" :validate-on-change="false"/>
       <AppErrorMessage class="error" name="pseudo"/>
     </div>
     <div class="form-group p-2">
       <label>Mot de passe</label>
-      <AppField name="password" type="password" placeholder="**********"/>
+      <AppField name="password" type="password" placeholder="**********" :validate-on-blur="false" :validate-on-change="false"/>
       <AppErrorMessage class="error" name="password"/>
     </div>
     <div class="form-group p-2">
       <label>Confirmation</label>
-      <AppField name="password_confirmation" type="password" placeholder="**********"/>
+      <AppField name="password_confirmation" type="password" placeholder="**********" :validate-on-blur="false" :validate-on-change="false"/>
       <AppErrorMessage class="error" name="password_confirmation"/>
     </div>
     <div class="form-group p-2">
