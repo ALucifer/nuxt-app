@@ -55,7 +55,6 @@ const editor = useEditor({
   }
 })
 
-// watch(editor.value!.getHTML()!, (newvalue) => {console.log(newvalue)})
 </script>
 
 <style lang="scss">

@@ -17,37 +17,24 @@
           <ul class="d-none d-sm-block">
             <li>
               <NuxtLink
-                :to="{ name: 'profile-slug', params: { slug: 'general' }}"
-                :class="{ 'tab-active': $route.params.slug === 'general'}">
-                Général
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink
+                class="tab-active"
                 :to="{ name: 'profile-slug', params: { slug: 'tournaments' }}"
-                :class="{ 'tab-active': $route.params.slug === 'tournaments'}">
+              >
                 Tournois
               </NuxtLink>
             </li>
           </ul>
           <div class="d-block d-sm-none">
             <NuxtLink
-                class="mobile-tab"
-                :to="{ name: 'profile-slug', params: { slug: 'general' }}"
-                :class="{ 'mobile-tab-active': $route.params.slug === 'general'}">
-              Général
-            </NuxtLink>
-            <NuxtLink
-                class="mobile-tab"
+                class="mobile-tab mobile-tab-active"
                 :to="{ name: 'profile-slug', params: { slug: 'tournaments' }}"
-                :class="{ 'mobile-tab-active': $route.params.slug === 'tournaments'}">
+            >
               Tournois
             </NuxtLink>
           </div>
         </div>
         <div class="profile-main">
-          <div class="general active" v-if="$route.params.slug === 'general'">Général, régler le probleme d'opacité au hover de l'avatar</div>
-          <div class="tournaments active" v-if="$route.params.slug === 'tournaments'">
+          <div class="tournaments active">
             <TournamentListing />
           </div>
         </div>
@@ -90,7 +77,7 @@ async function handleChangeAvatar(e: any) {
   if(error.value !== null) {
     errorMessage('Une erreur est survenu lors de la mise à jour de votre avatar.')
   } else {
-    await auth.getSession({ force: true, required: true })
+    await auth.getSession({ required: false })
   }
 }
 </script>

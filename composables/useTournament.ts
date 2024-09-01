@@ -27,7 +27,7 @@ export default function useTournament() {
     }
 
     function isOpen(tournament: TournamentModel) {
-        return tournament.state === "OPEN" && tournament.challongeId !== null && date.isAfterNow(tournament.beginAt)
+        return tournament.state === "OPEN" && tournament.challongeId !== null && date.isAfterNow(tournament.begin_at)
     }
 
     function isOwner(tournament: TournamentModel) {
@@ -35,7 +35,7 @@ export default function useTournament() {
     }
 
     function isRegister(tournament: TournamentModel) {
-        return isLogged() && !!find(tournament.teams, (t) => t.user_id === getUser().id)
+        return isLogged() && !!find(tournament.teams, (t) => t.userId === getUser().id)
     }
 
     function hasMatches(tournament: TournamentModelWithMatches) {
@@ -43,16 +43,15 @@ export default function useTournament() {
     }
 
     function isValid(tournament: TournamentModel) {
-        return ['OPEN', 'RUNNING'].includes(tournament.state) && tournament.challongeId !== null
+        return ['OPEN'].includes(tournament.state) && tournament.challongeId !== null
     }
 
     function isCompletlyClose(tournament: TournamentModel) {
-        const valid = isValid(tournament)
-        if (!valid) {
+        if (!isValid(tournament)) {
             return true
         }
 
-        return !isRunning(tournament) && date.isBeforeNow(tournament.beginAt);
+        return tournament.state !== 'OPEN' && date.isBeforeNow(tournament.begin_at);
     }
 
     function isRunning(tournament: TournamentModel) {
@@ -67,7 +66,7 @@ export default function useTournament() {
         const matchesWithUser: MatchWithTeamsAndScoresModel[] = []
 
         matches.forEach((item) => {
-            if (item.team_a.user_id === user_id || item.team_b.user_id === user_id) {
+            if (item.team_a.userId === user_id || item.team_b.userId === user_id) {
                 matchesWithUser.push(item)
             }
         })
@@ -81,14 +80,12 @@ export default function useTournament() {
 
     function isUserLoggedInMatch(match: MatchWithTeamsAndScoresModel)
     {
-        return isLogged() && (match.team_a.user_id === getUser().id || match.team_b.user_id === getUser().id)
+        return isLogged() && (match.team_a.userId === getUser().id || match.team_b.userId === getUser().id)
     }
 
     return {
-        isHalf,
         isOwner,
         isRegister,
-        hasMatches,
         isCompletlyClose,
         isOpen,
         isRunning,

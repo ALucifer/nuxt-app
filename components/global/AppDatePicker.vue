@@ -7,7 +7,7 @@
       :min-date="minDate"
     >
       <template #dp-input="{}">
-        <input type="text" :value="value">
+        <input type="text" :value="value" :placeholder="placeholder ?? name" />
       </template>
     </VueDatePicker>
     <AppField type="hidden" :name="name" />
@@ -16,39 +16,36 @@
 </template>
 
 <script setup lang="ts">
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 import dayjs from "dayjs";
 
-const props = defineProps(
-    {
-      name: { type: String, required: true },
-      minDate: { type: Date, required: false, default: new Date() },
-      format: { type: String, required: false, default: 'yyyy-MM-dd HH:mm:ss'},
-      value: { type: String, required: false},
-    }
-)
-const emit = defineEmits(['change'])
+const props = defineProps({
+  name: { type: String, required: true },
+  minDate: { type: Date, required: false, default: new Date() },
+  format: { type: String, required: false, default: "yyyy-MM-dd HH:mm:ss" },
+  value: { type: String, required: false },
+  placeholder: { type: String, required: false },
+});
+const emit = defineEmits(["change"]);
 
 const name = computed(() => props.name);
-const { value } = useField(name)
-const date = ref(null)
+const { value } = useField(name);
+const date = ref(null);
 
 function change(value) {
-  date.value = value
-  let formDate = null
+  date.value = value;
+  let formDate = null;
 
   if (date.value) {
-    formDate = dayjs(date.value).format('YYYY-DD-MM HH:mm:ss')
+    formDate = dayjs(date.value).format("YYYY-DD-MM HH:mm:ss");
   }
 
-  emit('change', { value: formDate })
+  emit("change", { value: formDate });
 }
 </script>
 
 <style lang="scss">
-//@import "@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss";
-
 .dp__input {
   padding: 15px 40px;
 }

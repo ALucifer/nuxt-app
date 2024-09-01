@@ -76,7 +76,7 @@ async function onSubmit(values, { resetForm }) {
 }
 </script>
 
-<style>
+<style scoped>
 .error {
   color: #ff443d;
 }
