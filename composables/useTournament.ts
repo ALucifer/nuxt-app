@@ -43,14 +43,11 @@ export default function useTournament() {
     }
 
     function isValid(tournament: TournamentModel) {
-        return ['OPEN'].includes(tournament.state) && tournament.challongeId !== null
+        return ['OPEN'].includes(tournament.state)
+            && tournament.challongeId !== null
     }
 
     function isCompletlyClose(tournament: TournamentModel) {
-        if (!isValid(tournament)) {
-            return true
-        }
-
         return tournament.state !== 'OPEN' && date.isBeforeNow(tournament.begin_at);
     }
 

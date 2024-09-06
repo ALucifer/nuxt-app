@@ -27,6 +27,7 @@
   </div>
 
   <editor-content :editor="editor" />
+  <p v-if="errorMessage">{{ errorMessage }}</p>
   <p class="nb">* pensez à surligner pour utiliser le menu</p>
 </template>
 
@@ -41,7 +42,7 @@ const props = defineProps({
 })
 
 const name = computed(() => props.name)
-const { setValue } = useField(name)
+const { setValue, errorMessage,  } = useField(name)
 
 const editor = useEditor({
   extensions: [
@@ -61,6 +62,7 @@ const editor = useEditor({
 .tiptap {
   padding: 16px;
   background-color: #370898;
+  color: white;
   border-radius: 10px;
 
   > * + * {

@@ -3,7 +3,7 @@
     <slot :setFieldValue="setFieldValue" :values="values" />
 
     <div class="button-end">
-      <button class="cmn-btn" type="submit" v-if="!isLastStep">Suivant</button>
+      <button :disabled="!meta.valid" class="cmn-btn" type="submit" v-if="!isLastStep">Suivant</button>
       <template v-else>
         <button v-if="isSubmitLastStep" class="cmn-btn submit-btn">
           <span
@@ -12,7 +12,7 @@
             aria-hidden="true"
           ></span>
         </button>
-        <button v-else class="cmn-btn" type="submit">
+        <button v-else :disabled="!meta.valid" class="cmn-btn" type="submit">
           Envoyer
         </button>
       </template>
@@ -62,7 +62,7 @@ const currentSchema = computed(() => {
   return props.validationSchema[currentStepIdx.value];
 });
 
-const { values, handleSubmit, setFieldValue } = useForm({
+const { values, handleSubmit, setFieldValue, meta } = useForm({
   validationSchema: currentSchema,
   keepValuesOnUnmount: true,
 });

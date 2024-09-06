@@ -8,7 +8,7 @@
           :isSubmitLastStep="isSubmitLastStep"
           @submit="submit"
           @changeStep="currentStep = $event.value"
-          v-slot="{ setFieldValue, values, useFieldModel }"
+          v-slot="{ setFieldValue, values }"
         >
           <FormStep>
             <div class="row my-5">
@@ -165,6 +165,10 @@ const schema = [
   }),
   yup.object({
     speech: yup.string().notRequired(),
+    progress: yup
+      .string()
+      .required('La description du tournoi est obligatoire')
+      .min(30, 'Votre description du tournoi est trop courte')
   })
 ]
 
