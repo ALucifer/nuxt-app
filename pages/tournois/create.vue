@@ -8,7 +8,7 @@
           :isSubmitLastStep="isSubmitLastStep"
           @submit="submit"
           @changeStep="currentStep = $event.value"
-          v-slot="{ setFieldValue, values, useFieldModel }"
+          v-slot="{ setFieldValue, values }"
         >
           <FormStep>
             <div class="row my-5">
@@ -19,7 +19,7 @@
               </div>
               <div class="col-12 form-group mt-3">
                 <label class="text-14">Date</label>
-                  <AppDatePicker name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
+                  <AppDatePicker placeholder="Debut" name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
               </div>
             </div>
           </FormStep>
@@ -165,6 +165,10 @@ const schema = [
   }),
   yup.object({
     speech: yup.string().notRequired(),
+    progress: yup
+      .string()
+      .required('La description du tournoi est obligatoire')
+      .min(30, 'Votre description du tournoi est trop courte')
   })
 ]
 

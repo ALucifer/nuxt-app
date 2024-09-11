@@ -21,45 +21,8 @@
             />
           </template>
         </div>
-        <div class="action" :class="{ 'd-none': hideActionButtons() }">
-          <div class="dropdown">
-            <span type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <div
-                v-if="topRightButtonLoading"
-                class="spinner-border spinner-border-sm text-black-50"
-                role="status"
-              >
-                <span class="visually-hidden">Loading...</span>
-              </div>
-              <menu-icon v-else fill-color="black" />
-            </span>
-            <ul ref="action" class="dropdown-menu">
-              <li v-if="showRegisterLabel">
-                <NuxtLink
-                  class="dropdown-item"
-                  :to="{
-                    name: 'tournois-id-register',
-                    params: { id: tournament.id },
-                  }"
-                >
-                  S'inscrire
-                </NuxtLink>
-              </li>
-              <li v-if="showUnsubscribeLabel">
-                <button
-                  class="dropdown-item"
-                  @click="unsubscribe()"
-                >
-                  Se désinscrire
-                </button>
-              </li>
-              <li v-if="canBeStarted(tournament)">
-                <button class="dropdown-item" @click="start">
-                  Démarrer
-                </button>
-              </li>
-            </ul>
-          </div>
+        <div class="action" :class="{ 'd-none': showActions }">
+            <DropdownAction ref="actionContainer" :tournament @unsubscribe="refresh()" @start="refresh()" />
         </div>
       </div>
       <div class="admin-info">
@@ -117,12 +80,12 @@
     <div class="d-flex flex-grow-1">
       <div v-if="description" class="d-flex gap-3 flex-grow-1">
         <div class="description">
-          <template v-if="tournament.progress" v-html="tournament.progress"/>
-          <template v-else
-            >Pas de description du déroulement du tournoi actuellement</template
+          <div v-if="tournament.progress" v-html="tournament.progress" />
+          <div v-else
+            >Pas de description du déroulement du tournoi actuellement</div
           >
         </div>
-        <div class="next" @click="description = !description">
+        <div class="next" @click="description = !description" v-if="tournament.matches?.length > 0 || tournament.teams?.length > 0">
           <chevron-right-icon fill-color="black" />
         </div>
       </div>
@@ -269,8 +232,9 @@ import {
   type MatchWithTeamsAndScoresModel,
   State,
 } from "~/app/models/match.model";
-import type {TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
+import type { TournamentModelWithMatchesAndTeams } from "~/app/models/tournament";
 import MatchCard from "@/components/match/MatchCard";
+import DropdownAction from "@/components/tournament/DropdownAction";
 
 definePageMeta({
   auth: false,
@@ -278,13 +242,13 @@ definePageMeta({
 
 const route = useRoute();
 
-const { data, refresh } = await useFetch<TournamentModelWithMatchesAndTeams>(`/api/tournaments/${route.params.id}`, { key: `init-tournament-${route.params.id}`})
+const { data, refresh } = await useFetch<TournamentModelWithMatchesAndTeams>(`/api/tournaments/${route.params.id}`, { key: `tournament-${route.params.id}`})
 
 if (!data.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 }
 
-const tournament = ref(data.value)
+const tournament = ref<TournamentModelWithMatchesAndTeams>(data.value)
 
 useSeoMeta({
   titleTemplate: "Tournoi: %s",
@@ -296,7 +260,6 @@ const { dateFormatted } = useDate();
 const {
   findUserMatchFromMatches,
   isUserLoggedInMatch,
-  canBeStarted,
   isOwner,
 } = useTournament();
 const { getUser, isLogged } = useSecurity();
@@ -333,88 +296,16 @@ const tournamentSorted = computed(() => {
 })
 const teamsList = computed(() => displayAllTeams.value ? tournament.value.teams : tournament.value.teams.slice(0, 6))
 
-const action = ref();
 const display = ref("all");
 const displayAllTeams = ref(false);
 const description = ref(true);
-const {
-  showUnsubscribeLabel, showRegisterLabel, hideActionButtons,
-  handleUnsubscribe, topRightButtonLoading, handleStart
-} = topRightButton(tournament.value, action)
 
-async function unsubscribe()
-{
-  await handleUnsubscribe()
-  await refresh()
+const actionContainer = ref(null)
+const showActions = ref(false)
 
-}
-
-async function start()
-{
-  await handleStart()
-  await refresh()
-}
-
-function topRightButton(tournament: TournamentModelWithMatchesAndTeams, element: Ref<HTMLDivElement>) {
-  const { errorMessage, successMessage } = useFlashMessages();
-  const { isRegister, isCompletlyClose, isRunning, isComplete } = useTournament();
-
-  const topRightButtonLoading = ref(false);
-  const showUnsubscribeLabel = ref(
-      isRegister(tournament) &&
-      !isCompletlyClose(tournament) &&
-      !isRunning(tournament)
-  );
-  const showRegisterLabel = ref(
-      !isRegister(tournament) &&
-      !isCompletlyClose(tournament) &&
-      !isRunning(tournament) &&
-      !isComplete(tournament)
-  );
-
-  function hideActionButtons() {
-    return element.value?.childElementCount === 0;
-  }
-
-  async function handleUnsubscribe() {
-    topRightButtonLoading.value = true;
-
-    try {
-      await $fetch(
-          `/api/tournaments/${route.params.id}/unsubscribe`,
-          {
-            method: 'POST'
-          }
-      )
-
-      successMessage('Vous êtes bien désincrit au tournois')
-
-    } catch (e) {
-      errorMessage('Une erreur est survenu')
-    }
-    topRightButtonLoading.value = false;
-  }
-
-  async function handleStart() {
-    topRightButtonLoading.value = true;
-    try {
-      await $fetch(
-          `/api/tournaments/${route.params.id}/start`,
-          {
-            method: 'POST'
-          }
-      )
-
-      successMessage('Le tournoi est maintenant démarré')
-    } catch {
-      errorMessage('Un problème est survenu lors du lancement du tournoi')
-    }
-
-    topRightButtonLoading.value = false;
-  }
-
-  return { showUnsubscribeLabel, showRegisterLabel, hideActionButtons, handleUnsubscribe, handleStart, topRightButtonLoading }
-}
+onMounted(() => {
+  showActions.value = actionContainer.value.action.childElementCount === 0
+})
 </script>
 
 <style lang="scss" scoped>
