@@ -80,12 +80,12 @@
     <div class="d-flex flex-grow-1">
       <div v-if="description" class="d-flex gap-3 flex-grow-1">
         <div class="description">
-          <template v-if="tournament.progress" v-html="tournament.progress"/>
-          <template v-else
-            >Pas de description du déroulement du tournoi actuellement</template
+          <div v-if="tournament.progress" v-html="tournament.progress" />
+          <div v-else
+            >Pas de description du déroulement du tournoi actuellement</div
           >
         </div>
-        <div class="next" @click="description = !description">
+        <div class="next" @click="description = !description" v-if="tournament.matches?.length > 0 || tournament.teams?.length > 0">
           <chevron-right-icon fill-color="black" />
         </div>
       </div>
@@ -232,7 +232,7 @@ import {
   type MatchWithTeamsAndScoresModel,
   State,
 } from "~/app/models/match.model";
-import type {TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
+import type { TournamentModelWithMatchesAndTeams } from "~/app/models/tournament";
 import MatchCard from "@/components/match/MatchCard";
 import DropdownAction from "@/components/tournament/DropdownAction";
 
@@ -242,13 +242,13 @@ definePageMeta({
 
 const route = useRoute();
 
-const { data, refresh } = await useFetch<TournamentModelWithMatchesAndTeams>(`/api/tournaments/${route.params.id}`, { key: `init-tournament-${route.params.id}`})
+const { data, refresh } = await useFetch<TournamentModelWithMatchesAndTeams>(`/api/tournaments/${route.params.id}`, { key: `tournament-${route.params.id}`})
 
 if (!data.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 }
 
-const tournament = ref(data.value)
+const tournament = ref<TournamentModelWithMatchesAndTeams>(data.value)
 
 useSeoMeta({
   titleTemplate: "Tournoi: %s",

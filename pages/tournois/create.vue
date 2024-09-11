@@ -19,7 +19,7 @@
               </div>
               <div class="col-12 form-group mt-3">
                 <label class="text-14">Date</label>
-                  <AppDatePicker name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
+                  <AppDatePicker placeholder="Debut" name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
               </div>
             </div>
           </FormStep>

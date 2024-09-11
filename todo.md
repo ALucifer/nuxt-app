@@ -2,11 +2,11 @@
 
 ## feature/v.0.0.1
 - [x] Afficher le boutton pour s'inscrire à un tournoi, meme si on est pas loggé
-- [ ] Ne pas afficher le panel 2 si on a pas d'equipe ou de matchs
-- [ ] Rendre la description d'un tournoi obligatoire
+- [x] Ne pas afficher le panel 2 si on a pas d'equipe ou de matchs
+- [x] Rendre la description d'un tournoi obligatoire
 - [x] Rendre l'inscription en mode sans validation a chaque focus enlevé
 - [x] Probleme sur le slider qui est plus en automatique
-- [ ] Sur le profile, créer un composant pour le listing des tournois que je dois rendre alive avec keepAlive
+- [x] Sur le profile, créer un composant pour le listing des tournois que je dois rendre alive avec keepAlive
 ## feature/v.0.0.2
 - [ ] middleware pour ne pas pouvoir accéder au register tournament si le challongeId n'est pas présent
 - [ ] Mise a jour des dependances
@@ -15,6 +15,7 @@
 
 
 ## A groomer
+- [ ] Lors de la créer la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores
 - [ ] Systeme de notification 
 - [ ] Remettre le chat
