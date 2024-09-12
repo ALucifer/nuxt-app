@@ -1,5 +1,3 @@
-import { User, Token } from "next-auth";
-
 export default function useSecurity() {
     const { data: auth, status: userLogged } = useAuth()
 
@@ -7,7 +5,7 @@ export default function useSecurity() {
         return userLogged.value === 'authenticated'
     }
 
-    function getUser(): User {
+    function getUser(): any {
         if (!auth.value) {
             throw Error('User not logged')
         }
@@ -15,7 +13,7 @@ export default function useSecurity() {
         return auth.value.user
     }
 
-    function getToken(): Token {
+    function getToken(): any {
         if (!auth.value) {
             throw Error('User not logged')
         }

@@ -8,6 +8,8 @@
 - [x] Probleme sur le slider qui est plus en automatique
 - [x] Sur le profile, créer un composant pour le listing des tournois que je dois rendre alive avec keepAlive
 ## feature/v.0.0.2
+- [x] Installation du module ESLINT
+- [ ] Correction de 1/4 des erreurs ESLINT
 - [ ] middleware pour ne pas pouvoir accéder au register tournament si le challongeId n'est pas présent
 - [ ] Mise a jour des dependances
 - [ ] Mise en place de quelques tests

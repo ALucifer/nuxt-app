@@ -12,10 +12,11 @@
       display: flex;
       align-items: center;
       li {
+        padding: 0 15px;
+
         a {
           text-transform: uppercase;
         }
-        padding: 0 15px;
       }
     }
   }
