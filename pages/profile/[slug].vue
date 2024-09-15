@@ -46,12 +46,12 @@
 <script setup lang="ts">
 import TournamentListing from "~/components/profile/TournamentListing.vue";
 
-definePageMeta({
-  layout: 'profile',
-  validate: async (route) => {
-    return ['general', 'tournaments'].includes(<string>route.params.slug)
-  }
-})
+definePageMeta(
+    {
+      layout: 'profile',
+      validate: (route) => ['general', 'tournaments'].includes(<string>route.params.slug),
+    }
+)
 
 useSeoMeta({
   title: 'Profile',

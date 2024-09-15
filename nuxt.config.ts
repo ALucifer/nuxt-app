@@ -20,7 +20,8 @@ export default defineNuxtConfig({
         ],
       },
     ],
-    "@nuxt/eslint"
+    "@nuxt/eslint",
+    '@nuxt/test-utils/module'
   ],
 
   auth: {
@@ -42,16 +43,6 @@ export default defineNuxtConfig({
     '@/assets/css/nice-select.css',
     '@/assets/css/style.css',
   ],
-
-  router: {
-    prefetchLinks: false,
-  },
-
-  vue: {
-    config: {
-      unwrapInjectedRef: true
-    }
-  },
 
   image: {
     cloudinary: {

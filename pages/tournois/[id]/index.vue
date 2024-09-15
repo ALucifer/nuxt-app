@@ -228,11 +228,8 @@
 
 <script setup lang="ts">
 import { FiltersTournamentMatches } from "~/app/vo/Filters";
-import {
-  type MatchWithTeamsAndScoresModel,
-  State,
-} from "~/app/models/match.model";
-import type { TournamentModelWithMatchesAndTeams } from "~/app/models/tournament";
+import { MatchWithTeamsAndScoresModel, State } from "~/app/models/match.model";
+import { TournamentModelWithMatchesAndTeams } from "~/app/models/tournament";
 import MatchCard from "@/components/match/MatchCard";
 import DropdownAction from "@/components/tournament/DropdownAction";
 
@@ -269,7 +266,7 @@ const filters = Object.values(FiltersTournamentMatches);
 const currentFilter = ref(filters[0]);
 
 const tournamentSorted = computed(() => {
-  let filtered: MatchWithTeamsAndScoresModel[] = [];
+  let filtered: MatchWithTeamsAndScoresModel[] = []
 
   switch (currentFilter.value) {
     case "Terminé": {

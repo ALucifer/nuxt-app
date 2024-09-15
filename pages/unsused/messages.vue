@@ -5,10 +5,10 @@
         style="background-color: #665494; min-height: 350px"
     >
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
-        <MessageLeftSide @changeConversation="setCurrentConversation($event.conversation)"/>
+        <MessageLeftSide @change-conversation="setCurrentConversation($event.conversation)"/>
       </div>
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-        <MessageRightSide v-if="currentConversation" ref="messageRightSide" @newMessage="scrollToNewMessage"  />
+        <MessageRightSide v-if="currentConversation" ref="messageRightSide" @new-message="scrollToNewMessage"  />
       </div>
     </div>
   </div>
@@ -18,7 +18,6 @@
 import {useConversationStore} from "~/store/conversation";
 import MessageLeftSide from "~/components/profile/MessageLeftSide.vue";
 import MessageRightSide from "~/components/profile/MessageRightSide.vue";
-import {InterlocutorModel} from "~/app/models/conversation.model";
 import {storeToRefs} from "pinia";
 import ClientSSE from "~/app/client/sse/ClientSSE";
 
@@ -53,7 +52,7 @@ await useAsyncData('conversations-list', async () => {
   await fetchConversations()
 
   if (route.meta.user && !conversations.value.find((c) => c.interlocutor.id === route.meta.user.id)) {
-    createNewConversation(route.meta.user as InterlocutorModel, route.meta.user.id)
+    createNewConversation(route.meta.user, route.meta.user.id)
   }
 
   initCurrentConversation()

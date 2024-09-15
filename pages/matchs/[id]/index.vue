@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import { definePageMeta } from "#imports";
-import type { TeamModel } from "~/app/models/team.model";
+import { TeamModel } from "~/app/models/team.model";
 import ModalScore from "~/components/match/ModalScore.vue";
 import { State, type MatchWithTeamsAndScoresModel } from "~/app/models/match.model";
 import type { ScoreModel } from "~/app/models/scoreFormModel";

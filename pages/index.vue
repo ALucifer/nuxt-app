@@ -17,6 +17,4 @@ definePageMeta({
 useHead({
   title: "Spots : Une platforme pour les gameurs fait par les gameurs",
 })
-
-const showBanner = ref(true)
 </script>

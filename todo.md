@@ -11,12 +11,12 @@
 - [x] Installation du module ESLINT
 - [ ] Correction de 1/4 des erreurs ESLINT
 - [ ] middleware pour ne pas pouvoir accéder au register tournament si le challongeId n'est pas présent
-- [ ] Mise a jour des dependances
-- [ ] Mise en place de quelques tests
+- [x] Mise a jour des dependances
 - [ ] Rendre le unsubscribe et start du component DropdownAction de tournament
 
 
 ## A groomer
+- [ ] Mise en place de quelques tests
 - [ ] Lors de la créer la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores
 - [ ] Systeme de notification 
