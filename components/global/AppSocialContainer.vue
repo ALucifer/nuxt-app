@@ -4,15 +4,15 @@
       <div class="authentication-container">
         <div class="col-lg-6">
           <div class="authentication-main">
-            <slot name="header"></slot>
-            <slot></slot>
+            <slot name="header"/>
+            <slot/>
             <div class="or">
               <p>OU</p>
             </div>
             <SocialAuthenticator
                 message="Inscrivez-vous avec"
             />
-            <slot name="footer"></slot>
+            <slot name="footer"/>
           </div>
         </div>
       </div>

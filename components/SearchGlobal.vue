@@ -1,16 +1,16 @@
 <template>
   <div class="search-popup">
     <form
-      class="search-form"
       v-click-outside="() => emit('close')"
+      class="search-form"
     >
       <input
         v-model="text"
-        @keyup="suggestUsers"
         type="text"
         placeholder="Rechercher"
-      />
-      <ul style="padding: 8px" v-if="isValidSearch() || searching">
+        @keyup="suggestUsers"
+      >
+      <ul v-if="isValidSearch() || searching" style="padding: 8px">
         <li v-if="searching">
           <div class="text-center p-2">
             <div class="spinner-border" role="status">
@@ -24,11 +24,11 @@
           </p>
         </li>
         <template v-if="users.length > 0 && !searching">
-          <li v-for="user in users" class="p-2">
+          <li v-for="user in users" :key="user.id" class="p-2">
             <NuxtLink
               :to="{ name: 'user-id-profile', params: { id: user.id } }"
               class="search-link"
-              @click="this.$emit('close')"
+              @click="$emit('close')"
             >
               <AppAvatar class="search-avatar" :src="user.avatar" />
               {{ user.pseudo }}

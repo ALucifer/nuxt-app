@@ -18,11 +18,16 @@
 </template>
 
 <script setup lang="ts">
-import type {TournamentModel} from "~/app/models/tournament";
+import {TournamentModel} from "~/app/models/tournament";
 
-defineProps<{tournament: TournamentModel}>()
+defineProps({
+  tournament: {
+    type: TournamentModel,
+    required: true
+  }
+})
 
-function getAvatar(avatar: string) {
+function getAvatar(avatar: String) {
   return "data:image/svg+xml;base64," + avatar;
 }
 </script>

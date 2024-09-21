@@ -1,23 +1,23 @@
 <template>
   <form @submit="onSubmit">
-    <slot :setFieldValue="setFieldValue" :values="values" />
+    <slot :set-field-value="setFieldValue" :values="values" />
 
     <div class="button-end">
-      <button :disabled="!meta.valid" class="cmn-btn" type="submit" v-if="!isLastStep">Suivant</button>
+      <button v-if="!isLastStep" :disabled="!meta.valid" class="cmn-btn" type="submit">Suivant</button>
       <template v-else>
         <button v-if="isSubmitLastStep" class="cmn-btn submit-btn">
           <span
             class="spinner-border spinner-border-sm"
             role="status"
             aria-hidden="true"
-          ></span>
+          />
         </button>
         <button v-else :disabled="!meta.valid" class="cmn-btn" type="submit">
           Envoyer
         </button>
       </template>
-      <NuxtLink class="btn btn--cancel" v-if="currentStepIdx === 0">Annuler</NuxtLink>
-      <button class="btn btn--previous" v-if="hasPrevious" @click="goToPrev" type="button">Précédent</button>
+      <NuxtLink v-if="currentStepIdx === 0" class="btn btn--cancel">Annuler</NuxtLink>
+      <button v-if="hasPrevious" class="btn btn--previous" type="button" @click="goToPrev">Précédent</button>
     </div>
   </form>
 </template>

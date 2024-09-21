@@ -6,11 +6,11 @@
         :key="message.id"
       >
         <div
+          v-show="message.visible"
           class="notification"
           :class="message.class"
-          v-show="message.visible"
         >
-          <span v-html="message.message"></span>
+          <span v-html="message.message"/>
           <button @click="removeMessage(message.id)">x</button>
         </div>
       </template>

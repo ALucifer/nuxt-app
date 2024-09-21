@@ -2,9 +2,9 @@
   <client-only>
     <div
       class="nice-select"
-      @click="open = !open"
       tabindex="0"
       :class="{ open: open }"
+      @click="open = !open"
     >
       <span class="current">{{ customLibelle ? customLibelle : libelle }}</span>
       <ul class="list">
@@ -16,7 +16,8 @@
           {{ libelle }}
         </li>
         <li
-          v-for="item in items"
+          v-for="(item, index) in items"
+          :key="index"
           :data-value="item.id"
           class="option"
           @click.prevent="change(item)"
@@ -31,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   libelle: {
     type: String,
     required: true,

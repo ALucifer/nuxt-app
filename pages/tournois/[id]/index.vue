@@ -85,7 +85,7 @@
             >Pas de description du déroulement du tournoi actuellement</div
           >
         </div>
-        <div class="next" @click="description = !description" v-if="tournament.matches?.length > 0 || tournament.teams?.length > 0">
+        <div v-if="tournament.matches?.length > 0 || tournament.teams?.length > 0" class="next" @click="description = !description">
           <chevron-right-icon fill-color="black" />
         </div>
       </div>
@@ -228,11 +228,10 @@
 
 <script setup lang="ts">
 import { FiltersTournamentMatches } from "~/app/vo/Filters";
-import { MatchWithTeamsAndScoresModel, State } from "~/app/models/match.model";
-import { TournamentModelWithMatchesAndTeams } from "~/app/models/tournament";
+import {type MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
+import type { TournamentModelWithMatchesAndTeams } from "~/app/models/tournament";
 import MatchCard from "@/components/match/MatchCard";
 import DropdownAction from "@/components/tournament/DropdownAction";
-
 definePageMeta({
   auth: false,
 });
@@ -270,16 +269,17 @@ const tournamentSorted = computed(() => {
 
   switch (currentFilter.value) {
     case "Terminé": {
-      filtered = tournament.value.matches.filter((item) => item.state === State.FINISH) as MatchWithTeamsAndScoresModel[]
+      // tournament.value.matches.filter()
+      filtered = tournament.value.matches.filter((item) => item.state === State.FINISH)
       break;
     }
     case "Score incorrect": {
-      filtered = tournament.value.matches.filter((item) => item.state === State.NEED_VALIDATION) as MatchWithTeamsAndScoresModel[]
+      filtered = tournament.value.matches.filter((item) => item.state === State.NEED_VALIDATION)
       break;
     }
     case "Mes matchs": {
       filtered = findUserMatchFromMatches(
-        tournament.value.matches as MatchWithTeamsAndScoresModel[],
+        tournament.value.matches,
         getUser().id
       );
       break;

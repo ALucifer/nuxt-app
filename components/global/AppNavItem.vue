@@ -1,16 +1,16 @@
 <template>
   <li class="nav-item">
     <a
-      class="nav-link"
       :id="name + '-tab'"
+      class="nav-link"
       data-toggle="tab"
-      @click="setActiveTabByKeyName('tournament-view', name)"
       :class="{
         active: isActiveTabByKeyName('tournament-view', name),
       }"
       role="tab"
       aria-controls="{{ name }}"
       aria-selected="true"
+      @click="setActiveTabByKeyName('tournament-view', name)"
       >{{ libelle ?? name }}</a
     >
   </li>

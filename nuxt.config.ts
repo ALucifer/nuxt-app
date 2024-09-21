@@ -20,9 +20,17 @@ export default defineNuxtConfig({
         ],
       },
     ],
-    "@nuxt/eslint",
-    '@nuxt/test-utils/module'
+    // "@nuxt/eslint",
+    '@nuxt/test-utils/module',
+    // '@nuxtjs/eslint-module'
   ],
+
+  eslint: {
+    config: {
+      typescript: true,
+      stylistic: true,
+    },
+  },
 
   auth: {
     origin: 'http://127.0.0.1:3333',

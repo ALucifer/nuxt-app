@@ -1,12 +1,12 @@
 <template>
-  <div class="offcanvas offcanvas-end" :class="{ show: isOpen() }" v-click-outside="() => close()" >
+  <div v-click-outside="() => close()" class="offcanvas offcanvas-end" :class="{ show: isOpen() }" >
     <div class="offcanvas-header">
       <button
         type="button"
         class="btn-close"
-        @click="toggle()"
         aria-label="Close"
-      ></button>
+        @click="toggle()"
+      />
     </div>
     <div class="offcanvas-body">
       <ul>
@@ -23,7 +23,7 @@
           </NuxtLink>
         </li>
         <li class="sidebar--menu-item">
-          <button @click="logout()" class="link-action--full text-start text-white">
+          <button class="link-action--full text-start text-white" @click="logout()">
             <logout-icon class="me-2" />
             <span>Se deconnecter</span>
           </button>

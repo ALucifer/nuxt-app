@@ -1,5 +1,5 @@
 <template>
-  <Carousel :autoplay="10000" :transition="1000" :wrapAround="true" :pauseAutoplayOnHover="true">
+  <Carousel :autoplay="10000" :transition="1000" :wrap-around="true" :pause-autoplay-on-hover="true">
     <template #slides>
       <Slide v-for="item in items" :key="item.id">
         <div class="slide">
@@ -14,7 +14,7 @@
                     {{ item.libelle }}{{ item.id }}
                   </nuxt-link>
                 </h4>
-                <CounterTournament :beginAt="item.beginAt" />
+                <CounterTournament :begin-at="item.beginAt" />
                 <div class="btn-area">
                   <nuxt-link
                     v-if="isOpen(item)"

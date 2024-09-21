@@ -1,14 +1,14 @@
 <template>
   <div class="card-admin">
     <div class="card-admin__top">
-      <slot name="information"></slot>
-      <slot name="icon"></slot>
+      <slot name="information"/>
+      <slot name="icon"/>
     </div>
     <div
       class="card-admin__bottom"
       :class="'card-admin__bottom--' + color"
     >
-      <slot name="footer"></slot>
+      <slot name="footer"/>
     </div>
   </div>
 </template>

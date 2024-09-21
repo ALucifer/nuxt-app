@@ -2,8 +2,8 @@
   <content-loader
     viewBox="0 0 700 80"
     :speed="2"
-    primaryColor="#0e063d"
-    secondaryColor="#ecebeb"
+    primary-color="#0e063d"
+    secondary-color="#ecebeb"
   >
     <rect x="0" y="0" rx="0" ry="0" width="572" height="16" />
     <rect x="320" y="30" rx="0" ry="0" width="250" height="16" />
