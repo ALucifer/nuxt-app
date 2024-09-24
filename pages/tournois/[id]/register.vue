@@ -26,11 +26,12 @@
 </template>
 
 <script setup lang="ts">
-import { identicon } from "minidenticons";
+import { minidenticon } from 'minidenticons'
 import useFlashMessages from "~/composables/useFlashMessages";
 import * as yup from "yup";
 import {useTournamentStore} from "~/store/tournament";
 import {definePageMeta} from "#imports";
+import type {RegisterFormInput} from "~/app/models/tournament/register.input";
 
 useSeoMeta({
     title: "Inscription au tournoi",
@@ -49,27 +50,32 @@ const schema = yup.object({
     libelle: yup.string().required("Le nom de votre équipe est obligatoire."),
 })
 
+type formValues = InferType<typeof schema>
+
 const avatar = ref()
 
 function generateAvatar() {
     let result = "";
-    let characters =
+    const characters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let charactersLength = characters.length;
-    for (var i = 0; i < 15; i++) {
+    const charactersLength = characters.length;
+    for (let i = 0; i < 15; i++) {
         result += characters.charAt(
             Math.floor(Math.random() * charactersLength)
         );
     }
-    const svg = identicon(result);
+    const svg = minidenticon(result);
     const a = btoa(svg)
     avatar.value = a;
 }
 
-async function submit(values) {
-    values.avatar = avatar.value;
-    values.tournament_id = route.params.id;
-    const result = await register(values);
+async function submit(values: formValues) {
+    const registerFormInput: RegisterFormInput = {
+      ...values,
+      avatar: avatar.value,
+      tournament_id: +route.params.id,
+    }
+    const result = await register(registerFormInput);
 
     let message = "";
     let classCss = "";

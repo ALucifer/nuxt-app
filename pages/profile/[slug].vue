@@ -49,7 +49,7 @@ import TournamentListing from "~/components/profile/TournamentListing.vue";
 definePageMeta(
     {
       layout: 'profile',
-      validate: (route) => ['general', 'tournaments'].includes(<string>route.params.slug),
+      validate: (route) => ['general', 'tournaments'].includes(route.params.slug)
     }
 )
 
@@ -60,8 +60,8 @@ useSeoMeta({
 const { getUser } = useSecurity()
 const auth = useAuth()
 
-async function handleChangeAvatar(e: any) {
-  let formData = new FormData();
+async function handleChangeAvatar(e: Event) {
+  const formData = new FormData();
   formData.append("avatar", e.target.files[0]);
 
   const { errorMessage } = useFlashMessages()

@@ -8,7 +8,7 @@ export default defineEventHandler(async event => {
               body: { ...body.form }
           }
         )
-    } catch (error) {
+    } catch {
         return false
     }
 })

@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
             'users/conversations/' + query.conversationId,
             { headers: { Authorization: 'Bearer ' + session!.token}}
         )
-    } catch (e) {
+    } catch {
         return []
     }
 })

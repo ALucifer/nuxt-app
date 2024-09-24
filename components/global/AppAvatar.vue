@@ -10,17 +10,17 @@
       </div>
       <input
         v-show="false"
-        type="file"
         id="avatar"
+        type="file"
         accept="image/*"
         @change="handleAvatarUpload"
-      />
+      >
     </label>
   </div>
   <AppImage
+    v-else
     :src="src"
     :class="[$attrs.class ? $attrs.class : 'avatar-img']"
-    v-else
   />
 </template>
 
@@ -34,6 +34,7 @@ withDefaults(
     defineProps<Avatar>(),
     {
       editable: false,
+      imgClass: null
     }
 )
 

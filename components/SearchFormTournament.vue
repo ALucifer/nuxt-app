@@ -84,6 +84,8 @@ const schema = [
     })
 ]
 
+type formValues = InferType<typeof schema>;
+
 const boItems = ref([
   {id: 1, libelle: "1"},
   {id: 3, libelle: "3"},
@@ -103,8 +105,8 @@ const statusItems = ref([
 const emit = defineEmits(['search'])
 const searching = defineModel({ type: Boolean })
 
-function search(values) {
-    emit('search', {form: values})
+function search(values: formValues) {
+    emit('search', values)
 }
 </script>
 

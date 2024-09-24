@@ -21,7 +21,7 @@ import { useTabStore } from "~/store/tab";
 
 defineProps({
   name: { type: String, required: true},
-  libelle: { type: String, required: false }
+  libelle: { type: String, required: false, default: "Add libelle for this tab" }
 })
 
 const { isActiveTabByKeyName, setActiveTabByKeyName } = useTabStore()

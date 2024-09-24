@@ -17,7 +17,7 @@ export default defineEventHandler(async event => {
             },
         )
         return true
-    } catch (e) {
+    } catch {
         return false
     }
 })

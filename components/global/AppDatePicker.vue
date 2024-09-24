@@ -7,7 +7,7 @@
       @update:model-value="change"
     >
       <template #dp-input="{}">
-        <input type="text" :value="value" :placeholder="placeholder ?? name" >
+        <input type="text" :value="fieldValue" :placeholder="placeholder ?? name" >
       </template>
     </VueDatePicker>
     <AppField type="hidden" :name="name" />
@@ -30,7 +30,7 @@ const props = defineProps({
 const emit = defineEmits(["change"]);
 
 const name = computed(() => props.name);
-const { value } = useField(name);
+const { value: fieldValue } = useField(name);
 const date = ref(null);
 
 function change(value) {

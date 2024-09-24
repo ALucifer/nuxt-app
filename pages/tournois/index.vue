@@ -2,7 +2,7 @@
   <div class="pt-4">
     <div v-if="tournamentStore.total !== 0 || searched">
       <div class="container">
-        <Carousel :items="data" />
+        <CarouselElement :items="data" />
       </div>
       <section class="tournaments-card">
         <div class="overlay pt-120 pb-120">
@@ -43,8 +43,8 @@
 import TournamentCard from "@/components/TournamentCard"
 import SearchFormTournament from "@/components/SearchFormTournament";
 import { useTournamentStore } from "~/store/tournament";
-import Carousel from '~/components/Carousel.vue';
-import { TournamentModel } from "~/app/models/tournament";
+import CarouselElement from '~/components/CarouselElement.vue';
+import type { TournamentModel } from "~/app/models/tournament";
 
 definePageMeta({
   auth: false

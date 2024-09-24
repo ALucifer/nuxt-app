@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 
-let state = reactive({ open: false})
+const state = reactive({ open: false})
 
 export default function useMatchModal() {
 

@@ -1,8 +1,8 @@
 import {find} from "lodash"
 import useDate from "~/composables/useDate";
-import type {TournamentModel, TournamentModelWithMatches} from "~/app/models/tournament";
-import type {TeamModel} from "~/app/models/team.model";
-import type {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
+import type { TournamentModel } from "~/app/models/tournament";
+import type { TeamModel } from "~/app/models/team.model";
+import type { MatchWithTeamsAndScoresModel } from "~/app/models/match.model";
 
 export default function useTournament() {
     const date = useDate()
@@ -36,15 +36,6 @@ export default function useTournament() {
 
     function isRegister(tournament: TournamentModel) {
         return isLogged() && !!find(tournament.teams, (t) => t.userId === getUser().id)
-    }
-
-    function hasMatches(tournament: TournamentModelWithMatches) {
-        return tournament.matches?.length > 0
-    }
-
-    function isValid(tournament: TournamentModel) {
-        return ['OPEN'].includes(tournament.state)
-            && tournament.challongeId !== null
     }
 
     function isCompletlyClose(tournament: TournamentModel) {

@@ -11,11 +11,11 @@ export const useTabStore = defineStore({
   },
   actions: {
     setActiveTabByKeyName(key: string, value: string) {
-      // @ts-ignore
+      // @ts-expect-error no need to check this
       this.items[key] = value;
     },
     isActiveTabByKeyName(key: string, value: string) {
-      // @ts-ignore
+      // @ts-expect-error no need to check this
       return this.items[key] === value;
     },
   },

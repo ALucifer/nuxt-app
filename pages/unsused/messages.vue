@@ -92,7 +92,7 @@ async function fillCurrentConversationMessages() {
 }
 function scrollToNewMessage() {
   const topPos = messageRightSide.value.messages.at(-1).offsetTop
-  let chat = messageRightSide.value.chatContainer
+  const chat = messageRightSide.value.chatContainer
   chat.scrollTop = topPos;
 }
 </script>

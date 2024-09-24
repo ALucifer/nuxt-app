@@ -33,7 +33,7 @@ import type {TournamentModelWithMatchesAndTeams} from "#build/app/models/tournam
 const props = defineProps<{ tournament: TournamentModelWithMatchesAndTeams }>()
 const emits = defineEmits(['unsubscribe', 'start'])
 
-const { canBeStarted, isRegister, isCompletlyClose, isRunning, isComplete } = useTournament()
+const { canBeStarted, isRegister, isCompletlyClose, isRunning } = useTournament()
 const { errorMessage, successMessage } = useFlashMessages();
 const { isLogged } = useSecurity()
 const route = useRoute()
@@ -87,7 +87,7 @@ const unsubscribe = async () => {
 
         successMessage('Vous êtes bien désincrit au tournois')
 
-    } catch (e) {
+    } catch {
         errorMessage('Une erreur est survenu')
     }
     emits('unsubscribe')

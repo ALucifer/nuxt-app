@@ -7,9 +7,9 @@ export default defineEventHandler(async event => {
           {
               headers: { Authorization: "Bearer " + query.token } }
         )
-    } catch (e) {
+    } catch {
         throw createError({
-            code: 404,
+            statusCode: 404,
             message: 'An error has occured on token verification'
         })
     }

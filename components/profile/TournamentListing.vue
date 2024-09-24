@@ -7,7 +7,7 @@
     <div>
       <p class="text-14">Trier par:
         <select v-model="selected" class="selector-option">
-          <option v-for="filter in filters" :value="filter.id">{{ filter.libelle }}</option>
+          <option v-for="filter in filters" :key="filter.id" :value="filter.id">{{ filter.libelle }}</option>
         </select>
       </p>
     </div>

@@ -130,7 +130,7 @@
 import * as yup from "yup";
 import {tournament} from '~/app/models/tournament'
 import useRedirection from "~/composables/useRedirection";
-import Stepper from "~/components/stepper/Stepper.vue";
+import Stepper from "~/components/stepper/StepperContainer.vue";
 import FormWizard from "~/components/form/FormWizard.vue";
 import FormStep from "~/components/form/FormStep.vue";
 

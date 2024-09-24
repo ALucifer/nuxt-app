@@ -20,15 +20,14 @@ export default defineNuxtConfig({
         ],
       },
     ],
-    // "@nuxt/eslint",
     '@nuxt/test-utils/module',
-    // '@nuxtjs/eslint-module'
+    '@nuxt/eslint',
   ],
 
   eslint: {
     config: {
       typescript: true,
-      stylistic: true,
+      // stylistic: true,
     },
   },
 

@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    if (!to.query.user || process.client) return
+    if (!to.query.user || import.meta.client) return
 
     const { status, data: user } = await useFetch(`/api/user/${from.query.user}`, { key: Math.random().toString() })
     const { getUser } = useSecurity()

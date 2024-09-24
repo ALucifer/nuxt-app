@@ -10,7 +10,7 @@
           class="notification"
           :class="message.class"
         >
-          <span v-html="message.message"/>
+          <span>{{ message.message }}</span>
           <button @click="removeMessage(message.id)">x</button>
         </div>
       </template>

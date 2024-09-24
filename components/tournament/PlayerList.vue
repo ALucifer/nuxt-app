@@ -1,9 +1,9 @@
 <template>
-  <AppTabPane name="participants" tabName="tournament-view">
-    <template v-slot:content>
+  <AppTabPane name="participants" tab-name="tournament-view">
+    <template #content>
       <div class="col-lg-12">
         <div class="pb-120">
-          <div class="participant-item" v-for="team in tournament.teams">
+          <div v-for="team in tournament.teams" :key="team.id" class="participant-item">
             <div class="left-area d-flex align-items-center">
               <AppAvatar :src="getAvatar(team.avatar)" />
               <div class="right-side">
@@ -27,7 +27,7 @@ defineProps({
   }
 })
 
-function getAvatar(avatar: String) {
+function getAvatar(avatar: string) {
   return "data:image/svg+xml;base64," + avatar;
 }
 </script>

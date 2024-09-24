@@ -1,28 +1,28 @@
 <template>
-  <AppForm @submit="submit" :validation-schema="schema" class="login-form">
+  <AppForm :validation-schema="schema" class="login-form" @submit="submit">
     <div class="form-group">
       <label>Email</label>
       <AppField
+        id="login-email"
         name="email"
         placeholder="Entrez votre email"
         type="email"
         :class="{ 'is-invalid': error }"
         :validate-on-blur="false"
         :validate-on-change="false"
-        id="login-email"
       />
       <AppErrorMessage class="error" name="email" />
     </div>
     <div class="form-group">
       <label>Password</label>
       <AppField
+        id="login-password"
         name="password"
         placeholder="Entrez votre mot de passe"
         type="password"
         :class="{ 'is-invalid': error }"
         :validate-on-blur="false"
         :validate-on-change="false"
-        id="login-password"
       />
       <AppErrorMessage class="error" name="password" />
     </div>
@@ -38,7 +38,7 @@
           class="spinner-border spinner-border-sm"
           role="status"
           aria-hidden="true"
-        ></span>
+        />
       </button>
       <button v-else type="submit" class="cmn-btn submit-btn" >Connexion</button>
     </div>
@@ -60,14 +60,14 @@ const router = useRouter()
 const { signIn } = useAuth()
 const route = useRoute()
 
-let redirect = route.query.callbackUrl as string ?? router.resolve({ name: 'profile-slug', params: { slug: 'general' }}).href
+const redirect = route.query.callbackUrl as string ?? router.resolve({ name: 'profile-slug', params: { slug: 'general' }}).href
 
 onMounted(() => {
   if (route.query.error) {
     errorMessage('Login/Mot de passe incorrect')
   }
 })
-async function submit(values: any) {
+async function submit(values) {
   isSubmitting.value = true
   await signIn(
       'credentials',

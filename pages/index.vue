@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import Introduction from "@/components/Introduction";
+import Introduction from "~/components/IntroductionElement.vue";
 import PlayProcess from "@/components/PlayProcess";
 
 definePageMeta({

@@ -1,7 +1,7 @@
 <template>
   <nav class="m-auto">
     <ul class="pagination">
-      <li class="page-item" v-if="currentPage !== 1">
+      <li v-if="currentPage !== 1" class="page-item">
         <NuxtLink
           class="page-link"
           :to="{
@@ -20,8 +20,9 @@
       </li>
       <template v-for="i in pages">
         <li
-          class="page-item"
           v-if="i !== 1 && i !== pages"
+          :key="i"
+          class="page-item"
           :class="{ active: currentPage === i }"
         >
           <NuxtLink
@@ -41,7 +42,7 @@
           >{{ pages }}</NuxtLink
         >
       </li>
-      <li class="page-item" v-if="currentPage != pages">
+      <li v-if="currentPage != pages" class="page-item">
         <NuxtLink
           class="page-link"
           :to="{ name: routeName, query: nextLink }"
@@ -68,6 +69,8 @@ const props = defineProps({
     required: true,
   }
 })
+
+defineEmits(['changepage'])
 
 const route = useRoute()
 

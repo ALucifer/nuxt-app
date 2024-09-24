@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import Error from "@/components/Error.vue";
+import Error from "~/components/ErrorMessage.vue";
 
 useSeoMeta({
   titleTemplate: 'Erreur 404',

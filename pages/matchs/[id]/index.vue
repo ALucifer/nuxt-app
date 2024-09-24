@@ -17,11 +17,9 @@
           <p v-if=score.reporter>Score indiqué par l'équipe : <b>{{ score.reporter.libelle }}</b></p>
           <p v-else>Score indiqué par l'administrateur</p>
           <p>
-            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.winner.libelle"
-              class="avatar-information" :src="getTeamAvatar(score.winner)" />
+            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.winner.libelle" class="avatar-information" :src="getTeamAvatar(score.winner)" />
             <span class="score">{{ score.winnerScore + ' - ' + score.looserScore }}</span>
-            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.looser.libelle"
-              class="avatar-information avatar-information--looser" :src="getTeamAvatar(score.looser)" />
+            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.looser.libelle" class="avatar-information avatar-information--looser" :src="getTeamAvatar(score.looser)" />
           </p>
         </div>
         <div v-if="match.scores.length === 0" class="information">
@@ -48,7 +46,7 @@
 
 <script setup lang="ts">
 import { definePageMeta } from "#imports";
-import { TeamModel } from "~/app/models/team.model";
+import type { TeamModel } from "~/app/models/team.model";
 import ModalScore from "~/components/match/ModalScore.vue";
 import { State, type MatchWithTeamsAndScoresModel } from "~/app/models/match.model";
 import type { ScoreModel } from "~/app/models/scoreFormModel";

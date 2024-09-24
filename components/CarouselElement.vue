@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 // If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
-import { Carousel, Slide, Navigation } from "vue3-carousel/dist/carousel.es.js";
+import { Carousel, Slide, Navigation } from "vue3-carousel/dist/carousel";
 import CounterTournament from "@/components/CounterTournament";
 import "vue3-carousel/dist/carousel.css";
 

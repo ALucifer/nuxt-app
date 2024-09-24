@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { UserModel } from "~/app/models/user.model";
+import type { UserModel } from "~/app/models/user.model";
 
 definePageMeta({
   auth: false
