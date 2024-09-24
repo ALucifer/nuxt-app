@@ -15,21 +15,17 @@
   <nav v-if="!pending && tournaments.meta.lastPage > 1">
     <ul class="pagination justify-content-center pt-2">
       <li class="page-item" :class="{ 'disabled': currentPage <= 1}">
-        <NuxtLink class="page-link"
-                  :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: currentPage - 1 } }">
+        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: currentPage - 1 } }">
           Précédent
         </NuxtLink>
       </li>
-      <li class="page-item" v-for="i in range" :class="{'active': currentPage === i}">
-        <NuxtLink class="page-link"
-                  :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: i } }">{{
-            i
-          }}
+      <li v-for="i in range" :key="i" class="page-item" :class="{'active': currentPage === i}">
+        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: i } }">
+          {{ i }}
         </NuxtLink>
       </li>
       <li class="page-item" :class="{ 'disabled': tournaments.meta.lastPage <= currentPage}">
-        <NuxtLink class="page-link"
-                  :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: currentPage + 1 } }">
+        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: currentPage + 1 } }">
           Suivant
         </NuxtLink>
       </li>

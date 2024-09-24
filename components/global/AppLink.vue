@@ -1,6 +1,6 @@
 <template>
-  <NuxtLink v-bind="$props" custom v-slot="{ isActive, href, navigate }">
-    <a :href="href" @click="navigate" :class="isActive ? 'active' : ''">
+  <NuxtLink v-slot="{ isActive, href, navigate }" v-bind="$props" custom>
+    <a :href="href" :class="isActive ? 'active' : ''" @click="navigate">
       <slot />
     </a>
   </NuxtLink>

@@ -19,7 +19,7 @@ export default defineEventHandler(async event => {
                 body
             }
         )
-    } catch (e) {
+    } catch {
         throw createError({
             statusCode: 400,
             message: 'Une erreur est survenu lors de la création de votre tournoi'

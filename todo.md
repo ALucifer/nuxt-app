@@ -8,13 +8,20 @@
 - [x] Probleme sur le slider qui est plus en automatique
 - [x] Sur le profile, créer un composant pour le listing des tournois que je dois rendre alive avec keepAlive
 ## feature/v.0.0.2
-- [ ] middleware pour ne pas pouvoir accéder au register tournament si le challongeId n'est pas présent
-- [ ] Mise a jour des dependances
-- [ ] Mise en place de quelques tests
-- [ ] Rendre le unsubscribe et start du component DropdownAction de tournament
+- [x] Installation du module ESLINT
+- [x] Correction de 1/4 des erreurs ESLINT
+- [x] middleware pour ne pas pouvoir accéder au register tournament si le challongeId n'est pas présent
+- [x] Mise a jour des dependances
+- [x] Rendre le unsubscribe et start du component DropdownAction de tournament
 
 
 ## A groomer
+- [ ] Pouvoir ajouter des messages flash depuis la partie serveur
+- [ ] Stylelistic de l'ESLint
+- [ ] Supprimer les components inutilisés
+- [ ] passer pinia sous la nouvelle forme
+- [ ] Sortir les objets yup des vue pour pouvoir typer plus facilement
+- [ ] Mise en place de quelques tests
 - [ ] Lors de la créer la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores
 - [ ] Systeme de notification 

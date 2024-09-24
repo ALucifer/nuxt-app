@@ -2,36 +2,36 @@
   <div class="pt-4">
     <div v-if="tournamentStore.total !== 0 || searched">
       <div class="container">
-        <Carousel :items="data" />
+        <CarouselElement :items="data" />
       </div>
       <section class="tournaments-card">
         <div class="overlay pt-120 pb-120">
           <div class="container wow fadeInUp">
-              <client-only>
-            <SearchFormTournament @search="searchFilter($event)" v-model="searching" />
-            <p class="text-white">Nombre de résultat(s) : {{ tournamentStore.total }}</p>
-            <transition-group name="flip-list" tag="div" class="search__result">
-              <tournamentCard
-                  v-for="item in tournamentStore.filteredItems"
-                  :key="item.id"
-                  :item="item"
+            <client-only>
+              <SearchFormTournament v-model="searching" @search="searchFilter($event)" />
+              <p class="text-white">Nombre de résultat(s) : {{ tournamentStore.total }}</p>
+              <transition-group name="flip-list" tag="div" class="search__result">
+                <tournamentCard
+                    v-for="item in tournamentStore.filteredItems"
+                    :key="item.id"
+                    :item="item"
+                />
+              </transition-group>
+              <AppInfiniteScroll
+                  v-show="!pending"
+                  :key="'infiniteKey' + infiniteKey"
+                  :done="tournamentStore.items.length === tournamentStore.total"
+                  @load="tournamentStore.fetchNextItems()"
               />
-            </transition-group>
-            <AppInfiniteScroll
-                v-show="!pending"
-                @load="tournamentStore.fetchNextItems()"
-                :done="tournamentStore.items.length === tournamentStore.total"
-                :key="'infiniteKey' + infiniteKey"
-            />
-            <div v-if="!tournamentStore.filteredItems.length">
-              <h4>Aucun résultat pour votre recherche</h4>
-            </div>
-              </client-only>
+              <div v-if="!tournamentStore.filteredItems.length">
+                <h4>Aucun résultat pour votre recherche</h4>
+              </div>
+            </client-only>
           </div>
         </div>
       </section>
     </div>
-    <div class="container" v-else>
+    <div v-else class="container">
       <div class="empty-slide__container">
         <h3>Aucun tournois pour le moment ...</h3>
       </div>
@@ -43,8 +43,8 @@
 import TournamentCard from "@/components/TournamentCard"
 import SearchFormTournament from "@/components/SearchFormTournament";
 import { useTournamentStore } from "~/store/tournament";
-import Carousel from '~/components/Carousel.vue';
-import type {TournamentModel} from "~/app/models/tournament";
+import CarouselElement from '~/components/CarouselElement.vue';
+import type { TournamentModel } from "~/app/models/tournament";
 
 definePageMeta({
   auth: false
@@ -59,13 +59,13 @@ useHead({
 const tournamentStore = useTournamentStore()
 
 const { pending } = await useAsyncData('tournament-list', () => tournamentStore.fetchTournaments())
-const { data, error } = await useAsyncData<TournamentModel[]>('tournament-highlighted', () => $fetch('/api/tournaments/highlighted'))
+const { data } = await useAsyncData<Array<TournamentModel>>('tournament-highlighted', () => $fetch('/api/tournaments/highlighted'))
 const searched = ref(false)
 const infiniteKey = ref(0)
 
 const searching = ref(false)
 
-function searchFilter(event: any) {
+function searchFilter(event) {
     infiniteKey.value++;
     searching.value = true
     tournamentStore.sendSearch({ form: event.form })

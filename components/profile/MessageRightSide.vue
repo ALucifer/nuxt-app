@@ -7,70 +7,70 @@
         }}</span></span
     >
   </div>
-  <div class="chat-container chat__container" ref="chatContainer">
-    <ul class="chat-box chatContainerScroll" v-if="currentConversation.messages">
+  <div ref="chatContainer" class="chat-container chat__container">
+    <ul v-if="currentConversation.messages" class="chat-box chatContainerScroll">
       <li
-          v-for="(message, i) in currentConversation.messages"
+          v-for="(item, i) in currentConversation.messages"
+          ref="messages"
+          :key="i"
           v-observe="{
             callback: messageRead,
-            useCallback: message.state === 'UNREAD' && !isOwnMessage(message),
-            message,
+            useCallback: item.state === 'UNREAD' && !isOwnMessage(item),
+            item,
           }"
           class="chat__message"
-          :key="i"
           :class="{
-          'chat__message message-item__left': isOwnMessage(message),
-          'chat__message message-item__right': !isOwnMessage(message),
+          'chat__message message-item__left': isOwnMessage(item),
+          'chat__message message-item__right': !isOwnMessage(item),
         }"
-          ref="messages"
       >
         <div
             :class="{
-            'message-item__avatar-left': isOwnMessage(message),
-            'message-item__avatar-right': !isOwnMessage(message),
+            'message-item__avatar-left': isOwnMessage(item),
+            'message-item__avatar-right': !isOwnMessage(item),
           }"
         >
           <AppImage
-              :src="message.fromUser.avatar"
+              :src="item.fromUser.avatar"
               placeholder="/images/participant-1.png"
-              :alt="`${message.fromUser.pseudo} avatar`"
+              :alt="`${item.fromUser.pseudo} avatar`"
               class="message-item__avatar"
           />
-          <div class="message-item__pseudo">{{ message.fromUser.pseudo }}</div>
+          <div class="message-item__pseudo">{{ item.fromUser.pseudo }}</div>
         </div>
         <div
             class="message-item__text"
             :class="{
-            'message-item__text--left': isOwnMessage(message),
-            'message-item__text--right': !isOwnMessage(message),
+            'message-item__text--left': isOwnMessage(item),
+            'message-item__text--right': !isOwnMessage(item),
           }"
         >
-          {{ message.text }}
+          {{ item.text }}
         </div>
         <div
             class="message-item__hour"
-            :class="{ 'message-item__hour--right': !isOwnMessage(message) }"
+            :class="{ 'message-item__hour--right': !isOwnMessage(item) }"
         >
-          {{ $dayjs(message.created_at).fromNow() }}
+          {{ $dayjs(item.created_at).fromNow() }}
         </div>
       </li>
     </ul>
   </div>
   <div class="form-group mt-3 mb-0 p-3">
     <textarea
+        v-model="message"
         class="form-control"
         rows="3"
         placeholder="Tapez votre message"
-        v-model="message"
         @keyup.enter="send()"
-    ></textarea>
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import {useConversationStore} from "~/store/conversation";
-import {storeToRefs} from "pinia";
-import {MessageModel} from "~/app/models/conversation.model";
+import { useConversationStore } from "~/store/conversation";
+import { storeToRefs } from "pinia";
+import type { MessageModel } from "~/app/models/conversation.model";
 
 const conversationStore = useConversationStore()
 const { getUser } = useSecurity()

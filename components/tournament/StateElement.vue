@@ -1,14 +1,14 @@
 <template>
-    <div class="time-area bg" v-if="isAfterNow(tournament.begin_at) && !isCompletlyClose(tournament)">
+    <div v-if="isAfterNow(tournament.begin_at) && !isCompletlyClose(tournament)" class="time-area bg">
       <div>
         <AppImage src="/images/waitng-icon.png" alt="image" class="tournament-card__wait" />
         <span>Début</span>
       </div>
       <span class="time">{{ dateToNow(tournament.begin_at) }}</span>
     </div>
-    <div class="date-area bg bg-danger" v-if="isCompletlyClose(tournament) && !isRunning(tournament)">Terminé</div>
-    <div class="date-area bg bg-success" v-if="isRunning(tournament)">En cours</div>
-    <div class="date-area bg bg-warning" v-if="isLogged() && isRegister(tournament)">Inscrit</div>
+    <div v-if="isCompletlyClose(tournament) && !isRunning(tournament)" class="date-area bg bg-danger">Terminé</div>
+    <div v-if="isRunning(tournament)" class="date-area bg bg-success">En cours</div>
+    <div v-if="isLogged() && isRegister(tournament)" class="date-area bg bg-warning">Inscrit</div>
     <div class="date-area bg">
       <span class="date">{{ formattedDate }}</span>
     </div>

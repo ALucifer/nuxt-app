@@ -1,5 +1,5 @@
 <template>
-  <Carousel :autoplay="10000" :transition="1000" :wrapAround="true" :pauseAutoplayOnHover="true">
+  <Carousel :autoplay="10000" :transition="1000" :wrap-around="true" :pause-autoplay-on-hover="true">
     <template #slides>
       <Slide v-for="item in items" :key="item.id">
         <div class="slide">
@@ -14,7 +14,7 @@
                     {{ item.libelle }}{{ item.id }}
                   </nuxt-link>
                 </h4>
-                <CounterTournament :beginAt="item.beginAt" />
+                <CounterTournament :begin-at="item.beginAt" />
                 <div class="btn-area">
                   <nuxt-link
                     v-if="isOpen(item)"
@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 // If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
-import { Carousel, Slide, Navigation } from "vue3-carousel";
+import { Carousel, Slide, Navigation } from "vue3-carousel/dist/carousel";
 import CounterTournament from "@/components/CounterTournament";
 import "vue3-carousel/dist/carousel.css";
 

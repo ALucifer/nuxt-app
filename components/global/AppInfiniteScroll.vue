@@ -6,12 +6,12 @@
 <script setup lang="ts">
 const props = defineProps({ done: { type: Boolean, default: false }})
 const emit = defineEmits(['load'])
-let observer: IntersectionObserver = null
+const observer = ref()
 const observerTemplate = ref()
 
 onMounted(() => {
-  observer = new IntersectionObserver(
-      (entries, observer) => {
+  observer.value = new IntersectionObserver(
+      (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !props.done) {
             emit('load')
@@ -24,11 +24,11 @@ onMounted(() => {
         threshold: 0.8,
       }
   )
-  observer.observe(observerTemplate.value)
+  observer.value.observe(observerTemplate.value)
 })
 
 onBeforeUnmount(() => {
-  observer.unobserve(observerTemplate.value)
+  observer.value.unobserve(observerTemplate.value)
 })
 </script>
 <style scoped>

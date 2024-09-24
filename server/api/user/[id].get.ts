@@ -3,7 +3,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         return fetchSpotsApi(`/users/${id}`)
-    } catch (e) {
+    } catch {
         throw createError({
             statusCode: 404,
             statusMessage: 'User not found'

@@ -32,7 +32,6 @@
 <script setup lang="ts">
 import { useConversationStore } from "~/store/conversation";
 import {storeToRefs} from "pinia";
-import {ConversationMessagesModel} from "~/app/models/conversation.model";
 
 const { conversations, currentConversation } = storeToRefs(useConversationStore())
 

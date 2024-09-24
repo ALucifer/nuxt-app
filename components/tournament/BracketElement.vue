@@ -1,6 +1,6 @@
 <template>
-  <AppTabPane name="bracket" tabName="tournament-view">
-    <template v-slot:content>
+  <AppTabPane name="bracket" tab-name="tournament-view">
+    <template #content>
       <div class="row">
         <AppImage :src="tournament.image_bracket" alt="" />
       </div>

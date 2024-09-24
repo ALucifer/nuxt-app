@@ -1,6 +1,8 @@
+import type { DirectiveBinding } from 'vue';
+
 const MessageDirective = {
-  mounted(el: any, binding: any) {
-    let observer = new IntersectionObserver(
+  mounted(el: HTMLElement, binding: DirectiveBinding) {
+    const observer = new IntersectionObserver(
       (observables) => {
         observables.forEach(function (observable) {
           if (observable.intersectionRatio > 0.99) {

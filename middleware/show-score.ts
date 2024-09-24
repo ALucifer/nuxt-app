@@ -1,6 +1,6 @@
 import type {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async (to) => {
     const { getUser } = useSecurity()
 
     const { data } = await useFetch<MatchWithTeamsAndScoresModel>(`/api/matches/${to.params.id}`)

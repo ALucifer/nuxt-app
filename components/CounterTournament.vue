@@ -54,7 +54,7 @@ function updateTimer() {
 }
 
 onMounted(() => {
-  if (showTimer) {
+  if (showTimer.value) {
     setInterval(updateTimer, 1000)
   }
 })

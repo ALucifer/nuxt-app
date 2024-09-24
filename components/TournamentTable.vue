@@ -30,10 +30,10 @@
       </tbody>
     </table>
     <AppPagination
-      v-if="this.params.pagination.pages > 1"
-      :pages="this.params.pagination.pages"
-      :query="this.params.query"
-      routeName="profile-tournois"
+      v-if="params.pagination.pages > 1"
+      :pages="params.pagination.pages"
+      :query="params.query"
+      route-name="profile-tournois"
     />
   </div>
 </template>

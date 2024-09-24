@@ -51,9 +51,9 @@
 </template>
 
 <script setup lang="ts">
-import State from '@/components/tournament/State.vue'
+import State from '~/components/tournament/StateElement.vue'
 
-const props = defineProps({ item: { type: Object, required: true }})
+defineProps({ item: { type: Object, required: true }})
 </script>
 
 <style lang="scss">

@@ -2,12 +2,12 @@
   <client-only>
     <VueDatePicker
       v-model="date"
-      @update:model-value="change"
       :format="format"
       :min-date="minDate"
+      @update:model-value="change"
     >
       <template #dp-input="{}">
-        <input type="text" :value="value" :placeholder="placeholder ?? name" />
+        <input type="text" :value="fieldValue" :placeholder="placeholder ?? name" >
       </template>
     </VueDatePicker>
     <AppField type="hidden" :name="name" />
@@ -24,13 +24,13 @@ const props = defineProps({
   name: { type: String, required: true },
   minDate: { type: Date, required: false, default: new Date() },
   format: { type: String, required: false, default: "yyyy-MM-dd HH:mm:ss" },
-  value: { type: String, required: false },
-  placeholder: { type: String, required: false },
+  value: { type: String, required: false, default: null },
+  placeholder: { type: String, required: false, default: null },
 });
 const emit = defineEmits(["change"]);
 
 const name = computed(() => props.name);
-const { value } = useField(name);
+const { value: fieldValue } = useField(name);
 const date = ref(null);
 
 function change(value) {

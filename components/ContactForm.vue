@@ -1,33 +1,33 @@
 <template>
-  <AppForm @submit="onSubmit" :validation-schema="schema" class="contact-form">
+  <AppForm :validation-schema="schema" class="contact-form" @submit="onSubmit">
     <h5>Laissez votre message</h5>
     <div class="form-group">
       <label for="name">Pseudo</label>
       <AppField
+        id="contact-pseudo"
         name="name"
         placeholder="Entrez votre pseudo"
-        id="contact-pseudo"
       />
       <AppErrorMessage class="error" name="name" />
     </div>
     <div class="form-group">
       <label for="email">Email</label>
       <AppField
+        id="contact-email"
         required
         name="email"
         type="email"
         placeholder="Entrez votre email"
-        id="contact-email"
       />
       <AppErrorMessage class="error" name="email" />
     </div>
     <div class="form-group">
       <label for="email">Message</label>
-      <AppField name="message" v-slot="{ field }">
+      <AppField v-slot="{ field }" name="message">
         <textarea
           v-bind="field"
-          placeholder="Entrez votre message"
           id="contact-text"
+          placeholder="Entrez votre message"
         />
       </AppField>
       <AppErrorMessage class="error" name="message" />
@@ -65,7 +65,7 @@ async function onSubmit(values, { resetForm }) {
       message: 'Votre demande à bien été envoyé',
       class: 'success'
     })
-  } catch (e) {
+  } catch {
     addMessage({
       message: 'Une erreur est survenu',
       class: 'error'

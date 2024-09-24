@@ -2,11 +2,11 @@
   <div class="stepper__container">
     <StepItem
         v-for="(step, index) in steps"
+        :key="index"
         :libelle="step"
         :number="index + 1"
         :need-divider="index !== 0"
         :current="current + 1"
-        :key="index"
     />
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
-    <div class="spinner-border" role="status" v-if="!done">
-        <span class="sr-only"></span>
+    <div v-if="!done" class="spinner-border" role="status">
+        <span class="sr-only"/>
     </div>
 </template>
 

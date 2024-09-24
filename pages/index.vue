@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import Introduction from "@/components/Introduction";
+import Introduction from "~/components/IntroductionElement.vue";
 import PlayProcess from "@/components/PlayProcess";
 
 definePageMeta({
@@ -17,6 +17,4 @@ definePageMeta({
 useHead({
   title: "Spots : Une platforme pour les gameurs fait par les gameurs",
 })
-
-const showBanner = ref(true)
 </script>

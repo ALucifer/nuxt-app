@@ -11,7 +11,7 @@ export default eventHandler(async (event) => {
                 headers: { Authorization: 'Bearer ' + session!.token}
             }
         )
-    } catch (e) {
+    } catch {
         return []
     }
 })

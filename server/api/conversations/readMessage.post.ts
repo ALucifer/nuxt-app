@@ -1,4 +1,4 @@
-import {getToken} from "#auth";
+import { getToken } from "#auth";
 
 export default defineEventHandler(async event => {
     const session = await getToken({ event })
@@ -16,7 +16,7 @@ export default defineEventHandler(async event => {
                 }
             }
         )
-    } catch (e: any) {
+    } catch (e: Error) {
         console.log(e.message)
     }
 })

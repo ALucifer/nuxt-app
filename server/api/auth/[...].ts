@@ -2,11 +2,23 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import {NuxtAuthHandler} from '#auth'
 import Google from "next-auth/providers/google";
 
-async function verifyToken(token: any) {
+async function verifyToken(token: string) {
     return await $fetch('/api/auth/checkToken', { query: { token: token }})
 }
 
-// @ts-ignore
+type credentials = {
+    email: string,
+    password: string
+}
+
+type authLogin = {
+    avatar: string,
+    email: string,
+    username: string,
+    pseudo: string,
+    id: number,
+}
+
 export default NuxtAuthHandler({
     secret: 'gargragroajg',
     auth: {
@@ -23,7 +35,6 @@ export default NuxtAuthHandler({
             clientId: '',
             clientSecret: '',
         }),
-        // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
         CredentialsProvider.default({
             // The name to display on the sign in form (e.g. 'Sign in with...')
             name: 'Credentials',
@@ -31,9 +42,9 @@ export default NuxtAuthHandler({
                 email: {label: 'Email', type: 'text', placeholder: '(hint: jsmith)'},
                 password: {label: 'Password', type: 'password', placeholder: '(hint: hunter2)'}
             },
-            async authorize(credentials: any) {
+            async authorize(credentials: credentials) {
                 try {
-                    const data = await $fetch(
+                    const data = await $fetch<authLogin>(
                         '/api/auth/login',
                         {
                             method: 'POST',
@@ -50,14 +61,13 @@ export default NuxtAuthHandler({
                         },
                         token: data.token.token
                     }
-                } catch (e: any) {
+                } catch {
                     return null
                 }
             }
         })
     ],
     callbacks: {
-        // @ts-ignore
         signIn: async ({ user, account }) => {
             try {
                 if (account.provider === 'credentials') {
@@ -84,11 +94,10 @@ export default NuxtAuthHandler({
                 account.token = data.token
 
                 return data
-            } catch(error: any) {
+            } catch {
                 return false
             }
         },
-        // @ts-ignore
         jwt: async ({ account, token, user }) => {
             const isSignIn = !!user;
             if (account?.provider === 'google') {
@@ -114,12 +123,9 @@ export default NuxtAuthHandler({
                 return Promise.reject('Invalid token')
             }
 
-            // token.user = tokenValid.user
-
             return Promise.resolve(token);
         },
-        
-        // @ts-ignore
+
         session: async ({ session, token }) => {
             session.user = token.user
             session.token = token.token

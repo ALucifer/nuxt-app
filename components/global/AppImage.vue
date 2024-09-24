@@ -23,6 +23,7 @@ interface Props {
 withDefaults(
     defineProps<Props>(),
     {
+      src: null,
       placeholder: 'user-placeholder.png'
     }
 )

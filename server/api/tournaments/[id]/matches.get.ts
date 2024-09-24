@@ -1,5 +1,5 @@
 import axios from "axios";
-import {MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
+import type { MatchWithTeamsAndScoresModel } from "~/app/models/match.model";
 
 const instance = axios.create({
     baseURL: 'http://127.0.0.1:3333',
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event): Promise<MatchWithTeamsAndScores
         const { data } = await instance.get<MatchWithTeamsAndScoresModel[]>(`tournaments/${id}/matches`)
 
         return data
-    } catch (e) {
+    } catch {
         return []
     }
 })

@@ -5,7 +5,7 @@ export default defineEventHandler(async event => {
         await fetchSpotsApi('forgot-password', { method: 'POST', body })
 
         return true
-    } catch (error) {
+    } catch {
         return false
     }
 })

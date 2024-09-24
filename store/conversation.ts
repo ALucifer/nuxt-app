@@ -1,6 +1,5 @@
-import {
+import type {
     ConversationMessagesModel,
-    ConversationModel,
     InterlocutorModel,
     MessageModel,
 } from "~/app/models/conversation.model";

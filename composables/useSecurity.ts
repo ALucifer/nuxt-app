@@ -1,4 +1,4 @@
-import { User, Token } from "next-auth";
+import type { User, Token } from "next-auth";
 
 export default function useSecurity() {
     const { data: auth, status: userLogged } = useAuth()

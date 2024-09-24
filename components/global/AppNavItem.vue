@@ -1,16 +1,16 @@
 <template>
   <li class="nav-item">
     <a
-      class="nav-link"
       :id="name + '-tab'"
+      class="nav-link"
       data-toggle="tab"
-      @click="setActiveTabByKeyName('tournament-view', name)"
       :class="{
         active: isActiveTabByKeyName('tournament-view', name),
       }"
       role="tab"
       aria-controls="{{ name }}"
       aria-selected="true"
+      @click="setActiveTabByKeyName('tournament-view', name)"
       >{{ libelle ?? name }}</a
     >
   </li>
@@ -21,7 +21,7 @@ import { useTabStore } from "~/store/tab";
 
 defineProps({
   name: { type: String, required: true},
-  libelle: { type: String, required: false }
+  libelle: { type: String, required: false, default: "Add libelle for this tab" }
 })
 
 const { isActiveTabByKeyName, setActiveTabByKeyName } = useTabStore()

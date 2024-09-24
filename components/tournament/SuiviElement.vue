@@ -1,10 +1,10 @@
 <template>
-  <AppTabPane name="suivi" tabName="tournament-view">
-    <template v-slot:content>
-      <template v-for="i in tournament.matches">
+  <AppTabPane name="suivi" tab-name="tournament-view">
+    <template #content>
+      <template v-for="i in tournament.matches" :key="i.id">
         <MatchCard
-          :firstTeam="getTeam(i.adversaireA, tournament.teams)"
-          :secondTeam="getTeam(i.adversaireB, tournament.teams)"
+          :first-team="getTeam(i.adversaireA, tournament.teams)"
+          :second-team="getTeam(i.adversaireB, tournament.teams)"
         >
           <template #action>
             <button class="btn btn-success">Score</button>
@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import MatchCard from "@/components/MatchCard.vue";
 
-import type {TournamentModel} from "~/app/models/tournament";
+import type { TournamentModel } from "~/app/models/tournament";
 
 defineProps<{tournament: TournamentModel}>()
 

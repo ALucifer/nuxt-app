@@ -30,7 +30,7 @@ export default defineEventHandler(async event => {
                 }
             }
         )
-    } catch (error) {
+    } catch {
         return createError({ statusCode: 400, message: 'Something when wrong in upload avatar'})
     }
 })

@@ -17,8 +17,10 @@
 
 <script setup lang="ts">
 defineProps({
-    message: {type: String, required: true},
-    googleClick: {type: Object}
+    message: {
+      type: String,
+      required: true
+    }
 })
 
 const { signIn } = useAuth()

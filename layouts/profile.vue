@@ -1,6 +1,6 @@
 <template>
     <div class="profile">
-      <div class="background"></div>
+      <div class="background"/>
       <slot />
     </div>
 </template>

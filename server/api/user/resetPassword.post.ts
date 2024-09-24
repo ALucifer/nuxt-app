@@ -5,7 +5,7 @@ export default defineEventHandler(async event => {
         await fetchSpotsApi('reset-password', { method: 'POST', body })
 
         return true
-    } catch (e) {
+    } catch {
         return false
     }
 })

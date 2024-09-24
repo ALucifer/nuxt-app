@@ -6,7 +6,7 @@
       </div>
     </div>
   </div>
-  <AppForm :validation-schema="schema" @submit="search" v-slot="{ setFieldValue }">
+  <AppForm v-slot="{ setFieldValue }" :validation-schema="schema" @submit="search">
     <div class="search__container row mb-40 mp-none">
       <div class="col-lg-4">
         <div class="single-input">
@@ -20,8 +20,8 @@
           <AppSelect
               libelle="Format du tournoi"
               :items="formatItems"
-              @change="setFieldValue('format', $event.value)"
               name="format"
+              @change="setFieldValue('format', $event.value)"
           />
         </div>
       </div>
@@ -31,8 +31,8 @@
           <AppSelect
               libelle="Best Of"
               :items="boItems"
-              @change="setFieldValue('best_of', $event.value)"
               name="best_of"
+              @change="setFieldValue('best_of', $event.value)"
           />
         </div>
       </div>
@@ -42,8 +42,8 @@
           <AppSelect
               libelle="Status"
               :items="statusItems"
-              @change="setFieldValue('state', $event.value)"
               name="state"
+              @change="setFieldValue('state', $event.value)"
           />
         </div>
       </div>
@@ -84,6 +84,8 @@ const schema = [
     })
 ]
 
+type formValues = InferType<typeof schema>;
+
 const boItems = ref([
   {id: 1, libelle: "1"},
   {id: 3, libelle: "3"},
@@ -100,13 +102,11 @@ const statusItems = ref([
   {id: 'CLOSE', libelle: 'Fermé'},
 ])
 
-const date = ref(new Date())
-
 const emit = defineEmits(['search'])
-const searching = defineModel()
+const searching = defineModel({ type: Boolean })
 
-function search(values) {
-    emit('search', {form: values})
+function search(values: formValues) {
+    emit('search', values)
 }
 </script>
 

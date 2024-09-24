@@ -4,7 +4,7 @@
     <span>{{ firstTeam.libelle }}</span>
     <span class="match--middle">
       <div class="match--action">
-        <slot name="action"></slot>
+        <slot name="action" />
       </div>
       <slot name="information" />
     </span>

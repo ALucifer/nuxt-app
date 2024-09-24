@@ -6,7 +6,7 @@ import type {TeamModel} from "~/app/models/team.model";
 import type { MatchModel, MatchWithTeamsAndScoresModel} from "~/app/models/match.model";
 
 
-export type TournamentModel = {
+export interface TournamentModel {
     id: number,
     createdAt: Date,
     updatedAt: Date,
@@ -28,15 +28,15 @@ export type TournamentModel = {
     progress: string,
 }
 
-export type TournamentModelWithTeams = TournamentModel & {
+export interface TournamentModelWithTeams extends TournamentModel {
     teams: TeamModel[]
 }
 
-export type TournamentModelWithMatches = TournamentModel & {
+export interface TournamentModelWithMatches extends TournamentModel {
     matches: MatchModel[] | MatchWithTeamsAndScoresModel[]
 }
 
-export type TournamentModelWithMatchesAndTeams = TournamentModelWithMatches & TournamentModelWithTeams
+export interface TournamentModelWithMatchesAndTeams extends TournamentModelWithMatches, TournamentModelWithTeams { }
 
 
 class Tournament {

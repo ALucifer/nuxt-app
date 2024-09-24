@@ -15,10 +15,10 @@
               <form action="#">
                 <div class="newsletter__subscribe">
                   <input
-                    type="email"
                     v-model="form.email"
+                    type="email"
                     placeholder="Votre email"
-                  />
+                  >
                   <button class="cmn-btn">S'inscrire</button>
                 </div>
               </form>

@@ -14,12 +14,12 @@ export default function useFlashMessages() {
   const messages = useState<FlashMessage[]>('flash-messages', () => [])
 
   function addMessage(message: AddFlashMessage) {
-    const messageFormatted: string = transformToLink(message.message);
+    // const messageFormatted: string = transformToLink(message.message);
 
     const flashMessage = {
       ...message,
       id: Math.random() + Date.now(),
-      message: messageFormatted,
+      message: message.message,
       visible: true
     }
 

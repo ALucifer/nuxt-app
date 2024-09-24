@@ -4,11 +4,11 @@
       <div class="col-8 card-tournament">
         <Stepper :current="currentStep"/>
         <FormWizard
-          :validation-schema="schema"
-          :isSubmitLastStep="isSubmitLastStep"
-          @submit="submit"
-          @changeStep="currentStep = $event.value"
           v-slot="{ setFieldValue, values }"
+          :validation-schema="schema"
+          :is-submit-last-step="isSubmitLastStep"
+          @submit="submit"
+          @change-step="currentStep = $event.value"
         >
           <FormStep>
             <div class="row my-5">
@@ -30,7 +30,8 @@
                   <span class="container-radios__label">Format</span>
                   <AppErrorMessage class="error" name="format" />
                   <div
-                    v-for="format in formatValues"
+                    v-for="(format, index) in formatValues"
+                    :key="index"
                     class="container-radios__item"
                     :class="{ 'container-radios__item--checked': values.format == format.id}"
                     @click="setFieldValue('format', format.id)"
@@ -48,7 +49,8 @@
                   <span class="container-radios__label">Participants</span>
                   <AppErrorMessage class="error" name="maxTeams" />
                   <div
-                    v-for="participant in participantValues"
+                    v-for="(participant, index) in participantValues"
+                    :key="index"
                     class="container-radios__item"
                     :class="{ 'container-radios__item--checked': values.maxTeams == participant.id}"
                     @click="setFieldValue('maxTeams', participant.id)"
@@ -66,7 +68,8 @@
                   <span class="container-radios__label">Niveau</span>
                   <AppErrorMessage class="error" name="skillLevel" />
                   <div
-                      v-for="level in levelValues"
+                      v-for="(level, index) in levelValues"
+                      :key="index"
                       class="container-radios__item"
                       :class="{ 'container-radios__item--checked': values.skillLevel == level.id}"
                       @click="setFieldValue('skillLevel', level.id)"
@@ -84,7 +87,8 @@
                   <span class="container-radios__label">Best of</span>
                   <AppErrorMessage class="error" name="bestOf" />
                   <div
-                      v-for="bo in boValues"
+                      v-for="(bo, index) in boValues"
+                      :key="index"
                       class="container-radios__item"
                       :class="{ 'container-radios__item--checked': values.bestOf == bo.id}"
                       @click="setFieldValue('bestOf', bo.id)"
@@ -126,7 +130,7 @@
 import * as yup from "yup";
 import {tournament} from '~/app/models/tournament'
 import useRedirection from "~/composables/useRedirection";
-import Stepper from "~/components/stepper/Stepper.vue";
+import Stepper from "~/components/stepper/StepperContainer.vue";
 import FormWizard from "~/components/form/FormWizard.vue";
 import FormStep from "~/components/form/FormStep.vue";
 
@@ -176,15 +180,13 @@ const participantValues = ref(tournament.participants())
 const formatValues = ref(tournament.formats())
 const boValues = ref(tournament.bestOf())
 const levelValues = ref(tournament.levels())
-const error = ref(false)
-
 const currentStep = ref(0)
 
 const {getUser} = useSecurity()
 const {errorMessage, successMessage} = useFlashMessages()
 const {handleRedirect} = useRedirection()
 const isSubmitLastStep = ref(false)
-async function submit(values: any) {
+async function submit(values) {
   isSubmitLastStep.value = true
 
   try {
@@ -207,7 +209,7 @@ async function submit(values: any) {
         { name: 'tournois-id', params: { id: tournament.id } },
         { path: '/' },
     )
-  } catch (e) {
+  } catch {
     errorMessage('Une erreur est survenu lors de la création de votre tournoi')
   }
 

@@ -11,12 +11,14 @@
 </template>
 
 <script lang="ts" setup>
+import type { UserModel } from "~/app/models/user.model";
+
 definePageMeta({
   auth: false
 })
 
 const route = useRoute()
-const { data: user } = await useFetch<any>(`/api/user/${route.params.id}`)
+const { data: user } = await useFetch<UserModel>(`/api/user/${route.params.id}`)
 </script>
 
 <style></style>

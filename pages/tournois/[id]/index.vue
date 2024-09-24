@@ -22,7 +22,7 @@
           </template>
         </div>
         <div class="action" :class="{ 'd-none': showActions }">
-            <DropdownAction ref="actionContainer" :tournament @unsubscribe="refresh()" @start="refresh()" />
+            <DropdownAction ref="actionContainer" :tournament @unsubscribe="myRefresh()" @start="myRefresh()" :key="dropdownActionKey" />
         </div>
       </div>
       <div class="admin-info">
@@ -80,12 +80,12 @@
     <div class="d-flex flex-grow-1">
       <div v-if="description" class="d-flex gap-3 flex-grow-1">
         <div class="description">
-          <div v-if="tournament.progress" v-html="tournament.progress" />
+          <div v-if="tournament.progress">{{ tournament.progress }}</div>
           <div v-else
             >Pas de description du déroulement du tournoi actuellement</div
           >
         </div>
-        <div class="next" @click="description = !description" v-if="tournament.matches?.length > 0 || tournament.teams?.length > 0">
+        <div v-if="tournament.matches?.length > 0 || tournament.teams?.length > 0" class="next" @click="description = !description">
           <chevron-right-icon fill-color="black" />
         </div>
       </div>
@@ -228,10 +228,7 @@
 
 <script setup lang="ts">
 import { FiltersTournamentMatches } from "~/app/vo/Filters";
-import {
-  type MatchWithTeamsAndScoresModel,
-  State,
-} from "~/app/models/match.model";
+import {type MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
 import type { TournamentModelWithMatchesAndTeams } from "~/app/models/tournament";
 import MatchCard from "@/components/match/MatchCard";
 import DropdownAction from "@/components/tournament/DropdownAction";
@@ -243,6 +240,19 @@ definePageMeta({
 const route = useRoute();
 
 const { data, refresh } = await useFetch<TournamentModelWithMatchesAndTeams>(`/api/tournaments/${route.params.id}`, { key: `tournament-${route.params.id}`})
+const dropdownActionKey = ref(0)
+
+async function myRefresh() {
+  await refresh()
+  tournament.value = data.value
+
+  if (tournament.value.teams.length === 0 && tournament.value.matches.length === 0) {
+    description.value = true
+  }
+
+  dropdownActionKey.value++
+  showActions.value = actionContainer.value.action.childElementCount === 0
+}
 
 if (!data.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
@@ -269,20 +279,20 @@ const filters = Object.values(FiltersTournamentMatches);
 const currentFilter = ref(filters[0]);
 
 const tournamentSorted = computed(() => {
-  let filtered: MatchWithTeamsAndScoresModel[] = [];
+  let filtered: MatchWithTeamsAndScoresModel[] = []
 
   switch (currentFilter.value) {
     case "Terminé": {
-      filtered = tournament.value.matches.filter((item) => item.state === State.FINISH) as MatchWithTeamsAndScoresModel[]
+      filtered = tournament.value.matches.filter((item) => item.state === State.FINISH)
       break;
     }
     case "Score incorrect": {
-      filtered = tournament.value.matches.filter((item) => item.state === State.NEED_VALIDATION) as MatchWithTeamsAndScoresModel[]
+      filtered = tournament.value.matches.filter((item) => item.state === State.NEED_VALIDATION)
       break;
     }
     case "Mes matchs": {
       filtered = findUserMatchFromMatches(
-        tournament.value.matches as MatchWithTeamsAndScoresModel[],
+        tournament.value.matches,
         getUser().id
       );
       break;

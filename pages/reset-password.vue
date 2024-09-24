@@ -4,7 +4,7 @@
       <h4>Nouveau mot de passe</h4>
     </template>
     <template #default>
-      <AppForm @submit="onSubmit" :validation-schema="schema">
+      <AppForm :validation-schema="schema" @submit="onSubmit">
         <div class="form-group p-2">
           <label>Mot de passe</label>
           <AppField name="password" type="password" placeholder="**********" />

@@ -1,4 +1,4 @@
-import {UserModel} from "~/app/models/user.model";
+import type { UserModel } from "~/app/models/user.model";
 
 export interface InterlocutorModel {
     id: number,

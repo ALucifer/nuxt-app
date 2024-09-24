@@ -5,7 +5,7 @@ export default defineEventHandler(async event => {
         await fetchSpotsApi('users/register', { method: 'POST', body })
 
         return 200
-    } catch (e: any) {
+    } catch (e: Error) {
         return e.statusCode
     }
 })

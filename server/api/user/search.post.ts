@@ -3,7 +3,7 @@ export default defineEventHandler(async event => {
         const body = await readBody(event)
 
         return fetchSpotsApi('users/search', { method: 'post', body: { text: body.text }})
-    } catch (e) {
+    } catch {
         return []
     }
 })

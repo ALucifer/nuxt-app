@@ -4,7 +4,7 @@
       <h4>Mot de passe perdu ?</h4>
     </template>
     <template #default>
-      <AppForm @submit="onSubmit" :validation-schema="schema" class="forgot-password__form" action="">
+      <AppForm class="forgot-password__form" action="" :validation-schema="schema" @submit="onSubmit">
         <div class="form-group">
           <AppField type="email" placeholder="Votre email" name="email"/>
           <AppErrorMessage class="error" name="email"/>
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import {object, string} from "yup";
+import {type InferType, object, string} from "yup";
 
 definePageMeta({
   auth: {
@@ -38,10 +38,11 @@ const schema = object({
   email: string().required('Email requis.').email('Email non valide.')
 })
 
+type formTypes = InferType<typeof schema>;
 const { handleResponse } = useFlashMessages()
 const router = useRouter()
 
-async function onSubmit(values: any) {
+async function onSubmit(values: formTypes) {
   const { data } = await useFetch(
       '/api/user/forgotPassword',
       {

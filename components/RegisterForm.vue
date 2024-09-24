@@ -1,5 +1,5 @@
 <template>
-  <AppForm @submit="submit" :validation-schema="schema">
+  <AppForm :validation-schema="schema" @submit="submit">
     <div class="form-group p-2">
       <label>Email</label>
       <AppField name="email" type="email" placeholder="mon@email.com" :validate-on-blur="false" :validate-on-change="false"/>
@@ -26,7 +26,7 @@
             class="spinner-border spinner-border-sm"
             role="status"
             aria-hidden="true"
-        ></span>
+        />
       </button>
       <button v-else type="submit" class="cmn-btn submit-btn">Envoyer</button>
     </div>
@@ -64,12 +64,6 @@ const schema = yup.object({
       ),
 })
 
-const form = ref({
-  email: "",
-  pseudo: "",
-  password: "",
-  password_confirmation: ""
-})
 const error = ref(false)
 
 const { addMessage } = useFlashMessages()

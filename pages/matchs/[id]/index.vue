@@ -17,11 +17,9 @@
           <p v-if=score.reporter>Score indiqué par l'équipe : <b>{{ score.reporter.libelle }}</b></p>
           <p v-else>Score indiqué par l'administrateur</p>
           <p>
-            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.winner.libelle"
-              class="avatar-information" :src="getTeamAvatar(score.winner)" />
+            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.winner.libelle" class="avatar-information" :src="getTeamAvatar(score.winner)" />
             <span class="score">{{ score.winnerScore + ' - ' + score.looserScore }}</span>
-            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.looser.libelle"
-              class="avatar-information avatar-information--looser" :src="getTeamAvatar(score.looser)" />
+            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.looser.libelle" class="avatar-information avatar-information--looser" :src="getTeamAvatar(score.looser)" />
           </p>
         </div>
         <div v-if="match.scores.length === 0" class="information">

@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     global: true,
     dirs: ['~/components/global']
   },
+
   modules: [
     '@nuxt/devtools',
     '@sidebase/nuxt-auth',
@@ -19,8 +20,17 @@ export default defineNuxtConfig({
         ],
       },
     ],
-    "@nuxt/eslint"
+    '@nuxt/test-utils/module',
+    '@nuxt/eslint',
   ],
+
+  eslint: {
+    config: {
+      typescript: true,
+      // stylistic: true,
+    },
+  },
+
   auth: {
     origin: 'http://127.0.0.1:3333',
     baseURL: process.env.AUTH_ORIGIN,
@@ -30,42 +40,43 @@ export default defineNuxtConfig({
       type: 'authjs',
     },
     session: {
-      enableRefreshPeriodically: false
+      enablePeriodically: false,
+      enableOnWindowFocus: false,
     }
   },
+
   css: [
      "~/node_modules/bootstrap/dist/css/bootstrap.min.css",
     '@/assets/css/nice-select.css',
     '@/assets/css/style.css',
   ],
-  router: {
-    prefetchLinks: false,
-  },
-  vue: {
-    config: {
-      unwrapInjectedRef: true
-    }
-  },
+
   image: {
     cloudinary: {
       baseURL: 'https://res.cloudinary.com/davxuwzzl/image/upload/'
     }
   },
+
   head: {
     link: [
       { rel: 'icon', href: '/favicon.png' }
       // Si vous utilisez un fichier PNG, utilisez 'image/png' comme type
     ],
   },
+
   devtools: {
     timeline: {
       enabled: true,
     },
   },
+
   routeRules: {
     '/profile/messages': { redirect: '/profile' }
   },
+
   build: {
     transpile: ['@vuepic/vue-datepicker']
   },
+
+  compatibilityDate: '2024-09-12',
 })
