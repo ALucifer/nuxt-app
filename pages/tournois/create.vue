@@ -2,7 +2,7 @@
   <div class="container">
     <div class="tournament-register">
       <div class="col-8 card-tournament">
-        <Stepper :current="currentStep"/>
+        <StepperContainer :current="currentStep"/>
         <FormWizard
           v-slot="{ setFieldValue, values }"
           :validation-schema="schema"
@@ -129,8 +129,7 @@
 <script setup lang="ts">
 import * as yup from "yup";
 import {tournament} from '~/app/models/tournament'
-import useRedirection from "~/composables/useRedirection";
-import Stepper from "~/components/stepper/StepperContainer.vue";
+import StepperContainer from "~/components/stepper/StepperContainer.vue";
 import FormWizard from "~/components/form/FormWizard.vue";
 import FormStep from "~/components/form/FormStep.vue";
 

@@ -5,22 +5,21 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
 dayjs.extend(isSameOrBefore)
 dayjs.extend(isSameOrAfter)
 
-export default function useDate() {
+export const useDate = () => {
 
-    function dateFormatted({ date, format })
-    {
+    const dateFormatted = ({ date, format }: { date: string|Date, format: string}) => {
         return dayjs(date).format(format)
     }
 
-    function dateToNow(date: Date) {
+    const dateToNow = (date: Date) => {
         return dayjs(date).fromNow()
     }
 
-    function isAfterNow(date: string|Date) {
+    const isAfterNow = (date: string|Date) => {
         return dayjs(date).isSameOrAfter(dayjs())
     }
 
-    function isBeforeNow(date: string|Date) {
+    const isBeforeNow = (date: string|Date) => {
         return dayjs(date).isSameOrBefore(dayjs(),'seconds')
     }
 

@@ -11,10 +11,10 @@
               <SearchFormTournament v-model="searching" @search="searchFilter($event)" />
               <p class="text-white">Nombre de résultat(s) : {{ tournamentStore.total }}</p>
               <transition-group name="flip-list" tag="div" class="search__result">
-                <tournamentCard
-                    v-for="item in tournamentStore.filteredItems"
-                    :key="item.id"
-                    :item="item"
+                <TournamentCard
+                  v-for="item in tournamentStore.filteredItems"
+                  :key="item.id"
+                  :item="item"
                 />
               </transition-group>
               <AppInfiniteScroll

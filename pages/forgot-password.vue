@@ -4,15 +4,14 @@
       <h4>Mot de passe perdu ?</h4>
     </template>
     <template #default>
-      <AppForm class="forgot-password__form" action="" :validation-schema="schema" @submit="onSubmit">
+      <form class="forgot-password__form" @submit="onSubmit">
         <div class="form-group">
-          <AppField type="email" placeholder="Votre email" name="email"/>
-          <AppErrorMessage class="error" name="email"/>
+          <AppInput name="email" placeholder="Votre email" type="email" />
         </div>
         <div class="form-group">
           <button class="cmn-btn">Envoyer un email</button>
         </div>
-      </AppForm>
+      </form>
     </template>
     <template #footer>
       <div class="account">
@@ -25,7 +24,9 @@
 </template>
 
 <script setup lang="ts">
-import {type InferType, object, string} from "yup";
+import AppSocialContainer from "~/components/global/AppSocialContainer.vue";
+import { useForgotPasswordForm } from "~/composables/form/useForgotPasswordForm";
+import type { ForgotPasswordForm } from "~/app/form/forgot-password.form";
 
 definePageMeta({
   auth: {
@@ -34,15 +35,11 @@ definePageMeta({
   }
 })
 
-const schema = object({
-  email: string().required('Email requis.').email('Email non valide.')
-})
-
-type formTypes = InferType<typeof schema>;
+const { handleSubmit } = useForgotPasswordForm()
 const { handleResponse } = useFlashMessages()
 const router = useRouter()
 
-async function onSubmit(values: formTypes) {
+const onSubmit = handleSubmit(async (values: ForgotPasswordForm) => {
   const { data } = await useFetch(
       '/api/user/forgotPassword',
       {
@@ -60,7 +57,7 @@ async function onSubmit(values: formTypes) {
   if (data.value) {
     await router.push('/')
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

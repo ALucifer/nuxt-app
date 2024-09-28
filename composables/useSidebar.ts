@@ -2,18 +2,17 @@ import { reactive } from 'vue'
 
 const state = reactive({ open: false})
 
-export default function useSidebar() {
+export const useSidebar = () => {
     
-    function toggle() {
+    const toggle = () => {
         state.open = !state.open
     }
 
-    function close() {
+    const close = () => {
         state.open = false
     }
 
-    function isOpen()
-    {
+    const isOpen = () => {
         return state.open
     }
 

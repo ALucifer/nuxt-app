@@ -10,10 +10,10 @@ interface FlashMessage extends AddFlashMessage{
   visible: boolean,
 }
 
-export default function useFlashMessages() {
+export const useFlashMessages = () => {
   const messages = useState<FlashMessage[]>('flash-messages', () => [])
 
-  function addMessage(message: AddFlashMessage) {
+  const addMessage = (message: AddFlashMessage) => {
     // const messageFormatted: string = transformToLink(message.message);
 
     const flashMessage = {
@@ -26,30 +26,31 @@ export default function useFlashMessages() {
     messages.value.push(flashMessage);
 
     setTimeout(() => {
-      messages.value.at(-1).visible = false
+        // @ts-ignore
+        messages.value.at(-1).visible = false
     }, 5000)
   }
 
-  function removeMessage(id: number) {
+  const removeMessage = (id: number) => {
       const index = messages.value.findIndex((item) => item.id === id);
       messages.value.splice(index, 1);
   }
 
-  function successMessage(message: string) {
+  const successMessage = (message: string) => {
       addMessage({
         class: 'success',
         message
       })
   }
 
-  function errorMessage(message: string) {
+  const errorMessage = (message: string) => {
       addMessage({
         class: 'error',
         message
       })
   }
 
-  function handleResponse(status: boolean, success: string, error: string) {
+  const handleResponse = (status: boolean, success: string, error: string) => {
     switch (status) {
       case true: {
         successMessage(success)

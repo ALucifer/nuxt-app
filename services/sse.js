@@ -1,4 +1,3 @@
-import useFlashMessages from "~/composables/useFlashMessages";
 import ClientSSE from "~/app/client/sse/ClientSSE";
 
 export class NotificationRegister {

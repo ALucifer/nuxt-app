@@ -37,6 +37,7 @@
     "@tiptap/pm": "^2.7.2",
     "@tiptap/starter-kit": "^2.7.2",
     "@tiptap/vue-3": "^2.7.2",
+    "@types/lodash": "^4.17.9",
     "@vee-validate/nuxt": "^4.13.2",
     "@vee-validate/yup": "^4.13.2",
     "@vuepic/vue-datepicker": "^9.0.3",

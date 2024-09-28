@@ -1,30 +1,24 @@
 <template>
-  <AppForm :validation-schema="schema" class="login-form" @submit="submit">
+  <form class="login-form" @submit="submit">
     <div class="form-group">
       <label>Email</label>
-      <AppField
-        id="login-email"
+      <AppInput
         name="email"
+        id="email"
         placeholder="Entrez votre email"
         type="email"
         :class="{ 'is-invalid': error }"
-        :validate-on-blur="false"
-        :validate-on-change="false"
       />
-      <AppErrorMessage class="error" name="email" />
     </div>
     <div class="form-group">
       <label>Password</label>
-      <AppField
-        id="login-password"
-        name="password"
-        placeholder="Entrez votre mot de passe"
-        type="password"
-        :class="{ 'is-invalid': error }"
-        :validate-on-blur="false"
-        :validate-on-change="false"
+      <AppInput
+          id="login-password"
+          name="password"
+          placeholder="Entrez votre mot de passe"
+          type="password"
+          :class="{ 'is-invalid': error }"
       />
-      <AppErrorMessage class="error" name="password" />
     </div>
     <div v-if="error" class="form-group recover">
       <p class="text-danger">Login / Mot de passe incorrect</p>
@@ -42,18 +36,15 @@
       </button>
       <button v-else type="submit" class="cmn-btn submit-btn" >Connexion</button>
     </div>
-  </AppForm>
+  </form>
 </template>
 
 <script setup lang="ts">
-import * as yup from "yup";
+import { useLoginForm } from "~/composables/form/useLoginForm";
+import type {LoginForm} from "~/app/form/login.form";
 
-const { errorMessage } = useFlashMessages()
+const { handleSubmit } = useLoginForm()
 
-const schema = yup.object({
-    email: yup.string().email('Invalid email format (ex: john.dev@gmail.com)').required("Email requis."),
-    password: yup.string().required("Mot de passe requis."),
-})
 const error = ref(false)
 const isSubmitting = ref(false)
 const router = useRouter()
@@ -64,10 +55,11 @@ const redirect = route.query.callbackUrl as string ?? router.resolve({ name: 'pr
 
 onMounted(() => {
   if (route.query.error) {
-    errorMessage('Login/Mot de passe incorrect')
+    error.value = true
   }
 })
-async function submit(values) {
+
+const submit = handleSubmit(async (values: LoginForm) => {
   isSubmitting.value = true
   await signIn(
       'credentials',
@@ -79,7 +71,7 @@ async function submit(values) {
   )
 
   isSubmitting.value = false
-}
+})
 </script>
 
 <style>

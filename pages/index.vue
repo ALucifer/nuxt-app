@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Introduction />
+    <IntroductionElement />
     <PlayProcess />
   </div>
 </template>
 
 <script setup lang="ts">
-import Introduction from "~/components/IntroductionElement.vue";
+import IntroductionElement from "~/components/IntroductionElement.vue";
 import PlayProcess from "@/components/PlayProcess";
 
 definePageMeta({
