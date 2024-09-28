@@ -19,8 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import useFlashMessages from "~/composables/useFlashMessages";
-
 const { messages, removeMessage } = useFlashMessages();
 </script>
 

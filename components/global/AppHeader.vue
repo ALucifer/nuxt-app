@@ -112,7 +112,6 @@
 
 <script setup lang="ts">
 import SearchGlobal from "@/components/SearchGlobal";
-import useSidebar from "@/composables/useSidebar";
 
 const {toggle} = useSidebar()
 const searchGlobalActive = ref(false)

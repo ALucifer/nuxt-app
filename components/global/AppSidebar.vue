@@ -34,8 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import useSidebar from "@/composables/useSidebar";
-
 const { isOpen, toggle } = useSidebar();
 const { close } = useSidebar()
 const router = useRouter()

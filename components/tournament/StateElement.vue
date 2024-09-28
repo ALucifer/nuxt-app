@@ -17,8 +17,6 @@
 
 <script setup lang="ts">
 import type { TournamentModel } from "~/app/models/tournament";
-import useTournament from "~/composables/useTournament";
-import useDate from "~/composables/useDate";
 
 const props = defineProps<{ tournament: TournamentModel }>()
 

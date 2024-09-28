@@ -14,13 +14,21 @@
 - [x] Mise a jour des dependances
 - [x] Rendre le unsubscribe et start du component DropdownAction de tournament
 
+## feature/v0.0.3
+- [x] Sortir les objets yup des vue pour pouvoir typer plus facilement
+- [x] Supprimer les components inutilisés
+- [x] Passer tout les composable sous const
+
+## feature/v0.0.4
+- [ ] passer pinia sous la nouvelle forme
+- [ ] enlever tout les call api depuis pinia, ne plus s'en servir de BDD
+
+## feature/v0.0.5
+- [ ] Stylelistic de l'ESLint
+- [ ] Revoir le register form d'un tournoi
+- [ ] Pouvoir ajouter des messages flash depuis la partie serveur
 
 ## A groomer
-- [ ] Pouvoir ajouter des messages flash depuis la partie serveur
-- [ ] Stylelistic de l'ESLint
-- [ ] Supprimer les components inutilisés
-- [ ] passer pinia sous la nouvelle forme
-- [ ] Sortir les objets yup des vue pour pouvoir typer plus facilement
 - [ ] Mise en place de quelques tests
 - [ ] Lors de la créer la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores

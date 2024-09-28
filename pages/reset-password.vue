@@ -4,27 +4,27 @@
       <h4>Nouveau mot de passe</h4>
     </template>
     <template #default>
-      <AppForm :validation-schema="schema" @submit="onSubmit">
+      <form @submit="onSubmit">
         <div class="form-group p-2">
           <label>Mot de passe</label>
-          <AppField name="password" type="password" placeholder="**********" />
-          <AppErrorMessage class="error" name="password" />
+          <AppInput name="password" type="password"  placeholder="**********" />
         </div>
         <div class="form-group p-2">
           <label>Confirmation</label>
-          <AppField name="password_confirmation" type="password" placeholder="**********" />
-          <AppErrorMessage class="error" name="password_confirmation" />
+          <AppInput name="password_confirmation" type="password"  placeholder="**********" />
         </div>
         <div class="form-group p-2">
           <button type="submit" class="cmn-btn submit-btn">Sauvegarder</button>
         </div>
-      </AppForm>
+      </form>
     </template>
   </AppSocialContainer>
 </template>
 
 <script setup lang="ts">
-import * as yup from "yup";
+import AppSocialContainer from "~/components/global/AppSocialContainer.vue";
+import {useResetPasswordForm} from "~/composables/form/useResetPasswordForm";
+import type {ResetPasswordForm} from "~/app/form/reset-password.form";
 
 definePageMeta({
   auth: {
@@ -36,22 +36,9 @@ definePageMeta({
 const route = useRoute()
 const router = useRouter()
 const { handleResponse } = useFlashMessages()
+const { handleSubmit } = useResetPasswordForm()
 
-const schema = yup.object({
-  password: yup
-      .string()
-      .required("Mot de passe requis.")
-      .min(6, "Votre mot de passe doit faire au mininum 6 charactères."),
-  password_confirmation: yup
-      .string()
-      .required("Confirmation de mot de passe requis.")
-      .oneOf(
-          [yup.ref("password")],
-          "Mot de passe et confirmation non identique"
-      ),
-})
-
-async function onSubmit(values) {
+const onSubmit = handleSubmit(async (values: ResetPasswordForm) => {
   const success = await $fetch(
       '/api/user/resetPassword',
       {
@@ -70,6 +57,6 @@ async function onSubmit(values) {
   )
 
   await router.push({ name: 'login' })
-}
+})
 </script>
 

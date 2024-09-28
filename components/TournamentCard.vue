@@ -8,7 +8,7 @@
         <div class="mid-area">
           <h4>{{ item.libelle }}</h4>
           <div class="tournament-card__date">
-            <State :tournament="item" />
+            <StateElement :tournament="item" />
           </div>
           <div class="tournament-card__details">
             <div class="box-item">
@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import State from '~/components/tournament/StateElement.vue'
+import StateElement from '~/components/tournament/StateElement.vue'
 
 defineProps({ item: { type: Object, required: true }})
 </script>
