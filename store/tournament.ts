@@ -4,7 +4,24 @@ import type { TeamModel} from "~/app/models/team.model";
 import {useAsyncData} from "#app";
 import type {RegisterFormInput} from "~/app/models/tournament/register.input";
 
-export const useTournamentStore = defineStore({
+export const useTournamentStore = defineStore('tournament', () => {
+  const items = ref<TournamentModel[]>([])
+  const searchForm = ref([])
+  const total = ref(0)
+  const currentPage = ref(1)
+  const currentTournament = ref<TournamentModelWithMatchesAndTeams>()
+  const isOwner = ref(false)
+
+  const filteredItems = computed(() => items.value || [])
+  const itemsShow = computed(() => total.value)
+  const isFullyLoaded = computed(() => total.value === items.value.length)
+  const getCurrentTournament = computed(() => currentTournament.value)
+  const getTotalLoaded = computed(() => items.value.length)
+
+
+})
+
+export const useOldTournamentStore = defineStore({
   id: "tournament",
   state: () => {
     return {
