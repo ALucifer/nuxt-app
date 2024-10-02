@@ -1,19 +1,23 @@
 <template>
   <textarea
-      v-model="value"
-      :name="name"
-      :id="$attrs.id"
-      :placeholder="$attrs.placeholder"
+    :id="$attrs.id"
+    v-model="value"
+    :name="name"
+    :placeholder="$attrs.placeholder"
   />
-  <span v-if="errorMessage" class="error" role="alert">{{ errorMessage }}</span>
+  <span
+    v-if="errorMessage"
+    class="error"
+    role="alert"
+  >{{ errorMessage }}</span>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
   name: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const { value, errorMessage } = useField(() => props.name)

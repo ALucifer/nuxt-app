@@ -1,43 +1,47 @@
 <template>
   <div class="container">
     <div
-        class="row g-0"
-        style="background-color: #665494; min-height: 350px"
+      class="row g-0"
+      style="background-color: #665494; min-height: 350px"
     >
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
-        <MessageLeftSide @change-conversation="setCurrentConversation($event.conversation)"/>
+        <MessageLeftSide @change-conversation="setCurrentConversation($event.conversation)" />
       </div>
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-        <MessageRightSide v-if="currentConversation" ref="messageRightSide" @new-message="scrollToNewMessage"  />
+        <MessageRightSide
+          v-if="currentConversation"
+          ref="messageRightSide"
+          @new-message="scrollToNewMessage"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useConversationStore} from "~/store/conversation";
-import MessageLeftSide from "~/components/profile/MessageLeftSide.vue";
-import MessageRightSide from "~/components/profile/MessageRightSide.vue";
-import {storeToRefs} from "pinia";
-import ClientSSE from "~/app/client/sse/ClientSSE";
+import { storeToRefs } from 'pinia'
+import { useConversationStore } from '~/store/conversation'
+import MessageLeftSide from '~/components/profile/MessageLeftSide.vue'
+import MessageRightSide from '~/components/profile/MessageRightSide.vue'
+import ClientSSE from '~/app/client/sse/ClientSSE'
 
 definePageMeta({
   layout: 'profile',
-  middleware: ['is-new-conversation']
+  middleware: ['is-new-conversation'],
 })
 
 useSeoMeta({
-  title: 'Messagerie'
+  title: 'Messagerie',
 })
 
 const route = useRoute()
 const conversationStore = useConversationStore()
 const { getUser } = useSecurity()
-const {conversations, currentConversation} = storeToRefs(conversationStore)
+const { conversations, currentConversation } = storeToRefs(conversationStore)
 const {
   fetchConversations, fetchCurrentConversationMessages,
   createNewConversation, initCurrentConversation,
-  setCurrentConversation, messageHasArrived
+  setCurrentConversation, messageHasArrived,
 } = conversationStore
 
 conversationStore.$onAction(({ name, after }) => {
@@ -51,7 +55,7 @@ conversationStore.$onAction(({ name, after }) => {
 await useAsyncData('conversations-list', async () => {
   await fetchConversations()
 
-  if (route.meta.user && !conversations.value.find((c) => c.interlocutor.id === route.meta.user.id)) {
+  if (route.meta.user && !conversations.value.find(c => c.interlocutor.id === route.meta.user.id)) {
     createNewConversation(route.meta.user, route.meta.user.id)
   }
 
@@ -61,8 +65,8 @@ await useAsyncData('conversations-list', async () => {
 })
 
 await useAsyncData(
-    'messages',
-    async () => await fillCurrentConversationMessages(),
+  'messages',
+  async () => await fillCurrentConversationMessages(),
 )
 
 onMounted(async () => {
@@ -72,18 +76,18 @@ onMounted(async () => {
   clientSSE.eventSource.onmessage = ({ data }) => {
     messageHasArrived(JSON.parse(data))
     if (currentConversation.value && currentConversation.value.id === JSON.parse(data).id) {
-      scrollToNewMessage();
+      scrollToNewMessage()
     }
-  };
+  }
 })
 
 const messageRightSide = ref()
 
 async function fillCurrentConversationMessages() {
   if (
-      !currentConversation.value
-      || currentConversation.value.id === 0
-      || (currentConversation.value.messages !== undefined && currentConversation.value.messages.length > 0)
+    !currentConversation.value
+    || currentConversation.value.id === 0
+    || (currentConversation.value.messages !== undefined && currentConversation.value.messages.length > 0)
   ) return
 
   await fetchCurrentConversationMessages()
@@ -93,7 +97,7 @@ async function fillCurrentConversationMessages() {
 function scrollToNewMessage() {
   const topPos = messageRightSide.value.messages.at(-1).offsetTop
   const chat = messageRightSide.value.chatContainer
-  chat.scrollTop = topPos;
+  chat.scrollTop = topPos
 }
 </script>
 

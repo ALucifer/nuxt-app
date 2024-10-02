@@ -1,22 +1,39 @@
 <template>
-  <div v-if="needDivider" class="step__divider" :class="{ disable: current < number }"/>
-  <span v-if="showNumber" class="step__number" :class="{ disable: current < number }">{{ number }}</span>
-  <span v-else class="step__icon">
-    <check-icon :size="18" fill-color="#3B2D91" />
+  <div
+    v-if="needDivider"
+    class="step__divider"
+    :class="{ disable: current < number }"
+  />
+  <span
+    v-if="showNumber"
+    class="step__number"
+    :class="{ disable: current < number }"
+  >{{ number }}</span>
+  <span
+    v-else
+    class="step__icon"
+  >
+    <check-icon
+      :size="18"
+      fill-color="#3B2D91"
+    />
   </span>
-  <span class="step__text" :class="{ disable: current < number }">{{ libelle }}</span>
+  <span
+    class="step__text"
+    :class="{ disable: current < number }"
+  >{{ libelle }}</span>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
   needDivider: { type: Boolean, default: false },
-  number: { type: Number, default: 1},
+  number: { type: Number, default: 1 },
   libelle: { type: String, required: true },
-  current: { type: Number, required: true }
+  current: { type: Number, required: true },
 })
 
 const showNumber = computed(() => {
-  return props.current <= props.number;
+  return props.current <= props.number
 })
 </script>
 

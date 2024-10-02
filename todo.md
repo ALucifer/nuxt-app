@@ -24,8 +24,10 @@
 - [x] enlever tout les call api depuis pinia, ne plus s'en servir de BDD
 
 ## feature/v0.0.5
-- [ ] Stylelistic de l'ESLint
+- [x] Stylelistic de l'ESLint
+- [ ] Mettre ESLint sur github
 - [ ] Revoir le register form d'un tournoi
+- [ ] Remettre le chat
 - [ ] Pouvoir ajouter des messages flash depuis la partie serveur
 
 ## A groomer
@@ -33,7 +35,6 @@
 - [ ] Lors de la créer la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores
 - [ ] Systeme de notification 
-- [ ] Remettre le chat
 - [ ] Voir pourquoi on a des erreur sur le loading des images (IPX)
 
 - afficher le match avec le score sur /matchs/{id}

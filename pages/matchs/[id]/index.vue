@@ -6,28 +6,58 @@
           <AppAvatar :src="getTeamAvatar(match.team_a)" />
           <p>{{ match.team_a.libelle }}</p>
         </div>
-        <AppImage class="versus-small" src="images/versus.png" />
+        <AppImage
+          class="versus-small"
+          src="images/versus.png"
+        />
         <div class="card-team">
           <AppAvatar :src="getTeamAvatar(match.team_b)" />
           <p>{{ match.team_b.libelle }}</p>
         </div>
       </div>
       <div class="match-card--body">
-        <div v-for="score in match.scores" :key="score.id" class="information">
-          <p v-if=score.reporter>Score indiqué par l'équipe : <b>{{ score.reporter.libelle }}</b></p>
-          <p v-else>Score indiqué par l'administrateur</p>
+        <div
+          v-for="score in match.scores"
+          :key="score.id"
+          class="information"
+        >
+          <p v-if="score.reporter">
+            Score indiqué par l'équipe : <b>{{ score.reporter.libelle }}</b>
+          </p>
+          <p v-else>
+            Score indiqué par l'administrateur
+          </p>
           <p>
-            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.winner.libelle" class="avatar-information" :src="getTeamAvatar(score.winner)" />
+            <AppAvatar
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              :data-bs-title="score.winner.libelle"
+              class="avatar-information"
+              :src="getTeamAvatar(score.winner)"
+            />
             <span class="score">{{ score.winnerScore + ' - ' + score.looserScore }}</span>
-            <AppAvatar data-bs-toggle="tooltip" data-bs-placement="top" :data-bs-title="score.looser.libelle" class="avatar-information avatar-information--looser" :src="getTeamAvatar(score.looser)" />
+            <AppAvatar
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              :data-bs-title="score.looser.libelle"
+              class="avatar-information avatar-information--looser"
+              :src="getTeamAvatar(score.looser)"
+            />
           </p>
         </div>
-        <div v-if="match.scores.length === 0" class="information">
+        <div
+          v-if="match.scores.length === 0"
+          class="information"
+        >
           <p>Aucun score pour le moment</p>
         </div>
       </div>
       <div class="match-card--footer">
-        <button v-if="!userHasScored()" class="btn btn--score" @click.prevent="openModal">
+        <button
+          v-if="!userHasScored()"
+          class="btn btn--score"
+          @click.prevent="openModal"
+        >
           <template v-if="isFirstScore()">
             Donner son score
           </template>
@@ -35,21 +65,29 @@
             Donne le score en tant qu'administrateur
           </template>
         </button>
-        <p v-if="match.state === State.FINISH" class="badge badge--danger">Match terminé</p>
+        <p
+          v-if="match.state === State.FINISH"
+          class="badge badge--danger"
+        >
+          Match terminé
+        </p>
       </div>
     </div>
     <Teleport to="body">
-      <ModalScore :match="match" @scored="handleScored()" />
+      <ModalScore
+        :match="match"
+        @scored="handleScored()"
+      />
     </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-import { definePageMeta } from "#imports";
-import type { TeamModel } from "~/app/models/team.model";
-import ModalScore from "~/components/match/ModalScore.vue";
-import { State, type MatchWithTeamsAndScoresModel } from "~/app/models/match.model";
-import type { ScoreModel } from "~/app/models/scoreFormModel";
+import { definePageMeta } from '#imports'
+import type { TeamModel } from '~/app/models/team.model'
+import ModalScore from '~/components/match/ModalScore.vue'
+import { State, type MatchWithTeamsAndScoresModel } from '~/app/models/match.model'
+import type { ScoreModel } from '~/app/models/scoreFormModel'
 
 definePageMeta({
   middleware: ['show-score'],
@@ -62,8 +100,9 @@ const match = ref<MatchWithTeamsAndScoresModel>(route.meta.match as MatchWithTea
 onMounted(() => {
   try {
     [...document.querySelectorAll('[data-bs-toggle="tooltip"]')].map(tooltipTriggerEl => new $bootstrap.Tooltip(tooltipTriggerEl))
-  } catch (e) {
-    console.log('Bootstrap error: ', e);
+  }
+  catch (e) {
+    console.log('Bootstrap error: ', e)
   }
 })
 

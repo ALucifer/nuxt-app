@@ -8,8 +8,11 @@
     </template>
     <template #footer>
       <div class="account">
-        <p>Vous n'avez pas de compte?
-          <NuxtLink :to="{ name: 'register' }">Inscription ici</NuxtLink>
+        <p>
+          Vous n'avez pas de compte?
+          <NuxtLink :to="{ name: 'register' }">
+            Inscription ici
+          </NuxtLink>
         </p>
       </div>
     </template>
@@ -17,25 +20,25 @@
 </template>
 
 <script setup lang="ts">
-import LoginForm from "@/components/LoginForm";
+import LoginForm from '@/components/LoginForm'
 
 definePageMeta({
   auth: {
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: '/',
-  }
+  },
 })
 
 useHead({
-  title: "Connexion",
+  title: 'Connexion',
   script: [
     {
-      hid: "google",
-      src: "https://accounts.google.com/gsi/client",
+      hid: 'google',
+      src: 'https://accounts.google.com/gsi/client',
       async: true,
       defer: true,
     },
-  ]
+  ],
 })
 </script>
 

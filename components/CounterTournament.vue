@@ -5,9 +5,12 @@
       <span>{{ monthBeginAt }}</span>
     </div>
     <div class="tournament-counter__date-area head">
-      <div class="d-flex justify-content-center" :data-countdown="formattedAt">
+      <div
+        class="d-flex justify-content-center"
+        :data-countdown="formattedAt"
+      >
         <h6>{{ jours }}</h6>
-        <h6>{{  heures }}</h6>
+        <h6>{{ heures }}</h6>
         <h6>{{ minutes }}</h6>
         <h6>{{ secondes }}</h6>
       </div>
@@ -22,9 +25,9 @@
 </template>
 
 <script setup lang="ts">
-import dayjs from "dayjs";
+import dayjs from 'dayjs'
 
-const props = defineProps({ beginAt: { type: String, required: true }})
+const props = defineProps({ beginAt: { type: String, required: true } })
 
 const formattedAt = dayjs(props.beginAt).format('YYYY/MM/DD')
 const dayBeginAt = dayjs(props.beginAt).format('DD')
@@ -44,13 +47,11 @@ function updateTimer() {
 
   showTimer.value = isAfterNow(beginAt.toISOString())
   if (showTimer.value === true) {
-
-  jours.value = diff.days()
-  heures.value = diff.hours()
-  minutes.value = diff.minutes()
-  secondes.value = diff.seconds()
+    jours.value = diff.days()
+    heures.value = diff.hours()
+    minutes.value = diff.minutes()
+    secondes.value = diff.seconds()
   }
-
 }
 
 onMounted(() => {

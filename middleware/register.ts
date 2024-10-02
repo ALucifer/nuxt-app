@@ -1,16 +1,16 @@
-import type {TournamentModel} from "~/app/models/tournament";
+import type { TournamentModel } from '~/app/models/tournament'
 
 export default defineNuxtRouteMiddleware(async (to) => {
-    const { isRegister, isCompletlyClose } = useTournament()
-    const tournament = await $fetch<TournamentModel>('/api/tournaments/' + to.params.id)
+  const { isRegister, isCompletlyClose } = useTournament()
+  const tournament = await $fetch<TournamentModel>('/api/tournaments/' + to.params.id)
 
-    if (!tournament) {
-        createError({
-            statusCode: 404
-        })
-    }
+  if (!tournament) {
+    createError({
+      statusCode: 404,
+    })
+  }
 
-    if (isRegister(tournament) || isCompletlyClose(tournament) || !tournament.challongeId) {
-        return navigateTo({ name: 'tournois-id', params: { id: to.params.id } })
-    }
+  if (isRegister(tournament) || isCompletlyClose(tournament) || !tournament.challongeId) {
+    return navigateTo({ name: 'tournois-id', params: { id: to.params.id } })
+  }
 })

@@ -1,13 +1,11 @@
-import { transformToLink } from "~/services/notification_transformer";
-
 interface AddFlashMessage {
-  message: string,
+  message: string
   class: 'success' | 'error' | 'warning'
 }
 
-interface FlashMessage extends AddFlashMessage{
-  id: number,
-  visible: boolean,
+interface FlashMessage extends AddFlashMessage {
+  id: number
+  visible: boolean
 }
 
 export const useFlashMessages = () => {
@@ -20,34 +18,34 @@ export const useFlashMessages = () => {
       ...message,
       id: Math.random() + Date.now(),
       message: message.message,
-      visible: true
+      visible: true,
     }
 
-    messages.value.push(flashMessage);
+    messages.value.push(flashMessage)
 
     setTimeout(() => {
-        // @ts-ignore
-        messages.value.at(-1).visible = false
+      // @ts-expect-error messages cannot be empty due to messages.values.push in line 24
+      messages.value.at(-1).visible = false
     }, 5000)
   }
 
   const removeMessage = (id: number) => {
-      const index = messages.value.findIndex((item) => item.id === id);
-      messages.value.splice(index, 1);
+    const index = messages.value.findIndex(item => item.id === id)
+    messages.value.splice(index, 1)
   }
 
   const successMessage = (message: string) => {
-      addMessage({
-        class: 'success',
-        message
-      })
+    addMessage({
+      class: 'success',
+      message,
+    })
   }
 
   const errorMessage = (message: string) => {
-      addMessage({
-        class: 'error',
-        message
-      })
+    addMessage({
+      class: 'error',
+      message,
+    })
   }
 
   const handleResponse = (status: boolean, success: string, error: string) => {
@@ -72,6 +70,6 @@ export const useFlashMessages = () => {
     removeMessage,
     successMessage,
     errorMessage,
-    handleResponse
-  };
+    handleResponse,
+  }
 }

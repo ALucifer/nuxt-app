@@ -1,31 +1,63 @@
 <template>
-  <div v-if="!pending && tournaments.meta.total !== 0" class="container-card">
-    <div v-for="tournament in tournaments.data" :key="tournament.id">
+  <div
+    v-if="!pending && tournaments.meta.total !== 0"
+    class="container-card"
+  >
+    <div
+      v-for="tournament in tournaments.data"
+      :key="tournament.id"
+    >
       <div class="item__header">
         <span>{{ tournament.skillLevel }}</span>
         <span>{{ $dayjs(tournament.beginAt).format('DD MMM YYYY') }}</span>
       </div>
-      <p class="item__description">{{ tournament.libelle }}</p>
-      <p class="item__motivation">{{ tournament.speech }}</p>
+      <p class="item__description">
+        {{ tournament.libelle }}
+      </p>
+      <p class="item__motivation">
+        {{ tournament.speech }}
+      </p>
       <div class="item__action">
-        <nuxt-link :to="{ name: 'tournois-id', params: { id: tournament.id } }">Voir</nuxt-link>
+        <nuxt-link :to="{ name: 'tournois-id', params: { id: tournament.id } }">
+          Voir
+        </nuxt-link>
       </div>
     </div>
   </div>
   <nav v-if="!pending && tournaments.meta.lastPage > 1">
     <ul class="pagination justify-content-center pt-2">
-      <li class="page-item" :class="{ 'disabled': currentPage <= 1}">
-        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: currentPage - 1 } }">
+      <li
+        class="page-item"
+        :class="{ disabled: currentPage <= 1 }"
+      >
+        <NuxtLink
+          class="page-link"
+          :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: currentPage - 1 } }"
+        >
           Précédent
         </NuxtLink>
       </li>
-      <li v-for="i in range" :key="i" class="page-item" :class="{'active': currentPage === i}">
-        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: i } }">
+      <li
+        v-for="i in range"
+        :key="i"
+        class="page-item"
+        :class="{ active: currentPage === i }"
+      >
+        <NuxtLink
+          class="page-link"
+          :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: i } }"
+        >
           {{ i }}
         </NuxtLink>
       </li>
-      <li class="page-item" :class="{ 'disabled': tournaments.meta.lastPage <= currentPage}">
-        <NuxtLink class="page-link" :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: currentPage + 1 } }">
+      <li
+        class="page-item"
+        :class="{ disabled: tournaments.meta.lastPage <= currentPage }"
+      >
+        <NuxtLink
+          class="page-link"
+          :to="{ name: route.name, params: { slug: route.params.slug }, query: { [paginationName]: currentPage + 1 } }"
+        >
           Suivant
         </NuxtLink>
       </li>
@@ -34,28 +66,27 @@
 </template>
 
 <script setup lang="ts">
-import type {TournamentModelWithMatchesAndTeams} from "~/app/models/tournament";
+import type { TournamentModelWithMatchesAndTeams } from '~/app/models/tournament'
 
 const props = defineProps<{ owner: boolean, user: boolean, paginationName: string }>()
 
-const {getUser} = useSecurity()
+const { getUser } = useSecurity()
 const route = useRoute()
-const {range, currentPage} = pagination()
+const { range, currentPage } = pagination()
 
-const {execute, pending, data: tournaments} = await useFetch<TournamentModelWithMatchesAndTeams[]>(
-    '/api/tournaments/all',
-    {
-      query: {
-        owner: props.owner ? getUser().id : null,
-        user: props.user ? getUser().id : null,
-        pagination: 2,
-        page: currentPage
-      },
-      lazy: true,
-      watch: [ currentPage ]
-    }
+const { execute, pending, data: tournaments } = await useFetch<TournamentModelWithMatchesAndTeams[]>(
+  '/api/tournaments/all',
+  {
+    query: {
+      owner: props.owner ? getUser().id : null,
+      user: props.user ? getUser().id : null,
+      pagination: 2,
+      page: currentPage,
+    },
+    lazy: true,
+    watch: [currentPage],
+  },
 )
-
 
 function pagination() {
   const currentPage = computed(() => route.query[props.paginationName] ? +route.query[props.paginationName] : 1)
@@ -64,11 +95,11 @@ function pagination() {
     let end = currentPage.value + 2
     end = end > tournaments.value!.meta.lastPage ? tournaments.value!.meta.lastPage : end
     let start = currentPage.value - 2
-    start = start >= 1 ? start : 1;
-    return Array.from({length: end - start + 1}, (v, k) => k + start)
+    start = start >= 1 ? start : 1
+    return Array.from({ length: end - start + 1 }, (v, k) => k + start)
   })
 
-  return {currentPage, range}
+  return { currentPage, range }
 }
 
 onMounted(async () => {

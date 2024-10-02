@@ -7,41 +7,51 @@
       @update:model-value="change"
     >
       <template #dp-input="{}">
-        <input type="text" :value="fieldValue" :placeholder="placeholder ?? name" >
+        <input
+          type="text"
+          :value="fieldValue"
+          :placeholder="placeholder ?? name"
+        >
       </template>
     </VueDatePicker>
-    <AppField type="hidden" :name="name" />
-    <AppErrorMessage class="error" :name="name" />
+    <AppField
+      type="hidden"
+      :name="name"
+    />
+    <AppErrorMessage
+      class="error"
+      :name="name"
+    />
   </client-only>
 </template>
 
 <script setup lang="ts">
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
-import dayjs from "dayjs";
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+import dayjs from 'dayjs'
 
 const props = defineProps({
   name: { type: String, required: true },
   minDate: { type: Date, required: false, default: new Date() },
-  format: { type: String, required: false, default: "yyyy-MM-dd HH:mm:ss" },
+  format: { type: String, required: false, default: 'yyyy-MM-dd HH:mm:ss' },
   value: { type: String, required: false, default: null },
   placeholder: { type: String, required: false, default: null },
-});
-const emit = defineEmits(["change"]);
+})
+const emit = defineEmits(['change'])
 
-const name = computed(() => props.name);
-const { value: fieldValue } = useField(name);
-const date = ref(null);
+const name = computed(() => props.name)
+const { value: fieldValue } = useField(name)
+const date = ref(null)
 
 function change(value) {
-  date.value = value;
-  let formDate = null;
+  date.value = value
+  let formDate = null
 
   if (date.value) {
-    formDate = dayjs(date.value).format("YYYY-DD-MM HH:mm:ss");
+    formDate = dayjs(date.value).format('YYYY-DD-MM HH:mm:ss')
   }
 
-  emit("change", { value: formDate });
+  emit('change', { value: formDate })
 }
 </script>
 

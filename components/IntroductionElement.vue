@@ -14,16 +14,22 @@
                     v-if="isLogged"
                     class="cmn-btn"
                     :to="{ name: 'tournois' }"
-                    >Je joue
+                  >Je joue
                   </NuxtLink>
-                  <NuxtLink v-else :to="{ name: 'register' }" class="cmn-btn"
-                    >Je m'inscris
+                  <NuxtLink
+                    v-else
+                    :to="{ name: 'register' }"
+                    class="cmn-btn"
+                  >Je m'inscris
                   </NuxtLink>
                   <a
                     href="https://www.youtube.com/watch?v=MJ0zpsWQ_XM"
                     class="mfp-iframe popupvideo"
                   >
-                    <AppImage src="/images/play-icon.png" alt="play" />
+                    <AppImage
+                      src="/images/play-icon.png"
+                      alt="play"
+                    />
                   </a>
                 </div>
               </div>
@@ -32,7 +38,10 @@
                   <div class="row justify-content-center">
                     <div class="col-lg-6">
                       <div class="bottom-area text-center">
-                        <AppImage src="/images/versus.png" alt="banner-vs" />
+                        <AppImage
+                          src="/images/versus.png"
+                          alt="banner-vs"
+                        />
                       </div>
                     </div>
                   </div>

@@ -2,7 +2,11 @@
   <div class="tournament-card">
     <div class="row">
       <div class="col-lg-3 col-md-3 tournament-card__image">
-        <AppImage class="top-img" src="/images/game-img-1.png" alt="image" />
+        <AppImage
+          class="top-img"
+          src="/images/game-img-1.png"
+          alt="image"
+        />
       </div>
       <div class="col-lg-6 col-md-9 tournament-card__informations">
         <div class="mid-area">
@@ -41,8 +45,7 @@
             <NuxtLink
               :to="{ name: 'tournois-id', params: { id: item.id } }"
               class="cmn-btn"
-              >Regarder</NuxtLink
-            >
+            >Regarder</NuxtLink>
           </div>
         </div>
       </div>
@@ -53,7 +56,7 @@
 <script setup lang="ts">
 import StateElement from '~/components/tournament/StateElement.vue'
 
-defineProps({ item: { type: Object, required: true }})
+defineProps({ item: { type: Object, required: true } })
 </script>
 
 <style lang="scss">

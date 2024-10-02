@@ -1,8 +1,8 @@
 <template>
-    <div class="profile">
-      <div class="background"/>
-      <slot />
-    </div>
+  <div class="profile">
+    <div class="background" />
+    <slot />
+  </div>
 </template>
 
 <style lang="scss">

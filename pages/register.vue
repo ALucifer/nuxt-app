@@ -8,8 +8,11 @@
     </template>
     <template #footer>
       <div class="account">
-        <p>Vous avez un compte?
-          <NuxtLink :to="{ name: 'login' }">Connexion</NuxtLink>
+        <p>
+          Vous avez un compte?
+          <NuxtLink :to="{ name: 'login' }">
+            Connexion
+          </NuxtLink>
         </p>
       </div>
     </template>
@@ -17,17 +20,17 @@
 </template>
 
 <script setup lang="ts">
-import RegisterForm from "@/components/RegisterForm";
+import RegisterForm from '@/components/RegisterForm'
 
 definePageMeta({
   auth: {
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: '/',
-  }
+  },
 })
 
 useHead({
-    title: 'Inscription'
+  title: 'Inscription',
 })
 </script>
 
