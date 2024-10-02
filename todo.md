@@ -20,8 +20,8 @@
 - [x] Passer tout les composable sous const
 
 ## feature/v0.0.4
-- [ ] passer pinia sous la nouvelle forme
-- [ ] enlever tout les call api depuis pinia, ne plus s'en servir de BDD
+- [x] passer pinia sous la nouvelle forme
+- [x] enlever tout les call api depuis pinia, ne plus s'en servir de BDD
 
 ## feature/v0.0.5
 - [ ] Stylelistic de l'ESLint

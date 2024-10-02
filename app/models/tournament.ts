@@ -36,7 +36,17 @@ export interface TournamentModelWithMatches extends TournamentModel {
     matches: MatchModel[] | MatchWithTeamsAndScoresModel[]
 }
 
-export interface TournamentModelWithMatchesAndTeams extends TournamentModelWithMatches, TournamentModelWithTeams { }
+export interface TournamentsApiResult {
+    meta: TournamentsMeta,
+    data: TournamentModelWithMatchesAndTeams[],
+}
+
+export interface TournamentsMeta {
+    total: number,
+    currentPage: number,
+}
+
+export type TournamentModelWithMatchesAndTeams = TournamentModelWithTeams & TournamentModelWithMatches;
 
 
 class Tournament {

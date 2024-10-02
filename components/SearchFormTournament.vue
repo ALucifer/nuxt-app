@@ -6,12 +6,12 @@
       </div>
     </div>
   </div>
-  <AppForm v-slot="{ setFieldValue }" :validation-schema="schema" @submit="search">
+  <form @submit="search">
     <div class="search__container row mb-40 mp-none">
       <div class="col-lg-4">
         <div class="single-input">
           <span>Search</span>
-          <AppField name="libelle" type="text" placeholder="Libellé" />
+          <AppInput id="libelle" name="libelle" type="text" placeholder="Libellé" />
         </div>
       </div>
       <div class="col-lg-2">
@@ -68,24 +68,13 @@
         </div>
       </div>
     </div>
-  </AppForm>
+  </form>
 </template>
 
 <script setup lang="ts">
-import * as yup from "yup";
+import type {SearchForm} from "~/app/form/search.form";
 
-const schema = [
-    yup.object({
-      libelle: yup.string(),
-      format: yup.string(),
-      best_of: yup.string(),
-      date: yup.date(),
-      state: yup.string(),
-    })
-]
-
-type formValues = InferType<typeof schema>;
-
+const { handleSubmit, setFieldValue } = useForm<SearchForm>({ validationSchema: searchFormSchema })
 const boItems = ref([
   {id: 1, libelle: "1"},
   {id: 3, libelle: "3"},
@@ -105,9 +94,10 @@ const statusItems = ref([
 const emit = defineEmits(['search'])
 const searching = defineModel({ type: Boolean })
 
-function search(values: formValues) {
-    emit('search', values)
-}
+const search = handleSubmit((values: SearchForm) => {
+  emit('search', values)
+})
+
 </script>
 
 <style lang="scss">

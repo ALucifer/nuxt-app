@@ -40,10 +40,9 @@
 </template>
 
 <script setup lang="ts">
-import { useLoginForm } from "~/composables/form/useLoginForm";
 import type {LoginForm} from "~/app/form/login.form";
 
-const { handleSubmit } = useLoginForm()
+const { handleSubmit } = useForm<LoginForm>({ validationSchema: loginFormSchema })
 
 const error = ref(false)
 const isSubmitting = ref(false)

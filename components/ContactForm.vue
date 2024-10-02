@@ -18,11 +18,11 @@
 </template>
 
 <script setup lang="ts">
-import { useContactForm } from "~/composables/form/useContactForm";
 import AppInput from "~/components/global/AppInput.vue";
 import type {ContactForm} from "~/app/form/contact.form";
+import {contactFormSchema} from "~/utils/schemas.form";
 
-const { handleSubmit } = useContactForm()
+const { handleSubmit } = useForm<ContactForm>({ validationSchema: contactFormSchema })
 const { addMessage } = useFlashMessages();
 
 const onSubmit = handleSubmit(

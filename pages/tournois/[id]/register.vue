@@ -26,10 +26,8 @@
 
 <script setup lang="ts">
 import { minidenticon } from 'minidenticons'
-import {useTournamentStore} from "~/store/tournament";
 import {definePageMeta} from "#imports";
 import type {RegisterFormInput} from "~/app/models/tournament/register.input";
-import {useRegisterForm} from "~/composables/form/useRegisterForm";
 import type {RegisterForm} from "~/app/form/register.form";
 
 useSeoMeta({
@@ -42,8 +40,7 @@ definePageMeta({
 })
 
 const { addMessage } = useFlashMessages();
-const { register } = useTournamentStore()
-const { handleSubmit } = useRegisterForm()
+const { handleSubmit } = useForm<RegisterForm>({ validationSchema: registerFormSchema })
 const route = useRoute()
 const router = useRouter()
 
@@ -71,7 +68,13 @@ const submit = handleSubmit(
         avatar: avatar.value,
         tournament_id: +route.params.id,
       }
-      const result = await register(registerFormInput);
+      const result = await $fetch(
+          '/api/tournaments/register',
+          {
+            method: 'POST',
+            body: registerFormInput
+          }
+      )
 
       let message = "";
       let classCss = "";
