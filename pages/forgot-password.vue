@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 import AppSocialContainer from "~/components/global/AppSocialContainer.vue";
-import { useForgotPasswordForm } from "~/composables/form/useForgotPasswordForm";
 import type { ForgotPasswordForm } from "~/app/form/forgot-password.form";
 
 definePageMeta({
@@ -35,7 +34,7 @@ definePageMeta({
   }
 })
 
-const { handleSubmit } = useForgotPasswordForm()
+const { handleSubmit } = useForm<ForgotPasswordForm>({ validationSchema: forgotPasswordFormSchema })
 const { handleResponse } = useFlashMessages()
 const router = useRouter()
 

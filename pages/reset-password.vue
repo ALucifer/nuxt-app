@@ -23,7 +23,6 @@
 
 <script setup lang="ts">
 import AppSocialContainer from "~/components/global/AppSocialContainer.vue";
-import {useResetPasswordForm} from "~/composables/form/useResetPasswordForm";
 import type {ResetPasswordForm} from "~/app/form/reset-password.form";
 
 definePageMeta({
@@ -36,7 +35,7 @@ definePageMeta({
 const route = useRoute()
 const router = useRouter()
 const { handleResponse } = useFlashMessages()
-const { handleSubmit } = useResetPasswordForm()
+const { handleSubmit } = useForm<ResetPasswordForm>({ validationSchema: resetPasswordFormSchema })
 
 const onSubmit = handleSubmit(async (values: ResetPasswordForm) => {
   const success = await $fetch(
