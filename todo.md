@@ -25,12 +25,13 @@
 
 ## feature/v0.0.5
 - [x] Stylelistic de l'ESLint
-- [ ] Mettre ESLint sur github
+- [x] Mettre ESLint sur github
 - [ ] Revoir le register form d'un tournoi
 - [ ] Remettre le chat
-- [ ] Pouvoir ajouter des messages flash depuis la partie serveur
+- [x] Pouvoir ajouter des messages flash depuis la partie serveur, par exemple quand une page est innacessible (ex: register)
 
 ## A groomer
+- [ ] Pouvoir parser du HTML cote serveur
 - [ ] Mise en place de quelques tests
 - [ ] Lors de la créer la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores

@@ -11,6 +11,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   if (isRegister(tournament) || isCompletlyClose(tournament) || !tournament.challongeId) {
+    const { addMessage } = useFlashMessages()
+
+    addMessage({
+      class: 'success',
+      message: 'pas possible'
+    })
+
     return navigateTo({ name: 'tournois-id', params: { id: to.params.id } })
   }
 })
