@@ -1,5 +1,3 @@
-import {transformToLink} from "~/services/notification_transformer";
-
 interface AddFlashMessage {
   message: string
   class: 'success' | 'error' | 'warning'
@@ -17,13 +15,10 @@ export const useFlashMessages = () => {
   })
 
   const addMessage = (message: AddFlashMessage) => {
-    // const messageFormatted: string = transformToLink(message.message);
-
     const flashMessage = {
       ...message,
       id: Math.random() + Date.now(),
       message: message.message,
-      // message: messageFormatted,
       visible: true,
     }
 
