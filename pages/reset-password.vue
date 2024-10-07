@@ -7,14 +7,27 @@
       <form @submit="onSubmit">
         <div class="form-group p-2">
           <label>Mot de passe</label>
-          <AppInput name="password" type="password"  placeholder="**********" />
+          <AppInput
+            name="password"
+            type="password"
+            placeholder="**********"
+          />
         </div>
         <div class="form-group p-2">
           <label>Confirmation</label>
-          <AppInput name="password_confirmation" type="password"  placeholder="**********" />
+          <AppInput
+            name="password_confirmation"
+            type="password"
+            placeholder="**********"
+          />
         </div>
         <div class="form-group p-2">
-          <button type="submit" class="cmn-btn submit-btn">Sauvegarder</button>
+          <button
+            type="submit"
+            class="cmn-btn submit-btn"
+          >
+            Sauvegarder
+          </button>
         </div>
       </form>
     </template>
@@ -22,14 +35,14 @@
 </template>
 
 <script setup lang="ts">
-import AppSocialContainer from "~/components/global/AppSocialContainer.vue";
-import type {ResetPasswordForm} from "~/app/form/reset-password.form";
+import AppSocialContainer from '~/components/global/AppSocialContainer.vue'
+import type { ResetPasswordForm } from '~/app/form/reset-password.form'
 
 definePageMeta({
   auth: {
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: '/',
-  }
+  },
 })
 
 const route = useRoute()
@@ -39,23 +52,22 @@ const { handleSubmit } = useForm<ResetPasswordForm>({ validationSchema: resetPas
 
 const onSubmit = handleSubmit(async (values: ResetPasswordForm) => {
   const success = await $fetch(
-      '/api/user/resetPassword',
-      {
-        method: 'POST',
-        body: {
-          token: route.query.token,
-          ...values
-        }
-      }
+    '/api/user/resetPassword',
+    {
+      method: 'POST',
+      body: {
+        token: route.query.token,
+        ...values,
+      },
+    },
   )
 
   handleResponse(
-      success,
-      'Votre nouveau mot de passe à bien été pris en compte',
-      'Une erreur est survenu lors de la mise à jour de votre mot de passe.'
+    success,
+    'Votre nouveau mot de passe à bien été pris en compte',
+    'Une erreur est survenu lors de la mise à jour de votre mot de passe.',
   )
 
   await router.push({ name: 'login' })
 })
 </script>
-

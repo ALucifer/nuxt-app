@@ -1,4 +1,4 @@
 export interface ResetPasswordForm {
-    password: string;
-    password_confirmation: string;
+  password: string
+  password_confirmation: string
 }

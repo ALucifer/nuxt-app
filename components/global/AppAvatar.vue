@@ -26,23 +26,24 @@
 
 <script setup lang="ts">
 interface Avatar {
-  src: string|null,
-  editable?: boolean,
-  imgClass?: string|null,
+  src: string | null
+  editable?: boolean
+  imgClass?: string | null
 }
 withDefaults(
-    defineProps<Avatar>(),
-    {
-      editable: false,
-      imgClass: null
-    }
+  defineProps<Avatar>(),
+  {
+    editable: false,
+    imgClass: null,
+  },
 )
 
 const emit = defineEmits(['change'])
 function handleAvatarUpload(event: Event) {
-  emit("change", event);
+  emit('change', event)
 }
 </script>
+
 <style scoped lang="scss">
 img {
   object-fit: cover;

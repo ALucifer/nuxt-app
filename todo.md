@@ -24,16 +24,22 @@
 - [x] enlever tout les call api depuis pinia, ne plus s'en servir de BDD
 
 ## feature/v0.0.5
-- [ ] Stylelistic de l'ESLint
-- [ ] Revoir le register form d'un tournoi
-- [ ] Pouvoir ajouter des messages flash depuis la partie serveur
+- [x] Stylelistic de l'ESLint
+- [x] Mettre ESLint sur github
+- [x] Revoir le register form d'un tournoi
+- [ ] Remettre le chat
+- [x] Pouvoir ajouter des messages flash depuis la partie serveur, par exemple quand une page est innacessible (ex: register)
+
+## feature/v0.0.6
+- [ ] Mise en place de quelques tests
+- [ ] Page d'erreur a styliser avec un footer et center le content
+- [ ] Pour les formulaires, il faudrait une validation cote serveur
+
+## feature/v0.0.7
 
 ## A groomer
-- [ ] Mise en place de quelques tests
-- [ ] Lors de la créer la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
+- [ ] Lors de la creation d'un tournoi, la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores
-- [ ] Systeme de notification 
-- [ ] Remettre le chat
 - [ ] Voir pourquoi on a des erreur sur le loading des images (IPX)
 
 - afficher le match avec le score sur /matchs/{id}

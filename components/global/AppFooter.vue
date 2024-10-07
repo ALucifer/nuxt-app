@@ -4,21 +4,33 @@
       <div class="container">
         <div class="footer-item-container">
           <div class="logo-section">
-            <NuxtLink :to="{ name: 'index' }" class="site-logo site-title">
-              <AppImage src="/images/logo.png" alt="site-logo" class="logo-footer" />
+            <NuxtLink
+              :to="{ name: 'index' }"
+              class="site-logo site-title"
+            >
+              <AppImage
+                src="/images/logo.png"
+                alt="site-logo"
+                class="logo-footer"
+              />
             </NuxtLink>
           </div>
           <ul class="menu-side mx-auto my-sm-4">
             <li>
-              <NuxtLink :to="{ name: 'index' }" class="active"
-                >Accueil</NuxtLink
-              >
+              <NuxtLink
+                :to="{ name: 'index' }"
+                class="active"
+              >Accueil</NuxtLink>
             </li>
             <li>
-              <NuxtLink :to="{ name: 'about' }">A propos</NuxtLink>
+              <NuxtLink :to="{ name: 'about' }">
+                A propos
+              </NuxtLink>
             </li>
             <li>
-              <NuxtLink :to="{ name: 'contact' }">Contact</NuxtLink>
+              <NuxtLink :to="{ name: 'contact' }">
+                Contact
+              </NuxtLink>
             </li>
           </ul>
           <ul class="social-bar">
@@ -38,9 +50,9 @@
               </a>
             </li>
           </ul>
-          </div>
         </div>
       </div>
+    </div>
   </footer>
 </template>
 

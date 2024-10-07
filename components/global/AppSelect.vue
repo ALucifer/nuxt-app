@@ -26,8 +26,14 @@
         </li>
       </ul>
     </div>
-    <AppField type="hidden" :name="name"/>
-    <AppErrorMessage class="error" :name="name" />
+    <AppField
+      type="hidden"
+      :name="name"
+    />
+    <AppErrorMessage
+      class="error"
+      :name="name"
+    />
   </client-only>
 </template>
 

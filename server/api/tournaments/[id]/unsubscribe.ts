@@ -1,7 +1,7 @@
-import {getToken} from "#auth";
+import { getToken } from '#auth'
 
-export default defineEventHandler(async event => {
-  const session = await getToken({event})
+export default defineEventHandler(async (event) => {
+  const session = await getToken({ event })
   if (!session) return
 
   const id = getRouterParam(event, 'id')
@@ -12,14 +12,15 @@ export default defineEventHandler(async event => {
       {
         method: 'POST',
         headers: {
-          Authorization: 'Bearer ' + session.token
-        }
-      }
+          Authorization: 'Bearer ' + session.token,
+        },
+      },
     )
-  } catch (e) {
+  }
+  catch (e) {
     throw createError({
       statusCode: e.statusCode,
-      message: 'An error occurred on unsubscribe'
+      message: 'An error occurred on unsubscribe',
     })
   }
 })

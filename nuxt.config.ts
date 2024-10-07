@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   components: {
     global: true,
-    dirs: ['~/components/global']
+    dirs: ['~/components/global'],
   },
 
   modules: [
@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   eslint: {
     config: {
       typescript: true,
-      // stylistic: true,
+      stylistic: true,
     },
   },
 
@@ -42,24 +42,24 @@ export default defineNuxtConfig({
     session: {
       enablePeriodically: false,
       enableOnWindowFocus: false,
-    }
+    },
   },
 
   css: [
-     "~/node_modules/bootstrap/dist/css/bootstrap.min.css",
+    '~/node_modules/bootstrap/dist/css/bootstrap.min.css',
     '@/assets/css/nice-select.css',
     '@/assets/css/style.css',
   ],
 
   image: {
     cloudinary: {
-      baseURL: 'https://res.cloudinary.com/davxuwzzl/image/upload/'
-    }
+      baseURL: 'https://res.cloudinary.com/davxuwzzl/image/upload/',
+    },
   },
 
   head: {
     link: [
-      { rel: 'icon', href: '/favicon.png' }
+      { rel: 'icon', href: '/favicon.png' },
       // Si vous utilisez un fichier PNG, utilisez 'image/png' comme type
     ],
   },
@@ -71,11 +71,11 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/profile/messages': { redirect: '/profile' }
+    '/profile/messages': { redirect: '/profile' },
   },
 
   build: {
-    transpile: ['@vuepic/vue-datepicker']
+    transpile: ['@vuepic/vue-datepicker'],
   },
 
   compatibilityDate: '2024-09-12',

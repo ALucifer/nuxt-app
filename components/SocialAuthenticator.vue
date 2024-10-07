@@ -4,23 +4,38 @@
   </div>
   <div class="social-auth">
     <a href="javascript:void(0)">
-      <NuxtImg src="/images/social-icon-1.png" alt="image"/>
+      <NuxtImg
+        src="/images/social-icon-1.png"
+        alt="image"
+      />
     </a>
-    <a class="twitch" href="javascript:void(0)">
-      <NuxtImg src="/images/social-icon-2.png" alt="image"/>
+    <a
+      class="twitch"
+      href="javascript:void(0)"
+    >
+      <NuxtImg
+        src="/images/social-icon-2.png"
+        alt="image"
+      />
     </a>
-    <a class="google" @click="signIn('google')">
-      <NuxtImg src="/images/social-icon-3.png" alt="image"/>
+    <a
+      class="google"
+      @click="signIn('google')"
+    >
+      <NuxtImg
+        src="/images/social-icon-3.png"
+        alt="image"
+      />
     </a>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps({
-    message: {
-      type: String,
-      required: true
-    }
+  message: {
+    type: String,
+    required: true,
+  },
 })
 
 const { signIn } = useAuth()
