@@ -1,8 +1,14 @@
 import { getToken } from '#auth'
+import type {StatusCode} from "~/types/api";
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<StatusCode> => {
   const session = await getToken({ event })
-  if (!session) return
+  if (!session) {
+      throw createError({
+          statusCode: 403,
+          statusMessage: 'You need to be register to perform this action.',
+      })
+  }
 
   const body = await readBody(event)
 
@@ -22,8 +28,11 @@ export default defineEventHandler(async (event) => {
     )
 
     return 200
-  }
-  catch (e) {
-    return e.response.status
+  } catch (e: any) {
+      throw createError({
+          statusCode: e.response.status,
+          message: e.data.message,
+          statusMessage: e.data.message,
+      })
   }
 })

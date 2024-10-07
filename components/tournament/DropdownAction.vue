@@ -53,7 +53,7 @@ import type { TournamentModelWithMatchesAndTeams } from '#build/app/models/tourn
 const props = defineProps<{ tournament: TournamentModelWithMatchesAndTeams }>()
 const emits = defineEmits(['unsubscribe', 'start'])
 
-const { canBeStarted, isRegister, isCompletlyClose, isRunning } = useTournament()
+const { canBeStarted, isRegister, isCompletlyClose, isRunning, hasError } = useTournament()
 const { errorMessage, successMessage } = useFlashMessages()
 const { isLogged } = useSecurity()
 const route = useRoute()
@@ -64,8 +64,9 @@ const action = ref(null)
 defineExpose({ action })
 
 const showRegisterLabel = ref(
-  (!isLogged() && !isRunning(props.tournament) && !isCompletlyClose(props.tournament))
-  || (!isRegister(props.tournament) && !isRunning(props.tournament) && !isCompletlyClose(props.tournament)),
+  !hasError(props.tournament) &&
+  ((!isLogged() && !isRunning(props.tournament) && !isCompletlyClose(props.tournament))
+  || (!isRegister(props.tournament) && !isRunning(props.tournament) && !isCompletlyClose(props.tournament))),
 )
 
 const showUnsubscribeLabel = ref(

@@ -26,16 +26,20 @@
 ## feature/v0.0.5
 - [x] Stylelistic de l'ESLint
 - [x] Mettre ESLint sur github
-- [ ] Revoir le register form d'un tournoi
+- [x] Revoir le register form d'un tournoi
 - [ ] Remettre le chat
 - [x] Pouvoir ajouter des messages flash depuis la partie serveur, par exemple quand une page est innacessible (ex: register)
 
-## A groomer
-- [ ] Pouvoir parser du HTML cote serveur
+## feature/v0.0.6
 - [ ] Mise en place de quelques tests
-- [ ] Lors de la créer la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
+- [ ] Page d'erreur a styliser avec un footer et center le content
+- [ ] Pour les formulaires, il faudrait une validation cote serveur
+
+## feature/v0.0.7
+
+## A groomer
+- [ ] Lors de la creation d'un tournoi, la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores
-- [ ] Systeme de notification 
 - [ ] Voir pourquoi on a des erreur sur le loading des images (IPX)
 
 - afficher le match avec le score sur /matchs/{id}

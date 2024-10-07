@@ -69,6 +69,10 @@ export const useTournament = () => {
     return isLogged() && (match.team_a.userId === getUser().id || match.team_b.userId === getUser().id)
   }
 
+  const hasError = (tournament: TournamentModel) => {
+    return tournament.challongeId === null
+  }
+
   return {
     isOwner,
     isRegister,
@@ -80,5 +84,6 @@ export const useTournament = () => {
     canBeStarted,
     isComplete,
     isUserLoggedInMatch,
+    hasError
   }
 }

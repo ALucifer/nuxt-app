@@ -10,7 +10,7 @@
           class="notification"
           :class="message.class"
         >
-          <span>{{ replaceLink(message.message) }}</span>
+          <span v-html="message.message"></span>
           <button @click="removeMessage(message.id)">
             x
           </button>
@@ -21,33 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import {useRouter} from "vue-router";
-import * as cheerio from 'cheerio'
-
-const { messages, removeMessage } = useFlashMessages()
-const router = useRouter()
-
-const replaceLink = (text: string) => {
-  const router = useRouter()
-  const $ = cheerio.load(text)
-  const link = $('[data-url]')
-
-  if (!link) return text
-
-  console.log(
-    link
-  )
-
-  // const route = router.resolve({
-  //   name: 'ViewTournament',
-  //   params: { id: link.getAttribute('data-url') }
-  // })
-  //
-  // link.removeAttribute('data-url')
-  // link.setAttribute('href', test.href)
-
-  return text
-}
+const { messages, removeMessage, readMessagesCookie } = useFlashMessages()
+readMessagesCookie()
 </script>
 
 <style lang="scss" scoped>

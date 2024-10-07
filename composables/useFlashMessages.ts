@@ -1,15 +1,8 @@
-interface AddFlashMessage {
-  message: string
-  class: 'success' | 'error' | 'warning'
-}
-
-interface FlashMessage extends AddFlashMessage {
-  id: number
-  visible: boolean
-}
+import type { FlashMessage, AddFlashMessage, CssClassFlashMessage } from "~/types/notifications";
 
 export const useFlashMessages = () => {
-  const messages = useCookie<FlashMessage[]>('notifications', {
+  const messages = useState<FlashMessage[]>('notification', () => [])
+  const messagesInCookie = useCookie<FlashMessage[]>('notifications', {
     default: () => [],
     maxAge: 5,
   })
@@ -23,6 +16,7 @@ export const useFlashMessages = () => {
     }
 
     messages.value.push(flashMessage)
+    messagesInCookie.value.push(flashMessage)
 
     setTimeout(() => {
       // @ts-expect-error messages cannot be empty due to messages.values.push in line 24
@@ -44,7 +38,7 @@ export const useFlashMessages = () => {
 
   const errorMessage = (message: string) => {
     addMessage({
-      class: 'error',
+      class: 'error' as CssClassFlashMessage,
       message,
     })
   }
@@ -65,6 +59,12 @@ export const useFlashMessages = () => {
     }
   }
 
+  const readMessagesCookie = () => {
+    if (messagesInCookie.value.length > 0) {
+      messages.value = messagesInCookie.value
+    }
+  }
+
   return {
     messages,
     addMessage,
@@ -72,5 +72,6 @@ export const useFlashMessages = () => {
     successMessage,
     errorMessage,
     handleResponse,
+    readMessagesCookie
   }
 }

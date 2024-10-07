@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const id = parseInt(event.context.params.id) as number
+  const id = getRouterParam(event, 'id')
 
   try {
     return fetchSpotsApi(`/users/${id}`)

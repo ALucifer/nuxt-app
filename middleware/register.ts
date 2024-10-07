@@ -10,7 +10,15 @@ export default defineNuxtRouteMiddleware(async (to) => {
     })
   }
 
-  if (isRegister(tournament) || isCompletlyClose(tournament) || !tournament.challongeId) {
+  if (!tournament.challongeId) {
+    throw createError({
+      statusCode: 403,
+      statusMessage: 'You are not authorized to perform this action',
+    })
+  }
+
+  if (isRegister(tournament) || isCompletlyClose(tournament)) {
+
     const { addMessage } = useFlashMessages()
 
     addMessage({

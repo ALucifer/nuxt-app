@@ -20,7 +20,16 @@
               class="cmn-btn"
               type="submit"
             >
-              Participer
+              <template v-if="handleLoading">
+                 <span
+                     class="spinner-border spinner-border-sm"
+                     role="status"
+                     aria-hidden="true"
+                 />
+              </template>
+              <template v-else>
+                Participer
+              </template>
             </button>
           </form>
         </div>
@@ -32,8 +41,9 @@
 <script setup lang="ts">
 import { minidenticon } from 'minidenticons'
 import { definePageMeta } from '#imports'
-import type { RegisterFormInput } from '~/app/models/tournament/register.input'
 import type { RegisterForm } from '~/app/form/register.form'
+import type {StatusCode} from "~/types/api";
+import type {CssClassFlashMessage} from "~/types/notifications";
 
 useSeoMeta({
   title: 'Inscription au tournoi',
@@ -50,6 +60,7 @@ const route = useRoute()
 const router = useRouter()
 
 const avatar = ref()
+const handleLoading = ref(false)
 
 function generateAvatar() {
   let result = ''
@@ -61,59 +72,38 @@ function generateAvatar() {
       Math.floor(Math.random() * charactersLength),
     )
   }
-  const svg = minidenticon(result)
-  const a = btoa(svg)
-  avatar.value = a
+  avatar.value = btoa(minidenticon(result))
 }
 
 const submit = handleSubmit(
   async (values: RegisterForm) => {
-    const registerFormInput: RegisterFormInput = {
-      ...values,
-      avatar: avatar.value,
-      tournament_id: +route.params.id,
-    }
-    const result = await $fetch(
-      '/api/tournaments/register',
-      {
-        method: 'POST',
-        body: registerFormInput,
-      },
-    )
+    try {
+      handleLoading.value = true
+      await $fetch<StatusCode>(
+          '/api/tournaments/register',
+          {
+            method: 'POST',
+            body: {
+              ...values,
+              avatar: avatar.value,
+              tournament_id: +route.params.id,
+            },
+          },
+      )
 
-    let message = ''
-    let classCss = ''
-    if (result === 406) {
-      message = 'Le nombre maximal d\'inscrit a déjà été atteint.'
-      classCss = 'error'
-    }
-    else if (result === 409) {
-      message = 'Vous êtes déjà inscrit à ce tournoi.'
-      classCss = 'warning'
-    }
-    else if (result === 422) {
       addMessage({
-        message:
-              'Le nom d\'équipe <b>' + values.libelle + '</b> est déjà utilisé.',
-        class: 'error',
+        class: 'success' as CssClassFlashMessage,
+        message: 'Vous êtes bien inscrit sous l\'équipe <b>' + values.libelle + '</b>'
       })
+    } catch (e) {
+      addMessage({
+        class: 'error' as CssClassFlashMessage,
+        message: e.response._data.message
+      })
+      handleLoading.value = false
+
       return
     }
-    else if (result === 403) {
-      message
-            = 'Le tournoi est fermé, il vous est impossible de vous enregistré.'
-      classCss = 'error'
-    }
-    else if (result === 401) {
-      message = 'Vous n\'etes pas autorisé à faire cette action.'
-      classCss = 'error'
-    }
-    else {
-      message
-            = 'Vous êtes bien inscrit sous l\'équipe <b>' + values.libelle + '</b>'
-      classCss = 'success'
-    }
-    addMessage({ message: message, class: classCss })
 
     router.push({
       name: 'tournois-id',
