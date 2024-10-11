@@ -1,22 +1,15 @@
 <template>
   <div class="selected-user">
     <span>De:
-      <span class="selected-user__name">{{
-        currentConversation?.interlocutor?.pseudo
-      }}</span></span>
+      <span class="selected-user__name">{{ conversation.interlocutor.pseudo }}</span>
+    </span>
   </div>
-  <div
-    ref="chatContainer"
-    class="chat-container chat__container"
-  >
-    <ul
-      v-if="currentConversation.messages"
-      class="chat-box chatContainerScroll"
-    >
+  <div ref="chatContainer" class="chat-container chat__container">
+    <ul class="chat-box chatContainerScroll">
       <li
-        v-for="(item, i) in currentConversation.messages"
+        v-for="(item) in messages"
         ref="messages"
-        :key="i"
+        :key="item.id"
         v-observe="{
           callback: messageRead,
           useCallback: item.state === 'UNREAD' && !isOwnMessage(item),
@@ -57,7 +50,7 @@
           class="message-item__hour"
           :class="{ 'message-item__hour--right': !isOwnMessage(item) }"
         >
-          {{ $dayjs(item.created_at).fromNow() }}
+          {{ $dayjs(item.createdAt).fromNow() }}
         </div>
       </li>
     </ul>
@@ -74,34 +67,44 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { useConversationStore } from '~/store/conversation'
-import type { MessageModel } from '~/app/models/conversation.model'
+import type {ConversationModel, MessageModel} from "~/types/api/conversations";
+
+const props = defineProps<{ conversation: ConversationModel }>()
+
+const { data: messages } = await useFetch<MessageModel[]>(
+    '/api/conversations/messages',
+    {
+      key: 'current-conversation',
+      query: {
+        conversationId: props.conversation.id
+      }
+    }
+)
 
 const conversationStore = useConversationStore()
 const { getUser } = useSecurity()
 
-const { currentConversation } = storeToRefs(conversationStore)
-const { sendMessage, sendMessageToNewConversation, messageRead } = conversationStore
+const { messageRead } = conversationStore
 
 const emit = defineEmits(['newMessage'])
 
-const messages = ref()
 const chatContainer = ref()
 const message = ref('')
 
 defineExpose({ messages, chatContainer })
 
 function isOwnMessage(message: MessageModel) {
+  console.log(message.fromUser)
   return getUser().id === message.fromUser.id
 }
 async function send() {
-  if (currentConversation.value!.id === 0) {
-    await sendMessageToNewConversation(message.value)
-  }
-  else {
-    await sendMessage(message.value)
-  }
+  // if (currentConversation.value!.id === 0) {
+  //   await sendMessageToNewConversation(message.value)
+  // }
+  // else {
+  //   await sendMessage(message.value)
+  // }
 
   message.value = ''
   emit('newMessage')

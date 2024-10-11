@@ -24,7 +24,7 @@ export interface ConversationMessagesModel extends ConversationModel {
 export interface MessageModel {
   id: number
   conversation: number
-  created_at: Date
+  createdAt: Date
   updated_at: Date
   text: string
   from: number

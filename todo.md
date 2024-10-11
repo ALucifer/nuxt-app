@@ -31,6 +31,7 @@
 - [x] Pouvoir ajouter des messages flash depuis la partie serveur, par exemple quand une page est innacessible (ex: register)
 
 ## feature/v0.0.6
+- [ ] Regler le warning dans la console
 - [ ] Mise en place de quelques tests
 - [ ] Page d'erreur a styliser avec un footer et center le content
 - [ ] Pour les formulaires, il faudrait une validation cote serveur

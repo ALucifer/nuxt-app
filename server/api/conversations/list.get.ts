@@ -12,7 +12,10 @@ export default eventHandler(async (event) => {
       },
     )
   }
-  catch {
-    return []
+  catch (e) {
+    throw createError({
+      statusCode: 404,
+      message: e.response.message
+    })
   }
 })
