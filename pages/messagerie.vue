@@ -45,22 +45,6 @@ if (conversations.value && conversations.value.length > 0) {
   currentConversation.value = conversations.value[0]
 }
 
-// await useAsyncData('conversations-list', async () => {
-//   await fetchConversations()
-//   if (route.meta.user && !conversations.value.find(c => c.interlocutor.id === route.meta.user.id)) {
-//     createNewConversation(route.meta.user, route.meta.user.id)
-//   }
-//
-//   initCurrentConversation()
-//
-//   return true
-// })
-
-// await useAsyncData(
-//   'messages',
-//   async () => await fillCurrentConversationMessages(),
-// )
-
 onMounted(async () => {
   // const clientSSE = new ClientSSE(getUser().id)
   // clientSSE.connect()
@@ -72,25 +56,6 @@ onMounted(async () => {
   //   }
   // }
 })
-
-// const messageRightSide = ref()
-//
-// async function fillCurrentConversationMessages() {
-//   if (
-//     !currentConversation.value
-//     || currentConversation.value.id === 0
-//     || (currentConversation.value.messages !== undefined && currentConversation.value.messages.length > 0)
-//   ) return
-//
-//   await fetchCurrentConversationMessages()
-//
-//   return true
-// }
-// function scrollToNewMessage() {
-//   const topPos = messageRightSide.value.messages.at(-1).offsetTop
-//   const chat = messageRightSide.value.chatContainer
-//   chat.scrollTop = topPos
-// }
 </script>
 
 <style lang="scss">

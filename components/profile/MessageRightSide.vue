@@ -8,13 +8,7 @@
     <ul class="chat-box chatContainerScroll">
       <li
         v-for="(item) in messages"
-        ref="messages"
         :key="item.id"
-        v-observe="{
-          callback: messageRead,
-          useCallback: item.state === 'UNREAD' && !isOwnMessage(item),
-          item,
-        }"
         class="chat__message"
         :class="{
           'chat__message message-item__left': isOwnMessage(item),
@@ -67,7 +61,6 @@
 </template>
 
 <script setup lang="ts">
-import { useConversationStore } from '~/store/conversation'
 import type {ConversationModel, MessageModel} from "~/types/api/conversations";
 
 const props = defineProps<{ conversation: ConversationModel }>()
@@ -82,32 +75,34 @@ const { data: messages } = await useFetch<MessageModel[]>(
     }
 )
 
-const conversationStore = useConversationStore()
 const { getUser } = useSecurity()
 
-const { messageRead } = conversationStore
-
-const emit = defineEmits(['newMessage'])
-
-const chatContainer = ref()
 const message = ref('')
+const { execute } = useFetch(
+    '/api/conversations/message',
+    {
+      method: 'POST',
+      body: {
+        form: {
+          text: message.value,
+          sendTo: props.conversation.interlocutor.id,
+          conversation_id: props.conversation.id,
+        }
+      },
+      immediate: false,
+      lazy: true
+    }
+)
 
-defineExpose({ messages, chatContainer })
-
-function isOwnMessage(message: MessageModel) {
-  console.log(message.fromUser)
+const isOwnMessage = (message: MessageModel) => {
   return getUser().id === message.fromUser.id
 }
-async function send() {
-  // if (currentConversation.value!.id === 0) {
-  //   await sendMessageToNewConversation(message.value)
-  // }
-  // else {
-  //   await sendMessage(message.value)
-  // }
 
+async function send() {
+  console.log('send method')
+  console.log(message.value)
+  await execute()
   message.value = ''
-  emit('newMessage')
 }
 </script>
 

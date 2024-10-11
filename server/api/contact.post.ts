@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
     )
   }
   catch (e) {
-    console.log(e)
     throw createError({
       statusCode: 404,
       statusMessage: 'Page Not Found',

@@ -77,7 +77,6 @@ export const useConversationStore = defineStore('conversation', {
     messageHasArrived(message: MessageModel) {
       const index = this.conversations.findIndex(c => c.id === message.conversation)
       if (index === -1) {
-        console.log('Nouvelle conversation incomming')
         // this.conversations.push()
       }
       else {

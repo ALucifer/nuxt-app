@@ -5,6 +5,7 @@ export default defineEventHandler(async (event) => {
   if (!session) return
 
   const body = await readBody(event)
+    console.log(body)
 
   try {
     return await fetchSpotsApi(
@@ -16,8 +17,10 @@ export default defineEventHandler(async (event) => {
       },
     )
   }
-  catch (e) {
-    console.log(e)
-    return
+  catch {
+      throw createError({
+          statusCode: 404,
+          message: 'Une erreur est survenue.'
+      })
   }
 })
