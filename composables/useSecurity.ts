@@ -1,27 +1,27 @@
-import type { User, Token } from "next-auth";
+import type { User, Token } from 'next-auth'
 
 export const useSecurity = () => {
-    const { data: auth, status: userLogged } = useAuth()
+  const { data: auth, status: userLogged } = useAuth()
 
-    const isLogged = () => {
-        return userLogged.value === 'authenticated'
+  const isLogged = () => {
+    return userLogged.value === 'authenticated'
+  }
+
+  const getUser = (): User => {
+    if (!auth.value) {
+      throw Error('User not logged')
     }
 
-    const getUser = (): User => {
-        if (!auth.value) {
-            throw Error('User not logged')
-        }
+    return auth.value.user
+  }
 
-        return auth.value.user
+  const getToken = (): Token => {
+    if (!auth.value) {
+      throw Error('User not logged')
     }
 
-    const getToken = (): Token => {
-        if (!auth.value) {
-            throw Error('User not logged')
-        }
+    return auth.value.token
+  }
 
-        return auth.value.token
-    }
-
-    return { isLogged, getUser, getToken }
+  return { isLogged, getUser, getToken }
 }

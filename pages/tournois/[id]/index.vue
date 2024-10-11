@@ -21,15 +21,30 @@
             />
           </template>
         </div>
-        <div class="action" :class="{ 'd-none': showActions }">
-            <DropdownAction ref="actionContainer" :tournament @unsubscribe="myRefresh()" @start="myRefresh()" :key="dropdownActionKey" />
+        <div
+          class="action"
+          :class="{ 'd-none': showActions }"
+        >
+          <DropdownAction
+            ref="actionContainer"
+            :key="dropdownActionKey"
+            :tournament
+            @unsubscribe="myRefresh()"
+            @start="myRefresh()"
+          />
         </div>
       </div>
       <div class="admin-info">
-        <p class="admin-title">{{ tournament.libelle }}</p>
+        <p class="admin-title">
+          {{ tournament.libelle }}
+        </p>
         <div>
           <span class="admin-sub-info">
-            <calendar-icon class="mr-1" fill-color="black" :size="14" />{{
+            <calendar-icon
+              class="mr-1"
+              fill-color="black"
+              :size="14"
+            />{{
               dateFormatted({
                 date: tournament.beginAt,
                 format: "DD MMM YYYY",
@@ -37,7 +52,11 @@
             }}
           </span>
           <span class="admin-sub-info">
-            <calendar-icon class="mr-1" fill-color="black" :size="14" />{{
+            <calendar-icon
+              class="mr-1"
+              fill-color="black"
+              :size="14"
+            />{{
               dateFormatted({
                 date: tournament.beginAt,
                 format: "HH : mm",
@@ -54,7 +73,7 @@
               :class="{
                 'admin-tag--success': tournament.state === 'RUNNING',
                 'admin-tag--error': ['FINISH', 'CLOSE'].includes(
-                  tournament.state
+                  tournament.state,
                 ),
                 'admin-tag--info': tournament.state === 'OPEN',
               }"
@@ -65,32 +84,43 @@
         </div>
         <div class="admin-tags">
           <span class="admin-tag">{{ tournament.format }}</span>
-          <span class="admin-tag admin-tag--large"
-            >Best of {{ tournament.bestOf }}</span
-          >
+          <span class="admin-tag admin-tag--large">Best of {{ tournament.bestOf }}</span>
           <span class="admin-tag admin-tag--large">{{
             tournament.skillLevel
           }}</span>
-          <span class="admin-tag admin-tag--large"
-            >Equipes {{ tournament.maxTeams }}</span
-          >
+          <span class="admin-tag admin-tag--large">Equipes {{ tournament.maxTeams }}</span>
         </div>
       </div>
     </div>
     <div class="d-flex flex-grow-1">
-      <div v-if="description" class="d-flex gap-3 flex-grow-1">
+      <div
+        v-if="description"
+        class="d-flex gap-3 flex-grow-1"
+      >
         <div class="description">
-          <div v-if="tournament.progress">{{ tournament.progress }}</div>
-          <div v-else
-            >Pas de description du déroulement du tournoi actuellement</div
-          >
+          <div v-if="tournament.progress">
+            {{ tournament.progress }}
+          </div>
+          <div v-else>
+            Pas de description du déroulement du tournoi actuellement
+          </div>
         </div>
-        <div v-if="tournament.matches?.length > 0 || tournament.teams?.length > 0" class="next" @click="description = !description">
+        <div
+          v-if="tournament.matches?.length > 0 || tournament.teams?.length > 0"
+          class="next"
+          @click="description = !description"
+        >
           <chevron-right-icon fill-color="black" />
         </div>
       </div>
-      <div v-else class="listings">
-        <div class="next" @click="description = !description">
+      <div
+        v-else
+        class="listings"
+      >
+        <div
+          class="next"
+          @click="description = !description"
+        >
           <chevron-left-icon fill-color="black" />
         </div>
         <div
@@ -103,8 +133,9 @@
         >
           <template v-if="tournament.matches.length > 0">
             <div class="matchs-header">
-              <span v-if="display === 'matches'"
-                ><arrow-left-icon fill-color="black" @click="display = 'all'"
+              <span v-if="display === 'matches'"><arrow-left-icon
+                fill-color="black"
+                @click="display = 'all'"
               /></span>
               <span>Matches</span>
               <div class="dropdown">
@@ -117,14 +148,17 @@
                   {{ currentFilter }} <filter-icon :size="14" />
                 </span>
                 <ul class="dropdown-menu">
-                  <li v-for="(filter, index) in filters" :key="index">
+                  <li
+                    v-for="(filter, index) in filters"
+                    :key="index"
+                  >
                     <button
                       v-if="
-                        filter !== currentFilter &&
-                        !(
-                          filter === FiltersTournamentMatches.MY_MATCHES &&
-                          !isLogged()
-                        )
+                        filter !== currentFilter
+                          && !(
+                            filter === FiltersTournamentMatches.MY_MATCHES
+                            && !isLogged()
+                          )
                       "
                       class="dropdown-item"
                       @click="() => (currentFilter = filter)"
@@ -148,7 +182,10 @@
                   }"
                   :to="{ name: 'matchs-id', params: { id: match.id } }"
                 >
-                  <MatchCard :match="match" :tournament="tournament" />
+                  <MatchCard
+                    :match="match"
+                    :tournament="tournament"
+                  />
                 </NuxtLink>
                 <p
                   v-else
@@ -160,7 +197,10 @@
                       !isOwner(tournament) && !isUserLoggedInMatch(match),
                   }"
                 >
-                  <MatchCard :match="match" :tournament="tournament" />
+                  <MatchCard
+                    :match="match"
+                    :tournament="tournament"
+                  />
                 </p>
               </template>
             </div>
@@ -169,10 +209,17 @@
               class="d-flex justify-content-center"
               :class="{ 'd-none': display === 'matches' }"
             >
-              <p class="show-more" @click="display = 'matches'">Voir plus</p>
+              <p
+                class="show-more"
+                @click="display = 'matches'"
+              >
+                Voir plus
+              </p>
             </div>
           </template>
-          <template v-else> Aucun match pour le moment</template>
+          <template v-else>
+            Aucun match pour le moment
+          </template>
         </div>
         <div
           class="teams-cards"
@@ -182,13 +229,16 @@
           }"
         >
           <template v-if="tournament.teams.length > 0">
-            <div 
+            <div
               v-for="team in teamsList"
               :key="team.id"
-              class="team-card">
+              class="team-card"
+            >
               <AppAvatar :src="getAvatar(team)" />
               <div class="team-informations">
-                <p class="team-libelle">{{ team.libelle }}</p>
+                <p class="team-libelle">
+                  {{ team.libelle }}
+                </p>
                 <p class="team-user">
                   <nuxt-link
                     :to="{
@@ -212,12 +262,18 @@
               >
                 Voir plus
               </button>
-              <button v-else @click="displayAllTeams = !displayAllTeams">
+              <button
+                v-else
+                @click="displayAllTeams = !displayAllTeams"
+              >
                 Voir moins
               </button>
             </div>
           </template>
-          <div v-else class="team-card team-card--show-more">
+          <div
+            v-else
+            class="team-card team-card--show-more"
+          >
             <p>Aucune équipe(s)</p>
           </div>
         </div>
@@ -227,19 +283,19 @@
 </template>
 
 <script setup lang="ts">
-import { FiltersTournamentMatches } from "~/app/vo/Filters";
-import {type MatchWithTeamsAndScoresModel, State} from "~/app/models/match.model";
-import type { TournamentModelWithMatchesAndTeams } from "~/app/models/tournament";
-import MatchCard from "@/components/match/MatchCard";
-import DropdownAction from "@/components/tournament/DropdownAction";
+import { FiltersTournamentMatches } from '~/app/vo/Filters'
+import { type MatchWithTeamsAndScoresModel, State } from '~/app/models/match.model'
+import type { TournamentModelWithMatchesAndTeams } from '~/app/models/tournament'
+import MatchCard from '@/components/match/MatchCard'
+import DropdownAction from '@/components/tournament/DropdownAction'
 
 definePageMeta({
   auth: false,
-});
+})
 
-const route = useRoute();
+const route = useRoute()
 
-const { data, refresh } = await useFetch<TournamentModelWithMatchesAndTeams>(`/api/tournaments/${route.params.id}`, { key: `tournament-${route.params.id}`})
+const { data, refresh } = await useFetch<TournamentModelWithMatchesAndTeams>(`/api/tournaments/${route.params.id}`, { key: `tournament-${route.params.id}` })
 const dropdownActionKey = ref(0)
 
 async function myRefresh() {
@@ -261,54 +317,54 @@ if (!data.value) {
 const tournament = ref<TournamentModelWithMatchesAndTeams>(data.value)
 
 useSeoMeta({
-  titleTemplate: "Tournoi: %s",
+  titleTemplate: 'Tournoi: %s',
   title: tournament.value.libelle,
-  description: "test",
-});
+  description: 'test',
+})
 
-const { dateFormatted } = useDate();
+const { dateFormatted } = useDate()
 const {
   findUserMatchFromMatches,
   isUserLoggedInMatch,
   isOwner,
-} = useTournament();
-const { getUser, isLogged } = useSecurity();
-const { getAvatar } = useTeam();
+} = useTournament()
+const { getUser, isLogged } = useSecurity()
+const { getAvatar } = useTeam()
 
-const filters = Object.values(FiltersTournamentMatches);
-const currentFilter = ref(filters[0]);
+const filters = Object.values(FiltersTournamentMatches)
+const currentFilter = ref(filters[0])
 
 const tournamentSorted = computed(() => {
   let filtered: MatchWithTeamsAndScoresModel[] = []
 
   switch (currentFilter.value) {
-    case "Terminé": {
-      filtered = tournament.value.matches.filter((item) => item.state === State.FINISH)
-      break;
+    case 'Terminé': {
+      filtered = tournament.value.matches.filter(item => item.state === State.FINISH)
+      break
     }
-    case "Score incorrect": {
-      filtered = tournament.value.matches.filter((item) => item.state === State.NEED_VALIDATION)
-      break;
+    case 'Score incorrect': {
+      filtered = tournament.value.matches.filter(item => item.state === State.NEED_VALIDATION)
+      break
     }
-    case "Mes matchs": {
+    case 'Mes matchs': {
       filtered = findUserMatchFromMatches(
         tournament.value.matches,
-        getUser().id
-      );
-      break;
+        getUser().id,
+      )
+      break
     }
     default: {
-      return tournament.value.matches;
+      return tournament.value.matches
     }
   }
 
-  return filtered.slice(0, 5);
+  return filtered.slice(0, 5)
 })
 const teamsList = computed(() => displayAllTeams.value ? tournament.value.teams : tournament.value.teams.slice(0, 6))
 
-const display = ref("all");
-const displayAllTeams = ref(false);
-const description = ref(true);
+const display = ref('all')
+const displayAllTeams = ref(false)
+const description = ref(true)
 
 const actionContainer = ref(null)
 const showActions = ref(false)

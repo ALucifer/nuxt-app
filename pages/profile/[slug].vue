@@ -10,7 +10,9 @@
             @change="handleChangeAvatar($event)"
           />
         </div>
-        <div class="profile__banner-user-pseudo">{{ getUser().pseudo }}</div>
+        <div class="profile__banner-user-pseudo">
+          {{ getUser().pseudo }}
+        </div>
       </div>
       <div class="container-main">
         <div class="profile__sidebar">
@@ -18,7 +20,7 @@
             <li>
               <NuxtLink
                 class="tab-active"
-                :to="{ name: 'profile-slug', params: { slug: 'tournaments' }}"
+                :to="{ name: 'profile-slug', params: { slug: 'tournaments' } }"
               >
                 Tournois
               </NuxtLink>
@@ -26,8 +28,8 @@
           </ul>
           <div class="d-block d-sm-none">
             <NuxtLink
-                class="mobile-tab mobile-tab-active"
-                :to="{ name: 'profile-slug', params: { slug: 'tournaments' }}"
+              class="mobile-tab mobile-tab-active"
+              :to="{ name: 'profile-slug', params: { slug: 'tournaments' } }"
             >
               Tournois
             </NuxtLink>
@@ -44,13 +46,13 @@
 </template>
 
 <script setup lang="ts">
-import TournamentListing from "~/components/profile/TournamentListing.vue";
+import TournamentListing from '~/components/profile/TournamentListing.vue'
 
 definePageMeta(
-    {
-      layout: 'profile',
-      validate: (route) => ['general', 'tournaments'].includes(route.params.slug)
-    }
+  {
+    layout: 'profile',
+    validate: route => ['general', 'tournaments'].includes(route.params.slug),
+  },
 )
 
 useSeoMeta({
@@ -61,22 +63,23 @@ const { getUser } = useSecurity()
 const auth = useAuth()
 
 async function handleChangeAvatar(e: Event) {
-  const formData = new FormData();
-  formData.append("avatar", e.target.files[0]);
+  const formData = new FormData()
+  formData.append('avatar', e.target.files[0])
 
   const { errorMessage } = useFlashMessages()
 
   const { error } = await useFetch(
-      '/api/user/uploadAvatar',
-      {
-        method: 'POST',
-        body: formData,
-      }
+    '/api/user/uploadAvatar',
+    {
+      method: 'POST',
+      body: formData,
+    },
   )
 
-  if(error.value !== null) {
+  if (error.value !== null) {
     errorMessage('Une erreur est survenu lors de la mise à jour de votre avatar.')
-  } else {
+  }
+  else {
     await auth.getSession({ required: false })
   }
 }
@@ -140,7 +143,6 @@ async function handleChangeAvatar(e: Event) {
     @media (max-width: 576px)  {
       width: 400px;
     }
-
 
     > * + * {
       color: black;

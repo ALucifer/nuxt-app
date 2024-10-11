@@ -3,25 +3,34 @@
     <div v-if="tournaments!.meta!.total > 0 || data.length > 0">
       <div>
         <div class="container">
-          <CarouselElement :items="data"/>
+          <CarouselElement :items="data" />
         </div>
         <section class="tournaments-card">
           <div class="overlay pt-120 pb-120">
             <div class="container wow fadeInUp">
-              <SearchFormTournament v-model="searching" @search="searchFilter($event)"/>
-              <p class="text-white">Nombre de résultat(s) : {{ tournaments!.meta!.total }}</p>
-              <transition-group name="flip-list" tag="div" class="search__result">
+              <SearchFormTournament
+                v-model="searching"
+                @search="searchFilter($event)"
+              />
+              <p class="text-white">
+                Nombre de résultat(s) : {{ tournaments!.meta!.total }}
+              </p>
+              <transition-group
+                name="flip-list"
+                tag="div"
+                class="search__result"
+              >
                 <TournamentCard
-                    v-for="item in tournaments.data"
-                    :key="item.id"
-                    :item="item"
+                  v-for="item in tournaments.data"
+                  :key="item.id"
+                  :item="item"
                 />
               </transition-group>
               <AppInfiniteScroll
-                  v-show="status = 'success'"
-                  :key="'infiniteKey' + infiniteKey"
-                  :done="tournaments.data.length === tournaments.meta.total"
-                  @load="fetchNextPage"
+                v-show="status = 'success'"
+                :key="'infiniteKey' + infiniteKey"
+                :done="tournaments.data.length === tournaments.meta.total"
+                @load="fetchNextPage"
               />
               <div v-if="!tournaments.data.length">
                 <h4>Aucun résultat pour votre recherche</h4>
@@ -31,7 +40,10 @@
         </section>
       </div>
     </div>
-    <div v-else class="container">
+    <div
+      v-else
+      class="container"
+    >
       <div class="empty-slide__container">
         <h3>Aucun tournois pour le moment ...</h3>
       </div>
@@ -40,18 +52,18 @@
 </template>
 
 <script setup lang="ts">
-import TournamentCard from "@/components/TournamentCard"
-import SearchFormTournament from "@/components/SearchFormTournament";
-import CarouselElement from '~/components/CarouselElement.vue';
-import type {TournamentModel, TournamentModelWithMatchesAndTeams, TournamentsApiResult} from "~/app/models/tournament";
-import type {SearchForm} from '~/app/form/search.form'
+import TournamentCard from '@/components/TournamentCard'
+import SearchFormTournament from '@/components/SearchFormTournament'
+import CarouselElement from '~/components/CarouselElement.vue'
+import type { TournamentModel, TournamentModelWithMatchesAndTeams, TournamentsApiResult } from '~/app/models/tournament'
+import type { SearchForm } from '~/app/form/search.form'
 
 definePageMeta({
-  auth: false
+  auth: false,
 })
 
 useHead({
-  title: "Spots : Les tournois"
+  title: 'Spots : Les tournois',
 })
 
 const form = ref()
@@ -59,19 +71,19 @@ const currentPage = ref(1)
 const infiniteKey = ref(0)
 const searching = ref(false)
 
-const {data: tournamentsFromApi, refresh, status } = await useAsyncData(
-    'tournament-list',
-    () => $fetch('/api/tournaments/all', {query: { ...form.value, page: currentPage.value }}),
+const { data: tournamentsFromApi, refresh, status } = await useAsyncData(
+  'tournament-list',
+  () => $fetch('/api/tournaments/all', { query: { ...form.value, page: currentPage.value } }),
 )
 
 const tournaments = ref<TournamentsApiResult>(tournamentsFromApi)
-const {data} = await useAsyncData<TournamentModel[]>(
-    'tournament-highlighted',
-    () => $fetch('/api/tournaments/highlighted')
+const { data } = await useAsyncData<TournamentModel[]>(
+  'tournament-highlighted',
+  () => $fetch('/api/tournaments/highlighted'),
 )
 
 async function searchFilter(searchForm: SearchForm) {
-  infiniteKey.value++;
+  infiniteKey.value++
   searching.value = true
   form.value = searchForm
   currentPage.value = 1

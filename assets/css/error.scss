@@ -1,9 +1,16 @@
-#error-section {
-	background-image: url('@/assets/images/404.png');
+.error-section {
 	background-repeat: no-repeat;
 	background-size: 55%;
 	background-position: center;
     padding-top: 15px;
+
+	&--404 {
+		background-image: url('@/assets/images/404.png');
+	}
+
+	&--403 {
+		background-image: url('@/assets/images/403.png');
+	}
 	.overlay {
 		margin-bottom: -20px;
 	}

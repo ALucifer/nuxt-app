@@ -1,46 +1,39 @@
 <template>
   <div class="selected-user">
-    <span
-    >De:
-      <span class="selected-user__name">{{
-          currentConversation?.interlocutor?.pseudo
-        }}</span></span
-    >
+    <span>De:
+      <span class="selected-user__name">{{ conversation.interlocutor.pseudo }}</span>
+    </span>
   </div>
   <div ref="chatContainer" class="chat-container chat__container">
-    <ul v-if="currentConversation.messages" class="chat-box chatContainerScroll">
+    <ul class="chat-box chatContainerScroll">
       <li
-          v-for="(item, i) in currentConversation.messages"
-          ref="messages"
-          :key="i"
-          v-observe="{
-            callback: messageRead,
-            useCallback: item.state === 'UNREAD' && !isOwnMessage(item),
-            item,
-          }"
-          class="chat__message"
-          :class="{
+        v-for="(item) in messages"
+        :key="item.id"
+        class="chat__message"
+        :class="{
           'chat__message message-item__left': isOwnMessage(item),
           'chat__message message-item__right': !isOwnMessage(item),
         }"
       >
         <div
-            :class="{
+          :class="{
             'message-item__avatar-left': isOwnMessage(item),
             'message-item__avatar-right': !isOwnMessage(item),
           }"
         >
           <AppImage
-              :src="item.fromUser.avatar"
-              placeholder="/images/participant-1.png"
-              :alt="`${item.fromUser.pseudo} avatar`"
-              class="message-item__avatar"
+            :src="item.fromUser.avatar"
+            placeholder="/images/participant-1.png"
+            :alt="`${item.fromUser.pseudo} avatar`"
+            class="message-item__avatar"
           />
-          <div class="message-item__pseudo">{{ item.fromUser.pseudo }}</div>
+          <div class="message-item__pseudo">
+            {{ item.fromUser.pseudo }}
+          </div>
         </div>
         <div
-            class="message-item__text"
-            :class="{
+          class="message-item__text"
+          :class="{
             'message-item__text--left': isOwnMessage(item),
             'message-item__text--right': !isOwnMessage(item),
           }"
@@ -48,56 +41,68 @@
           {{ item.text }}
         </div>
         <div
-            class="message-item__hour"
-            :class="{ 'message-item__hour--right': !isOwnMessage(item) }"
+          class="message-item__hour"
+          :class="{ 'message-item__hour--right': !isOwnMessage(item) }"
         >
-          {{ $dayjs(item.created_at).fromNow() }}
+          {{ $dayjs(item.createdAt).fromNow() }}
         </div>
       </li>
     </ul>
   </div>
   <div class="form-group mt-3 mb-0 p-3">
     <textarea
-        v-model="message"
-        class="form-control"
-        rows="3"
-        placeholder="Tapez votre message"
-        @keyup.enter="send()"
+      v-model="message"
+      class="form-control"
+      rows="3"
+      placeholder="Tapez votre message"
+      @keyup.enter="send()"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useConversationStore } from "~/store/conversation";
-import { storeToRefs } from "pinia";
-import type { MessageModel } from "~/app/models/conversation.model";
+import type {ConversationModel, MessageModel} from "~/types/api/conversations";
 
-const conversationStore = useConversationStore()
+const props = defineProps<{ conversation: ConversationModel }>()
+
+const { data: messages } = await useFetch<MessageModel[]>(
+    '/api/conversations/messages',
+    {
+      key: 'current-conversation',
+      query: {
+        conversationId: props.conversation.id
+      }
+    }
+)
+
 const { getUser } = useSecurity()
 
-const { currentConversation } = storeToRefs(conversationStore)
-const { sendMessage, sendMessageToNewConversation, messageRead } = conversationStore
-
-const emit = defineEmits(['newMessage'])
-
-const messages = ref()
-const chatContainer = ref()
 const message = ref('')
+const { execute } = useFetch(
+    '/api/conversations/message',
+    {
+      method: 'POST',
+      body: {
+        form: {
+          text: message.value,
+          sendTo: props.conversation.interlocutor.id,
+          conversation_id: props.conversation.id,
+        }
+      },
+      immediate: false,
+      lazy: true
+    }
+)
 
-defineExpose({messages, chatContainer})
-
-function isOwnMessage(message: MessageModel) {
+const isOwnMessage = (message: MessageModel) => {
   return getUser().id === message.fromUser.id
 }
-async function send() {
-  if (currentConversation.value!.id === 0) {
-    await sendMessageToNewConversation(message.value)
-  } else {
-    await sendMessage(message.value)
-  }
 
+async function send() {
+  console.log('send method')
+  console.log(message.value)
+  await execute()
   message.value = ''
-  emit('newMessage')
 }
 </script>
 

@@ -1,34 +1,60 @@
 <template>
   <div v-if="editor">
     <bubble-menu
-        class="bubble-menu"
-        :tippy-options="{ hideOnClick: 'toggle', appendTo: 'parent' }"
-        :editor="editor"
+      class="bubble-menu"
+      :tippy-options="{ hideOnClick: 'toggle', appendTo: 'parent' }"
+      :editor="editor"
     >
-      <button type="button" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }" @click="editor.chain().focus().toggleHeading({ level: 4 }).run()">
+      <button
+        type="button"
+        :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+        @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+      >
         Titre
       </button>
-      <button type="button" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
+      <button
+        type="button"
+        :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+        @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+      >
         H1
       </button>
-      <button :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
+      <button
+        :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+        @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+      >
         H2
       </button>
-      <button :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }" @click="editor.chain().focus().toggleHeading({ level: 5 }).run()">
+      <button
+        :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
+        @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
+      >
         Sous-titre
       </button>
-      <button type="button" :class="{ 'is-active': editor.isActive('bold') }" @click="editor.chain().focus().toggleBold().run()">
+      <button
+        type="button"
+        :class="{ 'is-active': editor.isActive('bold') }"
+        @click="editor.chain().focus().toggleBold().run()"
+      >
         Gras
       </button>
-      <button type="button" :class="{ 'is-active': editor.isActive('bulletList') }" @click="editor.chain().focus().toggleBulletList().run()">
+      <button
+        type="button"
+        :class="{ 'is-active': editor.isActive('bulletList') }"
+        @click="editor.chain().focus().toggleBulletList().run()"
+      >
         List
       </button>
     </bubble-menu>
   </div>
 
   <editor-content :editor="editor" />
-  <p v-if="errorMessage">{{ errorMessage }}</p>
-  <p class="nb">* pensez à surligner pour utiliser le menu</p>
+  <p v-if="errorMessage">
+    {{ errorMessage }}
+  </p>
+  <p class="nb">
+    * pensez à surligner pour utiliser le menu
+  </p>
 </template>
 
 <script lang="ts" setup>
@@ -38,24 +64,23 @@ import StarterKit from '@tiptap/starter-kit'
 
 const props = defineProps({
   placeholder: { type: String, default: 'Votre texte' },
-  name: { type: String, required: true }
+  name: { type: String, required: true },
 })
 
 const name = computed(() => props.name)
-const { setValue, errorMessage,  } = useField(name)
+const { setValue, errorMessage } = useField(name)
 
 const editor = useEditor({
   extensions: [
     StarterKit,
     Placeholder.configure({
-      placeholder: props.placeholder,considerAnyAsEmpty: true
+      placeholder: props.placeholder, considerAnyAsEmpty: true,
     }),
   ],
   onUpdate: ({ editor }) => {
     setValue(editor.getHTML())
-  }
+  },
 })
-
 </script>
 
 <style lang="scss">

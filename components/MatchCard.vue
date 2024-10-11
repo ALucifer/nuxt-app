@@ -1,6 +1,9 @@
 <template>
   <div class="col-10 match--container mx-auto">
-    <AppAvatar class="match--avatar" :src="getAvatar(firstTeam.avatar)" />
+    <AppAvatar
+      class="match--avatar"
+      :src="getAvatar(firstTeam.avatar)"
+    />
     <span>{{ firstTeam.libelle }}</span>
     <span class="match--middle">
       <div class="match--action">
@@ -9,12 +12,14 @@
       <slot name="information" />
     </span>
     <span>{{ secondTeam.libelle }}</span>
-    <AppAvatar class="match--avatar" :src="getAvatar(secondTeam.avatar)" />
+    <AppAvatar
+      class="match--avatar"
+      :src="getAvatar(secondTeam.avatar)"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-
 defineProps({
   firstTeam: {
     type: Object,
@@ -27,12 +32,13 @@ defineProps({
   backgroundColor: {
     type: String,
     default: '#ffff',
-  }
+  },
 })
 function getAvatar(avatar: string) {
-    return "data:image/svg+xml;base64," + avatar;
+  return 'data:image/svg+xml;base64,' + avatar
 }
 </script>
+
 <style lang="scss" scoped>
 .match {
   &--container {
