@@ -64,9 +64,9 @@ const action = ref(null)
 defineExpose({ action })
 
 const showRegisterLabel = ref(
-  !hasError(props.tournament) &&
-  ((!isLogged() && !isRunning(props.tournament) && !isCompletlyClose(props.tournament))
-  || (!isRegister(props.tournament) && !isRunning(props.tournament) && !isCompletlyClose(props.tournament))),
+  !hasError(props.tournament)
+  && ((!isLogged() && !isRunning(props.tournament) && !isCompletlyClose(props.tournament))
+    || (!isRegister(props.tournament) && !isRunning(props.tournament) && !isCompletlyClose(props.tournament))),
 )
 
 const showUnsubscribeLabel = ref(

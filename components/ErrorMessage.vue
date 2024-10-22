@@ -1,5 +1,8 @@
 <template>
-  <section class="error-section" :class="{'error-section--404': code === 404, 'error-section--403': code === 403}">
+  <section
+    class="error-section"
+    :class="{ 'error-section--404': code === 404, 'error-section--403': code === 403 }"
+  >
     <div class="overlay pb-120 pt-120">
       <div class="container">
         <div class="row justify-content-center">
@@ -24,8 +27,8 @@ const props = defineProps({
   code: {
     type: Number,
     required: true,
-    default: 404
-  }
+    default: 404,
+  },
 })
 
 const message = computed(() => {

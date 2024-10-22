@@ -43,3 +43,7 @@ export const contactFormSchema = object({
     .required('Veuillez entrer un message pour pouvoir l\'envoyer.')
     .min(30, 'Votre message doit contenir 30 charactères minimum.'),
 })
+
+export const sendMessageFormSchema = object({
+  message: string().required('Message required'),
+})

@@ -21,11 +21,11 @@
               type="submit"
             >
               <template v-if="handleLoading">
-                 <span
-                     class="spinner-border spinner-border-sm"
-                     role="status"
-                     aria-hidden="true"
-                 />
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                />
               </template>
               <template v-else>
                 Participer
@@ -42,8 +42,8 @@
 import { minidenticon } from 'minidenticons'
 import { definePageMeta } from '#imports'
 import type { RegisterForm } from '~/app/form/register.form'
-import type {StatusCode} from "~/types/api";
-import type {CssClassFlashMessage} from "~/types/notifications";
+import type { StatusCode } from '~/types/api'
+import type { CssClassFlashMessage } from '~/types/notifications'
 
 useSeoMeta({
   title: 'Inscription au tournoi',
@@ -80,25 +80,26 @@ const submit = handleSubmit(
     try {
       handleLoading.value = true
       await $fetch<StatusCode>(
-          '/api/tournaments/register',
-          {
-            method: 'POST',
-            body: {
-              ...values,
-              avatar: avatar.value,
-              tournament_id: +route.params.id,
-            },
+        '/api/tournaments/register',
+        {
+          method: 'POST',
+          body: {
+            ...values,
+            avatar: avatar.value,
+            tournament_id: +route.params.id,
           },
+        },
       )
 
       addMessage({
         class: 'success' as CssClassFlashMessage,
-        message: 'Vous êtes bien inscrit sous l\'équipe <b>' + values.libelle + '</b>'
+        message: 'Vous êtes bien inscrit sous l\'équipe <b>' + values.libelle + '</b>',
       })
-    } catch (e) {
+    }
+    catch (e) {
       addMessage({
         class: 'error' as CssClassFlashMessage,
-        message: e.response._data.message
+        message: e.response._data.message,
       })
       handleLoading.value = false
 

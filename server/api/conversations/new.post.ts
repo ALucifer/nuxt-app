@@ -16,6 +16,10 @@ export default defineEventHandler(async (event) => {
       },
     )
   }
-  catch (e) {
+  catch {
+    createError({
+      statusCode: 404,
+      message: 'You cannot add message',
+    })
   }
 })

@@ -4,11 +4,22 @@
       <span class="selected-user__name">{{ conversation.interlocutor.pseudo }}</span>
     </span>
   </div>
-  <div ref="chatContainer" class="chat-container chat__container">
-    <ul class="chat-box chatContainerScroll">
+  <div
+    ref="chatContainer"
+    class="chat-container chat__container"
+  >
+    <ul
+      ref="chat"
+      class="chat-box chatContainerScroll"
+    >
       <li
         v-for="(item) in messages"
         :key="item.id"
+        v-observe="{
+          callback: readMessage,
+          useCallback: item.state === 'UNREAD' && !isOwnMessage(item),
+          message: item,
+        }"
         class="chat__message"
         :class="{
           'chat__message message-item__left': isOwnMessage(item),
@@ -47,62 +58,165 @@
           {{ $dayjs(item.createdAt).fromNow() }}
         </div>
       </li>
+      <AppInfiniteScroll
+        v-if="data && messages"
+        :done="messages.length >= data.meta.total"
+        @load="loadNextMessages"
+      />
     </ul>
   </div>
   <div class="form-group mt-3 mb-0 p-3">
-    <textarea
-      v-model="message"
-      class="form-control"
-      rows="3"
-      placeholder="Tapez votre message"
-      @keyup.enter="send()"
-    />
+    <form @submit="onSubmit">
+      <AppTextarea
+        id="message"
+        class="form-control"
+        rows="3"
+        placeholder="Tapez votre message"
+        name="message"
+        @keydown.enter="onSubmit"
+      />
+    </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import type {ConversationModel, MessageModel} from "~/types/api/conversations";
+import type { ConversationMessagesModel, MessageModel, MessagesPaginate } from '~/types/api/conversations'
+import { sendMessageFormSchema } from '~/utils/schemas.form'
+import type { SendMessageForm } from '~/app/form/send-message.form'
+import type { CssClassFlashMessage } from '~/types/notifications'
+import AppInfiniteScroll from '~/components/global/AppInfiniteScroll.vue'
 
-const props = defineProps<{ conversation: ConversationModel }>()
+const props = defineProps<{ conversation: ConversationMessagesModel }>()
+const { handleSubmit } = useForm<SendMessageForm>({ validationSchema: sendMessageFormSchema })
+const { addMessage } = useFlashMessages()
 
-const { data: messages } = await useFetch<MessageModel[]>(
-    '/api/conversations/messages',
-    {
-      key: 'current-conversation',
-      query: {
-        conversationId: props.conversation.id
-      }
-    }
+const messageBody = reactive({
+  text: '',
+  sendTo: props.conversation.interlocutor.id,
+  conversation_id: props.conversation.id,
+})
+
+const {
+  conversationHasLoaded, addConversation, initMessagesToConversation,
+  messages, setCurrentConversationId, addMessageToConversation, addMessagesToConversation,
+} = useConversations()
+
+const page = ref(1)
+
+const { data, execute: fetchMessages } = useFetch<MessagesPaginate>(
+  `/api/conversations/${props.conversation.id}/messages`,
+  {
+    key: 'current-conversation',
+    query: {
+      conversationId: props.conversation.id,
+      page,
+    },
+    immediate: false,
+    lazy: true,
+    watch: false,
+  },
 )
+
+const chat = useTemplateRef<HTMLElement>('chat')
+
+onMounted(async () => {
+  setCurrentConversationId(props.conversation)
+
+  if (!conversationHasLoaded(props.conversation)) {
+    addConversation(props.conversation)
+
+    await fetchMessages()
+    await initMessagesToConversation(data.value!.data ?? [], props.conversation.id)
+  }
+
+  const resizeObserver = new ResizeObserver(
+    (entries) => {
+      for (const entry of entries) {
+        console.log(entry)
+      }
+    },
+  )
+  if (chat.value) {
+    resizeObserver.observe(chat.value)
+
+    onBeforeUnmount(() => {
+      resizeObserver.unobserve(chat.value)
+    })
+  }
+
+  await scrollToEndConversation()
+})
 
 const { getUser } = useSecurity()
 
-const message = ref('')
-const { execute } = useFetch(
-    '/api/conversations/message',
-    {
-      method: 'POST',
-      body: {
-        form: {
-          text: message.value,
-          sendTo: props.conversation.interlocutor.id,
-          conversation_id: props.conversation.id,
-        }
-      },
-      immediate: false,
-      lazy: true
-    }
+const { execute, data: newMessage } = useFetch<MessageModel>(
+  '/api/conversations/message',
+  {
+    method: 'POST',
+    body: messageBody,
+    immediate: false,
+    lazy: true,
+    watch: false,
+  },
 )
 
 const isOwnMessage = (message: MessageModel) => {
   return getUser().id === message.fromUser.id
 }
 
-async function send() {
-  console.log('send method')
-  console.log(message.value)
-  await execute()
-  message.value = ''
+const onSubmit = handleSubmit(
+  async (values: SendMessageForm, { resetForm }) => {
+    messageBody.text = values.message
+    try {
+      await execute()
+      if (newMessage.value) {
+        await addMessageToConversation(newMessage.value)
+      }
+      resetForm()
+      await scrollToEndConversation()
+    }
+    catch {
+      addMessage({
+        class: 'error' as CssClassFlashMessage,
+        message: 'Votre message n\'a pas pu être envoyé.',
+      })
+    }
+  },
+)
+
+const scrollToEndConversation = async () => {
+  if (chat.value) {
+    chat.value.scrollIntoView({ block: 'end' })
+  }
+}
+
+const loadNextMessages = async () => {
+  page.value++
+  await fetchMessages()
+
+  if (data.value) {
+    addMessagesToConversation(data.value.data)
+  }
+}
+const emits = defineEmits(['readMessage'])
+const messageReading = ref<MessageModel>()
+const { execute: apiReadMessage } = useFetch(
+  '/api/conversations/readMessage',
+  {
+    method: 'POST',
+    body: messageReading,
+    immediate: false,
+    lazy: true,
+    watch: false,
+  },
+)
+const readMessage = async (message: MessageModel) => {
+  messageReading.value = message
+
+  await apiReadMessage()
+  emits('readMessage', message.conversation)
+
+  messageReading.value = undefined
 }
 </script>
 

@@ -4,6 +4,7 @@
     v-model="value"
     :name="name"
     :placeholder="$attrs.placeholder"
+    @keydown="onKeydown"
   />
   <span
     v-if="errorMessage"
@@ -21,6 +22,11 @@ const props = defineProps({
 })
 
 const { value, errorMessage } = useField(() => props.name)
+const emits = defineEmits(['keydown'])
+
+const onKeydown = (e: KeyboardEvent) => {
+  emits('keydown', e)
+}
 </script>
 
 <style scoped>

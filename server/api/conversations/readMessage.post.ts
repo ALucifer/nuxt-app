@@ -17,6 +17,10 @@ export default defineEventHandler(async (event) => {
       },
     )
   }
-  catch (e: Error) {
+  catch {
+    createError({
+      statusCode: 404,
+      message: 'You cannot read this message',
+    })
   }
 })

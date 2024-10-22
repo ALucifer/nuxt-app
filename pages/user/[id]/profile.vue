@@ -5,6 +5,9 @@
   >
     <div class="row justify-content-center">
       Mon futur container du profile d'un autre user {{ $route.params.id }}
+      <NuxtLink :to="{ name: 'messagerie', query: { 'new-conversation-with-user': user.id } }">
+        Envoyer un message
+      </NuxtLink>
     </div>
   </div>
 </template>

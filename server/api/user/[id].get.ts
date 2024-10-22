@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
 
   try {
-    return fetchSpotsApi(`/users/${id}`)
+    return await fetchSpotsApi(`/users/${id}`)
   }
   catch {
     throw createError({

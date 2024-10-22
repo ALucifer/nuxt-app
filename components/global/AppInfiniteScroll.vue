@@ -1,7 +1,8 @@
 <template>
   <div
     ref="observerTemplate"
-    class="inersection-observer"
+    class="intersection-observer"
+    :class="{ 'intersection-observer--done': done }"
   >
     <AppSpinner v-if="!done" />
   </div>
@@ -36,13 +37,16 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style scoped>
-div {
+<style lang="scss">
+.intersection-observer {
   display: flex;
   justify-content: center;
   padding: 36px;
   position: relative;
-  z-index: -1;
   pointer-events: none;
+
+  &--done {
+    padding: 0;
+  }
 }
 </style>

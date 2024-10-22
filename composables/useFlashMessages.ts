@@ -1,4 +1,4 @@
-import type { FlashMessage, AddFlashMessage, CssClassFlashMessage } from "~/types/notifications";
+import type { FlashMessage, AddFlashMessage, CssClassFlashMessage } from '~/types/notifications'
 
 export const useFlashMessages = () => {
   const messages = useState<FlashMessage[]>('notification', () => [])
@@ -72,6 +72,6 @@ export const useFlashMessages = () => {
     successMessage,
     errorMessage,
     handleResponse,
-    readMessagesCookie
+    readMessagesCookie,
   }
 }

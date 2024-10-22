@@ -84,6 +84,6 @@ export const useTournament = () => {
     canBeStarted,
     isComplete,
     isUserLoggedInMatch,
-    hasError
+    hasError,
   }
 }

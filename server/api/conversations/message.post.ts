@@ -5,22 +5,21 @@ export default defineEventHandler(async (event) => {
   if (!session) return
 
   const body = await readBody(event)
-    console.log(body)
 
   try {
     return await fetchSpotsApi(
       'message',
       {
         method: 'POST',
-        body: body.form,
+        body: body,
         headers: { Authorization: 'Bearer ' + session.token },
       },
     )
   }
   catch {
-      throw createError({
-          statusCode: 404,
-          message: 'Une erreur est survenue.'
-      })
+    throw createError({
+      statusCode: 404,
+      message: 'Une erreur est survenue.',
+    })
   }
 })

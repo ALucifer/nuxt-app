@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     ],
     '@nuxt/test-utils/module',
     '@nuxt/eslint',
+    '@vueuse/nuxt',
   ],
 
   eslint: {

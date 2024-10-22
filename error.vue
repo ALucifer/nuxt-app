@@ -10,7 +10,7 @@ import ErrorMessage from '~/components/ErrorMessage.vue'
 import type { NuxtError } from '#app'
 
 const props = defineProps({
-  error: Object as () => NuxtError
+  error: Object as () => NuxtError,
 })
 
 useSeoMeta({

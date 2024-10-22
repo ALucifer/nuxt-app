@@ -10,8 +10,8 @@ export interface ConversationModel {
   id: number
   created_at: Date
   updated_at: Date
-  send_from: number
-  send_to: number
+  sendFrom: number
+  sendTo: number
   total_messages: number
   total_messages_unread: number
   interlocutor: InterlocutorModel
