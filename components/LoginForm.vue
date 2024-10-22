@@ -1,10 +1,13 @@
 <template>
-  <form class="login-form" @submit="submit">
+  <form
+    class="login-form"
+    @submit="submit"
+  >
     <div class="form-group">
       <label>Email</label>
       <AppInput
-        name="email"
         id="email"
+        name="email"
         placeholder="Entrez votre email"
         type="email"
         :class="{ 'is-invalid': error }"
@@ -13,34 +16,52 @@
     <div class="form-group">
       <label>Password</label>
       <AppInput
-          id="login-password"
-          name="password"
-          placeholder="Entrez votre mot de passe"
-          type="password"
-          :class="{ 'is-invalid': error }"
+        id="login-password"
+        name="password"
+        placeholder="Entrez votre mot de passe"
+        type="password"
+        :class="{ 'is-invalid': error }"
       />
     </div>
-    <div v-if="error" class="form-group recover">
-      <p class="text-danger">Login / Mot de passe incorrect</p>
+    <div
+      v-if="error"
+      class="form-group recover"
+    >
+      <p class="text-danger">
+        Login / Mot de passe incorrect
+      </p>
     </div>
     <div class="form-group recover">
-      <p>Mot de passe oublié? <nuxt-link :to="{name: 'forgot-password'}">Retrouvez le</nuxt-link></p>
+      <p>
+        Mot de passe oublié? <nuxt-link :to="{ name: 'forgot-password' }">
+          Retrouvez le
+        </nuxt-link>
+      </p>
     </div>
     <div class="form-group">
-      <button v-if="isSubmitting" class="cmn-btn submit-btn">
+      <button
+        v-if="isSubmitting"
+        class="cmn-btn submit-btn"
+      >
         <span
           class="spinner-border spinner-border-sm"
           role="status"
           aria-hidden="true"
         />
       </button>
-      <button v-else type="submit" class="cmn-btn submit-btn" >Connexion</button>
+      <button
+        v-else
+        type="submit"
+        class="cmn-btn submit-btn"
+      >
+        Connexion
+      </button>
     </div>
   </form>
 </template>
 
 <script setup lang="ts">
-import type {LoginForm} from "~/app/form/login.form";
+import type { LoginForm } from '~/app/form/login.form'
 
 const { handleSubmit } = useForm<LoginForm>({ validationSchema: loginFormSchema })
 
@@ -50,7 +71,7 @@ const router = useRouter()
 const { signIn } = useAuth()
 const route = useRoute()
 
-const redirect = route.query.callbackUrl as string ?? router.resolve({ name: 'profile-slug', params: { slug: 'general' }}).href
+const redirect = route.query.callbackUrl as string ?? router.resolve({ name: 'profile-slug', params: { slug: 'general' } }).href
 
 onMounted(() => {
   if (route.query.error) {
@@ -61,12 +82,12 @@ onMounted(() => {
 const submit = handleSubmit(async (values: LoginForm) => {
   isSubmitting.value = true
   await signIn(
-      'credentials',
-      {
-        email: values.email,
-        password: values.password,
-        callbackUrl: redirect,
-      }
+    'credentials',
+    {
+      email: values.email,
+      password: values.password,
+      callbackUrl: redirect,
+    },
   )
 
   isSubmitting.value = false

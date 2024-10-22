@@ -1,22 +1,32 @@
 <template>
   <textarea
-      v-model="value"
-      :name="name"
-      :id="$attrs.id"
-      :placeholder="$attrs.placeholder"
+    :id="$attrs.id"
+    v-model="value"
+    :name="name"
+    :placeholder="$attrs.placeholder"
+    @keydown="onKeydown"
   />
-  <span v-if="errorMessage" class="error" role="alert">{{ errorMessage }}</span>
+  <span
+    v-if="errorMessage"
+    class="error"
+    role="alert"
+  >{{ errorMessage }}</span>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
   name: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const { value, errorMessage } = useField(() => props.name)
+const emits = defineEmits(['keydown'])
+
+const onKeydown = (e: KeyboardEvent) => {
+  emits('keydown', e)
+}
 </script>
 
 <style scoped>

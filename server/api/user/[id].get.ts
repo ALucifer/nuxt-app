@@ -1,12 +1,13 @@
 export default defineEventHandler(async (event) => {
-    const id = parseInt(event.context.params.id) as number
+  const id = getRouterParam(event, 'id')
 
-    try {
-        return fetchSpotsApi(`/users/${id}`)
-    } catch {
-        throw createError({
-            statusCode: 404,
-            statusMessage: 'User not found'
-        })
-    }
+  try {
+    return await fetchSpotsApi(`/users/${id}`)
+  }
+  catch {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'User not found',
+    })
+  }
 })

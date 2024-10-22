@@ -1,14 +1,19 @@
 <template>
   <AppHeader />
   <div class="main">
-    <ErrorMessage />
+    <ErrorMessage :code="error?.statusCode" />
   </div>
 </template>
 
 <script setup lang="ts">
-import ErrorMessage from "~/components/ErrorMessage.vue";
+import ErrorMessage from '~/components/ErrorMessage.vue'
+import type { NuxtError } from '#app'
+
+const props = defineProps({
+  error: Object as () => NuxtError,
+})
 
 useSeoMeta({
-  titleTemplate: 'Erreur 404',
+  titleTemplate: 'Erreur ' + props.error?.statusCode,
 })
 </script>

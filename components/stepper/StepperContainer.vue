@@ -1,20 +1,20 @@
 <template>
   <div class="stepper__container">
     <StepItem
-        v-for="(step, index) in steps"
-        :key="index"
-        :libelle="step"
-        :number="index + 1"
-        :need-divider="index !== 0"
-        :current="current + 1"
+      v-for="(step, index) in steps"
+      :key="index"
+      :libelle="step"
+      :number="index + 1"
+      :need-divider="index !== 0"
+      :current="current + 1"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import StepItem from "~/components/stepper/StepItem.vue";
+import StepItem from '~/components/stepper/StepItem.vue'
 
-defineProps({ current: { type: Number, required: true  }})
+defineProps({ current: { type: Number, required: true } })
 
 const steps = ['Informations', 'Paramètres', 'Déroulé']
 </script>

@@ -17,6 +17,8 @@ $bg-active: #642afb;
 }
 
 .chat-box {
+  display: flex;
+  flex-direction: column-reverse;
   overflow: auto;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -48,7 +50,7 @@ $bg-active: #642afb;
     flex-direction: row;
     margin-bottom: 40px;
 
-    &:last-child {
+    &:first-child {
       margin-bottom: 0;
     }
   }

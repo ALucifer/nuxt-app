@@ -1,3 +1,3 @@
 export interface RegisterForm {
-    libelle: string
+  libelle: string
 }

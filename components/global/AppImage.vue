@@ -1,30 +1,30 @@
 <template>
   <nuxt-img
-      v-if="src"
-      :src="src"
-      placeholder
-      alt=""
+    v-if="src"
+    :src="src"
+    placeholder
+    alt=""
   />
   <nuxt-img
-      v-else
-      :src="placeholder"
-      placeholder
-      preload
-      alt=""
+    v-else
+    :src="placeholder"
+    placeholder
+    preload
+    alt=""
   />
 </template>
 
 <script setup lang="ts">
 interface Props {
-  src ?: string|null,
-  placeholder ?: string,
+  src?: string | null
+  placeholder?: string
 }
 
 withDefaults(
-    defineProps<Props>(),
-    {
-      src: null,
-      placeholder: 'user-placeholder.png'
-    }
+  defineProps<Props>(),
+  {
+    src: null,
+    placeholder: 'user-placeholder.png',
+  },
 )
 </script>

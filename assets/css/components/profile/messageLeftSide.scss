@@ -28,6 +28,13 @@ $bg-active: #642afb;
       background-color: $bg-active;
     }
 
+    &--icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 69px;
+    }
+
     &:hover {
       background-color: #7a45ff;
     }

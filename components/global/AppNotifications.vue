@@ -10,8 +10,10 @@
           class="notification"
           :class="message.class"
         >
-          <span>{{ message.message }}</span>
-          <button @click="removeMessage(message.id)">x</button>
+          <span v-html="message.message" />
+          <button @click="removeMessage(message.id)">
+            x
+          </button>
         </div>
       </template>
     </TransitionGroup>
@@ -19,7 +21,8 @@
 </template>
 
 <script setup lang="ts">
-const { messages, removeMessage } = useFlashMessages();
+const { messages, removeMessage, readMessagesCookie } = useFlashMessages()
+readMessagesCookie()
 </script>
 
 <style lang="scss" scoped>

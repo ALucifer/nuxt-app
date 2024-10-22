@@ -6,7 +6,9 @@
           <div class="row d-flex justify-content-center">
             <div class="col-lg-8">
               <div class="section-header text-center">
-                <h2 class="title">A propos</h2>
+                <h2 class="title">
+                  A propos
+                </h2>
                 <p>
                   Ce site est une plateforme réunissant les joueurs en recherche
                   de compétition. Il à pour but d'organiser des tournois pour
@@ -33,12 +35,12 @@
 
 <script setup lang="ts">
 definePageMeta({
-  auth: false
+  auth: false,
 })
 
 useHead({
-  title: "A propos de Spots",
-  description: "Page d'information sur le site Spots."
+  title: 'A propos de Spots',
+  description: 'Page d\'information sur le site Spots.',
 })
 </script>
 

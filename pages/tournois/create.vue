@@ -2,7 +2,7 @@
   <div class="container">
     <div class="tournament-register">
       <div class="col-8 card-tournament">
-        <StepperContainer :current="currentStep"/>
+        <StepperContainer :current="currentStep" />
         <FormWizard
           v-slot="{ setFieldValue, values }"
           :validation-schema="schema"
@@ -14,12 +14,22 @@
             <div class="row my-5">
               <div class="col-12 form-group mt-3">
                 <label class="text-14">Titre</label>
-                <AppField name="libelle" type="text"/>
-                <AppErrorMessage class="error" name="libelle"/>
+                <AppField
+                  name="libelle"
+                  type="text"
+                />
+                <AppErrorMessage
+                  class="error"
+                  name="libelle"
+                />
               </div>
               <div class="col-12 form-group mt-3">
                 <label class="text-14">Date</label>
-                  <AppDatePicker placeholder="Debut" name="beginAt" @change="setFieldValue('beginAt', $event.value)"/>
+                <AppDatePicker
+                  placeholder="Debut"
+                  name="beginAt"
+                  @change="setFieldValue('beginAt', $event.value)"
+                />
               </div>
             </div>
           </FormStep>
@@ -28,12 +38,15 @@
               <div class="wrapper">
                 <div class="container-radios">
                   <span class="container-radios__label">Format</span>
-                  <AppErrorMessage class="error" name="format" />
+                  <AppErrorMessage
+                    class="error"
+                    name="format"
+                  />
                   <div
                     v-for="(format, index) in formatValues"
                     :key="index"
                     class="container-radios__item"
-                    :class="{ 'container-radios__item--checked': values.format == format.id}"
+                    :class="{ 'container-radios__item--checked': values.format == format.id }"
                     @click="setFieldValue('format', format.id)"
                   >
                     <AppField
@@ -47,12 +60,15 @@
                 </div>
                 <div class="container-radios">
                   <span class="container-radios__label">Participants</span>
-                  <AppErrorMessage class="error" name="maxTeams" />
+                  <AppErrorMessage
+                    class="error"
+                    name="maxTeams"
+                  />
                   <div
                     v-for="(participant, index) in participantValues"
                     :key="index"
                     class="container-radios__item"
-                    :class="{ 'container-radios__item--checked': values.maxTeams == participant.id}"
+                    :class="{ 'container-radios__item--checked': values.maxTeams == participant.id }"
                     @click="setFieldValue('maxTeams', participant.id)"
                   >
                     <AppField
@@ -66,38 +82,44 @@
                 </div>
                 <div class="container-radios">
                   <span class="container-radios__label">Niveau</span>
-                  <AppErrorMessage class="error" name="skillLevel" />
+                  <AppErrorMessage
+                    class="error"
+                    name="skillLevel"
+                  />
                   <div
-                      v-for="(level, index) in levelValues"
-                      :key="index"
-                      class="container-radios__item"
-                      :class="{ 'container-radios__item--checked': values.skillLevel == level.id}"
-                      @click="setFieldValue('skillLevel', level.id)"
+                    v-for="(level, index) in levelValues"
+                    :key="index"
+                    class="container-radios__item"
+                    :class="{ 'container-radios__item--checked': values.skillLevel == level.id }"
+                    @click="setFieldValue('skillLevel', level.id)"
                   >
                     <AppField
-                        class="radio-choice"
-                        type="radio"
-                        name="skillLevel"
-                        :value="level.id"
+                      class="radio-choice"
+                      type="radio"
+                      name="skillLevel"
+                      :value="level.id"
                     />
                     <label class="for-radio-choice">{{ level.libelle }}</label>
                   </div>
                 </div>
                 <div class="container-radios">
                   <span class="container-radios__label">Best of</span>
-                  <AppErrorMessage class="error" name="bestOf" />
+                  <AppErrorMessage
+                    class="error"
+                    name="bestOf"
+                  />
                   <div
-                      v-for="(bo, index) in boValues"
-                      :key="index"
-                      class="container-radios__item"
-                      :class="{ 'container-radios__item--checked': values.bestOf == bo.id}"
-                      @click="setFieldValue('bestOf', bo.id)"
+                    v-for="(bo, index) in boValues"
+                    :key="index"
+                    class="container-radios__item"
+                    :class="{ 'container-radios__item--checked': values.bestOf == bo.id }"
+                    @click="setFieldValue('bestOf', bo.id)"
                   >
                     <AppField
-                        class="radio-choice"
-                        type="radio"
-                        name="bestOf"
-                        :value="bo.id"
+                      class="radio-choice"
+                      type="radio"
+                      name="bestOf"
+                      :value="bo.id"
                     />
                     <label class="for-radio-choice">{{ bo.libelle }}</label>
                   </div>
@@ -109,13 +131,22 @@
             <div class="row my-5">
               <div class="col-12 form-group mt-3">
                 <label class="text-14">Message de motivation</label>
-                <AppField name="speech" type="text"/>
-                <AppErrorMessage class="error" name="speech"/>
+                <AppField
+                  name="speech"
+                  type="text"
+                />
+                <AppErrorMessage
+                  class="error"
+                  name="speech"
+                />
               </div>
               <div class="col-12 form-group mt-3">
                 <label class="text-14">Déroulement</label>
-               <client-only>
-                  <AppEditeur name="progress" placeholder="Veuillez renseignez les différentes manches de votre tournois" />
+                <client-only>
+                  <AppEditeur
+                    name="progress"
+                    placeholder="Veuillez renseignez les différentes manches de votre tournois"
+                  />
                 </client-only>
               </div>
             </div>
@@ -127,52 +158,52 @@
 </template>
 
 <script setup lang="ts">
-import * as yup from "yup";
-import {tournament} from '~/app/models/tournament'
-import StepperContainer from "~/components/stepper/StepperContainer.vue";
-import FormWizard from "~/components/form/FormWizard.vue";
-import FormStep from "~/components/form/FormStep.vue";
+import * as yup from 'yup'
+import { tournament } from '~/app/models/tournament'
+import StepperContainer from '~/components/stepper/StepperContainer.vue'
+import FormWizard from '~/components/form/FormWizard.vue'
+import FormStep from '~/components/form/FormStep.vue'
 
 useSeoMeta({
-  title: 'Création d\'un tournoi'
+  title: 'Création d\'un tournoi',
 })
 
 const schema = [
   yup.object({
-    libelle: yup.string().required("Titre de votre tournoi requis."),
+    libelle: yup.string().required('Titre de votre tournoi requis.'),
     beginAt: yup
-        .date()
-        .min(
-            new Date(),
-            "Entrez une date supérieur ou égale à la date du jour."
-        )
-        .required("Veuillez renseigner ce champs."),
+      .date()
+      .min(
+        new Date(),
+        'Entrez une date supérieur ou égale à la date du jour.',
+      )
+      .required('Veuillez renseigner ce champs.'),
   }),
   yup.object({
     format: yup
       .string()
-      .required("Veuillez selectionner un format")
-      .typeError("Veuillez renseigner ce champs."),
+      .required('Veuillez selectionner un format')
+      .typeError('Veuillez renseigner ce champs.'),
     maxTeams: yup
-        .number()
-        .required("Veuillez renseigner ce champs.")
-        .typeError("Veuillez renseigner ce champs."),
+      .number()
+      .required('Veuillez renseigner ce champs.')
+      .typeError('Veuillez renseigner ce champs.'),
     skillLevel: yup
-        .string()
-        .required("Veuillez renseigner ce champs.")
-        .typeError("Veuillez renseigner ce champs."),
+      .string()
+      .required('Veuillez renseigner ce champs.')
+      .typeError('Veuillez renseigner ce champs.'),
     bestOf: yup
-        .number()
-        .required("Veuillez renseigner ce champs.")
-        .typeError("Veuillez renseigner ce champs. type error"),
+      .number()
+      .required('Veuillez renseigner ce champs.')
+      .typeError('Veuillez renseigner ce champs. type error'),
   }),
   yup.object({
     speech: yup.string().notRequired(),
     progress: yup
       .string()
       .required('La description du tournoi est obligatoire')
-      .min(30, 'Votre description du tournoi est trop courte')
-  })
+      .min(30, 'Votre description du tournoi est trop courte'),
+  }),
 ]
 
 const participantValues = ref(tournament.participants())
@@ -181,34 +212,35 @@ const boValues = ref(tournament.bestOf())
 const levelValues = ref(tournament.levels())
 const currentStep = ref(0)
 
-const {getUser} = useSecurity()
-const {errorMessage, successMessage} = useFlashMessages()
-const {handleRedirect} = useRedirection()
+const { getUser } = useSecurity()
+const { errorMessage, successMessage } = useFlashMessages()
+const { handleRedirect } = useRedirection()
 const isSubmitLastStep = ref(false)
 async function submit(values) {
   isSubmitLastStep.value = true
 
   try {
     const tournament = await $fetch(
-        '/api/tournaments/create',
-        {
-          method: 'POST',
-          body: {
-            ...values,
+      '/api/tournaments/create',
+      {
+        method: 'POST',
+        body: {
+          ...values,
 
-            owner: getUser().id
-          }
-        }
+          owner: getUser().id,
+        },
+      },
     )
 
     successMessage('Votre tournoi à bien été créé')
 
     handleRedirect(
-        !!tournament,
-        { name: 'tournois-id', params: { id: tournament.id } },
-        { path: '/' },
+      !!tournament,
+      { name: 'tournois-id', params: { id: tournament.id } },
+      { path: '/' },
     )
-  } catch {
+  }
+  catch {
     errorMessage('Une erreur est survenu lors de la création de votre tournoi')
   }
 
@@ -247,5 +279,4 @@ async function submit(values) {
     padding: 40px 30px;
   }
 }
-
 </style>

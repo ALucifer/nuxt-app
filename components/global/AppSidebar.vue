@@ -1,5 +1,9 @@
 <template>
-  <div v-click-outside="() => close()" class="offcanvas offcanvas-end" :class="{ show: isOpen() }" >
+  <div
+    v-click-outside="() => close()"
+    class="offcanvas offcanvas-end"
+    :class="{ show: isOpen() }"
+  >
     <div class="offcanvas-header">
       <button
         type="button"
@@ -11,19 +15,30 @@
     <div class="offcanvas-body">
       <ul>
         <li class="sidebar--menu-item">
-          <NuxtLink :to="{ name: 'profile-slug', params: { slug: 'general' } }" class="link-action--full" @click="toggle()">
+          <NuxtLink
+            :to="{ name: 'profile-slug', params: { slug: 'general' } }"
+            class="link-action--full"
+            @click="toggle()"
+          >
             <account-icon class="me-2" />
             Profile
           </NuxtLink>
         </li>
         <li class="sidebar--menu-item">
-          <NuxtLink :to="{ name: 'tournois-create'}" class="link-action--full" @click="toggle()">
+          <NuxtLink
+            :to="{ name: 'tournois-create' }"
+            class="link-action--full"
+            @click="toggle()"
+          >
             <plus-icon class="me-2" />
             Créer un tournoi
           </NuxtLink>
         </li>
         <li class="sidebar--menu-item">
-          <button class="link-action--full text-start text-white" @click="logout()">
+          <button
+            class="link-action--full text-start text-white"
+            @click="logout()"
+          >
             <logout-icon class="me-2" />
             <span>Se deconnecter</span>
           </button>
@@ -34,11 +49,11 @@
 </template>
 
 <script setup lang="ts">
-const { isOpen, toggle } = useSidebar();
+const { isOpen, toggle } = useSidebar()
 const { close } = useSidebar()
 const router = useRouter()
 
-function logout () {
+function logout() {
   const { signOut } = useAuth()
 
   signOut()
