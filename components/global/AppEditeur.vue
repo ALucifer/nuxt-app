@@ -67,8 +67,7 @@ const props = defineProps({
   name: { type: String, required: true },
 })
 
-const name = computed(() => props.name)
-const { setValue, errorMessage } = useField(name)
+const { setValue, errorMessage } = useField(() => props.name, undefined, { validateOnValueUpdate: false })
 
 const editor = useEditor({
   extensions: [

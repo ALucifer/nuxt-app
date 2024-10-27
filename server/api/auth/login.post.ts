@@ -1,7 +1,9 @@
-export default defineEventHandler(async (event) => {
-  try {
-    const body = await readBody(event)
+import { loginFormSchema } from '~/server/utils/schema'
 
+export default defineEventHandler(async (event) => {
+  const body = await readValidatedBody(event, loginFormSchema.parse)
+
+  try {
     return await fetchSpotsApi(
       'users/login',
       {

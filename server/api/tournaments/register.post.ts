@@ -1,8 +1,10 @@
 import { getToken } from '#auth'
 import type { StatusCode } from '~/types/api'
+import { registerTournamentFormSchema } from '~/server/utils/schema'
 
 export default defineEventHandler(async (event): Promise<StatusCode> => {
   const session = await getToken({ event })
+
   if (!session) {
     throw createError({
       statusCode: 403,
@@ -10,7 +12,7 @@ export default defineEventHandler(async (event): Promise<StatusCode> => {
     })
   }
 
-  const body = await readBody(event)
+  const body = await readValidatedBody(event, registerTournamentFormSchema.parse)
 
   try {
     await fetchSpotsApi(

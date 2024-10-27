@@ -35,5 +35,5 @@ useHead({
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/pages/login.scss";
+@use "@/assets/css/pages/login.scss";
 </style>

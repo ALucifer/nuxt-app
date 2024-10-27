@@ -35,8 +35,8 @@
 </template>
 
 <script setup lang="ts">
+import { toTypedSchema } from '@vee-validate/zod'
 import AppSocialContainer from '~/components/global/AppSocialContainer.vue'
-import type { ResetPasswordForm } from '~/app/form/reset-password.form'
 
 definePageMeta({
   auth: {
@@ -47,27 +47,27 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
-const { handleResponse } = useFlashMessages()
-const { handleSubmit } = useForm<ResetPasswordForm>({ validationSchema: resetPasswordFormSchema })
+const { successMessage, errorMessage } = useFlashMessages()
+const { handleSubmit } = useForm({ validationSchema: toTypedSchema(resetPasswordFormSchema) })
 
-const onSubmit = handleSubmit(async (values: ResetPasswordForm) => {
-  const success = await $fetch(
-    '/api/user/resetPassword',
-    {
-      method: 'POST',
-      body: {
-        token: route.query.token,
-        ...values,
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    await $fetch(
+      '/api/user/resetPassword',
+      {
+        method: 'POST',
+        body: {
+          token: route.query.token,
+          ...values,
+        },
       },
-    },
-  )
+    )
 
-  handleResponse(
-    success,
-    'Votre nouveau mot de passe à bien été pris en compte',
-    'Une erreur est survenu lors de la mise à jour de votre mot de passe.',
-  )
-
-  await router.push({ name: 'login' })
+    successMessage('Votre nouveau mot de passe à bien été pris en compte')
+    router.push({ name: 'login' })
+  }
+  catch {
+    errorMessage('Une erreur est survenu lors de la mise à jour de votre mot de passe.')
+  }
 })
 </script>

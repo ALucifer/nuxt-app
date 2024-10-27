@@ -63,5 +63,5 @@ function handleClick(conversation: ConversationModel | null) {
 </script>
 
 <style lang="scss">
-@import "@/assets/css/components/profile/messageLeftSide.scss";
+@use "@/assets/css/components/profile/messageLeftSide.scss";
 </style>

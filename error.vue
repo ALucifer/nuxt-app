@@ -1,7 +1,10 @@
 <template>
-  <AppHeader />
-  <div class="main">
-    <ErrorMessage :code="error?.statusCode" />
+  <div class="spots">
+    <AppHeader />
+    <div class="main">
+      <ErrorMessage :code="error.statusCode" />
+    </div>
+    <AppFooter />
   </div>
 </template>
 
@@ -9,11 +12,17 @@
 import ErrorMessage from '~/components/ErrorMessage.vue'
 import type { NuxtError } from '#app'
 
-const props = defineProps({
-  error: Object as () => NuxtError,
-})
+const props = defineProps<{ error: NuxtError }>()
 
 useSeoMeta({
-  titleTemplate: 'Erreur ' + props.error?.statusCode,
+  titleTemplate: 'Erreur ' + props.error.statusCode,
 })
 </script>
+
+<style scoped lang="scss">
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

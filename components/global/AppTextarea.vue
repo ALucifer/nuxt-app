@@ -21,7 +21,7 @@ const props = defineProps({
   },
 })
 
-const { value, errorMessage } = useField(() => props.name)
+const { value, errorMessage } = useField(() => props.name, undefined, { validateOnValueUpdate: false })
 const emits = defineEmits(['keydown'])
 
 const onKeydown = (e: KeyboardEvent) => {

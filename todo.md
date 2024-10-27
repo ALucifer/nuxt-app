@@ -31,10 +31,10 @@
 - [x] Pouvoir ajouter des messages flash depuis la partie serveur, par exemple quand une page est innacessible (ex: register)
 
 ## feature/v0.0.6
-- [ ] Regler le warning dans la console
+- [x] Regler le warning dans la console
 - [ ] Mise en place de quelques tests
-- [ ] Page d'erreur a styliser avec un footer et center le content
-- [ ] Pour les formulaires, il faudrait une validation cote serveur
+- [x] Page d'erreur a styliser avec un footer et center le content
+- [x] Pour les formulaires, il faudrait une validation cote serveur. Voir point A
 
 ## feature/v0.0.7
 - [ ] Voir pourquoi on a des erreur sur le loading des images (IPX)
@@ -45,12 +45,34 @@
 ## feature/v0.0.8
 - [ ] Chat: lecture d'un nouveau message
 - [ ] Chat: envoi en SSE d'un message
-
+- [ ] Fixer les vulnerabilités indiqué par github
 
 ## A groomer
+- [ ] Probleme lors de l'inscription puis de la desinscription (point B)
+- [ ] Correction des erreurs dans nuxt.config.ts
+- [ ] Utilise le module de font de nuxt
+- [ ] Utilise nuxt icon
+- [ ] Intenationnalisation
 - [ ] Lors de la creation d'un tournoi, la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores
+- [ ] Faire en sorte que toute la partie recherche apparaisse en meme temps
+- [ ] Ajouter un bouton reset sur le listing des tournois quand on a pas de données ou bien que le formulaire ai été soumis puis reset
+- [ ] Corriger le lien dans le mail de reset password
+- [ ] Retirer la date du formulaire de recherche
 
 - afficher le match avec le score sur /matchs/{id}
 - voir comment gérer le score final
 - modal form des scores
+
+
+## Points
+
+### A
+Pour un formulaire il faut une validation from (page/component) mais aussi back (server/api).
+Pour se faire on doit créer un schema correspond à notre formulaire. Ce schema sera donc validé cote front par VeeValidate
+Mais aussi en back avec readValidateBody (ex: readValidateBody(event, schema))
+
+
+### B
+Quand on arrive sur la page d'inscription et qu'on s'inscrit, il y a un probleme avec le unsubscribe.
+Cela fonctionne bien mais on a quand meme un flash message d'erreur "Une erreur est survenu"

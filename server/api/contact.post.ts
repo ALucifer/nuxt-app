@@ -1,5 +1,8 @@
+import { contactFormSchema } from '~/server/utils/schema'
+
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
+  const body = await readValidatedBody(event, contactFormSchema.parse)
+
   try {
     await fetchSpotsApi(
       'contact',

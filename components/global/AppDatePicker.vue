@@ -1,28 +1,22 @@
 <template>
-  <client-only>
-    <VueDatePicker
-      v-model="date"
-      :format="format"
-      :min-date="minDate"
-      @update:model-value="change"
-    >
-      <template #dp-input="{}">
-        <input
-          type="text"
-          :value="fieldValue"
-          :placeholder="placeholder ?? name"
-        >
-      </template>
-    </VueDatePicker>
-    <AppField
-      type="hidden"
-      :name="name"
-    />
-    <AppErrorMessage
-      class="error"
-      :name="name"
-    />
-  </client-only>
+  <VueDatePicker
+    v-model="date"
+    :format="format"
+    :min-date="minDate"
+    @update:model-value="change"
+  >
+    <template #dp-input="{}">
+      <input
+        type="text"
+        :value="fieldValue"
+        :placeholder="placeholder ?? name"
+      >
+    </template>
+  </VueDatePicker>
+  <AppInput
+    type="hidden"
+    :name="name"
+  />
 </template>
 
 <script setup lang="ts">
@@ -45,10 +39,10 @@ const date = ref(null)
 
 function change(value) {
   date.value = value
-  let formDate = null
+  let formDate = undefined
 
   if (date.value) {
-    formDate = dayjs(date.value).format('YYYY-DD-MM HH:mm:ss')
+    formDate = dayjs(date.value).format('YYYY-MM-DD HH:mm:ss')
   }
 
   emit('change', { value: formDate })

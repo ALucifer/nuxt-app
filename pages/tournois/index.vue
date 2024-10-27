@@ -52,11 +52,10 @@
 </template>
 
 <script setup lang="ts">
-import TournamentCard from '@/components/TournamentCard'
-import SearchFormTournament from '@/components/SearchFormTournament'
+import TournamentCard from '~/components/TournamentCard'
+import SearchFormTournament, { type Schema } from '~/components/SearchFormTournament'
 import CarouselElement from '~/components/CarouselElement.vue'
 import type { TournamentModel, TournamentModelWithMatchesAndTeams, TournamentsApiResult } from '~/app/models/tournament'
-import type { SearchForm } from '~/app/form/search.form'
 
 definePageMeta({
   auth: false,
@@ -73,7 +72,7 @@ const searching = ref(false)
 
 const { data: tournamentsFromApi, refresh, status } = await useAsyncData(
   'tournament-list',
-  () => $fetch('/api/tournaments/all', { query: { ...form.value, page: currentPage.value } }),
+  () => $fetch('/api/tournaments/all', { query: { ...form.value, page: +currentPage.value } }),
 )
 
 const tournaments = ref<TournamentsApiResult>(tournamentsFromApi)
@@ -82,7 +81,7 @@ const { data } = await useAsyncData<TournamentModel[]>(
   () => $fetch('/api/tournaments/highlighted'),
 )
 
-async function searchFilter(searchForm: SearchForm) {
+async function searchFilter(searchForm: Schema) {
   infiniteKey.value++
   searching.value = true
   form.value = searchForm
@@ -93,14 +92,14 @@ async function searchFilter(searchForm: SearchForm) {
 
 async function fetchNextPage() {
   currentPage.value++
-  const { data } = await $fetch<TournamentModelWithMatchesAndTeams[]>('/api/tournaments/all', { query: { ...form.value, page: currentPage.value } })
+  const { data } = await $fetch<TournamentModelWithMatchesAndTeams[]>('/api/tournaments/all', { query: { ...form.value, page: +currentPage.value } })
   tournaments.value.data = [...tournaments.value.data, ...data]
 }
 </script>
 
 <style lang="scss">
-@import "@/assets/css/pages/tournaments.scss";
-@import "@/assets/css/components/carousel.scss";
+@use "@/assets/css/pages/tournaments.scss";
+@use "@/assets/css/components/carousel.scss";
 
 .flip-list-move {
   transition: transform 1s ease;

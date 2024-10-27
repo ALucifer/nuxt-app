@@ -83,9 +83,13 @@
 </template>
 
 <script setup lang="ts">
-import type { SearchForm } from '~/app/form/search.form'
+import type { z } from 'zod'
+import { toTypedSchema } from '@vee-validate/zod'
 
-const { handleSubmit, setFieldValue } = useForm<SearchForm>({ validationSchema: searchFormSchema })
+export type Schema = z.output<typeof searchFormSchema>
+
+const { handleSubmit, setFieldValue } = useForm({ validationSchema: toTypedSchema(searchFormSchema) })
+
 const boItems = ref([
   { id: 1, libelle: '1' },
   { id: 3, libelle: '3' },
@@ -102,14 +106,16 @@ const statusItems = ref([
   { id: 'CLOSE', libelle: 'Fermé' },
 ])
 
-const emit = defineEmits(['search'])
+const emit = defineEmits<{
+  search: [data: Schema]
+}>()
 const searching = defineModel({ type: Boolean })
 
-const search = handleSubmit((values: SearchForm) => {
+const search = handleSubmit((values) => {
   emit('search', values)
-})
+}, ({ errors }) => console.log(errors))
 </script>
 
 <style lang="scss">
-@import "@/assets/css/components/searchFormTournament.scss";
+@use "@/assets/css/components/searchFormTournament.scss";
 </style>

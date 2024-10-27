@@ -1,26 +1,16 @@
 .error-section {
-	background-repeat: no-repeat;
-	background-size: 55%;
-	background-position: center;
-    padding-top: 15px;
-
-	&--404 {
-		background-image: url('@/assets/images/404.png');
-	}
-
-	&--403 {
-		//background-image: url('@/assets/images/403.png');
-	}
-	.overlay {
-		margin-bottom: -20px;
-	}
 	.main-content {
+		display: flex;
+		flex-direction: column;
 		margin-bottom: 15px;
+		color: white;
+
 		h5 {
 			text-transform: uppercase;
 			margin: 20px 0 40px;
 		}
 		h3 {
+			font-size: 70px;
 			text-transform: uppercase;
 		}
 	}

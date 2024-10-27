@@ -61,9 +61,9 @@
 </template>
 
 <script setup lang="ts">
-import type { LoginForm } from '~/app/form/login.form'
+import { toTypedSchema } from '@vee-validate/zod'
 
-const { handleSubmit } = useForm<LoginForm>({ validationSchema: loginFormSchema })
+const { handleSubmit } = useForm({ validationSchema: toTypedSchema(loginFormSchema) })
 
 const error = ref(false)
 const isSubmitting = ref(false)
@@ -79,7 +79,7 @@ onMounted(() => {
   }
 })
 
-const submit = handleSubmit(async (values: LoginForm) => {
+const submit = handleSubmit(async (values) => {
   isSubmitting.value = true
   await signIn(
     'credentials',

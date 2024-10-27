@@ -39,15 +39,15 @@
 </template>
 
 <script setup lang="ts">
+import { toTypedSchema } from '@vee-validate/zod'
 import AppInput from '~/components/global/AppInput.vue'
-import type { ContactForm } from '~/app/form/contact.form'
-import { contactFormSchema } from '~/utils/schemas.form'
+import { contactFormSchema } from '~/utils/schema'
 
-const { handleSubmit } = useForm<ContactForm>({ validationSchema: contactFormSchema })
+const { handleSubmit } = useForm({ validationSchema: toTypedSchema(contactFormSchema) })
 const { addMessage } = useFlashMessages()
 
 const onSubmit = handleSubmit(
-  async (values: ContactForm, { resetForm }) => {
+  async (values, { resetForm }) => {
     try {
       await $fetch(
         '/api/contact',

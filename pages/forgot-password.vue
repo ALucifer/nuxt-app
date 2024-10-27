@@ -36,8 +36,8 @@
 </template>
 
 <script setup lang="ts">
+import { toTypedSchema } from '@vee-validate/zod'
 import AppSocialContainer from '~/components/global/AppSocialContainer.vue'
-import type { ForgotPasswordForm } from '~/app/form/forgot-password.form'
 
 definePageMeta({
   auth: {
@@ -46,27 +46,26 @@ definePageMeta({
   },
 })
 
-const { handleSubmit } = useForm<ForgotPasswordForm>({ validationSchema: forgotPasswordFormSchema })
-const { handleResponse } = useFlashMessages()
+const { handleSubmit } = useForm({ validationSchema: toTypedSchema(forgotPasswordFormSchema) })
+const { successMessage, errorMessage } = useFlashMessages()
 const router = useRouter()
 
-const onSubmit = handleSubmit(async (values: ForgotPasswordForm) => {
-  const { data } = await useFetch(
-    '/api/user/forgotPassword',
-    {
-      method: 'POST',
-      body: values,
-    },
-  )
-
-  handleResponse(
-    data.value!,
-    'Un message de réinitialisation de mot de passe à été envoyé.',
-    'Une erreur est survenu',
-  )
-
-  if (data.value) {
-    await router.push('/')
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    await $fetch(
+      '/api/user/forgotPassword',
+      {
+        method: 'POST',
+        body: { ...values },
+        lazy: true,
+        immediate: false,
+      },
+    )
+    successMessage('Un message de réinitialisation de mot de passe à été envoyé.')
+    router.push('/')
+  }
+  catch {
+    errorMessage('Une erreur est survenu')
   }
 })
 </script>

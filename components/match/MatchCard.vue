@@ -69,5 +69,5 @@ function showMissingScore(match: MatchWithTeamsAndScoresModel) {
 </script>
 
 <style lang="scss" scoped>
-@import "assets/css/components/tournament/tournamentView";
+@use "assets/css/components/tournament/tournamentView";
 </style>

@@ -18,7 +18,7 @@ const date = (new Date()).getMilliseconds()
 </script>
 
 <style lang="scss">
-@import "@/assets/css/common.scss";
+@use "@/assets/css/common.scss";
 
 body {
   min-height: 100vh;

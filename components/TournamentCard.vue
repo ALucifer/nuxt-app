@@ -60,5 +60,5 @@ defineProps({ item: { type: Object, required: true } })
 </script>
 
 <style lang="scss">
-@import "@/assets/css/components/tournamentCard.scss";
+@use "@/assets/css/components/tournamentCard.scss";
 </style>

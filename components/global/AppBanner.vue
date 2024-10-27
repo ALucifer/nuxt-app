@@ -19,5 +19,5 @@
 </template>
 
 <style lang="scss">
-@import "@/assets/css/components/global/AppBanner.scss";
+@use "@/assets/css/components/global/AppBanner.scss";
 </style>

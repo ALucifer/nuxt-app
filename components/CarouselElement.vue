@@ -66,5 +66,5 @@ const { isOpen } = useTournament()
 </script>
 
 <style lang="scss">
-@import "@/assets/css/components/carousel.scss";
+@use "@/assets/css/components/carousel.scss";
 </style>
