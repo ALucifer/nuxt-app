@@ -32,33 +32,44 @@
 
 ## feature/v0.0.6
 - [x] Regler le warning dans la console
-- [ ] Mise en place de quelques tests
+- [x] Mise en place de quelques tests
 - [x] Page d'erreur a styliser avec un footer et center le content
-- [x] Pour les formulaires, il faudrait une validation cote serveur. Voir point A
+- [x] Pour les formulaires, il faudrait une validation cote serveur
 
 ## feature/v0.0.7
 - [ ] Voir pourquoi on a des erreur sur le loading des images (IPX)
+- [ ] Partie 1 des tests
 - [ ] Faire le profile user (design)
 - [ ] Chat: regler le probleme de scroll quand on change de conversation puis qu'on revient, cela declenche l'infinite scroll car il est tout en haut
 - [ ] Chat: mettre en place une nouvelle conversation
 
 ## feature/v0.0.8
 - [ ] Chat: lecture d'un nouveau message
+- [ ] Partie 2 des tests
 - [ ] Chat: envoi en SSE d'un message
 - [ ] Fixer les vulnerabilités indiqué par github
 
+## feature/v0.0.9
+- [ ] Partie 3 des tests
+- [ ] Utilise le module de font de nuxt
+- [ ] Partie 4 des tests
+- [ ] Retirer la date du formulaire de recherche
+- [ ] Faire en sorte que toute la partie recherche apparaisse en meme temps
+
+## feature/v0.0.10
+- [ ] Corriger le lien dans le mail de reset password
+- [ ] Ajouter un bouton reset sur le listing des tournois quand on a pas de données ou bien que le formulaire ai été soumis puis reset
+
+
 ## A groomer
 - [ ] Probleme lors de l'inscription puis de la desinscription (point B)
-- [ ] Correction des erreurs dans nuxt.config.ts
-- [ ] Utilise le module de font de nuxt
 - [ ] Utilise nuxt icon
+- [ ] Correction des erreurs dans nuxt.config.ts
+
+- [ ] Partie 5 des tests
 - [ ] Intenationnalisation
 - [ ] Lors de la creation d'un tournoi, la description soumet le formulaire, faire en sorte qu'elle ne le soumet pas
 - [ ] Formulaire de renseignement des scores
-- [ ] Faire en sorte que toute la partie recherche apparaisse en meme temps
-- [ ] Ajouter un bouton reset sur le listing des tournois quand on a pas de données ou bien que le formulaire ai été soumis puis reset
-- [ ] Corriger le lien dans le mail de reset password
-- [ ] Retirer la date du formulaire de recherche
 
 - afficher le match avec le score sur /matchs/{id}
 - voir comment gérer le score final
@@ -66,12 +77,6 @@
 
 
 ## Points
-
-### A
-Pour un formulaire il faut une validation from (page/component) mais aussi back (server/api).
-Pour se faire on doit créer un schema correspond à notre formulaire. Ce schema sera donc validé cote front par VeeValidate
-Mais aussi en back avec readValidateBody (ex: readValidateBody(event, schema))
-
 
 ### B
 Quand on arrive sur la page d'inscription et qu'on s'inscrit, il y a un probleme avec le unsubscribe.
