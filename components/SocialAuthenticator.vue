@@ -42,5 +42,5 @@ const { signIn } = useAuth()
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/components/socialAuthenticator.scss";
+@use "@/assets/css/components/socialAuthenticator.scss";
 </style>

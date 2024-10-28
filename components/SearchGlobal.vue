@@ -91,5 +91,5 @@ async function suggestUsers() {
 </script>
 
 <style>
-@import "@/assets/css/components/searchGlobal.scss";
+@use "@/assets/css/components/searchGlobal.scss";
 </style>

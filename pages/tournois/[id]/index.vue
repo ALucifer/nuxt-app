@@ -375,7 +375,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "assets/css/components/tournament/tournamentView";
+@use "assets/css/components/tournament/tournamentView";
 
 .only-one-item {
   overflow: scroll;

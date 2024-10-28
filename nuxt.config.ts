@@ -1,9 +1,7 @@
+const mockAuthModule = process.env.VITEST ? ['./test/mocks/setup.ts'] : []
+
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  components: {
-    global: true,
-    dirs: ['~/components/global'],
-  },
 
   modules: [
     '@nuxt/devtools',
@@ -23,12 +21,45 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxt/eslint',
     '@vueuse/nuxt',
+    ...mockAuthModule,
+  ],
+  components: {
+    global: true,
+    dirs: ['~/components/global'],
+  },
+
+  devtools: {
+    timeline: {
+      enabled: true,
+    },
+  },
+
+  css: [
+    '~/node_modules/bootstrap/dist/css/bootstrap.min.css',
+    '@/assets/css/nice-select.css',
+    '@/assets/css/style.css',
   ],
 
-  eslint: {
-    config: {
-      typescript: true,
-      stylistic: true,
+  build: {
+    transpile: ['@vuepic/vue-datepicker'],
+  },
+
+  routeRules: {
+    '/profile/messages': { redirect: '/profile' },
+  },
+
+  compatibilityDate: '2024-09-12',
+
+  vite: {
+    optimizeDeps: {
+      exclude: ['vee-validate'],
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern',
+        },
+      },
     },
   },
 
@@ -46,15 +77,10 @@ export default defineNuxtConfig({
     },
   },
 
-  css: [
-    '~/node_modules/bootstrap/dist/css/bootstrap.min.css',
-    '@/assets/css/nice-select.css',
-    '@/assets/css/style.css',
-  ],
-
-  image: {
-    cloudinary: {
-      baseURL: 'https://res.cloudinary.com/davxuwzzl/image/upload/',
+  eslint: {
+    config: {
+      typescript: true,
+      stylistic: true,
     },
   },
 
@@ -65,19 +91,9 @@ export default defineNuxtConfig({
     ],
   },
 
-  devtools: {
-    timeline: {
-      enabled: true,
+  image: {
+    cloudinary: {
+      baseURL: 'https://res.cloudinary.com/davxuwzzl/image/upload/',
     },
   },
-
-  routeRules: {
-    '/profile/messages': { redirect: '/profile' },
-  },
-
-  build: {
-    transpile: ['@vuepic/vue-datepicker'],
-  },
-
-  compatibilityDate: '2024-09-12',
 })

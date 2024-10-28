@@ -40,8 +40,8 @@
 
 <script setup lang="ts">
 import { minidenticon } from 'minidenticons'
+import { toTypedSchema } from '@vee-validate/zod'
 import { definePageMeta } from '#imports'
-import type { RegisterForm } from '~/app/form/register.form'
 import type { StatusCode } from '~/types/api'
 import type { CssClassFlashMessage } from '~/types/notifications'
 
@@ -55,7 +55,8 @@ definePageMeta({
 })
 
 const { addMessage } = useFlashMessages()
-const { handleSubmit } = useForm<RegisterForm>({ validationSchema: registerFormSchema })
+
+const { handleSubmit } = useForm({ validationSchema: toTypedSchema(registerTournamentFormSchema) })
 const route = useRoute()
 const router = useRouter()
 
@@ -76,7 +77,7 @@ function generateAvatar() {
 }
 
 const submit = handleSubmit(
-  async (values: RegisterForm) => {
+  async (values) => {
     try {
       handleLoading.value = true
       await $fetch<StatusCode>(
@@ -117,5 +118,5 @@ onMounted(() => generateAvatar())
 </script>
 
 <style lang="scss">
-@import "@/assets/css/components/tournament/card.scss";
+@use "@/assets/css/components/tournament/card.scss";
 </style>

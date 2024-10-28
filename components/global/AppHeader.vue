@@ -206,7 +206,7 @@ const avatar = computed(() => data.value!.user!.avatar ?? '/')
 </script>
 
 <style lang="scss">
-@import "@/assets/css/components/global/AppHeader.scss";
+@use "@/assets/css/components/global/AppHeader.scss";
 </style>
 
 <style lang="scss">

@@ -11,7 +11,7 @@
         <li
           data-value="Format du tournoi"
           class="option selected"
-          @click.prevent="change({ id: null })"
+          @click.prevent="change({ id: undefined })"
         >
           {{ libelle }}
         </li>

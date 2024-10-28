@@ -62,5 +62,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@import "@/assets/css/components/counterTournament.scss";
+@use "@/assets/css/components/counterTournament.scss";
 </style>

@@ -13,18 +13,18 @@
       </div>
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
         <component
-          :is="currentConversation ? LazyMessageRightSide: LazyNewConversation"
-          v-if="newConversation"
+          :is="currentConversation ? LazyMessageRightSide : LazyNewConversation"
+          v-if="currentConversation"
           :key="currentConversation ? currentConversation.id : newConversation.id"
           :conversation="currentConversation ?? newConversation"
           @read-message="readMessage"
         />
-        <!--        <LazyMessageRightSide -->
-        <!--          :conversation="currentConversation ?? newConversation" -->
-        <!--          :key="currentConversation ? currentConversation.id : 0" -->
-        <!--          ref="messageRightSide" -->
-        <!--          @read-message="readMessage" -->
-        <!--        /> -->
+        <!--                <LazyMessageRightSide -->
+        <!--                  :conversation="currentConversation ?? newConversation" -->
+        <!--                  :key="currentConversation ? currentConversation.id : 0" -->
+        <!--                  ref="messageRightSide" -->
+        <!--                  @read-message="readMessage" -->
+        <!--                /> -->
       </div>
     </div>
   </div>
@@ -108,5 +108,5 @@ const changeConversation = (conversation: ConversationModel | null) => {
 </script>
 
 <style lang="scss">
-@import "assets/css/pages/profile/messageList";
+@use "assets/css/pages/profile/messageList";
 </style>

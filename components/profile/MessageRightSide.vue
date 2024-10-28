@@ -80,14 +80,13 @@
 </template>
 
 <script setup lang="ts">
+import { toTypedSchema } from '@vee-validate/zod'
 import type { ConversationMessagesModel, MessageModel, MessagesPaginate } from '~/types/api/conversations'
-import { sendMessageFormSchema } from '~/utils/schemas.form'
-import type { SendMessageForm } from '~/app/form/send-message.form'
 import type { CssClassFlashMessage } from '~/types/notifications'
 import AppInfiniteScroll from '~/components/global/AppInfiniteScroll.vue'
 
 const props = defineProps<{ conversation: ConversationMessagesModel }>()
-const { handleSubmit } = useForm<SendMessageForm>({ validationSchema: sendMessageFormSchema })
+const { handleSubmit } = useForm({ validationSchema: toTypedSchema(sendMessageFormSchema) })
 const { addMessage } = useFlashMessages()
 
 const messageBody = reactive({
@@ -165,7 +164,7 @@ const isOwnMessage = (message: MessageModel) => {
 }
 
 const onSubmit = handleSubmit(
-  async (values: SendMessageForm, { resetForm }) => {
+  async (values, { resetForm }) => {
     messageBody.text = values.message
     try {
       await execute()
@@ -221,5 +220,5 @@ const readMessage = async (message: MessageModel) => {
 </script>
 
 <style lang="scss">
-@import "@/assets/css/components/profile/messageRightSide.scss";
+@use "@/assets/css/components/profile/messageRightSide.scss";
 </style>

@@ -1,10 +1,11 @@
 import { getToken } from '#auth'
+import { createTournamentFormSchema } from '~/utils/schema'
 
 export default defineEventHandler(async (event) => {
   const session = await getToken({ event })
   if (!session) return
 
-  const body = await readBody(event)
+  const body = await readValidatedBody(event, createTournamentFormSchema.parse)
 
   try {
     return await fetchSpotsApi(

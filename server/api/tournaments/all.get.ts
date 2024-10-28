@@ -1,9 +1,13 @@
-export default defineEventHandler((event) => {
+import { searchFormSchema } from '~/server/utils/schema'
+
+export default defineEventHandler(async (event) => {
+  const query = await getValidatedQuery(event, searchFormSchema.parse)
+
   try {
-    const query = getQuery(event)
-    return fetchSpotsApi('tournaments', { params: query })
+    return await fetchSpotsApi('tournaments', { params: query })
   }
-  catch {
+  catch (e) {
+    console.log(e)
     return []
   }
 })

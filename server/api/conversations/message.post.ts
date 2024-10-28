@@ -1,10 +1,11 @@
 import { getToken } from '#auth'
+import { sendMessageFormSchema } from '~/server/utils/schema'
 
 export default defineEventHandler(async (event) => {
   const session = await getToken({ event })
   if (!session) return
 
-  const body = await readBody(event)
+  const body = await readValidatedBody(event, sendMessageFormSchema.parse)
 
   try {
     return await fetchSpotsApi(

@@ -72,6 +72,6 @@ const { isLogged } = useSecurity()
 </script>
 
 <style lang="scss" scoped>
-@import "~/assets/css/components/banner.scss";
-@import "~/assets/css/common.scss";
+@use "~/assets/css/components/banner.scss";
+@use "~/assets/css/common.scss";
 </style>

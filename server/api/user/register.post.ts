@@ -1,12 +1,16 @@
-export default defineEventHandler(async (event) => {
-  try {
-    const body = await readBody(event)
+import { registerUserFormSchema } from '~/server/utils/schema'
 
+export default defineEventHandler(async (event) => {
+  const body = await readValidatedBody(event, registerUserFormSchema.parse)
+
+  try {
     await fetchSpotsApi('users/register', { method: 'POST', body })
 
     return 200
   }
-  catch (e: Error) {
-    return e.statusCode
+  catch (e) {
+    return createError({
+      statusCode: (e as { statusCode: number }).statusCode,
+    })
   }
 })
